@@ -11,7 +11,15 @@
       // The property of the individual choice that represents the value to be stored
       // in the bound model's property.  Omit this option if you'd like the choice 
       // object itself to represent the value.
-      altValueContent : null
+      altValueContent : null,
+
+      // The property of the individual choice representing the glyph to be
+      // displayed to the left of the item's label
+      altGlyph : null,
+
+      // The property of the individual choice representing the glyph to be
+      // displayed to the right of the item's label
+      altGlyphRight : null
     },
 
     _determineSelectedItem : function() {

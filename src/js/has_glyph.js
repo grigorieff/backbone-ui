@@ -5,6 +5,11 @@
 
     options : {
 
+      // a glyph to show to the left
+      glyph : null,
+
+      // a glyph to show to the right
+      glyphRight : null
     },
 
     insertGlyph : function(el, name) {
@@ -48,11 +53,7 @@
           });
           $(image).show();
         };
-        if (!!Backbone.UI.GLYPH_URL_MAP && !!Backbone.UI.GLYPH_URL_MAP[name]) {
-          image.src = Backbone.UI.GLYPH_URL_MAP[name];
-        } else {
-          image.src = Backbone.UI.IMAGE_DIR_PATH + '/glyphs/' + name + '.png';
-        }
+        image.src = Backbone.UI.GLYPH_DIR + '/' + name + '.png';
         image.className = className;
 
         el.insertBefore(image, isRight ? null : el.firstChild);

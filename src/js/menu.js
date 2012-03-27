@@ -70,13 +70,13 @@
         $.el.span(this._labelForItem(item) || '\u00a0'));
 
       var glyph;
-      if(this.options.glyphProperty) {
-        glyph = _(item).resolveProperty(this.options.glyphProperty);
+      if(this.options.altGlyph) {
+        glyph = _(item).resolveProperty(this.options.altGlyph);
         Backbone.UI.HasGlyph.insertGlyph(anchor, glyph);
       }
 
-      if(this.options.glyphRightProperty) {
-        glyph = _(item).resolveProperty(this.options.glyphRightProperty);
+      if(this.options.altGlyphRight) {
+        glyph = _(item).resolveProperty(this.options.altGlyphRight);
         Backbone.UI.HasGlyph.insertGlyphRight(anchor, glyph);
       }
 

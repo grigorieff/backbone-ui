@@ -72,7 +72,7 @@
         className  : 'pulldown_button',
         model      : {label : this._labelForItem(item)},
         content    : 'label',
-        glyph      : _(item).resolveProperty(this.options.glyphProperty),
+        glyph      : _(item).resolveProperty(this.options.altGlyph),
         glyphRight : '\u25bc',
         onClick    : _.bind(this.showMenu, this)
       }).render();
@@ -94,7 +94,7 @@
     setSelectedItem : function(item) {
       this._setSelectedItem(item);
       this.button.options.label = this._labelForItem(item);
-      this.button.options.glyph = _(item).resolveProperty(this.options.glyphProperty);
+      this.button.options.glyph = _(item).resolveProperty(this.options.altGlyph);
       this.button.render();
     },
 
@@ -119,8 +119,8 @@
     _onItemSelected : function(item) {
       if(!!this.button) {
         $(this.el).removeClass('placeholder');
-        this.button.options.label = this._labelForItem(item);
-        this.button.options.glyph = _(item).resolveProperty(this.options.glyphProperty);
+        this.button.model = {label : this._labelForItem(item)};
+        this.button.options.glyph = _(item).resolveProperty(this.options.altGlyph);
         this.button.render();
         this.hideMenu();
       }

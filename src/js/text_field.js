@@ -89,9 +89,9 @@
     },
 
     _refreshValue : function() {
-      var newValue = this.model.get(this.options.content);
+      var newValue = this.resolveContent();
       if(this.input && this.input.value !== newValue) {
-        this.input.value = this.model.get(this.options.content);
+        this.input.value = _(newValue).exists() ? newValue : null;
       }
     }
   });

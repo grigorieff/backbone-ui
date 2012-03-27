@@ -1,8 +1,8 @@
 (function(){
   window.Backbone.UI.TableView = Backbone.UI.CollectionView.extend({
     options : {
-      // Each column should contain a <code>label</code> property to 
-      // describe the column's heading, a <code>property</code> property to
+      // Each column should contain a <code>title</code> property to 
+      // describe the column's heading, a <code>content</code> property to
       // declare which property the cell is bound to, and an optional 
       // <code>width</code> property to declare the width of the column
       // in pixels.
@@ -35,12 +35,12 @@
       var headingRow = $.el.tr();
       _(this.options.columns).each(function(column, index, list) {
 
-        var label = _(column.label).isFunction() ? column.label() : column.label;
+        var title = _(column.title).isFunction() ? column.title() : column.title;
         var width = !!column.width ? parseInt(column.width, 10) + 5 : null;
         var style = width ? 'width:' + width + 'px; max-width:' + width + 'px' : null;
         headingRow.appendChild($.el.th( 
           {className : _(list).nameForIndex(index), style : style}, 
-          $.el.div({className : 'wrapper'}, label)));
+          $.el.div({className : 'wrapper'}, title)));
       });
 
       // Add the heading row to it's very own table so we can allow the 

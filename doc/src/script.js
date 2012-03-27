@@ -25,6 +25,7 @@ window.addExample = function(container, func) {
 };
 
 $(window).load(function() {
+  Backbone.UI.GLYPH_DIR = 'images/glyphs';
 
   // setup sample data
   setTimeout(prettyPrint, 0);
@@ -121,7 +122,7 @@ $(window).load(function() {
       onKeyPress : function(e) {
         if(e.keyCode == 13) {
           list.options.model.add(newItem.clone());
-          newItem.set({ title : ''});
+          newItem.set({ title : undefined });
         }
       }
     }).render();

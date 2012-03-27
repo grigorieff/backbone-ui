@@ -22,7 +22,7 @@
       KEY_INSERT:   45
     },
 
-    IMAGE_DIR_PATH : '/images',
+    GLYPH_DIR : '/images/glyphs',
 
     setSkin : function(skin) {
       if(!!Backbone.UI.currentSkin) {
@@ -38,12 +38,12 @@
   _(Backbone.View.prototype).extend({
     // resolves the appropriate content from the given choices
     resolveContent : function(model, content) {
-      model = model || this.model;
-      content = content || this.options.content;
-      var hasModelProperty = _(content).exists() && _(model).exists();
+      model = _(model).exists() ? model : this.model;
+      content = _(content).exists() ? content : this.options.content;
+      var hasModelProperty = _(model).exists() && _(content).exists();
       return _(content).isFunction() ? content(model) : 
         hasModelProperty && _(model[content]).isFunction() ? model[content]() : 
-        hasModelProperty ?  _(model).resolveProperty(content) : content;
+        hasModelProperty ? _(model).resolveProperty(content) : content;
     },
 
     mixin : function(objects) {

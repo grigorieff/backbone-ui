@@ -3,6 +3,11 @@ require 'rkelly'
 require 'closure-compiler'
 require 'yui/compressor'
 
+def filename(path)
+  name = path[(path.rindex('/') + 1)..-1]
+  name = name[0..(name.rindex '.') -1]
+end
+
 desc "build the backbone-ui-min.js file for distribution"
 task :build => [:doc] do
   puts 'generating distribution'
@@ -44,6 +49,8 @@ task :build => [:doc] do
 
   `zip dist/backbone-ui-min.zip dist/backbone-ui-min.js dist/backbone-ui-min.css`
   `zip dist/backbone-ui.zip dist/backbone-ui.js dist/backbone-ui.css`
+  `rm dist/backbone-ui-min.js`
+  `rm dist/backbone-ui-min.css`
 end
 
 
@@ -69,7 +76,10 @@ task :doc do
     end
   end
 
-  def collect_option_comments(js)
+  def collect_option_comments(filename)
+    return {} unless File.exists?(filename)
+    js = File.read(filename)
+
     parser = RKelly::Parser.new
     ast = parser.parse(js);
 
@@ -93,10 +103,15 @@ task :doc do
       end
     end
 
+    if js.match(/Backbone\.UI\.HasGlyph/) and !filename.match(/has_glyph\.js$/) and filename.index('model_with_collection')
+      options.merge!(collect_option_comments('src/js/has_glyph.js'))
+    end
+
     options
   end
 
   def build_options(map)
+    return '' unless map.length > 0
     options_markup = map.keys.map do |key|
       "<li><div class='key'>#{key}</div><div class='value'>#{map[key]}</div></li>"
     end
@@ -106,14 +121,11 @@ task :doc do
   def build_components(dir)
     Dir.glob("#{dir}/**/*.html").map do |file|
 
-      name = file[(file.rindex('/') + 1)..-1]
-      name = name[0..(name.rindex '.') -1]
+      name = filename(file)
       name = "src/js/#{name}.js"
 
-      map = collect_option_comments(File.read(name))
-
-      options_markup = build_options(map)
-
+      map = collect_option_comments(name)
+      options_markup = build_options(map) || ''
       content = File.read(file)
       content.gsub!('<!-- OPTIONS -->', options_markup)
 
@@ -128,19 +140,20 @@ task :doc do
   src.gsub!('<!-- CSS -->', build_css_tags(['lib', 'src/css']).join("\n"))
 
   src.gsub!('<!-- MODEL_OPTIONS -->', 
-    build_options(collect_option_comments(File.read('src/js/has_model.js'))))
+    build_options(collect_option_comments('src/js/has_model.js')))
 
   src.gsub!('<!-- MODEL_COLLECTION_OPTIONS -->', 
-    build_options(collect_option_comments(File.read('src/js/has_alternative_property.js'))))
+    build_options(collect_option_comments('src/js/has_alternative_property.js')))
 
   src.gsub!('<!-- COLLECTION_OPTIONS -->', 
-    build_options(collect_option_comments(File.read('src/js/collection_view.js'))))
+    build_options(collect_option_comments('src/js/collection_view.js')))
 
   # insert widgets and their associated option comments
   src.gsub!('<!-- MODEL_BOUND -->', build_components('doc/src/widgets/model'))
   src.gsub!('<!-- MODEL_BOUND_WITH_COLLECTION -->', build_components('doc/src/widgets/model_with_collection'))
   src.gsub!('<!-- COLLECTION_BOUND -->', build_components('doc/src/widgets/collection'))
   src.gsub!('<!-- NON_BOUND -->', build_components('doc/src/widgets/non_bound'))
+  src.gsub!('<!-- GLYPHS -->', build_components('doc/src/widgets/glyphs'))
 
   index = File.open('doc/dist/index.html', 'w') {|file| file.puts(src)}
 
