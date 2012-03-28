@@ -51,7 +51,7 @@
           this._sortState.content = column.content; // sort on first column by default
           sortFirstColumn = true;
         }
-        var label = _(column.label).isFunction() ? column.label() : column.label;
+        var label = _(column.title).isFunction() ? column.titlelabel() : column.title;
         var width = !!column.width ? parseInt(column.width, 10) + 5 : null;
         var style = width ? 'width:' + width + 'px; max-width:' + width + 'px; ' : '';
         style += this.options.sortable ? 'cursor: pointer; ' : '';
