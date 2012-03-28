@@ -71,7 +71,7 @@
 
       var glyph;
       if(this.options.altGlyph) {
-        glyph = _(item).resolveProperty(this.options.altGlyph);
+        glyph = this.resolveContent(item, this.options.altGlyph);
         Backbone.UI.HasGlyph.insertGlyph(anchor, glyph);
       }
 
