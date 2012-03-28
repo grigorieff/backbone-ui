@@ -102,14 +102,14 @@
 
       // if the enter key was pressed or we've invoked this method manually, 
       // we hide the calendar and re-format our date
-      if(!e || e.keyCode == Backbone.UI.KEYS.KEY_RETURN) {
+      if(!e || e.keyCode === Backbone.UI.KEYS.KEY_RETURN) {
         var newValue = moment(newDate).format(this.options.format);
         this._textField.setValue(newValue);
         this._hideCalendar();
 
         // update our bound model (but only the date portion)
         if(!!this.model && this.options.content) {
-          var boundDate = this.resolveContent();
+          var boundDate = this.resolveContent() || new Date();
           var updatedDate = new Date(boundDate.getTime());
           updatedDate.setMonth(newDate.month());
           updatedDate.setDate(newDate.date());

@@ -91,7 +91,7 @@
 
     // sets the given value for the given property on the given 
     // object.
-    setProperty : function(object, property, value) {
+    setProperty : function(object, property, value, silent) {
       if(!property) return;
 
       var parts = property.split('.');
@@ -105,7 +105,7 @@
         if(_(object.set).isFunction()) {
           var attributes = {};
           attributes[property] = value;
-          object.set(attributes);
+          object.set(attributes, {silent : silent});
         }
         else {
           object[property] = value;
@@ -234,7 +234,7 @@
             // This is useful for doing thigns like a flyout menu from a pulldown
             if(options.leaveOpenTargets) {
               var ancestor = _(options.leaveOpenTargets).find(function(t) {
-                return e.target == t || $(e.target).closest($(t)).length > 0;
+                return e.target === t || $(e.target).closest($(t)).length > 0;
               });
               if(!!ancestor) return;
             }

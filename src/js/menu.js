@@ -85,7 +85,7 @@
       var clickFunction = _.bind(function(e) {
         if(!!this._selectedAnchor) $(this._selectedAnchor).removeClass('selected');
 
-        this._setSelectedItem(_(item).isEqual(this.options.emptyItem) ? null : item);
+        this._setSelectedItem(_(item).isEqual(this.options.emptyItem) ? null : item, true);
         this._selectedAnchor = anchor;
         $(anchor).addClass('selected');
 

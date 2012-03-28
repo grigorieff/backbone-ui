@@ -125,15 +125,15 @@
           var className = 'cell' + (inactive ? ' inactive' : '') + 
             (colIndex === 0 ? ' first' : colIndex === 6 ? ' last' : '') +
             (inCurrentMonth && !inactive && day === today.getDate() ? ' today' : '') +
-            (inSelectedMonth && !inactive && day == this.date.getDate() ? ' selected' : '');
+            (inSelectedMonth && !inactive && day === this.date.getDate() ? ' selected' : '');
 
           $.el.td({ className : className }, 
             inactive ? 
               $.el.div({ className : 'day' }, day) : 
               $.el.a({ className : 'day', onClick : callback }, day)).appendTo(row);
 
-          day = (rowIndex === 0 && colIndex == inactiveBeforeDays) || 
-            (rowIndex > 0 && day == daysInThisMonth) ? 1 : day + 1;
+          day = (rowIndex === 0 && colIndex === inactiveBeforeDays) || 
+            (rowIndex > 0 && day === daysInThisMonth) ? 1 : day + 1;
 
           daysRendered++;
         }
