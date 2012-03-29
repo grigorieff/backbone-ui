@@ -9,7 +9,7 @@ def filename(path)
 end
 
 desc "build the backbone-ui-min.js file for distribution"
-task :build => [:doc] do
+task :build do
   puts 'generating distribution'
 
   `rm -rf dist/*`
@@ -47,15 +47,16 @@ task :build => [:doc] do
     file.write Closure::Compiler.new.compress(source)
   end
 
-  `zip dist/backbone-ui-min.zip dist/backbone-ui-min.js dist/backbone-ui-min.css`
-  `zip dist/backbone-ui.zip dist/backbone-ui.js dist/backbone-ui.css`
+  `tar -cvzf dist/backbone-ui-min.tar.gz dist/backbone-ui-min.js dist/backbone-ui-min.css`
+  `tar -cf dist/backbone-ui.tar dist/backbone-ui.js dist/backbone-ui.css`
+  `gzip -vc dist/backbone-ui.tar > dist/backbone-ui.tar.gz`
   `rm dist/backbone-ui-min.js`
   `rm dist/backbone-ui-min.css`
 end
 
 
 desc "generate the documentation in doc/dist"
-task :doc do 
+task :doc  => [:build] do 
   puts 'generating documentation'
   `rm -rf doc/dist/*`
   `mkdir -p doc/dist`
@@ -155,9 +156,13 @@ task :doc do
   src.gsub!('<!-- NON_BOUND -->', build_components('doc/src/widgets/non_bound'))
   src.gsub!('<!-- GLYPHS -->', build_components('doc/src/widgets/glyphs'))
 
+  src.gsub!('<!-- SOURCE_SIZE -->', "#{File.size('dist/backbone-ui.tar')/1000}kb");
+  src.gsub!('<!-- COMPRESSED_SIZE -->', "#{File.size('dist/backbone-ui-min.tar.gz')/1000}kb");
+
   index = File.open('doc/dist/index.html', 'w') {|file| file.puts(src)}
 
   # copy src and lib directories over to documentation root
+  `cp -r dist doc/dist/dist`
   `cp -r lib doc/dist/`
   `cp -r src doc/dist/`
   `cp doc/src/style.css doc/dist/style.css`
