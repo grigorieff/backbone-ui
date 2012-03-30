@@ -52,7 +52,7 @@ $(window).load(function() {
 
   func();
 
-  $.el.pre(beautify(func)).appendTo($('#setup_code')[0]);
+  $.el.pre({className : 'prettyprint'}, beautify(func)).appendTo($('#setup_code')[0]);
 
   // keep example state display data updated
   var dataEl = $('#example_data')[0];
@@ -62,7 +62,10 @@ $(window).load(function() {
     $(stateEl).empty();
     var json = (JSON.stringify(coffee.attributes, null, 2));
     json = json.substring(json.indexOf('\n')).substring(0, json.lastIndexOf('\n'));
-    $.el.pre(json).appendTo(stateEl);
+    json = json.replace(/(\r\n|\n|\r)/gm, '<br/>');
+    var div = $.el.div();
+    div.innerHTML = json;
+    stateEl.appendChild(div);
 
     if(!$(dataEl).is(":visible")) {
       $(dataEl).fadeIn();

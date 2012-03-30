@@ -10,6 +10,7 @@
     <script type="text/javascript" src="script.js"></script>
     <script type="text/javascript" src="lib/jsbeautify.js"></script>
     <script type="text/javascript" src="lib/prettify.js"></script>
+    <script type="text/javascript" src="lib/html5shiv.js"></script>
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="lib/prettify.css">
@@ -83,9 +84,7 @@
         The following data will be used throughout the examples:
         </p>
 
-        <div class="code">
-          <code><pre id="setup_code" class="prettyprint"></pre></code>
-        </div>
+        <div id="setup_code" class="code"></div>
       </section>
 
     </div>
@@ -155,10 +154,10 @@
       Many components may be rendered with an optional glyph on the left or right side.  A glyph is a 16 x 16 pixel image stored in the <code>Backbone.UI.GLYPH_DIR</code> (which defaults to /images/glyphs).  Here's some examples:
       </p>
       <p>
-        <img src="images/glyphs/delete.png"/>
-        <img src="images/glyphs/lightbulb.png"/>
-        <img src="images/glyphs/pencil.png"/>
-        <img src="images/glyphs/disk.png"/>
+        <img src="images/glyphs/delete.png" alt="glyph"/>
+        <img src="images/glyphs/lightbulb.png" alt="glyph"/>
+        <img src="images/glyphs/pencil.png" alt="glyph"/>
+        <img src="images/glyphs/disk.png" alt="glyph"/>
       </p>
 
       <p>And here's how you can put them to use:</p>

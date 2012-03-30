@@ -114,6 +114,7 @@ a {
   border-radius:8px;
   background-color:#222;
   opacity:0.85;
+  filter:alpha(opacity=85);
   color:#fff;
 }
 
@@ -134,6 +135,7 @@ a {
 
 #example_state {
   margin-top:-20px;
+  padding-left:10px;
 }
 
 section .options ul {
