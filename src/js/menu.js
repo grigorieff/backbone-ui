@@ -82,10 +82,10 @@
 
       var liElement = $.el.li(anchor);
 
-      var clickFunction = _.bind(function(e) {
+      var clickFunction = _.bind(function(e, silent) {
         if(!!this._selectedAnchor) $(this._selectedAnchor).removeClass('selected');
 
-        this._setSelectedItem(_(item).isEqual(this.options.emptyItem) ? null : item, true);
+        this._setSelectedItem(_(item).isEqual(this.options.emptyItem) ? null : item, silent);
         this._selectedAnchor = anchor;
         $(anchor).addClass('selected');
 
@@ -95,7 +95,7 @@
 
       $(anchor).click(clickFunction);
 
-      if(select) clickFunction();
+      if(select) clickFunction(null, true);
 
       menu.appendChild(liElement);
     },

@@ -94,7 +94,7 @@ $(window).load(function() {
 
         // add a link to remove this task from the list
         this.el.appendChild(new Backbone.UI.Link({
-          content : 'delete',
+          glyph : 'delete',
           onClick : _(tasks.remove).bind(tasks, this.model)
         }).render().el);
 
