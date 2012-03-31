@@ -60,13 +60,24 @@
         };
         var firstSort = (sortFirstColumn && firstHeading === null);
         var sortHeader = this._sortState.content === column.content || firstSort;
-        var sortLabel = $.el.div({className : 'glyph'}, sortHeader ? (this._sortState.reverse && !firstSort ? '\u25b2 ' : '\u25bc ') : '');
+        var sortLabel = $.el.div({
+          className : 'glyph'
+        }, sortHeader ? (this._sortState.reverse && !firstSort ? '\u25b2 ' : '\u25bc ') : '');
+
         var onclick = this.options.sortable ? (_(this.options.onSort).isFunction() ?
           _(function(e) { this.options.onSort(column); }).bind(this) :
           _(function(e, silent) { this._sort(column, silent); }).bind(this)) : Backbone.UI.noop;
-        var th = $.el.th({className : _(list).nameForIndex(index), style : style, onclick : onclick},
-          sortLabel, $.el.div({className : 'wrapper' + (sortHeader ? ' sorted' : '')}, label));
-        headingRow.appendChild(th);
+
+        var th = $.el.th({
+            className : _(list).nameForIndex(index), 
+            style : style, 
+            onclick : onclick
+          }, 
+          sortLabel, 
+          $.el.div({
+            className : 'wrapper' + (sortHeader ? ' sorted' : '')
+          }, label)).appendTo(headingRow);
+
         if (firstHeading === null) firstHeading = th;
       }).bind(this));
       if (sortFirstColumn && !!firstHeading) {
@@ -82,6 +93,7 @@
       // now we'll generate the body of the content table, with a row
       // for each model in the bound collection
       var tableBody = $.el.tbody();
+      this.collectionEl.appendChild(tableBody);
 
       // if the collection is empty, we render the empty content
       if(!_(this.model).exists()  || this.model.length === 0) {
@@ -90,7 +102,7 @@
         this._emptyContent = $.el.tr($.el.td(this._emptyContent));
 
         if(!!this._emptyContent) {
-          this.collectionEl.appendChild(this._emptyContent);
+          tableBody.appendChild(this._emptyContent);
         }
       }
 
@@ -98,7 +110,7 @@
       else {
         _(this.model.models).each(function(model, index) {
           var item = this._renderItem(model, index);
-          this.collectionEl.appendChild(item);
+          tableBody.appendChild(item);
         }, this);
       }
 
@@ -128,9 +140,10 @@
         var width = !!column.width ? parseInt(column.width, 10) + 5 : null;
         var style = width ? 'width:' + width + 'px; max-width:' + width + 'px': null;
         var content = this.resolveContent(model, column.content);
-        row.appendChild($.el.td(
-          {className : _(list).nameForIndex(index), style : style},
-          $.el.div({className : 'wrapper', style : style}, content)));
+        row.appendChild($.el.td({
+          className : _(list).nameForIndex(index), 
+          style : style
+        }, $.el.div({className : 'wrapper', style : style}, content)));
       }, this);
 
       // bind the item click callback if given

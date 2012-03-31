@@ -49,7 +49,8 @@
           $(image).css({
             top : topOffset + 'px', 
             left : isRight ? 'auto' : leftOffset + 'px',
-            right : isRight ? leftOffset + 'px' : 'auto'
+            right : isRight ? leftOffset + 'px' : 'auto',
+            border : 'none'
           });
           $(image).show();
         };

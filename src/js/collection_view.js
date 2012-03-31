@@ -50,10 +50,10 @@
       }
        
       // render the new item
-      var el = this._renderItem(model, list.indexOf(model));
+      var properIndex = list.indexOf(model);
+      var el = this._renderItem(model, properIndex);
 
       // insert it into the DOM position that matches it's position in the model
-      var properIndex = list.indexOf(model);
       var anchorNode = this.collectionEl.childNodes[properIndex];
       this.collectionEl.insertBefore(el, _(anchorNode).isUndefined() ? null : anchorNode);
 
@@ -103,13 +103,17 @@
       if(_(this.model.comparator).isFunction()) {
         this.model.sort({silent : true});
         var itemEl = view.el.parentNode;
-        var currentIndex = Array.prototype.indexOf.call(
-          this.collectionEl.childNodes, itemEl);
+        var currentIndex = _(this.collectionEl.childNodes).indexOf(itemEl, true);
         var properIndex = this.model.indexOf(view.model);
         if(currentIndex !== properIndex) {
           itemEl.parentNode.removeChild(itemEl);
           var refNode = this.collectionEl.childNodes[properIndex];
-          this.collectionEl.insertBefore(itemEl, refNode);
+          if(refNode) {
+            this.collectionEl.insertBefore(itemEl, refNode);
+          }
+          else {
+            this.collectionEl.appendChild(itemEl);
+          }
         }
       }
     }

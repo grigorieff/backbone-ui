@@ -6,6 +6,7 @@
       window.addExample('#list', function() {
         var Item = Backbone.View.extend({
           render : function() {
+            $(this.el).empty();
             $.el.div(this.model.get('name')).appendTo(this.el);
           }
         });

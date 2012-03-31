@@ -21,7 +21,13 @@ window.addExample = function(container, func) {
       func().el),
     $.el.br({style : 'clear:both'}));
     
-    $(container)[0].insertBefore(example, $('.options', $(container)[0])[0]);
+    var ref = $('.options', $(container)[0])[0];
+    if(ref) {
+      $(container)[0].insertBefore(example, ref);
+    }
+    else {
+      $(container)[0].appendChild(example);
+    }
 };
 
 $(window).load(function() {
