@@ -1,5 +1,6 @@
 .scroller {
   outline: none;
+  position:relative;
 }
 
 .scroller .content_wrapper{
