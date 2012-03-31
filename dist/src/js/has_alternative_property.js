@@ -41,13 +41,13 @@
       return item || this.options.selectedItem;
     },
 
-    _setSelectedItem : function(item) {
+    _setSelectedItem : function(item, silent) {
       this.selectedValue = item;
       this.selectedItem = item;
 
       if(_(this.model).exists() && _(this.options.content).exists()) {
         this.selectedValue = this._valueForItem(item);
-        _(this.model).setProperty(this.options.content, this.selectedValue);
+        _(this.model).setProperty(this.options.content, this.selectedValue, silent);
       }
     },
 

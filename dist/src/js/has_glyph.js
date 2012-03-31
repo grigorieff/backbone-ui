@@ -53,7 +53,10 @@
           });
           $(image).show();
         };
-        image.src = Backbone.UI.GLYPH_DIR + '/' + name + '.png';
+
+        image.src = name.match(/(http:\/\/)|(https:\/\/)/) ? name : 
+          Backbone.UI.GLYPH_DIR + '/' + name + (name.indexOf('.') > 0 ? '' : '.png');
+
         image.className = className;
 
         el.insertBefore(image, isRight ? null : el.firstChild);

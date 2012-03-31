@@ -19,7 +19,11 @@
       // A callback to invoke when the pulldown menu is hidden, if the menu was hidden
       // as a result of a second click on the pulldown button, the button click event 
       // will be passed.
-      onMenuHide : Backbone.UI.noop
+      onMenuHide : Backbone.UI.noop,
+
+      // an additional item to render at the top of the menu to 
+      // denote the lack of a selection
+      emptyItem : null
     },
 
     initialize : function() {

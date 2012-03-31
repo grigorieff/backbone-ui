@@ -10,9 +10,6 @@
 
 .menu .menu_scroller {
   border:1px solid #666;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
   background-color:#fff;
   -moz-box-shadow: 2px 2px 2px #666;
   -webkit-box-shadow: 2px 2px 2px #666;
@@ -42,9 +39,6 @@
   padding:0 5px;
   display:block;  
   position:relative;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
 }
 
 .menu li a:hover span,

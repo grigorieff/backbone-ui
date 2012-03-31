@@ -53,6 +53,7 @@
     <script type="text/javascript" src="script.js"></script>
     <script type="text/javascript" src="lib/jsbeautify.js"></script>
     <script type="text/javascript" src="lib/prettify.js"></script>
+    <script type="text/javascript" src="lib/html5shiv.js"></script>
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="lib/prettify.css">
@@ -62,7 +63,11 @@
   <body>
     <div class="backbone_heading">
       <div class="container">
-        <div class="name">Backbone UI</div>
+        <h1>Backbone UI</h1>
+        <div class="download">
+          <a href="dist/backbone-ui-min.tar.gz">&darr; Compressed<span class="kb"> (11kb)</span></a>
+          <a href="dist/backbone-ui.tar.gz">&darr; Source <span class="kb"> (88kb)</span></a>
+        </div>
       </div>
     </div>
 
@@ -76,13 +81,13 @@
       </section>
 
       <section>
-        <h1>Philosiphy</h1>
+        <h1>Philosophy</h1>
 
         <p>
         This framework is written to embrace the DOM rather than fight it.  You won't see any messy HTML templates or <code>innerHTML</code> references hanging around.  What you will see is heavy use of the <a href="http://joestelmach.github.com/laconic/">laconic</a> library to help ease the pain of DOM manipluation so we can happily stay in the context of writing JavaScript.
         </p>
         <p>
-        Not all people will agree with this philosiphy, and not all projects will benefit from embracing it.  This framework facilitates the creation of highly dynamic front-end clients that request only data from the back-end, not markup.  If you have a more traditional application in which your markup is generated before your JavaScript executes, you may still find this framework useful, but keep in mind that it was not designed for such a case.
+        Not all people will agree with this philosophy, and not all projects will benefit from embracing it.  This framework facilitates the creation of highly dynamic front-end clients that request only data from the back-end, not markup.  If you have a more traditional application in which your markup is generated before your JavaScript executes, you may still find this framework useful, but keep in mind that it was not designed for such a case.
         </p>
         <p>
         Another major theme you'll encounter is the concept of data binding.  This means that you tell your component which property of the model it's responsible for rendering, and then you forget about shuffling data back and forth.  If the model's value changes, the component will re-render.  If the user changes the value, the model will be updated.  Easy.
@@ -92,10 +97,10 @@
       <section>
         <h1>Dependencies</h1>
 
-        <p>Backbone UI depends on <a href='http://documentcloud.github.com/backbone/'>Backbone</a>, 
-          <a href='http://documentcloud.github.com/underscore/'>Underscore</a>, 
+        <p>Backbone UI depends on <a href='http://documentcloud.github.com/backbone/'>Backbone</a>,
+          <a href='http://documentcloud.github.com/underscore/'>Underscore</a>,
           <a href='http://jquery.com/'>jQuery</a>, and <a href='http://joestelmach.github.com/laconic/'>laconic</a>.
-          If you'd like to use the calendar or date picker components, than you'll 
+          If you'd like to use the calendar or date picker components, than you'll
           also need a copy of <a href='http://momentjs.com/'>moment.js</a>.
         <p>
       </section>
@@ -104,7 +109,7 @@
         <h1>Components</h1>
         <p>
         All components inherit from Backbone.View, and each render method will return a reference to the view itself.  Feel free to pass any standard Backbone View <a href='http://documentcloud.github.com/backbone/#View-constructor'>option</a> when creating these components.
-        As a convenience, the underscored version of the component's class name will be added to each component's element.  
+        As a convenience, the underscored version of the component's class name will be added to each component's element.
         </p>
 
         <p>
@@ -122,9 +127,7 @@
         The following data will be used throughout the examples:
         </p>
 
-        <div class="code">
-          <code><pre id="setup_code" class="prettyprint"></pre></code>
-        </div>
+        <div id="setup_code" class="code"></div>
       </section>
 
     </div>
@@ -155,8 +158,7 @@
 
         var button = new Backbone.UI.Button({
           model : coffee,
-          content : 'roaster',
-          onClick : _(alert).bind(window, 'pressed')
+          content : 'roaster'
         }).render();
         return button;
       });
@@ -233,8 +235,7 @@
 
         var link = new Backbone.UI.Link({
           model : coffee,
-          content : 'roaster',
-          onClick : _(alert).bind(window, 'pressed')
+          content : 'roaster'
         }).render();
         return link;
       });
@@ -352,7 +353,7 @@
     });
   </script>
 
-  <div class='options'><h2>Options</h2><ul><li><div class='key'>alignRight</div><div class='value'> If true, the menu will be aligned to the right side</div></li><li><div class='key'>onMenuShow</div><div class='value'> A callback to invoke when the pulldown menu is shown, passing the  button click event.</div></li><li><div class='key'>onMenuHide</div><div class='value'> A callback to invoke when the pulldown menu is hidden, if the menu was hidden as a result of a second click on the pulldown button, the button click event  will be passed.</div></li><li><div class='key'>placeholder</div><div class='value'> text to place in the pulldown button before a selection has been made</div></li><li><div class='key'>onChange</div><div class='value'> A callback to invoke with a particular item when that item is selected from the pulldown menu.</div></li></ul></div>
+  <div class='options'><h2>Options</h2><ul><li><div class='key'>alignRight</div><div class='value'> If true, the menu will be aligned to the right side</div></li><li><div class='key'>onMenuShow</div><div class='value'> A callback to invoke when the pulldown menu is shown, passing the  button click event.</div></li><li><div class='key'>onMenuHide</div><div class='value'> A callback to invoke when the pulldown menu is hidden, if the menu was hidden as a result of a second click on the pulldown button, the button click event  will be passed.</div></li><li><div class='key'>placeholder</div><div class='value'> text to place in the pulldown button before a selection has been made</div></li><li><div class='key'>onChange</div><div class='value'> A callback to invoke with a particular item when that item is selected from the pulldown menu.</div></li><li><div class='key'>emptyItem</div><div class='value'> an additional item to render at the top of the menu to  denote the lack of a selection</div></li></ul></div>
 </section>
 
 
@@ -424,6 +425,7 @@
     $(window).load(function() {
       window.addExample('#table_view', function() {
         var table = new Backbone.UI.TableView({
+          sortable : true,
           model : regions,
           onItemClick : function(model) {
             alert(model.get('name'));
@@ -443,7 +445,7 @@
     });
   </script>
 
-  <div class='options'><h2>Options</h2><ul><li><div class='key'>onItemClick</div><div class='value'> A callback to invoke when a row is clicked.  If this callback is present, the rows will highlight on hover.</div></li><li><div class='key'>columns</div><div class='value'> Each column should contain a <code>title</code> property to  describe the column's heading, a <code>content</code> property to declare which property the cell is bound to, and an optional  <code>width</code> property to declare the width of the column in pixels.</div></li><li><div class='key'>emptyContent</div><div class='value'> A string, element, or function describing what should be displayed when the table is empty.</div></li></ul></div>
+  <div class='options'><h2>Options</h2><ul><li><div class='key'>onItemClick</div><div class='value'> A callback to invoke when a row is clicked.  If this callback is present, the rows will highlight on hover.</div></li><li><div class='key'>columns</div><div class='value'> Each column should contain a <code>label</code> property to describe the column's heading, a <code>content</code> property to declare which property the cell is bound to, an optional two-argument <code>comparator</code> with which to sort each column if the table is sortable, and an optional <code>width</code> property to declare the width of the column in pixels.</div></li><li><div class='key'>sortable</div><div class='value'> Clicking on the column headers will sort the table. See <code>comparator</code> property description on columns. The table is sorted by the first column by default.</div></li><li><div class='key'>onSort</div><div class='value'> A callback to invoke when the table is to be sorted. The callback will be passed the <code>column</code> on which to sort.</div></li><li><div class='key'>emptyContent</div><div class='value'> A string, element, or function describing what should be displayed when the table is empty.</div></li></ul></div>
 </section>
 
 
@@ -505,10 +507,10 @@
       Many components may be rendered with an optional glyph on the left or right side.  A glyph is a 16 x 16 pixel image stored in the <code>Backbone.UI.GLYPH_DIR</code> (which defaults to /images/glyphs).  Here's some examples:
       </p>
       <p>
-        <img src="images/glyphs/delete.png"/>
-        <img src="images/glyphs/lightbulb.png"/>
-        <img src="images/glyphs/pencil.png"/>
-        <img src="images/glyphs/disk.png"/>
+        <img src="images/glyphs/delete.png" alt="glyph"/>
+        <img src="images/glyphs/lightbulb.png" alt="glyph"/>
+        <img src="images/glyphs/pencil.png" alt="glyph"/>
+        <img src="images/glyphs/disk.png" alt="glyph"/>
       </p>
 
       <p>And here's how you can put them to use:</p>

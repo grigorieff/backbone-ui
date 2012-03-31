@@ -1,9 +1,6 @@
 .text_area {
   position:relative;
   border:1px solid #666;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
   background-color:#fff;
   /* inline-block with IE7 hack */
   display: inline-block;

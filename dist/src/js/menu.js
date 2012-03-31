@@ -71,7 +71,7 @@
 
       var glyph;
       if(this.options.altGlyph) {
-        glyph = _(item).resolveProperty(this.options.altGlyph);
+        glyph = this.resolveContent(item, this.options.altGlyph);
         Backbone.UI.HasGlyph.insertGlyph(anchor, glyph);
       }
 
@@ -82,10 +82,10 @@
 
       var liElement = $.el.li(anchor);
 
-      var clickFunction = _.bind(function(e) {
+      var clickFunction = _.bind(function(e, silent) {
         if(!!this._selectedAnchor) $(this._selectedAnchor).removeClass('selected');
 
-        this._setSelectedItem(_(item).isEqual(this.options.emptyItem) ? null : item);
+        this._setSelectedItem(_(item).isEqual(this.options.emptyItem) ? null : item, silent);
         this._selectedAnchor = anchor;
         $(anchor).addClass('selected');
 
@@ -95,7 +95,7 @@
 
       $(anchor).click(clickFunction);
 
-      if(select) clickFunction();
+      if(select) clickFunction(null, true);
 
       menu.appendChild(liElement);
     },

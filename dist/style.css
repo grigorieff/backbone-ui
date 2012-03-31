@@ -59,15 +59,35 @@ a {
   left:0;
   z-index:10000;
   padding-left:37px;
+  background:url(./images/fade.png) bottom left repeat-x;
+  min-width:600px;
+}
+
+.backbone_heading h1 {
   line-height:80px;
   font-size:36px;
   font-weight:bold;
-  background:url(./images/fade.png) bottom left repeat-x;
+  position:absolute;
+  top:-20px;
 }
 
 .backbone_heading .container {
   background-color:#fff;
   height:80px;
+}
+
+.download {
+  position:absolute;
+  top:40px;
+  right:30px;
+}
+
+.download a {
+  padding-left:20px;
+}
+
+.kb {
+  font-size:12px;
 }
 
 .components .result {
@@ -94,6 +114,7 @@ a {
   border-radius:8px;
   background-color:#222;
   opacity:0.85;
+  filter:alpha(opacity=85);
   color:#fff;
 }
 
@@ -114,6 +135,7 @@ a {
 
 #example_state {
   margin-top:-20px;
+  padding-left:10px;
 }
 
 section .options ul {

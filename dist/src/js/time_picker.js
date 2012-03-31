@@ -118,7 +118,7 @@
 
       // if the enter key was pressed or we've invoked this method manually, 
       // we hide the calendar and re-format our date
-      if(!e || e.keyCode == Backbone.UI.KEYS.KEY_RETURN) {
+      if(!e || e.keyCode === Backbone.UI.KEYS.KEY_RETURN) {
         var newValue = moment(newDate).format(this.options.format);
         this._textField.setValue(newValue);
         this._hideMenu();
