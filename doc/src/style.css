@@ -145,24 +145,24 @@ section .options ul {
 }
 
 section .options li {
-  margin-bottom:10px;
+  position:relative;
 }
 
 .options .key {
   width:110px;
-  padding:5px 10px 5px 0;
+  padding:3px;
   text-align:right;
-  float:left;
   background-color:#f3f3f3;
 }
 
 .options .value {
-  margin-left:130px;
-  line-height:30px;
+  margin:-23px 0 0 120px;
+  padding:3px;
 }
 
 .options li {
   clear:both;
+  margin-bottom:5px;
 }
 
 #task_list_code {
