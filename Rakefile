@@ -169,6 +169,7 @@ task :doc  => [:build] do
   `cp doc/src/script.js doc/dist/script.js`
   `cp -r doc/lib doc/dist/`
   `cp -r doc/src/images doc/dist/`
+  `cp doc/src/test.html doc/dist/`
 end
 
 desc "pushing docs to gh-pages"
