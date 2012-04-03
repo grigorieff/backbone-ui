@@ -64,7 +64,7 @@ task :doc  => [:build] do
   def build_script_tags(dirs)
     dirs.map do |dir|
       (Dir.glob("#{dir}/**/*.js")).map do |file|
-        "<script src='./#{file}' type='text/javascript''></script>"
+        "<script src='./#{file}' type='text/javascript'></script>"
       end
     end
   end

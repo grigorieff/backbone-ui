@@ -83,7 +83,8 @@
       // float the scrollbar properly), scrolling performance suh-hucks!
       // However updating the knob position in a timeout dramatically improves
       // matters. Don't ask me why!
-      setTimeout(_.bind(this._updateKnobPosition, this), 0);
+      setTimeout(_.bind(this._updateKnobPosition, this), 10);
+      this._updateKnobPosition();
     },
 
     // Scrolls the content by the given amount
@@ -100,6 +101,7 @@
       this.update();
       var h = this._totalHeight - this._visibleHeight;
       this.setScrollRatio(h ? top/h : 0);
+      this.update();
     },
 
     // Scrolls to the end of the content
