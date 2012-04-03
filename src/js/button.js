@@ -29,7 +29,7 @@
 
       // if we're running in a mobile environment, the 'click' event 
       // isn't quite translated correctly
-      if(document.ontouchstart !== undefined || document.ontouchstart === null) {
+      if(Backbone.UI.IS_MOBILE) {
         $(this.el).bind('touchstart', _(function(e) {
           $(this.el).addClass('active');
 

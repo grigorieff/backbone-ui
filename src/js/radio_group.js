@@ -22,7 +22,7 @@
       this._observeModel(this.render);
       this._observeCollection(this.render);
 
-      this.selectedItem = this._determineSelectedItem();
+      this.selectedItem = this._determineSelectedItem() || this.selectedItem;
 
       var ul = $.el.ul();
       var selectedValue = this._valueForItem(this.selectedItem);

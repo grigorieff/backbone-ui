@@ -3,6 +3,7 @@
   if(typeof Backbone === 'undefined') alert('backbone environment not loaded') ;
   if(typeof $ === 'undefined') alert('jquery environment not loaded');
 
+
   // define our Backbone.UI namespace
   Backbone.UI = Backbone.UI || {
     KEYS : {
@@ -32,7 +33,11 @@
       Backbone.UI.currentSkin = skin;
     },
 
-    noop : function(){}
+    noop : function(){},
+
+    IS_MOBILE : 
+      document.ontouchstart !== undefined || 
+      document.ontouchstart === null
   };
 
   _(Backbone.View.prototype).extend({
