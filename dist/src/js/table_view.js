@@ -38,7 +38,10 @@
       this.itemViews = {};
 
       var container = $.el.div({className : 'content'},
-        this.collectionEl = $.el.table());
+        this.collectionEl = $.el.table({
+          cellPadding : '0',
+          cellSpacing : '0'
+        }));
 
       $(this.el).toggleClass('clickable', this.options.onItemClick !== Backbone.UI.noop);
 
@@ -86,9 +89,11 @@
 
       // Add the heading row to it's very own table so we can allow the
       // actual table to scroll with a fixed heading.
-      this.el.appendChild($.el.table(
-        {className : 'heading'},
-        $.el.thead(headingRow)));
+      this.el.appendChild($.el.table({
+          className : 'heading',
+          cellPadding : '0',
+          cellSpacing : '0'
+        }, $.el.thead(headingRow)));
 
       // now we'll generate the body of the content table, with a row
       // for each model in the bound collection

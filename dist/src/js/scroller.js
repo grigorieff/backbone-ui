@@ -83,7 +83,8 @@
       // float the scrollbar properly), scrolling performance suh-hucks!
       // However updating the knob position in a timeout dramatically improves
       // matters. Don't ask me why!
-      setTimeout(_.bind(this._updateKnobPosition, this), 0);
+      setTimeout(_.bind(this._updateKnobPosition, this), 10);
+      this._updateKnobPosition();
     },
 
     // Scrolls the content by the given amount
@@ -113,6 +114,8 @@
       var visibleHeight = this._scrollContent.offsetHeight;
       var totalHeight = this._scrollContent.scrollHeight;
 
+      this.maxY = $(this._tray).height() - $(this._knob).height();
+
       // if either the offset or scroll height has changed
       if(this._visibleHeight !== visibleHeight || this._totalHeight !== totalHeight) {
         this._disabled = totalHeight <= visibleHeight + 2;
@@ -124,7 +127,6 @@
         if(this._totalHeight >= this._visibleHeight) {
           this._updateKnobSize();
           this.minY = 0;
-          this.maxY = $(this._tray).height() - $(this._knob).height();
         }
       }
       this._updateKnobPosition();
@@ -153,7 +155,9 @@
     _onTrayClick: function(e) {
       e = e || event;
       if(e.target === this._tray) {
-        var y = (e.layerY || e.y) - this._knob.offsetHeight/2;
+        var y = (e.layerY || e.y);
+        if(!y) y = (e.originalEvent.layerY || e.originalEvent.y);
+        y = y - this._knob.offsetHeight/2;
         this.setScrollRatio(this._knobRatio(y));
       }
       e.stopPropagation();

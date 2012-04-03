@@ -1748,7 +1748,8 @@
       // float the scrollbar properly), scrolling performance suh-hucks!
       // However updating the knob position in a timeout dramatically improves
       // matters. Don't ask me why!
-      setTimeout(_.bind(this._updateKnobPosition, this), 0);
+      setTimeout(_.bind(this._updateKnobPosition, this), 10);
+      this._updateKnobPosition();
     },
 
     // Scrolls the content by the given amount
@@ -1778,6 +1779,8 @@
       var visibleHeight = this._scrollContent.offsetHeight;
       var totalHeight = this._scrollContent.scrollHeight;
 
+      this.maxY = $(this._tray).height() - $(this._knob).height();
+
       // if either the offset or scroll height has changed
       if(this._visibleHeight !== visibleHeight || this._totalHeight !== totalHeight) {
         this._disabled = totalHeight <= visibleHeight + 2;
@@ -1789,7 +1792,6 @@
         if(this._totalHeight >= this._visibleHeight) {
           this._updateKnobSize();
           this.minY = 0;
-          this.maxY = $(this._tray).height() - $(this._knob).height();
         }
       }
       this._updateKnobPosition();
@@ -1818,7 +1820,9 @@
     _onTrayClick: function(e) {
       e = e || event;
       if(e.target === this._tray) {
-        var y = (e.layerY || e.y) - this._knob.offsetHeight/2;
+        var y = (e.layerY || e.y);
+        if(!y) y = (e.originalEvent.layerY || e.originalEvent.y);
+        y = y - this._knob.offsetHeight/2;
         this.setScrollRatio(this._knobRatio(y));
       }
       e.stopPropagation();
@@ -2017,7 +2021,10 @@
       this.itemViews = {};
 
       var container = $.el.div({className : 'content'},
-        this.collectionEl = $.el.table());
+        this.collectionEl = $.el.table({
+          cellPadding : '0',
+          cellSpacing : '0'
+        }));
 
       $(this.el).toggleClass('clickable', this.options.onItemClick !== Backbone.UI.noop);
 
@@ -2065,9 +2072,11 @@
 
       // Add the heading row to it's very own table so we can allow the
       // actual table to scroll with a fixed heading.
-      this.el.appendChild($.el.table(
-        {className : 'heading'},
-        $.el.thead(headingRow)));
+      this.el.appendChild($.el.table({
+          className : 'heading',
+          cellPadding : '0',
+          cellSpacing : '0'
+        }, $.el.thead(headingRow)));
 
       // now we'll generate the body of the content table, with a row
       // for each model in the bound collection
