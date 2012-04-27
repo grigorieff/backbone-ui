@@ -29,3 +29,11 @@
   outline:none;
   font-size:13px;
 }
+
+.text_field.has_glyph .input_wrapper {
+  padding-left: 24px;
+}
+
+.text_field.has_glyph_right .input_wrapper {
+  padding-right: 24px;
+}
