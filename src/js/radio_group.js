@@ -39,7 +39,7 @@
         var li = $.el.li(
           $.el.a({className : 'choice' + (selected ? ' selected' : '')},
             $.el.div({className : 'mark' + (selected ? ' selected' : '')}, 
-              selected ? '\u25cf' : '')));      
+              selected ? '\u25cf' : '\u00a0')));      
         
         // insert glyphs and label into li then add to ul
         var contentEl = this.insertGlyphLayout(glyphLeft,glyphRight,li);

@@ -34,12 +34,13 @@
 
 .menu li a {
   text-decoration:none;
-  line-height:28px;
+  line-height:30px;
   color:#222;
   padding:2px 5px;
   display:block;
   background-color:#fff;
   height:28px;
+  vertical-align:middle;
 }
 
 .menu li a:hover span,

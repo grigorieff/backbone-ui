@@ -32,8 +32,15 @@
 }
 
 .radio_group li a {
-/*  display:block;*/
   text-decoration:none;
+}
+
+.radio_group li a.choice {
+  /* inline-block with IE7 hack */
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+  vertical-align:top;
 }
 
 .radio_group .label {
@@ -48,7 +55,6 @@
   display: inline-block;
   zoom: 1;
   *display: inline;
-  vertical-align:top;
 }
 
 .radio_group li .glyph_right_wrapper {
@@ -56,5 +62,10 @@
    display: inline-block;
    zoom: 1;
    *display: inline;
+}
+
+.radio_group .glyph {
+  vertical-align:top;
+  margin-top: 2px;
 }
 

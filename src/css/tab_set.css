@@ -15,7 +15,6 @@
   display: inline-block;
   zoom: 1;
   *display: inline;
-  vertical-align:top;
 }
 
 .tab_set .tab.selected,
