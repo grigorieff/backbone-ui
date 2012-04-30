@@ -124,7 +124,8 @@
       if(!!this.button) {
         $(this.el).removeClass('placeholder');
         this.button.model = {label : this._labelForItem(item)};
-        this.button.options.glyph = _(item).resolveProperty(this.options.altGlyph);
+        var glyphRight = _(item).resolveProperty(this.options.altGlyphRight);        
+        this.button.options.glyph = (!glyphRight) ? _(item).resolveProperty(this.options.altGlyph) : glyphRight;
         this.button.render();
         this.hideMenu();
       }

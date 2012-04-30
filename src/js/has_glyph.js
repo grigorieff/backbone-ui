@@ -22,7 +22,7 @@
         $(image).css({
           border : 'none'
         });
-        $(image).show();
+        $(image).css('display','inline-block');
       };
 
       image.src = name.match(/(http:\/\/)|(https:\/\/)/) ? name : 
