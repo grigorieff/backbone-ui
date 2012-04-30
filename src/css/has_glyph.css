@@ -1,16 +1,35 @@
 .glyph {
-  position:absolute;
-  top:3px;
-  left:3px;
+  /* inline-block with IE7 hack */
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
   line-height:24px;
   text-align:center;
   color:#666;
   font-style:normal;
   font-size:11px;
+  /*margin:2px 8px 0 6px;
+  vertical-align:text-bottom;*/
+  margin: 6px 8px 0 6px;
 }
 
 .glyph.right {
-  left:auto;
-  right:3px;
+  margin:0 6px 0 8px;
 }
 
+
+.glyph_right_wrapper {
+  text-align:right;
+}
+
+.glyph_left_wrapper {
+  text-align:left;
+  float:left;
+}
+
+.glyph_content_wrapper {
+  /* inline-block with IE7 hack */
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+}

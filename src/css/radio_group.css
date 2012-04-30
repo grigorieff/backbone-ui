@@ -32,7 +32,7 @@
 }
 
 .radio_group li a {
-  display:block;
+/*  display:block;*/
   text-decoration:none;
 }
 
@@ -49,5 +49,12 @@
   zoom: 1;
   *display: inline;
   vertical-align:top;
+}
+
+.radio_group li .glyph_right_wrapper {
+  /* inline-block with IE7 hack */
+   display: inline-block;
+   zoom: 1;
+   *display: inline;
 }
 

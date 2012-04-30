@@ -56,9 +56,9 @@
         placeholder : this.options.placeholder,
         value : value});
 
-      this.insertGlyphRight(this.el, this.options.glyphRight);
-      this.el.appendChild($.el.div({className : 'input_wrapper'}, this.input));
-      this.insertGlyph(this.el, this.options.glyph);
+      // insert glyphs and text_wrapper
+      var contentEl = this.insertGlyphLayout(this.options.glyph,this.options.glyphRight,this.el);
+      contentEl.appendChild($.el.div({className : 'input_wrapper'}, this.input));
 
       this.setEnabled(!this.options.disabled);
 

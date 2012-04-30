@@ -82,82 +82,42 @@
         document.body.appendChild(leftCol);
         document.body.appendChild(rightCol);        
 
-        //set glyph directory
-        Backbone.UI.GLYPH_DIR = "./doc/src/images/glyphs";
         
         var book = {'title': 'War and Peace'};
         
-        //test button with glyph on left
+        //test button
         var button = new Backbone.UI.Button({
           model: book,
-          content: 'title',
-          glyph: 'lightbulb'
+          content: 'title'
         }).render();
         leftCol.appendChild(button.el);
-        
-        //test button with glyph on right
-        var buttonRight = new Backbone.UI.Button({
-          model: book,
-          content: 'title',
-          glyphRight: 'lightbulb'
-        }).render();
-        rightCol.appendChild(buttonRight.el);
       
-        //test link with glyph on left
+        //test link
         var linkLeft = new Backbone.UI.Link({
           model: book,
-          content: 'title',
-          glyph: 'pencil'
+          content: 'title'
         }).render();
         leftCol.appendChild($.el.div({'className':'clear'}));
         leftCol.appendChild(linkLeft.el);
         
-        //test link with glyph on right
-        var linkRight = new Backbone.UI.Link({
-          model: book,
-          content: 'title',
-          glyphRight: 'pencil'
-        }).render();
-        rightCol.appendChild($.el.div({'className':'clear'}));
-        rightCol.appendChild(linkRight.el);
         
-        //test textfield with glyph on left
+        //test textfield
         var textLeft = new Backbone.UI.TextField({
           model: book,
-          content: 'title',
-          glyph: 'delete'
+          content: 'title'
         }).render();
         leftCol.appendChild($.el.div({'className':'clear'}));
         leftCol.appendChild(textLeft.el);
         
-        //test textfield with glyph on right
-        var textRight = new Backbone.UI.TextField({
-          model: book,
-          content: 'title',
-          glyphRight: 'delete'
-        }).render();
-        rightCol.appendChild($.el.div({'className':'clear'}));
-        rightCol.appendChild(textRight.el);
         
-        //test textarea with glyph on left
+        //test textarea
         var textAreaLeft = new Backbone.UI.TextArea({
           model: book,
-          content: 'title',
-          glyph: 'disk'
+          content: 'title'
         }).render();
         leftCol.appendChild($.el.div({'className':'clear'}));
         leftCol.appendChild(textAreaLeft.el);
         
-        //test textarea with glyph on right
-        var textAreaRight = new Backbone.UI.TextArea({
-          model: book,
-          content: 'title',
-          glyphRight: 'disk'
-        }).render();
-        rightCol.appendChild($.el.div({'className':'clear'}));
-        rightCol.appendChild(textAreaRight.el);
-        
-          
         //test pulldown model
         window.modelWithGlyph = {};
         
@@ -172,80 +132,42 @@
           {val: 'on', label: 'Turn On', glyph: 'lightbulb'}
         ];
         
-        //test pulldown with glyph on left
+        //test pulldown
         var pulldownLeft = new Backbone.UI.Pulldown({
           model: window.modelWithGlyph,
           content: 'op',
           alternatives: ops,
           altLabelContent: 'label',
-          altValueContent: 'val',
-          altGlyph: 'glyph'
+          altValueContent: 'val'
         }).render();
         leftCol.appendChild($.el.div({'className':'clear'}));
         leftCol.appendChild(pulldownLeft.el);
         
-        //test pulldown with glyph on right
-        var pulldownRight = new Backbone.UI.Pulldown({
-          model: window.modelWithGlyph,
-          content: 'op',
-          alternatives: ops,
-          altLabelContent: 'label',
-          altValueContent: 'val',
-          altGlyphRight: 'glyph'
-        }).render();
-        rightCol.appendChild($.el.div({'className':'clear'}));
-        rightCol.appendChild(pulldownRight.el);
-      
-        //test radiogroup with glyph on left
+        //test radiogroup
         var groupLeft = new Backbone.UI.RadioGroup({
           model: window.modelWithGlyph,
           content: 'op',
           alternatives: ops,
           altLabelContent: 'label',
-          altValueContent: 'val',
-          altGlyph: 'glyph'
+          altValueContent: 'val'
         }).render();
         leftCol.appendChild($.el.div({'className':'clear'}));
         leftCol.appendChild(groupLeft.el);
       
-      
-        //test radiogroup with glyph on left
-        var groupRight = new Backbone.UI.RadioGroup({
-          model: window.modelWithGlyph,
-          content: 'op',
-          alternatives: ops,
-          altLabelContent: 'label',
-          altValueContent: 'val',
-          altGlyphRight: 'glyph'
-        }).render();
-        rightCol.appendChild($.el.div({'className':'clear'}));
-        rightCol.appendChild(groupRight.el);
-      
         var testTabs = [
-          {label: 'One', 'content': 'This is tab one.', 'gylph': 'save'},
-          {label: 'Two', 'content': 'This is tab two.', 'gylph': 'pencil'},
-          {label: 'Three', 'content': 'This is tab three.', 'gylph': 'delete'}                    
+          {label: 'One', 'content': 'This is tab one.', 'glyph': 'disk'},
+          {label: 'Two', 'content': 'This is tab two.', 'glyph': 'pencil'},
+          {label: 'Three', 'content': 'This is tab three.', 'glyph': 'delete', 'glyphRight' : 'disk'}                    
         ];
       
         //test tabset with glyph on left
         var setLeft = new Backbone.UI.TabSet({
-          tabs: testTabs,
-          altGlyph: 'glyph'
+          alternatives: testTabs
         }).render();
         leftCol.appendChild($.el.div({'className':'clear'}));
         leftCol.appendChild(setLeft.el);
       
-        //test tabset with glyph on right
-        var setRight = new Backbone.UI.TabSet({
-          tabs: testTabs,
-          altGlyphRight: 'glyph'
-        }).render();
-        rightCol.appendChild($.el.div({'className':'clear'}));
-        rightCol.appendChild(setRight.el);
-
-      
       };
-      
       //button link pulldown radiogroup tabset, textfield, textarea
       
     </script>

@@ -41,9 +41,9 @@
         content = this._scroller.el;
       }
 
-      this.insertGlyphRight(this.el, this.options.glyphRight);
-      this.el.appendChild(content);
-      this.insertGlyph(this.el, this.options.glyph);
+      // insert glyphs
+      var contentEl = this.insertGlyphLayout(this.options.glyph,this.options.glyphRight,this.el);
+      contentEl.appendChild(content);
 
       this.setEnabled(!this.options.disabled);
 

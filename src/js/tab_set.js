@@ -23,8 +23,8 @@
       this.el.appendChild(this._tabBar);
       this.el.appendChild(this._contentContainer);
 
-      for(var i=0; i<this.options.tabs.length; i++) {
-        this.addTab(this.options.tabs[i]);
+      for(var i=0; i<this.options.alternatives.length; i++) {
+        this.addTab(this.options.alternatives[i]);
       }
 
       this.activateTab(0);
@@ -34,10 +34,16 @@
 
     addTab : function(tabOptions) {
       var tab = $.el.a({href : '#', className : 'tab'});
-      if(tabOptions.glyphRight) this.insertGlyph(tab, tabOptions.glyphRight);
       if(tabOptions.className) $(tab).addClass(tabOptions.className);
-      tab.appendChild(document.createTextNode(tabOptions.label || ''));
-      if(tabOptions.glyph) this.insertGlyph(tab, tabOptions.glyph);
+      
+      // get glyph strings
+      var glyphLeft = this.resolveContent(tabOptions, this.options.altGlyph);
+      var glyphRight = this.resolveContent(tabOptions, this.options.altGlyphRight);
+      
+      // insert glyphs and textNode
+      var contentEl = this.insertGlyphLayout(glyphLeft,glyphRight,tab);
+      contentEl.appendChild(document.createTextNode(tabOptions.label || ''));
+      
       this._tabBar.appendChild(tab);
       this._tabs.push(tab);
 

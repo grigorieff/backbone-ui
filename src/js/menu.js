@@ -8,7 +8,8 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph]);
+      
 
       _(this).bindAll('render');
 
@@ -66,22 +67,17 @@
     // Adds the given item (creating a new li element) 
     // to the given menu ul element
     _addItemToMenu : function(menu, item, select) {
-      var anchor = $.el.a({href : '#'}, 
-        $.el.span(this._labelForItem(item) || '\u00a0'));
-
-      var glyph;
-      if(this.options.altGlyph) {
-        glyph = this.resolveContent(item, this.options.altGlyph);
-        Backbone.UI.HasGlyph.insertGlyph(anchor, glyph);
-      }
-
-      if(this.options.altGlyphRight) {
-        glyph = _(item).resolveProperty(this.options.altGlyphRight);
-        Backbone.UI.HasGlyph.insertGlyphRight(anchor, glyph);
-      }
-
+      var anchor = $.el.a({href : '#'});
+      
+      // get glyph strings
+      var glyphLeft = this.resolveContent(item, this.options.altGlyph);
+      var glyphRight = this.resolveContent(item, this.options.altGlyphRight);
+      
+      // insert glyphs
       var liElement = $.el.li(anchor);
-
+      var contentEl = this.insertGlyphLayout(glyphLeft, glyphRight, anchor);
+      $.el.span(this._labelForItem(item) || '\u00a0').appendTo(contentEl);
+      
       var clickFunction = _.bind(function(e, silent) {
         if(!!this._selectedAnchor) $(this._selectedAnchor).removeClass('selected');
 
