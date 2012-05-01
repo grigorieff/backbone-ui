@@ -33,7 +33,7 @@
         mark.appendChild($.el.div({className : 'checkmark_fill'}));
       }
 
-      var labelText = _(this.model).resolveProperty(this.options.labelContent) || this.options.labelContent;
+      var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
       this._label = $.el.div({className : 'label'}, labelText);
 
       this.el.appendChild(mark);
