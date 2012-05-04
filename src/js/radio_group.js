@@ -9,7 +9,11 @@
     initialize : function() {
       this.mixin([Backbone.UI.HasGlyph, Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
       _(this).bindAll('render');
+      
       $(this.el).addClass('radio_group');
+      if(this.options.name){
+        $(this.el).addClass(this.options.name);
+      }
     },
 
     // public accessors

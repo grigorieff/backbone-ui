@@ -27,8 +27,11 @@
     initialize : function() {
       this.mixin([Backbone.UI.HasGlyph, Backbone.UI.HasModel]);
       _(this).bindAll('_refreshValue');
-
+    
       $(this.el).addClass('text_field');
+      if(this.options.name){
+        $(this.el).addClass(this.options.name);
+      }
 
       this.input = $.el.input({maxLength : this.options.maxLength});
 

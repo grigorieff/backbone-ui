@@ -19,7 +19,11 @@
 
     initialize : function() {
       this.mixin([Backbone.UI.HasGlyph, Backbone.UI.HasModel]);
+      
       $(this.el).addClass('text_area');
+      if(this.options.name){
+        $(this.el).addClass(this.options.name);
+      }
     },
 
     render : function() {

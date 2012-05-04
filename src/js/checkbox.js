@@ -19,6 +19,9 @@
       $(this.el).click(_(this._onClick).bind(this));
       $(this.el).attr({href : '#'});
       $(this.el).addClass('checkbox');
+      if(this.options.name){
+        $(this.el).addClass(this.options.name);
+      }
     },
 
     render : function() {
