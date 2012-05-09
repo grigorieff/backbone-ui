@@ -115,7 +115,7 @@
       var position = (this.options.alignRight ? '-right' : '-left') + (showOnTop ? 'top' : ' bottom');
       $(this._menu.el).alignTo(anchor, position, 0, 1);
       $(this._menu.el).show();
-      $(this._menu.el).css({width : Math.max($(this.button.el).innerWidth(), this._menuWidth)});
+      $(this._menu.el).css({width : Math.max($(this.button.el).innerWidth(), this._menu.width)});
       if(this.options.onMenuShow) this.options.onMenuShow(e);
       this._menu.scrollToSelectedItem();
     },
@@ -136,5 +136,6 @@
       if(this.options.onMenuHide) this.options.onMenuHide();
       return true;
     }
+    
   });
 }());

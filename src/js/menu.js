@@ -52,7 +52,7 @@
       $(this.scroller.el).addClass('menu_scroller');
 
       this.el.appendChild(this.scroller.el);
-      this._menuWidth = $(this.scroller.el).width() + 20;
+      this.width = $(this.scroller.el).width() + 20;
       
       return this;
     },
