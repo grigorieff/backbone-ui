@@ -38,7 +38,9 @@
 
       var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
       this._label = $.el.div({className : 'label'}, labelText);
-
+      $('a',this._label).click(function(e){
+        e.stopPropagation(); 
+      });
       this.el.appendChild(mark);
       this.el.appendChild(this._label);
       this.el.appendChild($.el.br({style : 'clear:both'}));

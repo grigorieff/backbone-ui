@@ -35,6 +35,9 @@
         var selected = selectedValue === this._valueForItem(item);
 
         var label = this.resolveContent(item, this.options.altLabelContent);
+        $('a',label).click(function(e){
+          e.stopPropagation(); 
+        });
         
         // get glyph strings
         var glyphLeft = this.resolveContent(item, this.options.altGlyph);

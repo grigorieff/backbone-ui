@@ -160,13 +160,13 @@
           {label: 'Three', 'content': 'This is tab three.', 'glyph': 'delete', 'glyphRight' : 'disk'}                    
         ];
       
-        //test tabset with glyph on left
+        //test tabset
         var setLeft = new Backbone.UI.TabSet({
           alternatives: testTabs
         }).render();
         leftCol.appendChild($.el.div({'className':'clear'}));
-        leftCol.appendChild(setLeft.el);
-      
+        leftCol.appendChild(setLeft.el);        
+        
       };
       //button link pulldown radiogroup tabset, textfield, textarea
       
