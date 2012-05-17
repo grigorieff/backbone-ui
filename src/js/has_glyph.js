@@ -33,35 +33,40 @@
     }
   };
   
-  
   Backbone.UI.HasGlyph = {
     GLYPH_SIZE : 22,
 
     options : {
-
       // a glyph to show to the left
       glyph : null,
+
       // a glyph to show to the right
       glyphRight : null
-    
     },
     
     insertGlyphLayout : function(glyph, glyphRight, parent) {
-      
-      var contentWrapper, leftWrapper, rightWrapper;
-      rightWrapper = $.el.div({className : 'glyph_right_wrapper'},
-        leftWrapper = $.el.div({className : 'glyph_left_wrapper'},
-          contentWrapper = $.el.div({className : 'glyph_content_wrapper'})
-        )).appendTo(parent);
-        
-      if(glyph) {
+
+      var contentWrapper = $.el.div({className : 'glyph_content_wrapper'});
+      var rightWrapper = glyphRight ? $.el.div({className : 'glyph_right_wrapper'}) : null;
+      var leftWrapper = glyph ? $.el.div({className : 'glyph_left_wrapper'}, contentWrapper) : null;
+
+      if(rightWrapper) {
+        var contentParent = leftWrapper ? leftWrapper : rightWrapper;
+        contentWrapper.appendTo(contentParent);
+        if(leftWrapper) leftWrapper.appendTo(rightWrapper);
+        rightWrapper.appendTo(parent);
+        rightWrapper.appendChild(loadGlyph(glyphRight));        
+      }
+
+      else if(leftWrapper) {
+        leftWrapper.appendTo(parent);
         $(parent).addClass('has_glyph');
         leftWrapper.insertBefore(loadGlyph(glyph), contentWrapper);
       }
-      
-      else if(glyphRight) {
-      $(parent).addClass('has_glyph_right');
-        rightWrapper.appendChild(loadGlyph(glyphRight));        
+
+      else {
+        contentWrapper.appendTo(parent);
+        $(parent).addClass('has_glyph_right');
       }
       
       return contentWrapper;
