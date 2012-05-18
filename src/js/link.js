@@ -32,9 +32,8 @@
 
       $(this.el).empty();
       
-      // insert glyphs and label
-      var contentEl = this.insertGlyphLayout(this.options.glyph, this.options.glyphRight, this.el);
-      contentEl.appendChild($.el.span({className : 'label'}, labelText));
+      // insert label
+      this.el.appendChild($.el.span({className : 'label'}, labelText));
       
       // add appropriate class names
       this.setEnabled(!this.options.disabled);

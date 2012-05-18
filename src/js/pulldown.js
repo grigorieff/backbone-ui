@@ -27,7 +27,6 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasGlyph]);
       $(this.el).addClass('pulldown');
 
       var onChange = this.options.onChange;
@@ -72,12 +71,11 @@
       $(this.el).empty();
 
       var item = this._menu.selectedItem;
+      var label = this._labelForItem(item);
       this.button = new Backbone.UI.Button({
         className  : 'pulldown_button',
-        model      : {label : this._labelForItem(item)},
-        content    : 'label',
-        glyph      : _(item).resolveProperty(this.options.altGlyph),
-        glyphRight : '\u25bc',
+        model : {label : this._labelForItem(item)},
+        content : 'label',
         onClick    : _.bind(this.showMenu, this)
       }).render();
       this.el.appendChild(this.button.el);
@@ -98,7 +96,6 @@
     setSelectedItem : function(item) {
       this._setSelectedItem(item);
       this.button.options.label = this._labelForItem(item);
-      this.button.options.glyph = _(item).resolveProperty(this.options.altGlyph);
       this.button.render();
     },
 
@@ -115,7 +112,10 @@
       var position = (this.options.alignRight ? '-right' : '-left') + (showOnTop ? 'top' : ' bottom');
       $(this._menu.el).alignTo(anchor, position, 0, 1);
       $(this._menu.el).show();
-      $(this._menu.el).css({width : Math.max($(this.button.el).innerWidth(), this._menu.width())});
+      
+      var menuWidth = this._menu.width();
+      var buttonWidth = $(this.button.el).innerWidth();
+      $(this._menu.el).css({width : Math.max(menuWidth, buttonWidth)});
       if(this.options.onMenuShow) this.options.onMenuShow(e);
       this._menu.scrollToSelectedItem();
     },
@@ -124,8 +124,6 @@
       if(!!this.button) {
         $(this.el).removeClass('placeholder');
         this.button.model = {label : this._labelForItem(item)};
-        var glyphRight = _(item).resolveProperty(this.options.altGlyphRight);        
-        this.button.options.glyph = (!glyphRight) ? _(item).resolveProperty(this.options.altGlyph) : glyphRight;
         this.button.render();
         this.hideMenu();
       }

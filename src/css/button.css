@@ -21,14 +21,6 @@ a.button {
   text-decoration:none;
 }
 
-.button.has_glyph {
-  
-}
-
-.button.has_glyph_right {
-  
-}
-
 .button .label {
   line-height:28px;
   padding:0;
@@ -44,11 +36,6 @@ a.button {
 
 .button.has_border.disabled {
   border-color:#999;
-}
-
-.button.disabled .glyph {
-  filter:alpha(opacity=50);
-  opacity:0.5;
 }
 
 .button.has_border:hover {

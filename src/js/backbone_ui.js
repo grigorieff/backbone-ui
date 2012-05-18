@@ -23,8 +23,6 @@
       KEY_INSERT:   45
     },
 
-    GLYPH_DIR : '/images/glyphs',
-
     setSkin : function(skin) {
       if(!!Backbone.UI.currentSkin) {
         $(document.body).removeClass('skin_' + Backbone.UI.currentSkin);

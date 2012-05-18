@@ -18,7 +18,7 @@
     textArea : null,
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasGlyph, Backbone.UI.HasModel]);
+      this.mixin([Backbone.UI.HasModel]);
       
       $(this.el).addClass('text_area');
       if(this.options.name){
@@ -45,9 +45,7 @@
         content = this._scroller.el;
       }
 
-      // insert glyphs
-      var contentEl = this.insertGlyphLayout(this.options.glyph,this.options.glyphRight,this.el);
-      contentEl.appendChild(content);
+      this.el.appendChild(content);
 
       this.setEnabled(!this.options.disabled);
 

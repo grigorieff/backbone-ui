@@ -56,16 +56,3 @@
   zoom: 1;
   *display: inline;
 }
-
-.radio_group li .glyph_right_wrapper {
-  /* inline-block with IE7 hack */
-   display: inline-block;
-   zoom: 1;
-   *display: inline;
-}
-
-.radio_group .glyph {
-  vertical-align:top;
-  margin-top: 2px;
-}
-

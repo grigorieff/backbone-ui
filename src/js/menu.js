@@ -8,7 +8,7 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
       
 
       _(this).bindAll('render');
@@ -63,7 +63,7 @@
     },
 
     width : function() {
-      return $(this.el).width();
+      return $(this.scroller.el).innerWidth();
     },
 
     // Adds the given item (creating a new li element) 
@@ -71,14 +71,8 @@
     _addItemToMenu : function(menu, item, select) {
       var anchor = $.el.a({href : '#'});
       
-      // get glyph strings
-      var glyphLeft = this.resolveContent(item, this.options.altGlyph);
-      var glyphRight = this.resolveContent(item, this.options.altGlyphRight);
-      
-      // insert glyphs
       var liElement = $.el.li(anchor);
-      var contentEl = this.insertGlyphLayout(glyphLeft, glyphRight, anchor);
-      $.el.span(this._labelForItem(item) || '\u00a0').appendTo(contentEl);
+      $.el.span(this._labelForItem(item) || '\u00a0').appendTo(anchor);
       
       var clickFunction = _.bind(function(e, silent) {
         if(!!this._selectedAnchor) $(this._selectedAnchor).removeClass('selected');

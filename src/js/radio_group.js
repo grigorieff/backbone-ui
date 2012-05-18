@@ -7,7 +7,7 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasGlyph, Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
       _(this).bindAll('render');
       
       $(this.el).addClass('radio_group');
@@ -40,18 +40,14 @@
             e.stopPropagation(); 
           });
         }
-        // get glyph strings
-        var glyphLeft = this.resolveContent(item, this.options.altGlyph);
-        var glyphRight = this.resolveContent(item, this.options.altGlyphRight);
         
         var li = $.el.li(
           $.el.a({className : 'choice' + (selected ? ' selected' : '')},
             $.el.div({className : 'mark' + (selected ? ' selected' : '')}, 
               selected ? '\u25cf' : '\u00a0')));      
         
-        // insert glyphs and label into li then add to ul
-        var contentEl = this.insertGlyphLayout(glyphLeft,glyphRight,li);
-        $.el.div({className : 'label'}, label).appendTo(contentEl);
+        // insert label into li then add to ul
+        $.el.div({className : 'label'}, label).appendTo(li);
         ul.appendChild(li);
 
         $(li).bind('click', _.bind(this._onChange, this, item));

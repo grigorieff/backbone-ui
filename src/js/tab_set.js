@@ -8,7 +8,6 @@
     },
 
     initialize : function() {
-      $.extend(true, this, Backbone.UI.HasGlyph);
       $(this.el).addClass('tab_set');
     }, 
 
@@ -36,13 +35,8 @@
       var tab = $.el.a({href : '#', className : 'tab'});
       if(tabOptions.className) $(tab).addClass(tabOptions.className);
       
-      // get glyph strings
-      var glyphLeft = this.resolveContent(tabOptions, this.options.altGlyph);
-      var glyphRight = this.resolveContent(tabOptions, this.options.altGlyphRight);
-      
-      // insert glyphs and textNode
-      var contentEl = this.insertGlyphLayout(glyphLeft,glyphRight,tab);
-      contentEl.appendChild(document.createTextNode(tabOptions.label || ''));
+      // insert textNode
+      tab.appendChild(document.createTextNode(tabOptions.label || ''));
       
       this._tabBar.appendChild(tab);
       this._tabs.push(tab);
