@@ -27,7 +27,7 @@
 .menu li {
   font-size:14px;
   white-space:nowrap;
-  margin:0;
+  margin:2px 0 0 0;
   list-style:none;
   vertical-align:bottom;
 }

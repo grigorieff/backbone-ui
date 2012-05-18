@@ -52,16 +52,18 @@
       $(this.scroller.el).addClass('menu_scroller');
 
       this.el.appendChild(this.scroller.el);
-      this.width = $(this.scroller.el).width() + 20;
       
       return this;
     },
 
     scrollToSelectedItem : function() {
-      if(!this._selectedAnchor) return;
-
-      var pos = $(this._selectedAnchor.parentNode).position().top - 10;
+      var pos = !this._selectedAnchor ? 0 : 
+        $(this._selectedAnchor.parentNode).position().top - 10;
       this.scroller.setScrollPosition(pos);
+    },
+
+    width : function() {
+      return $(this.el).width();
     },
 
     // Adds the given item (creating a new li element) 
