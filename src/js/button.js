@@ -21,7 +21,7 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
+      this.mixin([Backbone.UI.HasModel]);
 
       _(this).bindAll('render');
 
