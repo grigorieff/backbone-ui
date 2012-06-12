@@ -35,8 +35,8 @@
       var tab = $.el.a({href : '#', className : 'tab'});
       if(tabOptions.className) $(tab).addClass(tabOptions.className);
       
-      // insert textNode
-      tab.appendChild(document.createTextNode(tabOptions.label || ''));
+      var label = this.resolveContent(null, tabOptions.label);
+      tab.appendChild(_(label).isString() ? document.createTextNode(label || '') : label);
       
       this._tabBar.appendChild(tab);
       this._tabs.push(tab);
