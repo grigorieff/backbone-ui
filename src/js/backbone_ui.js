@@ -3,6 +3,7 @@
   if(typeof Backbone === 'undefined') alert('backbone environment not loaded') ;
   if(typeof $ === 'undefined') alert('jquery environment not loaded');
 
+
   // define our Backbone.UI namespace
   Backbone.UI = Backbone.UI || {
     KEYS : {
@@ -22,8 +23,6 @@
       KEY_INSERT:   45
     },
 
-    GLYPH_DIR : '/images/glyphs',
-
     setSkin : function(skin) {
       if(!!Backbone.UI.currentSkin) {
         $(document.body).removeClass('skin_' + Backbone.UI.currentSkin);
@@ -32,7 +31,11 @@
       Backbone.UI.currentSkin = skin;
     },
 
-    noop : function(){}
+    noop : function(){},
+
+    IS_MOBILE : 
+      document.ontouchstart !== undefined || 
+      document.ontouchstart === null
   };
 
   _(Backbone.View.prototype).extend({
@@ -43,6 +46,7 @@
       var hasModelProperty = _(model).exists() && _(content).exists();
       return _(content).isFunction() ? content(model) : 
         hasModelProperty && _(model[content]).isFunction() ? model[content]() : 
+        hasModelProperty && _(_(model).resolveProperty(content)).isFunction() ? _(model).resolveProperty(content)(model) : 
         hasModelProperty ? _(model).resolveProperty(content) : content;
     },
 

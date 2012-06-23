@@ -5,6 +5,7 @@ a.button {
   font-family:Helvetica;
   color:#333;
   border:1px solid #666;
+  line-height:30px;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
@@ -18,14 +19,6 @@ a.button {
   *display: inline;
   vertical-align:top;
   text-decoration:none;
-}
-
-.button.has_glyph {
-  padding-left:30px;
-}
-
-.button.has_glyph_right {
-  padding-right:30px;
 }
 
 .button .label {
@@ -43,11 +36,6 @@ a.button {
 
 .button.has_border.disabled {
   border-color:#999;
-}
-
-.button.disabled .glyph {
-  filter:alpha(opacity=50);
-  opacity:0.5;
 }
 
 .button.has_border:hover {
@@ -210,35 +198,15 @@ a.button {
   position:absolute;
   z-index:1000;
 }
-.glyph {
-  position:absolute;
-  top:3px;
-  left:3px;
-  line-height:24px;
-  text-align:center;
-  color:#666;
-  font-style:normal;
-  font-size:11px;
-}
-
-.glyph.right {
-  left:auto;
-  right:3px;
-}
-
 .link {
   position:relative;
-}
-
-.link.has_glyph {
-  padding:5px 0 0 30px;
-}
-
-.link.has_glyph_right {
-  padding:5px 30px 0 0;
-}
-
-.list ul {
+  /* inline-block with IE7 hack */
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+  vertical-align:middle;
+  line-height:30px;
+}.list ul {
   list-style-type:none;
   margin:0;
   padding:0;
@@ -272,16 +240,24 @@ a.button {
 .menu li {
   font-size:14px;
   white-space:nowrap;
-  margin:2px 0;
-  position:relative;
+  margin:2px 0 0 0;
+  list-style:none;
+  vertical-align:bottom;
 }
 
 .menu li a {
   text-decoration:none;
-  line-height:28px;
+  line-height:30px;
   color:#222;
-  padding:0 5px;
-  display:block;  
+  padding:2px 5px;
+  display:block;
+  background-color:#fff;
+  height:28px;
+  vertical-align:middle;
+}
+
+.menu li a span {
+  padding:0 2px;
 }
 
 .menu li a:hover span,
@@ -296,15 +272,6 @@ a.button {
 .menu li a.selected {
   background-color:#e9d4c7;
   text-decoration:none;
-}
-
-.menu li a.has_glyph {
-  padding-left:24px;
-}
-
-.menu li .glyph.right {
-  top:4px;
-  right:4px;
 }
 .pulldown {
   position:relative;
@@ -326,7 +293,6 @@ a.button {
   color:#333;
   text-decoration:none;
 }
-
 
 .radio_group .choice:hover {
   cursor:pointer;
@@ -361,13 +327,21 @@ a.button {
 }
 
 .radio_group li a {
-  display:block;
   text-decoration:none;
+}
+
+.radio_group li a.choice {
+  /* inline-block with IE7 hack */
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+  vertical-align:top;
 }
 
 .radio_group .label {
   line-height:22px;
   color:#222;
+  cursor:pointer;
 }
 
 .radio_group .mark,
@@ -377,9 +351,7 @@ a.button {
   display: inline-block;
   zoom: 1;
   *display: inline;
-  vertical-align:top;
 }
-
 .scroller {
   outline: none;
   position:relative;
@@ -464,7 +436,6 @@ a.button {
   display: inline-block;
   zoom: 1;
   *display: inline;
-  vertical-align:top;
 }
 
 .tab_set .tab.selected,
@@ -528,6 +499,12 @@ a.button {
   cursor:pointer;
 }
 
+.table_view .glyph {
+  float:left;
+  margin-top:6px;
+  font-size:10px;
+}
+
 .table_view th.first .glyph {
   padding-left:5px;
 }
@@ -579,7 +556,7 @@ a.button {
 .text_field .input_wrapper {
   position:absolute;
   left:5px;
-  right:5px;
+  right:12px;
   top:3px;
 }
 
@@ -587,7 +564,7 @@ a.button {
   width:100%;
   border:0;
   outline:none;
-  font-size:14px;
+  font-size:13px;
 }
 .time_picker .text_field {
   width:80px;

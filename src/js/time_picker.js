@@ -9,7 +9,10 @@
       interval : 30,
 
       // the name given to the text field's input element
-      name : null
+      name : null,
+      
+      // text field is disabled or enabled
+      disabled : false
     },
 
     initialize : function() {
@@ -39,7 +42,8 @@
       $(this.el).empty();
 
       this._textField = new Backbone.UI.TextField({
-        name : this.options.name 
+        name : this.options.name,
+        disabled : this.options.disabled 
       }).render();
       $(this._textField.input).click(_(this._showMenu).bind(this));
       $(this._textField.input).keyup(_(this._timeEdited).bind(this));
@@ -76,6 +80,7 @@
     },
 
     setEnabled : function(enabled) {
+      this.options.disabled = !enabled;
       this._textField.setEnabled(enabled);
     },
 

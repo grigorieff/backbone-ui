@@ -27,16 +27,24 @@
 .menu li {
   font-size:14px;
   white-space:nowrap;
-  margin:2px 0;
-  position:relative;
+  margin:2px 0 0 0;
+  list-style:none;
+  vertical-align:bottom;
 }
 
 .menu li a {
   text-decoration:none;
-  line-height:28px;
+  line-height:30px;
   color:#222;
-  padding:0 5px;
-  display:block;  
+  padding:2px 5px;
+  display:block;
+  background-color:#fff;
+  height:28px;
+  vertical-align:middle;
+}
+
+.menu li a span {
+  padding:0 2px;
 }
 
 .menu li a:hover span,
@@ -51,13 +59,4 @@
 .menu li a.selected {
   background-color:#e9d4c7;
   text-decoration:none;
-}
-
-.menu li a.has_glyph {
-  padding-left:24px;
-}
-
-.menu li .glyph.right {
-  top:4px;
-  right:4px;
 }

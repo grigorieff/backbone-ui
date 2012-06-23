@@ -57,8 +57,13 @@
       $(this.el).bind($.browser.msie ? 'keyup' : 'keypress', 
         _.bind(this._onKeyPress, this));
 
-      // update our scroll bar on an interval to handle 
-      // resizing and content changes
+      // touch events if appropriates
+      if(Backbone.UI.IS_MOBILE) {
+        $(this._scrollContent).css({
+          overflow : 'scroll',
+          '-webkit-overflow-scrolling' : 'touch'
+        });
+      }
       $(this.el).addClass('disabled');
 
       return this;
@@ -119,7 +124,7 @@
       // if either the offset or scroll height has changed
       if(this._visibleHeight !== visibleHeight || this._totalHeight !== totalHeight) {
         this._disabled = totalHeight <= visibleHeight + 2;
-        $(this.el).toggleClass('disabled', this._disabled);
+        $(this.el).toggleClass('disabled', this._disabled || Backbone.UI.IS_MOBILE);
         this._visibleHeight = visibleHeight;
         this._totalHeight = totalHeight;
 

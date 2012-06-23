@@ -51,37 +51,28 @@
       $(this.scroller.el).addClass('menu_scroller');
 
       this.el.appendChild(this.scroller.el);
-      this._menuWidth = $(this.scroller.el).width() + 20;
       
       return this;
     },
 
     scrollToSelectedItem : function() {
-      if(!this._selectedAnchor) return;
-
-      var pos = $(this._selectedAnchor.parentNode).position().top - 10;
+      var pos = !this._selectedAnchor ? 0 : 
+        $(this._selectedAnchor.parentNode).position().top - 10;
       this.scroller.setScrollPosition(pos);
+    },
+
+    width : function() {
+      return $(this.scroller.el).innerWidth();
     },
 
     // Adds the given item (creating a new li element) 
     // to the given menu ul element
     _addItemToMenu : function(menu, item, select) {
-      var anchor = $.el.a({href : '#'}, 
-        $.el.span(this._labelForItem(item) || '\u00a0'));
-
-      var glyph;
-      if(this.options.altGlyph) {
-        glyph = this.resolveContent(item, this.options.altGlyph);
-        Backbone.UI.HasGlyph.insertGlyph(anchor, glyph);
-      }
-
-      if(this.options.altGlyphRight) {
-        glyph = _(item).resolveProperty(this.options.altGlyphRight);
-        Backbone.UI.HasGlyph.insertGlyphRight(anchor, glyph);
-      }
-
+      var anchor = $.el.a({href : '#'});
+      
       var liElement = $.el.li(anchor);
-
+      $.el.span(this._labelForItem(item) || '\u00a0').appendTo(anchor);
+      
       var clickFunction = _.bind(function(e, silent) {
         if(!!this._selectedAnchor) $(this._selectedAnchor).removeClass('selected');
 
@@ -102,7 +93,7 @@
 
     _labelForItem : function(item) {
       return !_(item).exists() ? this.options.placeholder : 
-        _(item).resolveProperty(this.options.altLabelContent);
+        this.resolveContent(item, this.options.altLabelContent);
     }
   });
 }());

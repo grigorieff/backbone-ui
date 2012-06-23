@@ -3,6 +3,7 @@
   if(typeof Backbone === 'undefined') alert('backbone environment not loaded') ;
   if(typeof $ === 'undefined') alert('jquery environment not loaded');
 
+
   // define our Backbone.UI namespace
   Backbone.UI = Backbone.UI || {
     KEYS : {
@@ -22,8 +23,6 @@
       KEY_INSERT:   45
     },
 
-    GLYPH_DIR : '/images/glyphs',
-
     setSkin : function(skin) {
       if(!!Backbone.UI.currentSkin) {
         $(document.body).removeClass('skin_' + Backbone.UI.currentSkin);
@@ -32,7 +31,11 @@
       Backbone.UI.currentSkin = skin;
     },
 
-    noop : function(){}
+    noop : function(){},
+
+    IS_MOBILE : 
+      document.ontouchstart !== undefined || 
+      document.ontouchstart === null
   };
 
   _(Backbone.View.prototype).extend({
@@ -43,6 +46,7 @@
       var hasModelProperty = _(model).exists() && _(content).exists();
       return _(content).isFunction() ? content(model) : 
         hasModelProperty && _(model[content]).isFunction() ? model[content]() : 
+        hasModelProperty && _(_(model).resolveProperty(content)).isFunction() ? _(model).resolveProperty(content)(model) : 
         hasModelProperty ? _(model).resolveProperty(content) : content;
     },
 
@@ -278,7 +282,7 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
+      this.mixin([Backbone.UI.HasModel]);
 
       _(this).bindAll('render');
 
@@ -286,7 +290,7 @@
 
       // if we're running in a mobile environment, the 'click' event 
       // isn't quite translated correctly
-      if(document.ontouchstart !== undefined || document.ontouchstart === null) {
+      if(Backbone.UI.IS_MOBILE) {
         $(this.el).bind('touchstart', _(function(e) {
           $(this.el).addClass('active');
 
@@ -332,14 +336,7 @@
         }).appendTo(this.el);
       }
 
-      // insert label
-      $.el.span({
-        className : 'label'
-      }, labelText).appendTo(this.el);
-
-      // insert glyphs
-      this.insertGlyph(this.el, this.options.glyph);
-      this.insertGlyphRight(this.el, this.options.glyphRight);
+      this.el.appendChild($.el.span({className : 'label'}, labelText));
 
       // add appropriate class names
       this.setEnabled(!this.options.disabled);
@@ -537,6 +534,9 @@
       $(this.el).click(_(this._onClick).bind(this));
       $(this.el).attr({href : '#'});
       $(this.el).addClass('checkbox');
+      if(this.options.name){
+        $(this.el).addClass(this.options.name);
+      }
     },
 
     render : function() {
@@ -551,9 +551,11 @@
         mark.appendChild($.el.div({className : 'checkmark_fill'}));
       }
 
-      var labelText = _(this.model).resolveProperty(this.options.labelContent) || this.options.labelContent;
+      var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
       this._label = $.el.div({className : 'label'}, labelText);
-
+      $('a',this._label).click(function(e){
+        e.stopPropagation(); 
+      });
       this.el.appendChild(mark);
       this.el.appendChild(this._label);
       this.el.appendChild($.el.br({style : 'clear:both'}));
@@ -1048,15 +1050,7 @@
       // The property of the individual choice that represents the value to be stored
       // in the bound model's property.  Omit this option if you'd like the choice 
       // object itself to represent the value.
-      altValueContent : null,
-
-      // The property of the individual choice representing the glyph to be
-      // displayed to the left of the item's label
-      altGlyph : null,
-
-      // The property of the individual choice representing the glyph to be
-      // displayed to the right of the item's label
-      altGlyphRight : null
+      altValueContent : null
     },
 
     _determineSelectedItem : function() {
@@ -1109,75 +1103,6 @@
   };
 }());
 
-// A mixin for dealing with glyphs in widgets 
-(function(){
-  Backbone.UI.HasGlyph = {
-    GLYPH_SIZE : 22,
-
-    options : {
-
-      // a glyph to show to the left
-      glyph : null,
-
-      // a glyph to show to the right
-      glyphRight : null
-    },
-
-    insertGlyph : function(el, name) {
-      return this._insertGlyph(el, name, false);
-    },
-
-    insertGlyphRight : function(el, name) {
-      return this._insertGlyph(el, name, true);
-    },
-    
-    _insertGlyph : function(el, name, isRight) {
-      var hasGlyphClassName = isRight ? 'has_glyph_right' : 'has_glyph';
-      if(!name || !el) {
-        $(el).removeClass(hasGlyphClassName);
-        return null;
-      }
-      $(el).addClass(hasGlyphClassName);
-
-      var className = 'glyph ' + name + (isRight ? ' right' : '');
-      var image;
-      if(name.length === 1) {
-        var span = $.el.span({
-          className : className,
-          style : 'margin: 0 8px 0 0'
-        }, name);
-        el.insertBefore(span, isRight ? null : el.firstChild);
-      }
-
-      else {
-        image = new Image();
-        $(image).hide();
-        image.onload = function() {
-          // center the image inside a 28px square
-          var topOffset = Math.max(1, ((28 - image.height) / 2));
-          var leftOffset = Math.max(3, ((28 - image.width) / 2));
-
-          $(image).css({
-            top : topOffset + 'px', 
-            left : isRight ? 'auto' : leftOffset + 'px',
-            right : isRight ? leftOffset + 'px' : 'auto',
-            border : 'none'
-          });
-          $(image).show();
-        };
-
-        image.src = name.match(/(http:\/\/)|(https:\/\/)/) ? name : 
-          Backbone.UI.GLYPH_DIR + '/' + name + (name.indexOf('.') > 0 ? '' : '.png');
-
-        image.className = className;
-
-        el.insertBefore(image, isRight ? null : el.firstChild);
-      }
-
-      return image;
-    }
-  };
-}());
  // A mixin for those views that are model bound
 (function(){
   Backbone.UI.HasModel = {
@@ -1209,6 +1134,37 @@
 }());
 
 (function(){
+  window.Backbone.UI.Label = Backbone.View.extend({
+    options : {
+      tagName : 'span'
+    },
+
+    initialize : function() {
+      this.mixin([Backbone.UI.HasModel]);
+
+      _(this).bindAll('render');
+
+      $(this.el).addClass('label');
+
+    },
+
+    render : function() {
+      var labelText = this.resolveContent();
+
+      this._observeModel(this.render);
+
+      $(this.el).empty();
+      
+      // insert label
+      this.el.appendChild(document.createTextNode(labelText));
+
+      return this;
+    }
+    
+  });
+}());
+
+(function(){
   window.Backbone.UI.Link = Backbone.View.extend({
     options : {
       tagName : 'a',
@@ -1221,7 +1177,7 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
+      this.mixin([Backbone.UI.HasModel]);
 
       _(this).bindAll('render');
 
@@ -1241,16 +1197,10 @@
       this._observeModel(this.render);
 
       $(this.el).empty();
-
+      
       // insert label
-      $.el.span({
-        className : 'label'
-      }, labelText).appendTo(this.el);
-
-      // insert glyphs
-      this.insertGlyph(this.el, this.options.glyph);
-      this.insertGlyphRight(this.el, this.options.glyphRight);
-
+      this.el.appendChild($.el.span({className : 'label'}, labelText));
+      
       // add appropriate class names
       this.setEnabled(!this.options.disabled);
 
@@ -1411,37 +1361,28 @@
       $(this.scroller.el).addClass('menu_scroller');
 
       this.el.appendChild(this.scroller.el);
-      this._menuWidth = $(this.scroller.el).width() + 20;
       
       return this;
     },
 
     scrollToSelectedItem : function() {
-      if(!this._selectedAnchor) return;
-
-      var pos = $(this._selectedAnchor.parentNode).position().top - 10;
+      var pos = !this._selectedAnchor ? 0 : 
+        $(this._selectedAnchor.parentNode).position().top - 10;
       this.scroller.setScrollPosition(pos);
+    },
+
+    width : function() {
+      return $(this.scroller.el).innerWidth();
     },
 
     // Adds the given item (creating a new li element) 
     // to the given menu ul element
     _addItemToMenu : function(menu, item, select) {
-      var anchor = $.el.a({href : '#'}, 
-        $.el.span(this._labelForItem(item) || '\u00a0'));
-
-      var glyph;
-      if(this.options.altGlyph) {
-        glyph = this.resolveContent(item, this.options.altGlyph);
-        Backbone.UI.HasGlyph.insertGlyph(anchor, glyph);
-      }
-
-      if(this.options.altGlyphRight) {
-        glyph = _(item).resolveProperty(this.options.altGlyphRight);
-        Backbone.UI.HasGlyph.insertGlyphRight(anchor, glyph);
-      }
-
+      var anchor = $.el.a({href : '#'});
+      
       var liElement = $.el.li(anchor);
-
+      $.el.span(this._labelForItem(item) || '\u00a0').appendTo(anchor);
+      
       var clickFunction = _.bind(function(e, silent) {
         if(!!this._selectedAnchor) $(this._selectedAnchor).removeClass('selected');
 
@@ -1462,7 +1403,7 @@
 
     _labelForItem : function(item) {
       return !_(item).exists() ? this.options.placeholder : 
-        _(item).resolveProperty(this.options.altLabelContent);
+        this.resolveContent(item, this.options.altLabelContent);
     }
   });
 }());
@@ -1495,7 +1436,6 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasGlyph]);
       $(this.el).addClass('pulldown');
 
       var onChange = this.options.onChange;
@@ -1540,12 +1480,11 @@
       $(this.el).empty();
 
       var item = this._menu.selectedItem;
+      var label = this._labelForItem(item);
       this.button = new Backbone.UI.Button({
         className  : 'pulldown_button',
-        model      : {label : this._labelForItem(item)},
-        content    : 'label',
-        glyph      : _(item).resolveProperty(this.options.altGlyph),
-        glyphRight : '\u25bc',
+        model : {label : this._labelForItem(item)},
+        content : 'label',
         onClick    : _.bind(this.showMenu, this)
       }).render();
       this.el.appendChild(this.button.el);
@@ -1559,14 +1498,13 @@
 
     _labelForItem : function(item) {
       return !_(item).exists() ? this.options.placeholder : 
-        _(item).resolveProperty(this.options.altLabelContent);
+        this.resolveContent(item, this.options.altLabelContent);
     },
 
     // sets the selected item
     setSelectedItem : function(item) {
       this._setSelectedItem(item);
       this.button.options.label = this._labelForItem(item);
-      this.button.options.glyph = _(item).resolveProperty(this.options.altGlyph);
       this.button.render();
     },
 
@@ -1583,7 +1521,10 @@
       var position = (this.options.alignRight ? '-right' : '-left') + (showOnTop ? 'top' : ' bottom');
       $(this._menu.el).alignTo(anchor, position, 0, 1);
       $(this._menu.el).show();
-      $(this._menu.el).css({width : Math.max($(this.button.el).innerWidth(), this._menuWidth)});
+      
+      this._menuWidth = this._menuWidth || this._menu.width();
+      var buttonWidth = $(this.button.el).innerWidth();
+      $(this._menu.el).css({width : Math.max(this._menuWidth, buttonWidth)});
       if(this.options.onMenuShow) this.options.onMenuShow(e);
       this._menu.scrollToSelectedItem();
     },
@@ -1592,7 +1533,6 @@
       if(!!this.button) {
         $(this.el).removeClass('placeholder');
         this.button.model = {label : this._labelForItem(item)};
-        this.button.options.glyph = _(item).resolveProperty(this.options.altGlyph);
         this.button.render();
         this.hideMenu();
       }
@@ -1603,6 +1543,7 @@
       if(this.options.onMenuHide) this.options.onMenuHide();
       return true;
     }
+    
   });
 }());
 (function(){
@@ -1614,9 +1555,13 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasGlyph, Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
       _(this).bindAll('render');
+      
       $(this.el).addClass('radio_group');
+      if(this.options.name){
+        $(this.el).addClass(this.options.name);
+      }
     },
 
     // public accessors
@@ -1629,7 +1574,7 @@
       this._observeModel(this.render);
       this._observeCollection(this.render);
 
-      this.selectedItem = this._determineSelectedItem();
+      this.selectedItem = this._determineSelectedItem() || this.selectedItem;
 
       var ul = $.el.ul();
       var selectedValue = this._valueForItem(this.selectedItem);
@@ -1638,12 +1583,19 @@
         var selected = selectedValue === this._valueForItem(item);
 
         var label = this.resolveContent(item, this.options.altLabelContent);
+        if(label.nodeType === 1) {
+          $('a',label).click(function(e){
+            e.stopPropagation(); 
+          });
+        }
         
         var li = $.el.li(
           $.el.a({className : 'choice' + (selected ? ' selected' : '')},
             $.el.div({className : 'mark' + (selected ? ' selected' : '')}, 
-              selected ? '\u25cf' : ''),
-            $.el.div({className : 'label'}, label)));
+              selected ? '\u25cf' : '\u00a0')));      
+        
+        // insert label into li then add to ul
+        $.el.div({className : 'label'}, label).appendTo(li);
         ul.appendChild(li);
 
         $(li).bind('click', _.bind(this._onChange, this, item));
@@ -1722,8 +1674,13 @@
       $(this.el).bind($.browser.msie ? 'keyup' : 'keypress', 
         _.bind(this._onKeyPress, this));
 
-      // update our scroll bar on an interval to handle 
-      // resizing and content changes
+      // touch events if appropriates
+      if(Backbone.UI.IS_MOBILE) {
+        $(this._scrollContent).css({
+          overflow : 'scroll',
+          '-webkit-overflow-scrolling' : 'touch'
+        });
+      }
       $(this.el).addClass('disabled');
 
       return this;
@@ -1784,7 +1741,7 @@
       // if either the offset or scroll height has changed
       if(this._visibleHeight !== visibleHeight || this._totalHeight !== totalHeight) {
         this._disabled = totalHeight <= visibleHeight + 2;
-        $(this.el).toggleClass('disabled', this._disabled);
+        $(this.el).toggleClass('disabled', this._disabled || Backbone.UI.IS_MOBILE);
         this._visibleHeight = visibleHeight;
         this._totalHeight = totalHeight;
 
@@ -1893,17 +1850,19 @@
 
 
 
-(function(){
+(function() {
   Backbone.UI.TabSet = Backbone.View.extend({
     options : {
       // Tabs to initially add to this tab set.  Each entry may contain
       // a <code>label</code>, <code>content</code>, and <code>onActivate</code>
       // option.
-      tabs : []
+      alternatives : [],
+
+      // The index of the tab to initially select
+      selectedTab : 0
     },
 
     initialize : function() {
-      $.extend(true, this, Backbone.UI.HasGlyph);
       $(this.el).addClass('tab_set');
     }, 
 
@@ -1918,21 +1877,27 @@
       this.el.appendChild(this._tabBar);
       this.el.appendChild(this._contentContainer);
 
-      for(var i=0; i<this.options.tabs.length; i++) {
-        this.addTab(this.options.tabs[i]);
+      for(var i=0; i<this.options.alternatives.length; i++) {
+        this.addTab(this.options.alternatives[i]);
       }
 
-      this.activateTab(0);
+      if(this.options.selectedTab >= 0){
+        this.activateTab(this.options.selectedTab);
+      }
+      else{
+        $(this.el).addClass('no_selection');
+      }
 
       return this; 
     },
 
     addTab : function(tabOptions) {
       var tab = $.el.a({href : '#', className : 'tab'});
-      if(tabOptions.glyphRight) this.insertGlyph(tab, tabOptions.glyphRight);
       if(tabOptions.className) $(tab).addClass(tabOptions.className);
-      tab.appendChild(document.createTextNode(tabOptions.label || ''));
-      if(tabOptions.glyph) this.insertGlyph(tab, tabOptions.glyph);
+      
+      var label = this.resolveContent(null, tabOptions.label);
+      tab.appendChild(_(label).isString() ? document.createTextNode(label || '') : label);
+      
       this._tabBar.appendChild(tab);
       this._tabs.push(tab);
 
@@ -1954,6 +1919,9 @@
     },
 
     activateTab : function(index) {
+      
+      $(this.el).removeClass('no_selection');
+      
       // hide all content panels
       _(this._contents).each(function(content) {
         $(content).hide();
@@ -1984,7 +1952,7 @@
 (function(){
   window.Backbone.UI.TableView = Backbone.UI.CollectionView.extend({
     options : {
-      // Each column should contain a <code>label</code> property to
+      // Each column should contain a <code>title</code> property to
       // describe the column's heading, a <code>content</code> property to
       // declare which property the cell is bound to, an optional two-argument
       // <code>comparator</code> with which to sort each column if the
@@ -2033,9 +2001,6 @@
       var sortFirstColumn = false;
       var firstHeading = null;
       _(this.options.columns).each(_(function(column, index, list) {
-        if (this.options.sortable && !this._sortState.content) {
-          sortFirstColumn = true;
-        }
         var label = _(column.title).isFunction() ? column.title() : column.title;
         var width = !!column.width ? parseInt(column.width, 10) + 5 : null;
         var style = width ? 'width:' + width + 'px; max-width:' + width + 'px; ' : '';
@@ -2178,8 +2143,12 @@
     textArea : null,
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasGlyph, Backbone.UI.HasModel]);
+      this.mixin([Backbone.UI.HasModel]);
+      
       $(this.el).addClass('text_area');
+      if(this.options.name){
+        $(this.el).addClass(this.options.name);
+      }
     },
 
     render : function() {
@@ -2201,9 +2170,7 @@
         content = this._scroller.el;
       }
 
-      this.insertGlyphRight(this.el, this.options.glyphRight);
       this.el.appendChild(content);
-      this.insertGlyph(this.el, this.options.glyph);
 
       this.setEnabled(!this.options.disabled);
 
@@ -2266,15 +2233,18 @@
     input : null,
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasGlyph, Backbone.UI.HasModel]);
+      this.mixin([Backbone.UI.HasModel]);
       _(this).bindAll('_refreshValue');
-
+    
       $(this.el).addClass('text_field');
+      if(this.options.name){
+        $(this.el).addClass(this.options.name);
+      }
 
       this.input = $.el.input({maxLength : this.options.maxLength});
 
       $(this.input).keyup(_.bind(function(e) {
-        _.defer(_(this._updateModel).bind(this));
+        this._updateModel();
         if(_(this.options.onKeyPress).exists() && _(this.options.onKeyPress).isFunction()) {
           this.options.onKeyPress(e, this);
         }
@@ -2297,9 +2267,8 @@
         placeholder : this.options.placeholder,
         value : value});
 
-      this.insertGlyphRight(this.el, this.options.glyphRight);
+      // insert text_wrapper
       this.el.appendChild($.el.div({className : 'input_wrapper'}, this.input));
-      this.insertGlyph(this.el, this.options.glyph);
 
       this.setEnabled(!this.options.disabled);
 
@@ -2349,7 +2318,10 @@
       interval : 30,
 
       // the name given to the text field's input element
-      name : null
+      name : null,
+      
+      // text field is disabled or enabled
+      disabled : false
     },
 
     initialize : function() {
@@ -2379,7 +2351,8 @@
       $(this.el).empty();
 
       this._textField = new Backbone.UI.TextField({
-        name : this.options.name 
+        name : this.options.name,
+        disabled : this.options.disabled 
       }).render();
       $(this._textField.input).click(_(this._showMenu).bind(this));
       $(this._textField.input).keyup(_(this._timeEdited).bind(this));
@@ -2416,6 +2389,7 @@
     },
 
     setEnabled : function(enabled) {
+      this.options.disabled = !enabled;
       this._textField.setEnabled(enabled);
     },
 

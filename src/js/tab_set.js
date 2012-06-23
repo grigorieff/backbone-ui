@@ -1,14 +1,16 @@
-(function(){
+(function() {
   Backbone.UI.TabSet = Backbone.View.extend({
     options : {
       // Tabs to initially add to this tab set.  Each entry may contain
       // a <code>label</code>, <code>content</code>, and <code>onActivate</code>
       // option.
-      tabs : []
+      alternatives : [],
+
+      // The index of the tab to initially select
+      selectedTab : 0
     },
 
     initialize : function() {
-      $.extend(true, this, Backbone.UI.HasGlyph);
       $(this.el).addClass('tab_set');
     }, 
 
@@ -23,21 +25,27 @@
       this.el.appendChild(this._tabBar);
       this.el.appendChild(this._contentContainer);
 
-      for(var i=0; i<this.options.tabs.length; i++) {
-        this.addTab(this.options.tabs[i]);
+      for(var i=0; i<this.options.alternatives.length; i++) {
+        this.addTab(this.options.alternatives[i]);
       }
 
-      this.activateTab(0);
+      if(this.options.selectedTab >= 0){
+        this.activateTab(this.options.selectedTab);
+      }
+      else{
+        $(this.el).addClass('no_selection');
+      }
 
       return this; 
     },
 
     addTab : function(tabOptions) {
       var tab = $.el.a({href : '#', className : 'tab'});
-      if(tabOptions.glyphRight) this.insertGlyph(tab, tabOptions.glyphRight);
       if(tabOptions.className) $(tab).addClass(tabOptions.className);
-      tab.appendChild(document.createTextNode(tabOptions.label || ''));
-      if(tabOptions.glyph) this.insertGlyph(tab, tabOptions.glyph);
+      
+      var label = this.resolveContent(null, tabOptions.label);
+      tab.appendChild(_(label).isString() ? document.createTextNode(label || '') : label);
+      
       this._tabBar.appendChild(tab);
       this._tabs.push(tab);
 
@@ -59,6 +67,9 @@
     },
 
     activateTab : function(index) {
+      
+      $(this.el).removeClass('no_selection');
+      
       // hide all content panels
       _(this._contents).each(function(content) {
         $(content).hide();

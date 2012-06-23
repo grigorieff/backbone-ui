@@ -25,15 +25,18 @@
     input : null,
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasGlyph, Backbone.UI.HasModel]);
+      this.mixin([Backbone.UI.HasModel]);
       _(this).bindAll('_refreshValue');
-
+    
       $(this.el).addClass('text_field');
+      if(this.options.name){
+        $(this.el).addClass(this.options.name);
+      }
 
       this.input = $.el.input({maxLength : this.options.maxLength});
 
       $(this.input).keyup(_.bind(function(e) {
-        _.defer(_(this._updateModel).bind(this));
+        this._updateModel();
         if(_(this.options.onKeyPress).exists() && _(this.options.onKeyPress).isFunction()) {
           this.options.onKeyPress(e, this);
         }
@@ -56,9 +59,8 @@
         placeholder : this.options.placeholder,
         value : value});
 
-      this.insertGlyphRight(this.el, this.options.glyphRight);
+      // insert text_wrapper
       this.el.appendChild($.el.div({className : 'input_wrapper'}, this.input));
-      this.insertGlyph(this.el, this.options.glyph);
 
       this.setEnabled(!this.options.disabled);
 

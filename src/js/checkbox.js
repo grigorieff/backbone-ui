@@ -19,6 +19,9 @@
       $(this.el).click(_(this._onClick).bind(this));
       $(this.el).attr({href : '#'});
       $(this.el).addClass('checkbox');
+      if(this.options.name){
+        $(this.el).addClass(this.options.name);
+      }
     },
 
     render : function() {
@@ -33,9 +36,11 @@
         mark.appendChild($.el.div({className : 'checkmark_fill'}));
       }
 
-      var labelText = _(this.model).resolveProperty(this.options.labelContent) || this.options.labelContent;
+      var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
       this._label = $.el.div({className : 'label'}, labelText);
-
+      $('a',this._label).click(function(e){
+        e.stopPropagation(); 
+      });
       this.el.appendChild(mark);
       this.el.appendChild(this._label);
       this.el.appendChild($.el.br({style : 'clear:both'}));
