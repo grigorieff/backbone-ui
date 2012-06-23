@@ -104,10 +104,6 @@ task :doc  => [:build] do
       end
     end
 
-    if js.match(/Backbone\.UI\.HasGlyph/) and !filename.match(/has_glyph\.js$/) and filename.index('model_with_collection')
-      options.merge!(collect_option_comments('src/js/has_glyph.js'))
-    end
-
     options
   end
 
@@ -154,7 +150,6 @@ task :doc  => [:build] do
   src.gsub!('<!-- MODEL_BOUND_WITH_COLLECTION -->', build_components('doc/src/widgets/model_with_collection'))
   src.gsub!('<!-- COLLECTION_BOUND -->', build_components('doc/src/widgets/collection'))
   src.gsub!('<!-- NON_BOUND -->', build_components('doc/src/widgets/non_bound'))
-  src.gsub!('<!-- GLYPHS -->', build_components('doc/src/widgets/glyphs'))
 
   src.gsub!('<!-- SOURCE_SIZE -->', "#{File.size('dist/backbone-ui.tar')/1000}kb");
   src.gsub!('<!-- COMPRESSED_SIZE -->', "#{File.size('dist/backbone-ui-min.tar.gz')/1000}kb");
@@ -175,12 +170,5 @@ end
 desc "pushing docs to gh-pages"
 task :push_doc => [:doc] do
   puts "pushing docs to gh-pages"
-
-  `cp -r doc/dist /tmp/docs`
-  `git checkout gh-pages`
-  `git pull origin gh-pages`
-  `rm -rf *`
-  `cp -r /tmp/docs/* .`
-  `git add . && git commit -a -m "updating docs" && git push origin gh-pages`
-  `git checkout master`
+  `cp -r doc/dist /tmp/docs && git checkout gh-pages && git pull origin gh-pages && rm -rf * && cp -r /tmp/docs/* . && git add . && git commit -m "updating docs" && git push origin gh-pages && git checkout master`
 end

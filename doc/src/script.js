@@ -31,8 +31,6 @@ window.addExample = function(container, func) {
 };
 
 $(window).load(function() {
-  Backbone.UI.GLYPH_DIR = 'images/glyphs';
-
   // setup sample data
   setTimeout(prettyPrint, 0);
 
@@ -103,7 +101,7 @@ $(window).load(function() {
 
         // add a link to remove this task from the list
         this.el.appendChild(new Backbone.UI.Link({
-          glyph : 'delete',
+          content : 'delete',
           onClick : _(tasks.remove).bind(tasks, this.model)
         }).render().el);
 
