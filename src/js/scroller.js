@@ -63,8 +63,8 @@
           overflow : 'scroll',
           '-webkit-overflow-scrolling' : 'touch'
         });
-        $(this.el).addClass('disabled');
       }
+      $(this.el).addClass('disabled');
 
       return this;
     },

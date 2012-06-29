@@ -9,7 +9,6 @@
 
     initialize : function() {
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
-      
 
       _(this).bindAll('render');
 

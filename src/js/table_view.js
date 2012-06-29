@@ -1,7 +1,7 @@
 (function(){
   window.Backbone.UI.TableView = Backbone.UI.CollectionView.extend({
     options : {
-      // Each column should contain a <code>label</code> property to
+      // Each column should contain a <code>title</code> property to
       // describe the column's heading, a <code>content</code> property to
       // declare which property the cell is bound to, an optional two-argument
       // <code>comparator</code> with which to sort each column if the
@@ -50,9 +50,6 @@
       var sortFirstColumn = false;
       var firstHeading = null;
       _(this.options.columns).each(_(function(column, index, list) {
-        if (this.options.sortable && !this._sortState.content) {
-          sortFirstColumn = true;
-        }
         var label = _(column.title).isFunction() ? column.title() : column.title;
         var width = !!column.width ? parseInt(column.width, 10) + 5 : null;
         var style = width ? 'width:' + width + 'px; max-width:' + width + 'px; ' : '';

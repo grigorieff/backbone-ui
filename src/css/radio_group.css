@@ -46,6 +46,7 @@
 .radio_group .label {
   line-height:22px;
   color:#222;
+  cursor:pointer;
 }
 
 .radio_group .mark,

@@ -113,9 +113,9 @@
       $(this._menu.el).alignTo(anchor, position, 0, 1);
       $(this._menu.el).show();
       
-      var menuWidth = this._menu.width();
+      this._menuWidth = this._menuWidth || this._menu.width();
       var buttonWidth = $(this.button.el).innerWidth();
-      $(this._menu.el).css({width : Math.max(menuWidth, buttonWidth)});
+      $(this._menu.el).css({width : Math.max(this._menuWidth, buttonWidth)});
       if(this.options.onMenuShow) this.options.onMenuShow(e);
       this._menu.scrollToSelectedItem();
     },

@@ -180,6 +180,10 @@ section .options li {
   overflow:hidden;
 }
 
+#task_list_result li {
+  clear:both;
+}
+
 #task_list_result .link {
   line-height:30px;
   float:right;

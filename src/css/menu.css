@@ -43,6 +43,10 @@
   vertical-align:middle;
 }
 
+.menu li a span {
+  padding:0 2px;
+}
+
 .menu li a:hover span,
 .menu li a:link span,
 .menu li a:active span,
