@@ -37,6 +37,8 @@
         tabIndex : this.options.tabIndex, 
         placeholder : this.options.placeholder}, value);
 
+      this._observeModel(_(this._refreshValue).bind(this));
+
       var content = this.textArea;
       if(this.options.enableScrolling) {
         this._scroller = new Backbone.UI.Scroller({
@@ -49,7 +51,7 @@
 
       this.setEnabled(!this.options.disabled);
 
-      $(this.textArea).keyup(_.bind(function() {
+      $(this.textArea).input(_.bind(function() {
         _.defer(_(this._updateModel).bind(this));
       }, this));
 
@@ -78,6 +80,13 @@
 
     _updateModel : function() {
       _(this.model).setProperty(this.options.content, this.textArea.value);
+    },
+
+    _refreshValue : function() {
+      var newValue = this.resolveContent();
+      if(this.textArea && this.textArea.value !== newValue) {
+        this.textArea.value = _(newValue).exists() ? newValue : null;
+      }
     }
   });
 }());
