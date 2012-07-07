@@ -28,6 +28,7 @@
 
     initialize : function() {
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
+      _(this).bindAll('render');
 
       $(this.el).addClass('pulldown');
 
@@ -48,22 +49,6 @@
       });
       $(this._menu.el).hide();
       document.body.appendChild(this._menu.el);
-
-      // observe model changes
-      if(_(this.model).exists() && _(this.model.bind).isFunction()) {
-        this.model.unbind('change', _(this.render).bind(this));
-        
-        // observe model changes
-        if(_(this.options.content).exists()) {
-          this.model.bind('change:' + this.options.content, _(this.render).bind(this));
-        }
-      }
-
-      // observe collection changes
-      if(_(this.options.alternatives).exists() && _(this.options.alternatives.bind).isFunction()) {
-        this.options.alternatives.unbind('all', _(this.render).bind(this));
-        this.options.alternatives.bind('all', _(this.render).bind(this));
-      }
     },
 
     // public accessors 
@@ -71,6 +56,9 @@
 
     render : function() {
       $(this.el).empty();
+
+      this._observeModel(this.render);
+      this._observeCollection(this.render);
 
       var item = this._menu.selectedItem;
       var label = this._labelForItem(item);
