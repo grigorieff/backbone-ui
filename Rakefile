@@ -164,8 +164,9 @@ task :doc  => [:build] do
   `cp doc/src/script.js doc/dist/script.js`
   `cp -r doc/lib doc/dist/`
   `cp -r doc/src/images doc/dist/`
-  `cp -r doc/src/themes doc/dist/`
+  `cp -r doc/src/skins doc/dist/`
   `cp doc/src/test.html doc/dist/`
+  `cd doc/dist/skins && tar -zcvf perka.tgz perka`
 end
 
 desc "pushing docs to gh-pages"

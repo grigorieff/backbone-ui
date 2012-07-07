@@ -15,7 +15,7 @@
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="lib/prettify.css">
-    <link rel="stylesheet" href="themes/perka/perka.css">
+    <link rel="stylesheet" href="skins/perka/perka.css">
   </head>
 
   <body>
@@ -56,7 +56,8 @@
         <h1>Dependencies</h1>
 
         <p>Backbone UI depends on <a href='http://documentcloud.github.com/backbone/'>Backbone</a>,
-          <a href='http://jquery.com/'>jQuery</a>, and <a href='http://joestelmach.github.com/laconic/'>Laconic</a>.
+          <a href='http://jquery.com/'>jQuery</a> (or <a href='http://zeptojs.com/'>Zepto</a>), 
+          and <a href='http://joestelmach.github.com/laconic/'>Laconic</a>.
           If you'd like to use the calendar or date picker components, than you'll
           also need a copy of <a href='http://momentjs.com/'>moment.js</a>.
         <p>
@@ -146,6 +147,17 @@
       <div class="components">
         <!-- NON_BOUND -->
       </div>
+    </section>
+
+    <section>
+      <h1>UI Skinning</h1>
+      <p>
+        Skinning of UI components should be done using CSS and image resources.  The default skin is fully functional without any image resources, however; this documentation uses an <a href='./skins/perka.tgz'>example skin</a> as a reference for building your own.  The following will enable this skin:
+
+        <div class="code"><pre class="prettyprint">Backbone.UI.setSkin('perka');</pre></div>
+
+      <p>
+
     </section>
 
     <section>
