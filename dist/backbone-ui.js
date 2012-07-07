@@ -1133,6 +1133,132 @@
   };
 }());
 
+/*
+    jQuery `input` special event v1.2
+    http://whattheheadsaid.com/projects/input-special-event
+
+    (c) 2010-2011 Andy Earnshaw
+    forked by dodo (https://github.com/dodo)
+    MIT license
+    www.opensource.org/licenses/mit-license.php
+*/
+(function($, udf) {
+    var ns = ".inputEvent ",
+        // A bunch of data strings that we use regularly
+        dataBnd = "bound.inputEvent",
+        dataVal = "value.inputEvent",
+        dataDlg = "delegated.inputEvent",
+        // Set up our list of events
+        bindTo = [
+            "input", "textInput",
+            "propertychange",
+            "paste", "cut",
+            "keydown", "keyup",
+            "drop",
+        ""].join(ns),
+        // Events required for delegate, mostly for IE support
+        dlgtTo = [ "focusin", "mouseover", "dragstart", "" ].join(ns),
+        // Elements supporting text input, not including contentEditable
+        supported = {TEXTAREA:udf, INPUT:udf},
+        // Events that fire before input value is updated
+        delay = { paste:udf, cut:udf, keydown:udf, drop:udf, textInput:udf };
+
+    // this checks if the tag is supported or has the contentEditable property
+    function isSupported(elem) {
+        return $(elem).prop('contenteditable') == "true" ||
+                 elem.tagName in supported;
+    };
+
+    $.event.special.txtinput = {
+        setup: function(data, namespaces, handler) {
+            var timer,
+                bndCount,
+                // Get references to the element
+                elem  = this,
+                $elem = $(this),
+                triggered = false;
+
+            if (isSupported(elem)) {
+                bndCount = $.data(elem, dataBnd) || 0;
+
+                if (!bndCount)
+                    $elem.bind(bindTo, handler);
+
+                $.data(elem, dataBnd, ++bndCount);
+                $.data(elem, dataVal, elem.value);
+            } else {
+                $elem.bind(dlgtTo, function (e) {
+                    var target = e.target;
+                    if (isSupported(target) && !$.data(elem, dataDlg)) {
+                        bndCount = $.data(target, dataBnd) || 0;
+
+                        if (!bndCount)
+                            $(target).bind(bindTo, handler);
+
+                        // make sure we increase the count only once for each bound ancestor
+                        $.data(elem, dataDlg, true);
+                        $.data(target, dataBnd, ++bndCount);
+                        $.data(target, dataVal, target.value);
+                    }
+                });
+            }
+            function handler (e) {
+                var elem = e.target;
+
+                // Clear previous timers because we only need to know about 1 change
+                window.clearTimeout(timer), timer = null;
+
+                // Return if we've already triggered the event
+                if (triggered)
+                    return;
+
+                // paste, cut, keydown and drop all fire before the value is updated
+                if (e.type in delay && !timer) {
+                    // ...so we need to delay them until after the event has fired
+                    timer = window.setTimeout(function () {
+                        if (elem.value !== $.data(elem, dataVal)) {
+                            $(elem).trigger("txtinput");
+                            $.data(elem, dataVal, elem.value);
+                        }
+                    }, 0);
+                }
+                else if (e.type == "propertychange") {
+                    if (e.originalEvent.propertyName == "value") {
+                        $(elem).trigger("txtinput");
+                        $.data(elem, dataVal, elem.value);
+                        triggered = true;
+                        window.setTimeout(function () {
+                            triggered = false;
+                        }, 0);
+                    }
+                }
+                else {
+                    $(elem).trigger("txtinput");
+                    $.data(elem, dataVal, elem.value);
+                    triggered = true;
+                    window.setTimeout(function () {
+                        triggered = false;
+                    }, 0);
+                }
+            }
+        },
+        teardown: function () {
+            var elem = $(this);
+            elem.unbind(dlgtTo);
+            elem.find("input, textarea").andSelf().each(function () {
+                bndCount = $.data(this, dataBnd, ($.data(this, dataBnd) || 1)-1);
+
+                if (!bndCount)
+                    elem.unbind(bindTo);
+            });
+        }
+    };
+
+    // Setup our jQuery shorthand method
+    $.fn.input = function (handler) {
+        return handler ? $(this).bind("txtinput", handler) : this.trigger("txtinput");
+    }
+})(jQuery);
 (function(){
   window.Backbone.UI.Label = Backbone.View.extend({
     options : {
@@ -1436,6 +1562,9 @@
     },
 
     initialize : function() {
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
+      _(this).bindAll('render');
+
       $(this.el).addClass('pulldown');
 
       var onChange = this.options.onChange;
@@ -1455,22 +1584,6 @@
       });
       $(this._menu.el).hide();
       document.body.appendChild(this._menu.el);
-
-      // observe model changes
-      if(_(this.model).exists() && _(this.model.bind).isFunction()) {
-        this.model.unbind('change', _(this.render).bind(this));
-        
-        // observe model changes
-        if(_(this.options.content).exists()) {
-          this.model.bind('change:' + this.options.content, _(this.render).bind(this));
-        }
-      }
-
-      // observe collection changes
-      if(_(this.options.alternatives).exists() && _(this.options.alternatives.bind).isFunction()) {
-        this.options.alternatives.unbind('all', _(this.render).bind(this));
-        this.options.alternatives.bind('all', _(this.render).bind(this));
-      }
     },
 
     // public accessors 
@@ -1478,6 +1591,9 @@
 
     render : function() {
       $(this.el).empty();
+
+      this._observeModel(this.render);
+      this._observeCollection(this.render);
 
       var item = this._menu.selectedItem;
       var label = this._labelForItem(item);
@@ -1671,8 +1787,6 @@
       $(this._knob).bind('mousedown', _.bind(this._onKnobMouseDown, this));
       $(this._tray).bind('click', _.bind(this._onTrayClick, this));
       $(this.el).bind('mousewheel', _.bind(this._onMouseWheel, this));
-      $(this.el).bind($.browser.msie ? 'keyup' : 'keypress', 
-        _.bind(this._onKeyPress, this));
 
       // touch events if appropriates
       if(Backbone.UI.IS_MOBILE) {
@@ -1817,34 +1931,8 @@
         e.preventDefault();
         return false;
       }
-    },
-
-    _onKeyPress : function(e) {
-      switch (e.keyCode) {
-        case Backbone.UI.KEYS.KEY_DOWN:
-          this.scrollBy(this.options.scrollAmount); 
-          break;
-        case Backbone.UI.KEYS.KEY_UP:
-          this.scrollBy(-this.options.scrollAmount); 
-          break;
-        case Backbone.UI.KEYS.KEY_PAGEDOWN:
-          this.scrollBy(this.options.scrollAmount); 
-          break;
-        case Backbone.UI.KEYS.KEY_PAGEUP:
-          this.scrollBy(-this.options.scrollAmount); 
-          break;
-        case Backbone.UI.KEYS.KEY_HOME:
-          this.setScrollRatio(0); 
-          break;
-        case Backbone.UI.KEYS.KEY_END:
-          this.setScrollRatio(1); 
-          break;
-        default:
-          return;
-      }
-      e.stopPropagation();
-      e.preventDefault();
     }
+
   });
 }());
 
@@ -1945,6 +2033,12 @@
       $(this._contents[index]).show();
 
       this._callbacks[index]();
+    },
+    
+    // returns the index of the selectedTab
+    // or -1 if no tab is selected
+    getActiveTab : function(){
+      return _(this._tabs).indexOf(_(this._tabs).find(function(tab){ return $(tab).hasClass('selected') }));
     }
   });
 }());
@@ -2162,6 +2256,8 @@
         tabIndex : this.options.tabIndex, 
         placeholder : this.options.placeholder}, value);
 
+      this._observeModel(_(this._refreshValue).bind(this));
+
       var content = this.textArea;
       if(this.options.enableScrolling) {
         this._scroller = new Backbone.UI.Scroller({
@@ -2174,7 +2270,7 @@
 
       this.setEnabled(!this.options.disabled);
 
-      $(this.textArea).keyup(_.bind(function() {
+      $(this.textArea).input(_.bind(function() {
         _.defer(_(this._updateModel).bind(this));
       }, this));
 
@@ -2203,6 +2299,13 @@
 
     _updateModel : function() {
       _(this.model).setProperty(this.options.content, this.textArea.value);
+    },
+
+    _refreshValue : function() {
+      var newValue = this.resolveContent();
+      if(this.textArea && this.textArea.value !== newValue) {
+        this.textArea.value = _(newValue).exists() ? newValue : null;
+      }
     }
   });
 }());
@@ -2243,12 +2346,13 @@
 
       this.input = $.el.input({maxLength : this.options.maxLength});
 
-      $(this.input).keyup(_.bind(function(e) {
-        this._updateModel();
+      $(this.input).keyup(_(function(e) {
         if(_(this.options.onKeyPress).exists() && _(this.options.onKeyPress).isFunction()) {
           this.options.onKeyPress(e, this);
         }
-      }, this));
+      }).bind(this));
+
+      $(this.input).input(_(this._updateModel).bind(this));
 
       this._observeModel(this._refreshValue);
     },

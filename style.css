@@ -1,7 +1,7 @@
 body {
   padding:120px 0 0 40px;
   font-family:Georgia, serif;
-  font-size:14px;
+  font-size:15px;
 }
 
 section {
@@ -87,7 +87,7 @@ a {
 }
 
 .components .result {
-  width:240px;
+  width:238px;
 }
 
 .components .code {
@@ -178,6 +178,10 @@ section .options li {
 #task_list_result .checkbox {
   max-width:240px;
   overflow:hidden;
+}
+
+#task_list_result li {
+  clear:both;
 }
 
 #task_list_result .link {

@@ -21,6 +21,7 @@
 <script src='./src/js/drag_session.js' type='text/javascript'></script>
 <script src='./src/js/has_alternative_property.js' type='text/javascript'></script>
 <script src='./src/js/has_model.js' type='text/javascript'></script>
+<script src='./src/js/input_event.js' type='text/javascript'></script>
 <script src='./src/js/label.js' type='text/javascript'></script>
 <script src='./src/js/link.js' type='text/javascript'></script>
 <script src='./src/js/list.js' type='text/javascript'></script>
@@ -57,6 +58,7 @@
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="lib/prettify.css">
+    <link rel="stylesheet" href="skins/perka/perka.css">
   </head>
 
   <body>
@@ -65,7 +67,7 @@
         <h1>Backbone UI</h1>
         <div class="download">
           <a href="dist/backbone-ui-min.tar.gz">&darr; Compressed<span class="kb"> (11kb)</span></a>
-          <a href="dist/backbone-ui.tar.gz">&darr; Source <span class="kb"> (86kb)</span></a>
+          <a href="dist/backbone-ui.tar.gz">&darr; Source <span class="kb"> (90kb)</span></a>
         </div>
       </div>
     </div>
@@ -97,7 +99,8 @@
         <h1>Dependencies</h1>
 
         <p>Backbone UI depends on <a href='http://documentcloud.github.com/backbone/'>Backbone</a>,
-          <a href='http://jquery.com/'>jQuery</a>, and <a href='http://joestelmach.github.com/laconic/'>Laconic</a>.
+          <a href='http://jquery.com/'>jQuery</a> (or <a href='http://zeptojs.com/'>Zepto</a>), 
+          and <a href='http://joestelmach.github.com/laconic/'>Laconic</a>.
           If you'd like to use the calendar or date picker components, than you'll
           also need a copy of <a href='http://momentjs.com/'>moment.js</a>.
         <p>
@@ -276,7 +279,7 @@
     });
   </script>
 
-  <div class='options'><h2>Options</h2><ul><li><div class='key'>type</div><div class='value'> The type of input (text, password, number, email, etc.)</div></li><li><div class='key'>disabled</div><div class='value'> disables the input text</div></li><li><div class='key'>onKeyPress</div><div class='value'> a callback to invoke when a key is pressed within the text field</div></li><li><div class='key'>maxLength</div><div class='value'> if given, the text field will limit it's character count</div></li><li><div class='key'>tabIndex</div><div class='value'> the tab index to set on the underlying input field</div></li><li><div class='key'>name</div><div class='value'> the value to use for both the name and id attribute  of the underlying input element</div></li></ul></div>
+  <div class='options'><h2>Options</h2><ul><li><div class='key'>type</div><div class='value'> The type of input (text, password, number, email, etc.)</div></li><li><div class='key'>disabled</div><div class='value'> disables the input text</div></li><li><div class='key'>onKeyPress</div><div class='value'> a callback to invoke when a key is pressed within the text field</div></li><li><div class='key'>tabIndex</div><div class='value'> the tab index to set on the underlying input field</div></li><li><div class='key'>name</div><div class='value'> the value to use for both the name and id attribute  of the underlying input element</div></li><li><div class='key'>maxLength</div><div class='value'> if given, the text field will limit it's character count</div></li></ul></div>
 </section>
 
 <section id="time_picker" class="example">
@@ -498,6 +501,17 @@
 </section>
 
       </div>
+    </section>
+
+    <section>
+      <h1>UI Skinning</h1>
+      <p>
+        Skinning of UI components should be done using CSS and image resources.  The default skin is fully functional without any image resources, however; this documentation uses an <a href='./skins/perka.tgz'>example skin</a> as a reference for building your own.  The following will enable this skin:
+
+        <div class="code"><pre class="prettyprint">Backbone.UI.setSkin('perka');</pre></div>
+
+      <p>
+
     </section>
 
     <section>

@@ -54,8 +54,6 @@
       $(this._knob).bind('mousedown', _.bind(this._onKnobMouseDown, this));
       $(this._tray).bind('click', _.bind(this._onTrayClick, this));
       $(this.el).bind('mousewheel', _.bind(this._onMouseWheel, this));
-      $(this.el).bind($.browser.msie ? 'keyup' : 'keypress', 
-        _.bind(this._onKeyPress, this));
 
       // touch events if appropriates
       if(Backbone.UI.IS_MOBILE) {
@@ -200,34 +198,8 @@
         e.preventDefault();
         return false;
       }
-    },
-
-    _onKeyPress : function(e) {
-      switch (e.keyCode) {
-        case Backbone.UI.KEYS.KEY_DOWN:
-          this.scrollBy(this.options.scrollAmount); 
-          break;
-        case Backbone.UI.KEYS.KEY_UP:
-          this.scrollBy(-this.options.scrollAmount); 
-          break;
-        case Backbone.UI.KEYS.KEY_PAGEDOWN:
-          this.scrollBy(this.options.scrollAmount); 
-          break;
-        case Backbone.UI.KEYS.KEY_PAGEUP:
-          this.scrollBy(-this.options.scrollAmount); 
-          break;
-        case Backbone.UI.KEYS.KEY_HOME:
-          this.setScrollRatio(0); 
-          break;
-        case Backbone.UI.KEYS.KEY_END:
-          this.setScrollRatio(1); 
-          break;
-        default:
-          return;
-      }
-      e.stopPropagation();
-      e.preventDefault();
     }
+
   });
 }());
 

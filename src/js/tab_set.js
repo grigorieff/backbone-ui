@@ -93,6 +93,12 @@
       $(this._contents[index]).show();
 
       this._callbacks[index]();
+    },
+    
+    // returns the index of the selectedTab
+    // or -1 if no tab is selected
+    getActiveTab : function(){
+      return _(this._tabs).indexOf(_(this._tabs).find(function(tab){ return $(tab).hasClass('selected') }));
     }
   });
 }());
