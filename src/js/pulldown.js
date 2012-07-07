@@ -27,6 +27,8 @@
     },
 
     initialize : function() {
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
+
       $(this.el).addClass('pulldown');
 
       var onChange = this.options.onChange;
