@@ -73,7 +73,7 @@
       var item = this._menu.selectedItem;
       var label = this._labelForItem(item);
       this.button = new Backbone.UI.Button({
-        className  : 'pulldown_button',
+        className  : item ? 'pulldown_button' : 'pulldown_button placeholder',
         model : {label : this._labelForItem(item)},
         content : 'label',
         onClick    : _.bind(this.showMenu, this)
