@@ -33,6 +33,7 @@
 <script src='../src/js/text_area.js' type='text/javascript'></script>
 <script src='../src/js/text_field.js' type='text/javascript'></script>
 <script src='../src/js/time_picker.js' type='text/javascript'></script>
+<script src='../src/js/input_event.js' type='text/javascript'></script>
     
 <link rel='stylesheet' type='text/css' href='../src/css/button.css'>
 <link rel='stylesheet' type='text/css' href='../src/css/calendar.css'>
@@ -73,113 +74,30 @@
 
   <body>
     <script type="text/javascript">
-    window.onload = function() {
-        
-        var leftCol = $.el.div({'className':'left-column'});
-        var rightCol = $.el.div({'className':'right-column'});
-        
-        document.body.appendChild(leftCol);
-        document.body.appendChild(rightCol);        
+      window.onload = function() {
+        var model = {}
+        t = new Backbone.UI.TextField({
+          model : model,
+          name : 'email',
+          content : 'foo'
+        }).render();
+        document.body.appendChild(t.el);
+
+        ta = new Backbone.UI.TextArea({
+          model : model,
+          name : 'email',
+          content : 'bar'
+        }).render();
+        document.body.appendChild(ta.el);
+
+
+
+        setInterval(function() {
+          console.log(model.bar);
+        }, 50);
 
         
-        var book = new Backbone.Model({'title': 'War and Peace'});
-        
-        //test label
-        var label = new Backbone.UI.Label({
-          model: book,
-          content: 'title'
-        }).render();
-        leftCol.appendChild(label.el);
-        
-        //test button
-        var button = new Backbone.UI.Button({
-          model: book,
-          content: 'title',
-          onClick: function(){
-            book.set({'title': 'Sense and Sensability'});
-          }
-        }).render();
-        leftCol.appendChild($.el.div({'className':'clear'}));
-        leftCol.appendChild(button.el);
-      
-        //test link
-        var linkLeft = new Backbone.UI.Link({
-          model: book,
-          content: 'title'
-        }).render();
-        leftCol.appendChild($.el.div({'className':'clear'}));
-        leftCol.appendChild(linkLeft.el);
-        
-        
-        //test textfield
-        var textLeft = new Backbone.UI.TextField({
-          model: book,
-          content: 'title'
-        }).render();
-        leftCol.appendChild($.el.div({'className':'clear'}));
-        leftCol.appendChild(textLeft.el);
-        
-        
-        //test textarea
-        var textAreaLeft = new Backbone.UI.TextArea({
-          model: book,
-          content: 'title'
-        }).render();
-        leftCol.appendChild($.el.div({'className':'clear'}));
-        leftCol.appendChild(textAreaLeft.el);
-        
-        //test pulldown model
-        window.modelWithGlyph = {};
-        
-        var ops = [
-          {val: 'save', label: 'Save', glyph: 'disk'},
-          {val: 'edit', label: 'Edit', glyph: 'pencil'},
-          {val: 'delete', label: 'Delete', glyph: 'delete'},
-          {val: 'change', label: 'Change', glyph: 'lightbulb'},
-          {val: 'load', label: 'Load', glyph: 'disk'},
-          {val: 'write', label: 'Write', glyph: 'pencil'},
-          {val: 'remove', label: 'Remove', glyph: 'delete'},
-          {val: 'on', label: 'Turn On', glyph: 'lightbulb'}
-        ];
-        
-        //test pulldown
-        var pulldownLeft = new Backbone.UI.Pulldown({
-          model: window.modelWithGlyph,
-          content: 'op',
-          alternatives: ops,
-          altLabelContent: 'label',
-          altValueContent: 'val'
-        }).render();
-        $(pulldownLeft.button.el).css({width : '200px'});
-        leftCol.appendChild($.el.div({'className':'clear'}));
-        leftCol.appendChild(pulldownLeft.el);
-        
-        //test radiogroup
-        var groupLeft = new Backbone.UI.RadioGroup({
-          model: window.modelWithGlyph,
-          content: 'op',
-          alternatives: ops,
-          altLabelContent: 'label',
-          altValueContent: 'val'
-        }).render();
-        leftCol.appendChild($.el.div({'className':'clear'}));
-        leftCol.appendChild(groupLeft.el);
-      
-        var testTabs = [
-          {label: 'One', 'content': 'This is tab one.', 'glyph': 'disk'},
-          {label: 'Two', 'content': 'This is tab two.', 'glyph': 'pencil'},
-          {label: 'Three', 'content': 'This is tab three.', 'glyph': 'delete', 'glyphRight' : 'disk'}                    
-        ];
-      
-        //test tabset
-        var setLeft = new Backbone.UI.TabSet({
-          alternatives: testTabs
-        }).render();
-        leftCol.appendChild($.el.div({'className':'clear'}));
-        leftCol.appendChild(setLeft.el);        
-        
       };
-      //button link pulldown radiogroup tabset, textfield, textarea
       
     </script>
   </body>

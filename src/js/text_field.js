@@ -35,12 +35,13 @@
 
       this.input = $.el.input({maxLength : this.options.maxLength});
 
-      $(this.input).keyup(_.bind(function(e) {
-        this._updateModel();
+      $(this.input).keyup(_(function(e) {
         if(_(this.options.onKeyPress).exists() && _(this.options.onKeyPress).isFunction()) {
           this.options.onKeyPress(e, this);
         }
-      }, this));
+      }).bind(this));
+
+      $(this.input).input(_(this._updateModel).bind(this));
 
       this._observeModel(this._refreshValue);
     },
