@@ -43,7 +43,8 @@
 
       this._textField = new Backbone.UI.TextField({
         name : this.options.name,
-        disabled : this.options.disabled 
+        disabled : this.options.disabled, 
+        placeholder : this.options.placeholder
       }).render();
       $(this._textField.input).click(_(this._showMenu).bind(this));
       $(this._textField.input).keyup(_(this._timeEdited).bind(this));
