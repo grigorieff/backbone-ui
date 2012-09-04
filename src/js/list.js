@@ -1,12 +1,6 @@
 (function(){
   window.Backbone.UI.List = Backbone.UI.CollectionView.extend({
-    options : {
-      // A Backbone.View implementation describing how to render a particular 
-      // item in the collection.  For simple use cases, you can pass a String 
-      // instead which will be interpreted as the property of the model to display.
-      itemView : null
-    },
-
+  
     initialize : function() {
       Backbone.UI.CollectionView.prototype.initialize.call(this, arguments);
       $(this.el).addClass('list');

@@ -4,7 +4,9 @@
       // The Backbone.Collection instance the view is bound to
       model : null,
 
-      // The Backbone.View class responsible for rendering a single item in the collection
+      // The Backbone.View class responsible for rendering a single item 
+      // in the collection. For simple use cases, you can pass a String instead 
+      // which will be interpreted as the property of the model to display.
       itemView : null,
       
       // Options to pass into the Backbone.View responsible for rendering the single item
