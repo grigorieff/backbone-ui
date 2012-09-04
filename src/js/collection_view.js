@@ -6,6 +6,9 @@
 
       // The Backbone.View class responsible for rendering a single item in the collection
       itemView : null,
+      
+      // Options to pass into the Backbone.View responsible for rendering the single item
+      itemViewOptions : null,
 
       // A string, element, or function describing what should be displayed
       // when the list is empty.

@@ -66,7 +66,8 @@
 
         else {
           var view = new this.options.itemView({
-            model : model
+            model : model,
+            options : this.options.itemViewOptions
           });
           view.render();
           this.itemViews[model.cid] = view;
