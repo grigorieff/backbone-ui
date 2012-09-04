@@ -17,7 +17,10 @@
 
       // The maximum height in pixels that this table show grow to.  If the
       // content exceeds this height, it will become scrollable.
-      maxHeight : null
+      maxHeight : null,
+      
+      // Render the the collection view on change in model
+      renderOnChange : true
     },
 
     itemViews : {},
@@ -30,7 +33,9 @@
     initialize : function() {
       if(this.model) {
         this.model.bind('add', _.bind(this._onItemAdded, this));
-        this.model.bind('change', _.bind(this._onItemChanged, this));
+        if(this.options.renderOnChange){
+          this.model.bind('change', _.bind(this._onItemChanged, this));
+        }  
         this.model.bind('remove', _.bind(this._onItemRemoved, this));
         this.model.bind('refresh', _.bind(this.render, this));
         this.model.bind('reset', _.bind(this.render, this));
@@ -65,8 +70,8 @@
       var view = this.itemViews[model.cid];
       // re-render the individual item view if it's a backbone view
       if(!!view && view.el && view.el.parentNode) {
-        view.render();
         this._ensureProperPosition(view);
+        view.render();
       }
 
       // otherwise, we re-render the entire collection
