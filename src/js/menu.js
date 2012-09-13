@@ -25,32 +25,56 @@
       this._observeModel(this.render);
       this._observeCollection(this.render);
 
-      // create a new list of items
-      var list = $.el.ul();
+      if(!this.options.mobile){
+        // create a new list of items
+        var list = $.el.ul();
 
-      // add entry for the empty model if it exists
-      if(!!this.options.emptyItem) {
-        this._addItemToMenu(list, this.options.emptyItem);
+        // add entry for the empty model if it exists
+        if(!!this.options.emptyItem) {
+          this._addItemToMenu(list, this.options.emptyItem);
+        }
+
+        var selectedItem = this._determineSelectedItem();
+
+        _(this._collectionArray()).each(function(item) {
+          var selectedValue = this._valueForItem(selectedItem);
+          var itemValue = this._valueForItem(item);
+          this._addItemToMenu(list, item, _(selectedValue).isEqual(itemValue));
+        }, this);
+
+        // wrap them up in a scroller 
+        this.scroller = new Backbone.UI.Scroller({
+          content : list
+        }).render();
+
+        // Prevent scroll events from percolating out to the enclosing doc
+        $(this.scroller.el).bind('mousewheel', function(){return false;});
+        $(this.scroller.el).addClass('menu_scroller');
+
+        this.el.appendChild(this.scroller.el);
       }
-
-      var selectedItem = this._determineSelectedItem();
-
-      _(this._collectionArray()).each(function(item) {
-        var selectedValue = this._valueForItem(selectedItem);
-        var itemValue = this._valueForItem(item);
-        this._addItemToMenu(list, item, _(selectedValue).isEqual(itemValue));
-      }, this);
-
-      // wrap them up in a scroller 
-      this.scroller = new Backbone.UI.Scroller({
-        content : list
-      }).render();
-
-      // Prevent scroll events from percolating out to the enclosing doc
-      $(this.scroller.el).bind('mousewheel', function(){return false;});
-      $(this.scroller.el).addClass('menu_scroller');
-
-      this.el.appendChild(this.scroller.el);
+      else {
+        
+        this.select = $.el.select({className : 'mobile'});
+        
+        _(this._collectionArray()).each(function(item){
+          this.select.appendChild($.el.option({value : this._valueForItem(item)},
+            this._labelForItem(item)));
+        }, this);
+        
+        $(this.select).val(this._valueForItem(this._determineSelectedItem()));
+        
+        $(this.select).change(_(function(){
+          var itemValue = $(this.select).val();
+          var itemLabel = $('option:selected', this.select).text();
+          var item = {};
+          item[this.options.altLabelContent] = itemLabel;
+          item[this.options.altValueContent] = itemValue;
+          this._setSelectedItem(_(item).isEqual(this.options.emptyItem) ? null : item);
+        }).bind(this));
+        
+        this.el.appendChild(this.select);        
+      }
       
       return this;
     },

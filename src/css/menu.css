@@ -60,3 +60,7 @@
   background-color:#e9d4c7;
   text-decoration:none;
 }
+
+.menu select.mobile {
+  opacity:0;
+}

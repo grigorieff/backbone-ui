@@ -23,7 +23,10 @@
 
       // an additional item to render at the top of the menu to 
       // denote the lack of a selection
-      emptyItem : null
+      emptyItem : null,
+      
+      // Set mobile to true for iOS device compatibility
+      mobile : false
     },
 
     initialize : function() {
@@ -56,20 +59,26 @@
 
     render : function() {
       $(this.el).empty();
-
+      
       this._observeModel(this.render);
       this._observeCollection(this.render);
 
-      var item = this._menu.selectedItem;
-      var label = this._labelForItem(item);
-      this.button = new Backbone.UI.Button({
-        className  : item ? 'pulldown_button' : 'pulldown_button placeholder',
-        model : {label : this._labelForItem(item)},
-        content : 'label',
-        onClick    : _.bind(this.showMenu, this)
-      }).render();
-      this.el.appendChild(this.button.el);
-
+      
+      //if(!this.options.mobile) {
+        var item = this._menu.selectedItem;
+        var label = this._labelForItem(item);
+        this.button = new Backbone.UI.Button({
+          className  : item ? 'pulldown_button' : 'pulldown_button placeholder',
+          model : {label : this._labelForItem(item)},
+          content : 'label',
+          onClick    : this.options.mobile ? _(this.tapMenu).bind(this) : _(this.showMenu).bind(this)
+        }).render();
+        this.el.appendChild(this.button.el);
+      // }
+      //       else {
+      //         $(this._menu.el).show();
+      //       }
+      
       return this;
     },
 
@@ -108,6 +117,18 @@
       $(this._menu.el).css({width : Math.max(this._menuWidth, buttonWidth)});
       if(this.options.onMenuShow) this.options.onMenuShow(e);
       this._menu.scrollToSelectedItem();
+    },
+    
+    //forces the menu to show for mobile
+    tapMenu : function(e) {
+      var anchor = this.button.el;
+      var showOnTop = $(window).height() - ($(anchor).offset().top - document.body.scrollTop) < 150;
+      var position = (this.options.alignRight ? '-right' : '-left') + (showOnTop ? 'top' : ' bottom');
+      $(this._menu.el).alignTo(anchor, position, 0, 1);
+      $(this._menu.el).show();
+      //if(this.options.onMenuShow) this.options.onMenuShow(e);
+      $(this._menu.select).focus();
+      //       this._menu.scrollToSelectedItem();
     },
 
     _onItemSelected : function(item) {

@@ -35,7 +35,7 @@
 
       this.input = $.el.input({maxLength : this.options.maxLength});
 
-      $(this.input).keyup(_(function(e) {
+      $(this.input).input(_(function(e) {
         if(_(this.options.onKeyPress).exists() && _(this.options.onKeyPress).isFunction()) {
           this.options.onKeyPress(e, this);
         }
@@ -58,6 +58,7 @@
         id : this.options.name,
         tabIndex : this.options.tabIndex,
         placeholder : this.options.placeholder,
+        pattern : this.options.pattern,
         value : value});
 
       // insert text_wrapper
