@@ -25,7 +25,7 @@
       this._observeModel(this.render);
       this._observeCollection(this.render);
 
-      if(!this.options.mobile){
+      if(!Backbone.UI.IS_MOBILE){
         // create a new list of items
         var list = $.el.ul();
 

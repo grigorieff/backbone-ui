@@ -35,7 +35,11 @@
 
     IS_MOBILE : 
       document.ontouchstart !== undefined || 
-      document.ontouchstart === null
+      document.ontouchstart === null,
+     
+    setMobile : function(mobile) {
+      Backbone.UI.IS_MOBILE = mobile;
+    }  
   };
 
   _(Backbone.View.prototype).extend({
@@ -183,6 +187,56 @@
   // Add some utility methods to JQuery
   _($.fn).extend({
     // aligns each element releative to the given anchor
+    /**
+    * <p>
+    * Align an element relative to another element (which can be absolute or
+    * inline).  This forces the target element to be absolutely positioned
+    * (which it probably should be anyway, to insure it's width/height don't
+    * change when converting to absolute positioning.)</p>
+    *
+    * @function alignTo
+    * @param {Element} anchor element to position relative to
+    * @param pos A string consists of one or two words that describe where the
+    * target element is positioned relative to the anchor element.
+    * <dl>
+    *   <dt>center</dt>
+    *     <dd>The default alignment, centers the element along either the
+    *     vertical or horizontal axis.</dd>
+    *   <dt>top</dt>    
+    *     <dd>places target element above the anchor</dd>
+    *   <dt>bottom</dt> 
+    *     <dd>places target element below the anchor</dd>
+    *   <dt>left</dt>   
+    *     <dd>places target element to the left of the anchor</dd>
+    *   <dt>right</dt>  
+    *     <dd>places target element to the right of the anchor</dd>
+    *   <dt>-top</dt>   
+    *     <dd>aligns top edge of target with top of anchor</dd>
+    *   <dt>-bottom</dt>
+    *     <dd>aligns bottom edge of target with bottom of anchor</dd>
+    *   <dt>-left</dt>  
+    *     <dd>aligns left edge of target with left of anchor</dd>
+    *   <dt>-right</dt> 
+    *     <dd>aligns right edge of target with right of anchor</dd>
+    *   <dt>no-constraint</dt> 
+    *     <dd>
+    *      By default, the target is constrained to the viewport.
+    *      This allows you to let it overflow the page.
+    *     </dd>
+    *   </dl>
+    *
+    * For example...
+    * <ul>
+    *   <li>"top" - element is above anchor, centered horizontally</li>
+    *   <li>"bottom left" - element is placed below and to left of anchor</li>
+    *   <li>"-left bottom" - element will be below anchor, aligned along left
+    *   edge.</li>
+    *   <li>(This is the recommended position for drop-down selection
+    *   lists)</li>
+    * </ul>
+    * @param {int} xFudge Optional x offset to add (may be negative)
+    * @param {int} yFudge Optional y offset to add (may be negative)
+    */
     alignTo : function(anchor, pos, xFudge, yFudge, container) {
       _.each(this, function(el) {
         var rehide = false;
@@ -210,6 +264,7 @@
     autohide : function(options) {
       _.each(this, function(el) {
         options = _.extend({
+          onEvent : 'click', //click or mouseover
           leaveOpen : false,
           hideCallback : false,
           ignoreInputs: false,
@@ -247,15 +302,15 @@
             if (!proceed) return;
 
             $(el).hide();
-            $(document).bind('click', el._autohider);
+            $(document).bind(options.onEvent, el._autohider);
             $(document).bind('keypress', el._autohider);
             el._autohider = null;
           }, this);
 
-          $(document).bind('click', el._autohider);
+          $(document).bind(options.onEvent, el._autohider);
           $(document).bind('keypress', el._autohider);
         }
       });
     }
-  });
+  });  
 }(this));

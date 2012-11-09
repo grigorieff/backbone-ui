@@ -7,7 +7,7 @@
   margin-right:13px;
 }
 
-.scroller.disabled .content_wrapper{
+.scroller.disabled > .content_wrapper{
   margin-right:1px;
 }
 
@@ -16,7 +16,7 @@
   margin-right:9px;
 }
 
-.scroller.disabled .content {
+.scroller.disabled > .content {
   margin-right:5px;
 }
 
@@ -29,7 +29,7 @@
   background-color:#eee;
 }
 
-.scroller.disabled .tray {
+.scroller.disabled > .tray {
   visibility:hidden;
 }
 
