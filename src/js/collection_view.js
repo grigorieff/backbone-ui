@@ -100,9 +100,10 @@
     _updateClassNames : function() {
       var children = this.collectionEl.childNodes;
       if(children.length > 0) {
-        _(children).each(function(child) {
+        _(children).each(function(child, index) {
           $(child).removeClass('first');
           $(child).removeClass('last');
+          $(child).addClass(index % 2 === 0 ? 'even' : 'odd');
         });
         $(children[0]).addClass('first');
         $(children[children.length - 1]).addClass('last');

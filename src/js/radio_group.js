@@ -28,7 +28,7 @@
 
       this.selectedItem = this._determineSelectedItem() || this.selectedItem;
 
-      var ul = $.el.ul();
+      this._ul = $.el.ul();
       var selectedValue = this._valueForItem(this.selectedItem);
       _(this._collectionArray()).each(function(item) {
 
@@ -48,13 +48,13 @@
         
         // insert label into li then add to ul
         $.el.div({className : 'label'}, label).appendTo(li);
-        ul.appendChild(li);
+        this._ul.appendChild(li);
 
         $(li).bind('click', _.bind(this._onChange, this, item));
         
       }, this);
-      this.el.appendChild(ul);
-
+      this.el.appendChild(this._ul);
+      this._updateClassNames();
       return this;
     },
 
@@ -64,6 +64,19 @@
 
       if(_(this.options.onChange).isFunction()) this.options.onChange(item);
       return false;
+    },
+    
+    _updateClassNames : function() {
+      var children = this._ul.childNodes;
+      if(children.length > 0) {
+        _(children).each(function(child, index) {
+          $(child).removeClass('first');
+          $(child).removeClass('last');
+          $(child).addClass(index % 2 === 0 ? 'even' : 'odd');
+        });
+        $(children[0]).addClass('first');
+        $(children[children.length - 1]).addClass('last');
+      }
     }
   });
 }());
