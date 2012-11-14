@@ -133,6 +133,8 @@
         if(!!this.model && this.options.content) {
           var boundDate = this.resolveContent();
           var updatedDate = new Date(boundDate);
+          // Ensure we are updating a valid Date object
+          updatedDate = isNaN(updatedDate.getTime()) ? new Date() : updatedDate;
           updatedDate.setHours(newDate.hours());
           updatedDate.setMinutes(newDate.minutes());
           _(this.model).setProperty(this.options.content, updatedDate);
@@ -143,5 +145,6 @@
         }
       }
     }
+    
   });
 }());
