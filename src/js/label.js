@@ -14,8 +14,7 @@
     },
 
     render : function() {
-      var labelText = this.resolveContent();
-
+      var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
       this._observeModel(this.render);
 
       $(this.el).empty();
