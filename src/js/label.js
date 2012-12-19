@@ -10,6 +10,9 @@
       _(this).bindAll('render');
 
       $(this.el).addClass('label');
+      if(this.options.name){
+        $(this.el).addClass(this.options.name);
+      }
 
     },
 
