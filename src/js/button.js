@@ -27,37 +27,12 @@
 
       $(this.el).addClass('button');
 
-      // if we're running in a mobile environment, the 'click' event 
-      // isn't quite translated correctly
-      if(Backbone.UI.IS_MOBILE) {
-        $(this.el).bind('touchstart', _(function(e) {
-          $(this.el).addClass('active');
-
-            Backbone.UI._activeButton = this;
-            var bodyUpListener = $(document.body).bind('touchend', function(e) {
-              if(Backbone.UI._activeButton) {
-                if(e.target === Backbone.UI._activeButton.el || $(e.target).closest('.button.active').length > 0) {
-                  if(Backbone.UI._activeButton.options.onClick) Backbone.UI._activeButton.options.onClick(e); 
-                }
-                $(Backbone.UI._activeButton.el).removeClass('active');
-              }
-
-              Backbone.UI._activeButton = null;
-              $(document.body).unbind('touchend', bodyUpListener);
-            });
-
-          return false;
-        }).bind(this));
-      }
-
-      else {
-        $(this.el).bind('click', _(function(e) {
-          if(!this.options.disabled && !this.options.active && this.options.onClick) {
-            this.options.onClick(e); 
-          }
-          return false;
-        }).bind(this));
-      }
+      $(this.el).bind('click', _(function(e) {
+        if(!this.options.disabled && !this.options.active && this.options.onClick) {
+          this.options.onClick(e); 
+        }
+        return false;
+      }).bind(this));
     },
 
     render : function() {

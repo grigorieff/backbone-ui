@@ -58,10 +58,10 @@
       var options = _(this.options).clone();
 
       _(objects).each(function(object) {
-        $.extend(true, this, object);
+        $.extend(this, object);
       }, this);
 
-      $.extend(true, this.options, options);
+      $.extend(this.options, options);
     }
   });
 
