@@ -114,6 +114,8 @@
     
     // updates and resizes the scrollbar if changes to the scroll 
     update: function() {
+      if(!$(this.el).is(":visible")) return;
+
       var visibleHeight = this._scrollContent.offsetHeight;
       var totalHeight = this._scrollContent.scrollHeight;
 
