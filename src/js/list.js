@@ -13,7 +13,7 @@
       this.collectionEl = $.el.ul();
 
       // if the collection is empty, we render the empty content
-      if(!_(this.model).exists()  || this.model.length === 0) {
+      if((!_(this.model).exists()  || this.model.length === 0) && this.options.emptyContent) {
         this._emptyContent = _(this.options.emptyContent).isFunction() ? 
           this.options.emptyContent() : this.options.emptyContent;
         this._emptyContent = $.el.li(this._emptyContent);
