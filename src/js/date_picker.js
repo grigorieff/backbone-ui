@@ -99,7 +99,7 @@
 
     _dateEdited : function(e) {
       var newDate = moment(this._textField.getValue(), this.options.format);
-      this._selectedDate = newDate.toDate();
+      this._selectedDate = newDate ? newDate.toDate() : null;
 
       // if the enter key was pressed or we've invoked this method manually, 
       // we hide the calendar and re-format our date
