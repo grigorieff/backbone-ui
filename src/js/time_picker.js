@@ -48,6 +48,7 @@
       }).render();
       $(this._textField.input).click(_(this._showMenu).bind(this));
       $(this._textField.input).keyup(_(this._timeEdited).bind(this));
+      $(this._textField.input).blur(_(this._timeEdited).bind(this));
       this.el.appendChild(this._textField.el);
 
       var date = this.resolveContent();
@@ -124,7 +125,7 @@
 
       // if the enter key was pressed or we've invoked this method manually, 
       // we hide the calendar and re-format our date
-      if(!e || e.keyCode === Backbone.UI.KEYS.KEY_RETURN) {
+      if(!e || e.keyCode === Backbone.UI.KEYS.KEY_RETURN || e.type === 'blur') {
         var newValue = moment(newDate).format(this.options.format);
         this._textField.setValue(newValue);
         this._hideMenu();
