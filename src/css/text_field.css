@@ -19,8 +19,8 @@
 .text_field .input_wrapper {
   position:absolute;
   left:5px;
-  right:12px;
-  top:3px;
+  right:5px;
+  top:5px;
 }
 
 .text_field input {
