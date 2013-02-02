@@ -110,8 +110,14 @@
 
       // otherwise, we render each row
       else {
-        _(this.model.models).each(function(model, index) {
+        _(this.model.models).each(function(model, index, collection) {
           var item = this._renderItem(model, index);
+
+          // add some useful class names
+          $(item).addClass(index % 2 === 0 ? 'even' : 'odd');
+          if(index === 0) $(item).addClass('first');
+          if(index === collection.length - 1) $(item).addClass('last');
+
           tableBody.appendChild(item);
         }, this);
       }
