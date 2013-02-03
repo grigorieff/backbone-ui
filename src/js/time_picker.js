@@ -47,8 +47,8 @@
         placeholder : this.options.placeholder
       }).render();
       $(this._textField.input).click(_(this._showMenu).bind(this));
-      $(this._textField.input).keyup(_(this._timeEdited).bind(this));
       $(this._textField.input).blur(_(this._timeEdited).bind(this));
+      $(this._textField.input).input(_(this._hideMenu).bind(this));
       this.el.appendChild(this._textField.el);
 
       var date = this.resolveContent();
@@ -104,6 +104,8 @@
     },
 
     _showMenu : function() {
+      if($(this._menu.el).is(':visible')) return;
+
       $(this._menu.el).alignTo(this._textField.el, 'bottom -left', 0, 2);
       $(this._menu.el).show();
       this._menu.scrollToSelectedItem();
@@ -121,7 +123,14 @@
     },
 
     _timeEdited : function(e) {
-      var newDate = moment(this._textField.getValue(), this.options.format);
+      var value = this._textField.getValue();
+      if(!value) return;
+
+      // if the event is a blur, we need to make sure that the menu is not
+      // open, otherwise we'll squash that selection event
+      if(e && e.type === 'blur' && $(this._menu.el).is(':visible')) return;
+
+      var newDate = moment(value, this.options.format);
 
       // if the enter key was pressed or we've invoked this method manually, 
       // we hide the calendar and re-format our date
