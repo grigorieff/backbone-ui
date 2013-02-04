@@ -48,8 +48,10 @@
     },
 
     _onItemAdded : function(model, list, options) {
-      // first check if we've already rendered an item for this model
-      if(!!this.itemViews[model.cid]) {
+
+      // first ensure that our collection element has been initialized,
+      // and we haven't already rendered an item for this model
+      if(!this.collectionEl || !!this.itemViews[model.cid]) {
         return;
       }
 
@@ -72,6 +74,9 @@
     },
 
     _onItemChanged : function(model) {
+      // ensure our collection element has been initialized
+      if(!this.collectionEl) return;
+
       var view = this.itemViews[model.cid];
       // re-render the individual item view if it's a backbone view
       if(!!view && view.el && view.el.parentNode) {
@@ -86,6 +91,9 @@
     },
 
     _onItemRemoved : function(model) {
+      // ensure our collection element has been initialized
+      if(!this.collectionEl) return;
+
       var view = this.itemViews[model.cid];
       var liOrTrElement = view.el.parentNode;
       if(!!view && !!liOrTrElement && !!liOrTrElement.parentNode) {
