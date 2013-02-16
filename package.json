@@ -2,16 +2,27 @@
   "name": "backbone-ui",
   "description": "UI library for backbone",
   "version": "1.0.0",
-  "keywords": ['backbone']
+  "keywords": [
+    "backbone"
+  ],
   "homepage": "http://perka.github.com/backbone-ui/",
-  "authors": ["Joe Stelmach <joestelmach@gmail.com>"],
+  "authors": [
+    "Joe Stelmach <joestelmach@gmail.com>"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/perka/backbone-ui.git"
   },
-  "dependencies": {
-    "laconic" : "0.0.0",
-    "backbone" : "0.5.3"
+  "scripts": {
+    "test": "grunt test"
   },
-  "main": "./dist/backbone-ui.js"
+  "dependencies": {
+    "laconic": "0.0.0",
+    "backbone": "0.5.3"
+  },
+  "main": "./dist/backbone-ui.js",
+  "devDependencies": {
+    "grunt": "~0.4.0",
+    "grunt-contrib-qunit": "~0.1.1"
+  }
 }

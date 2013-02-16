@@ -9,10 +9,10 @@ $(document).ready(function() {
     }).render();
 
     var text = $(checkbox.el).find('.label').text();
-    equals(text, 'foo');
+    equal(text, 'foo');
 
     var mark = $(checkbox.el).find('.checkmark_fill');
-    equals(1, mark.length);
+    equal(1, mark.length);
 
     checkbox = new Backbone.UI.Checkbox({
       label : 'foo',
@@ -20,7 +20,7 @@ $(document).ready(function() {
     }).render();
 
     mark = $(checkbox.el).find('.checkmark_fill');
-    equals(0, mark.length);
+    equal(0, mark.length);
   });
 
   test("withDataBinding", function() {
@@ -37,11 +37,11 @@ $(document).ready(function() {
 
     // label should be rendered from the 'descripton' property
     var text = $(checkbox.el).find('.label').text();
-    equals(text, 'property name');
+    equal(text, 'property name');
 
     // checkmark should be active based on the 'active' property
     var mark = $(checkbox.el).find('.checkmark_fill');
-    equals(1, mark.length);
+    equal(1, mark.length);
 
     // update our model
     model.set({
@@ -51,10 +51,10 @@ $(document).ready(function() {
 
     // text should have changed
     text = $(checkbox.el).find('.label').text();
-    equals(text, 'baz');
+    equal(text, 'baz');
 
     // and we should now have a checkmark fill
     mark = $(checkbox.el).find('.checkmark_fill');
-    equals(0, mark.length);
+    equal(0, mark.length);
   });
 });

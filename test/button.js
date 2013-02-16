@@ -8,7 +8,7 @@ $(document).ready(function() {
     }).render();
 
     var text = $(button.el).find('.label').text();
-    equals(text, 'foo');
+    equal(text, 'foo');
   });
 
   test("withDataBinding", function() {
@@ -23,14 +23,14 @@ $(document).ready(function() {
 
     // text should be based on 'foo' property
     var text = $(button.el).find('.label').text();
-    equals(text, 'bar');
+    equal(text, 'bar');
 
     // update the foo property
     model.set({foo : 'baz'});
 
     // text should have changed
     text = $(button.el).find('.label').text();
-    equals(text, 'baz');
+    equal(text, 'baz');
   });
 
   test("submitType", function() {
@@ -40,6 +40,6 @@ $(document).ready(function() {
     }).render();
 
     var inputs = $(button.el).find('input[type=submit]');
-    equals(inputs.length, 1);
+    equal(inputs.length, 1);
   });
 });
