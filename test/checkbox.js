@@ -4,7 +4,7 @@ $(document).ready(function() {
 
   test("withoutDataBinding", function() {
     var checkbox = new Backbone.UI.Checkbox({
-      label : 'foo',
+      content : 'foo',
       checked : true
     }).render();
 
@@ -16,7 +16,7 @@ $(document).ready(function() {
 
     checkbox = new Backbone.UI.Checkbox({
       label : 'foo',
-      checked : false 
+      checked : false
     }).render();
 
     mark = $(checkbox.el).find('.checkmark_fill');
@@ -26,13 +26,13 @@ $(document).ready(function() {
   test("withDataBinding", function() {
     var model = new Backbone.Model({
       description : 'property name',
-      active : true 
+      active : true
     });
 
     var checkbox = new Backbone.UI.Checkbox({
       model : model,
-      property : 'active',
-      labelProperty : 'description'
+      content : 'active',
+      labelContent : 'description'
     }).render();
 
     // label should be rendered from the 'descripton' property
@@ -53,7 +53,7 @@ $(document).ready(function() {
     text = $(checkbox.el).find('.label').text();
     equal(text, 'baz');
 
-    // and we should now have a checkmark fill
+    // and we should not have a checkmark fill
     mark = $(checkbox.el).find('.checkmark_fill');
     equal(0, mark.length);
   });

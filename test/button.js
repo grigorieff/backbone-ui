@@ -4,7 +4,7 @@ $(document).ready(function() {
 
   test("withoutDataBinding", function() {
     var button = new Backbone.UI.Button({
-      label : 'foo'
+      content : 'foo'
     }).render();
 
     var text = $(button.el).find('.label').text();
@@ -18,7 +18,7 @@ $(document).ready(function() {
 
     var button = new Backbone.UI.Button({
       model : model,
-      property : 'foo'
+      content : 'foo'
     }).render();
 
     // text should be based on 'foo' property
