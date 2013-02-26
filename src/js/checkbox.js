@@ -25,14 +25,13 @@
     },
 
     render : function() {
-
       this._observeModel(this.render);
 
       $(this.el).empty();
 
-      this.checked = this.checked || this.resolveContent();
+      var checked = this.resolveContent() || this.checked;
       var mark = $.el.div({className : 'checkmark'});
-      if(this.checked) {
+      if(checked) {
         mark.appendChild($.el.div({className : 'checkmark_fill'}));
       }
 
@@ -53,12 +52,11 @@
         return false;
       }
 
-      this.checked = !this.checked;
       if(_(this.model).exists() && _(this.options.content).exists()) {
         _(this.model).setProperty(this.options.content, this.checked);
       }
-
       else {
+        this.checked = !this.checked;
         this.render();
       }
 
