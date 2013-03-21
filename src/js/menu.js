@@ -110,7 +110,7 @@
 
       $(anchor).click(clickFunction);
 
-      if(select) clickFunction(null, true);
+      if(this.select) clickFunction(null, true);
 
       menu.appendChild(liElement);
     },
