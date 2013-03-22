@@ -33,7 +33,64 @@ $(document).ready(function() {
     equal(text, 'baz');
   });
 
-  test("submitType", function() {
+  test("disabled", function() {
+    var clickCount=0;
+
+    var model = new Backbone.Model({
+      foo : 'bar'
+    });
+
+    var button = new Backbone.UI.Button({
+      model : model,
+      content : 'foo',
+      disabled : true,
+      onClick : function() { clickCount++; }
+    }).render();
+
+    ok($(button.el).hasClass('disabled'));
+    $(button.el).click();
+
+    equal(clickCount, 0);
+  });
+
+  test("active", function() {
+    var clickCount=0;
+
+    var model = new Backbone.Model({
+      foo : 'bar'
+    });
+
+    var button = new Backbone.UI.Button({
+      model : model,
+      content : 'foo',
+      active : true,
+      onClick : function() { clickCount++; }
+    }).render();
+
+    ok($(button.el).hasClass('active'));
+    $(button.el).click();
+
+    equal(clickCount, 0);
+  });
+
+  test("onClick", function() {
+    var clickCount=0;
+
+    var model = new Backbone.Model({
+      foo : 'bar'
+    });
+
+    var button = new Backbone.UI.Button({
+      model : model,
+      content : 'foo',
+      onClick : function() { clickCount++; }
+    }).render();
+
+    $(button.el).click();
+    equal(clickCount, 1);
+  });
+
+  test("isSubmit", function() {
     var button = new Backbone.UI.Button({
       label : 'foo',
       isSubmit : true
@@ -42,4 +99,5 @@ $(document).ready(function() {
     var inputs = $(button.el).find('input[type=submit]');
     equal(inputs.length, 1);
   });
+
 });

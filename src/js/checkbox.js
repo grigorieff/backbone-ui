@@ -29,9 +29,9 @@
 
       $(this.el).empty();
 
-      var checked = this.resolveContent() || this.checked;
+      this.checked = this.resolveContent() !== null ? this.resolveContent() : this.checked;
       var mark = $.el.div({className : 'checkmark'});
-      if(checked) {
+      if(this.checked) {
         mark.appendChild($.el.div({className : 'checkmark_fill'}));
       }
 
@@ -52,11 +52,11 @@
         return false;
       }
 
+      this.checked = !this.checked;
       if(_(this.model).exists() && _(this.options.content).exists()) {
         _(this.model).setProperty(this.options.content, this.checked);
       }
       else {
-        this.checked = !this.checked;
         this.render();
       }
 
