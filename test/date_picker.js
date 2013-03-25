@@ -28,8 +28,6 @@ $(document).ready(function() {
       content: 'roastedOn'
     }).render();
 
-    $('body').append(datepicker.el);
-
     //check if date is set to model date
     var date = $(datepicker.el).find('input').val();
     equal(date,'03/28/2012');
@@ -44,7 +42,9 @@ $(document).ready(function() {
     datepicker._calendar.$('.row.last td a').eq(0).click();
     date = $(datepicker.el).find('input').val();
     equal(date,'04/29/2012');
-    equal(coffee.get('roastedOn'),'Sun Apr 29 2012 00:00:00 GMT-0400 (EDT)');
+    equal(coffee.get('roastedOn').getMonth(),'3');
+    equal(coffee.get('roastedOn').getDate(),'29');
+    equal(coffee.get('roastedOn').getFullYear(),'2012');
 
   });
 
