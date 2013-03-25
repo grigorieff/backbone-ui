@@ -4,7 +4,7 @@ $(document).ready(function() {
 
   test("withoutDataBinding", function() {
     var calendar = new Backbone.UI.Calendar({
-      content : new Date(2013, 2, 22, 6, 30)
+      date : new Date(2013, 2, 22, 6, 30)
     }).render();
 
     //check the month and year
