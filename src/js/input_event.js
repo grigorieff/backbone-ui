@@ -7,6 +7,11 @@
     MIT license
     www.opensource.org/licenses/mit-license.php
 */
+
+/*jshint eqeqeq:false */
+/*jshint asi:true */
+/*jshint undef:false */
+/*jshint shadow:true */
 if(window.jQuery) {
   (function($, udf) {
       var ns = ".inputEvent ",
@@ -31,12 +36,12 @@ if(window.jQuery) {
 
       // this checks if the tag is supported or has the contentEditable property
       function isSupported(elem) {
-          return $(elem).prop('contenteditable') === "true" ||
+          return $(elem).prop('contenteditable') == "true" ||
                    elem.tagName in supported;
       }
 
       $.event.special.txtinput = {
-          setup: function(data, namespaces, handle) {
+          setup: function(data, namespaces, handler) {
               var timer,
                   bndCount,
                   // Get references to the element
@@ -48,7 +53,7 @@ if(window.jQuery) {
                   bndCount = $.data(elem, dataBnd) || 0;
 
                   if (!bndCount)
-                      $elem.bind(bindTo, handle);
+                      $elem.bind(bindTo, handler);
 
                   $.data(elem, dataBnd, ++bndCount);
                   $.data(elem, dataVal, elem.value);
@@ -59,7 +64,7 @@ if(window.jQuery) {
                           bndCount = $.data(target, dataBnd) || 0;
 
                           if (!bndCount)
-                              $(target).bind(bindTo, handle);
+                              $(target).bind(bindTo, handler);
 
                           // make sure we increase the count only once for each bound ancestor
                           $.data(elem, dataDlg, true);
@@ -88,8 +93,8 @@ if(window.jQuery) {
                           }
                       }, 0);
                   }
-                  else if (e.type === "propertychange") {
-                      if (e.originalEvent.propertyName === "value") {
+                  else if (e.type == "propertychange") {
+                      if (e.originalEvent.propertyName == "value") {
                           $(elem).trigger("txtinput");
                           $.data(elem, dataVal, elem.value);
                           triggered = true;
@@ -112,7 +117,7 @@ if(window.jQuery) {
               var elem = $(this);
               elem.unbind(dlgtTo);
               elem.find("input, textarea").andSelf().each(function () {
-                  var bndCount = $.data(this, dataBnd, ($.data(this, dataBnd) || 1)-1);
+                  bndCount = $.data(this, dataBnd, ($.data(this, dataBnd) || 1)-1);
 
                   if (!bndCount)
                       elem.unbind(bindTo);
@@ -123,6 +128,6 @@ if(window.jQuery) {
       // Setup our jQuery shorthand method
       $.fn.input = function (handler) {
           return handler ? $(this).bind("txtinput", handler) : this.trigger("txtinput");
-      };
+      }
   })(window.jQuery);
 }
