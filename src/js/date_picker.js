@@ -15,7 +15,7 @@
       this._calendar = new Backbone.UI.Calendar({
         className : 'date_picker_calendar',
         model : this.model,
-        property : this.options.content,
+        content : this.options.content,
         onSelect : _(this._selectDate).bind(this)
       });
       $(this._calendar.el).hide();
@@ -49,7 +49,7 @@
         this.resolveContent() : this.options.date;
       
       if(!!this._selectedDate) {
-        this._calendar.options.selectedDate = this._selectedDate;
+        this._calendar.options.date = this._selectedDate;
         var dateString = moment(this._selectedDate).format(this.options.format);
         this._textField.setValue(dateString);
       }
@@ -116,6 +116,10 @@
           updatedDate.setDate(newDate.date());
           updatedDate.setFullYear(newDate.year());
           _(this.model).setProperty(this.options.content, updatedDate);
+        }
+        else {
+          this._calendar.date = this._selectedDate;
+          this._calendar.render();
         }
 
         if(_(this.options.onChange).isFunction()) {
