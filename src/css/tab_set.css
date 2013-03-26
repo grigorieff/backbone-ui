@@ -11,10 +11,7 @@
   margin:0 5px 0 0;
   height:28px;
   line-height:30px;
-  /* inline-block with IE7 hack */
   display: inline-block;
-  zoom: 1;
-  *display: inline;
 }
 
 .tab_set .tab.selected,

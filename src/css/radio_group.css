@@ -36,10 +36,7 @@
 }
 
 .radio_group li a.choice {
-  /* inline-block with IE7 hack */
   display: inline-block;
-  zoom: 1;
-  *display: inline;
   vertical-align:top;
 }
 
@@ -52,8 +49,5 @@
 .radio_group .mark,
 .radio_group li,
 .radio_group .label {
-  /* inline-block with IE7 hack */
   display: inline-block;
-  zoom: 1;
-  *display: inline;
 }
