@@ -12,7 +12,7 @@ $(document).ready(function() {
 
   });
 
-  test("withDataBinding and labelContent", function() {
+  test("withDataBinding", function() {
     var coffee = new Backbone.Model({
       roaster: 'Counter Culture',
       name: 'Baroida',
