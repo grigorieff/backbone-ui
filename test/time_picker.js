@@ -27,7 +27,7 @@ $(document).ready(function() {
     //text should have changed
     text = $(timepicker.el).find('input').val();
     equal(text, '01:00 pm');
-    
+
     //select 10:00 am from the time picker
     $(timepicker.el).find('input').click();
     $(timepicker._menu.el).find('li a').eq(20).click();
