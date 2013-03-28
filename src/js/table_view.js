@@ -22,7 +22,7 @@
       // The table is sorted by the first column by default.
       sortable : false,
 
-      // A callback to invoke when the table is to be sorted. The callback will
+      // A callback to invoke when the table is to be sorted and sortable is enabled. The callback will
       // be passed the <code>column</code> on which to sort.
       onSort : null
     },
@@ -37,8 +37,9 @@
       $(this.el).empty();
       this.itemViews = {};
 
+      var table;
       var container = $.el.div({className : 'content'},
-        this.collectionEl = $.el.table({
+        table = $.el.table({
           cellPadding : '0',
           cellSpacing : '0'
         }));
@@ -94,8 +95,8 @@
 
       // now we'll generate the body of the content table, with a row
       // for each model in the bound collection
-      var tableBody = $.el.tbody();
-      this.collectionEl.appendChild(tableBody);
+      this.collectionEl = $.el.tbody();
+      table.appendChild(this.collectionEl);
 
       // if the collection is empty, we render the empty content
       if(!_(this.model).exists()  || this.model.length === 0) {
@@ -104,7 +105,7 @@
         this._emptyContent = $.el.tr($.el.td(this._emptyContent));
 
         if(!!this._emptyContent) {
-          tableBody.appendChild(this._emptyContent);
+          this.collectionEl.appendChild(this._emptyContent);
         }
       }
 
@@ -118,7 +119,7 @@
           if(index === 0) $(item).addClass('first');
           if(index === collection.length - 1) $(item).addClass('last');
 
-          tableBody.appendChild(item);
+          this.collectionEl.appendChild(item);
         }, this);
       }
 
