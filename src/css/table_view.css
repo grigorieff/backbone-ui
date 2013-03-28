@@ -33,9 +33,6 @@
   padding:5px;
 }
 
-.table_view tr.first .wrapper {
-}
-
 .table_view .content td {
   white-space:nowrap;
   overflow:hidden;

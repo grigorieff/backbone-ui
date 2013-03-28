@@ -7,6 +7,11 @@
     MIT license
     www.opensource.org/licenses/mit-license.php
 */
+
+/*jshint eqeqeq:false */
+/*jshint asi:true */
+/*jshint undef:false */
+/*jshint shadow:true */
 if(window.jQuery) {
   (function($, udf) {
       var ns = ".inputEvent ",
@@ -33,7 +38,7 @@ if(window.jQuery) {
       function isSupported(elem) {
           return $(elem).prop('contenteditable') == "true" ||
                    elem.tagName in supported;
-      };
+      }
 
       $.event.special.txtinput = {
           setup: function(data, namespaces, handler) {

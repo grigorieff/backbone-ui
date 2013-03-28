@@ -10,13 +10,10 @@ a.button {
   -khtml-user-select: none;
   -moz-user-select: none;
   -o-user-select: none;
+  -ms-user-select: none;
   user-select: none;
   background-color:#eee;
-
-  /* inline-block with IE7 hack */
   display: inline-block;
-  zoom: 1;
-  *display: inline;
   vertical-align:top;
   text-decoration:none;
 }

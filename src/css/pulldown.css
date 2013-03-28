@@ -1,10 +1,7 @@
 .pulldown {
   position:relative;
   height:30px;
-  /* inline-block with IE7 hack */
   display: inline-block;
-  zoom: 1;
-  *display: inline;
 }
 
 .pulldown.placeholder {
