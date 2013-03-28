@@ -22,6 +22,17 @@ $(document).ready(function() {
     mark = $(checkbox.el).find('.checkmark_fill');
     equal(mark.length,0);
 
+    //check
+    $(checkbox.el).click();
+    mark = $(checkbox.el).find('.checkmark_fill');
+    equal(mark.length,1);
+
+    //uncheck
+    $(checkbox.el).click();
+    mark = $(checkbox.el).find('.checkmark_fill');
+    equal(mark.length,0);
+
+
   });
 
   test("withDataBinding and labelContent", function() {

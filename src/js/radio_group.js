@@ -59,10 +59,12 @@
     },
 
     _onChange : function(item) {
+      //check if item selected actually changed
+      var changed = this.selectedItem !== item;
       this._setSelectedItem(item);
       this.render();
 
-      if(_(this.options.onChange).isFunction()) this.options.onChange(item);
+      if(_(this.options.onChange).isFunction() && changed) this.options.onChange(item);
       return false;
     },
     
