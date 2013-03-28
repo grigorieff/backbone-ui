@@ -92,10 +92,7 @@ $(document).ready(function() {
     //click notes header column to sort descending
     $(table.el).find('.heading th.last').click();
     equal($(table.el).find('.content tr.first td.last').text(),'Nutty');
-
-
     
-
   }); 
 
   test("onSort", function(){
