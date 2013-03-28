@@ -27,7 +27,6 @@ $(document).ready(function() {
 
   });
 
-
   test("withDataBinding", function(){
 
     var coffee = new Backbone.Model({
@@ -216,7 +215,7 @@ $(document).ready(function() {
     //click to display menu
     pulldown.$('.pulldown_button').click();    
     //check the label on pulldown
-    equal($(pulldown._menu.el).css('left'),'-80px');
+    equal($(pulldown._menu.el).css('left').substring(0,1),'-');
 
   });
 });
