@@ -54,8 +54,6 @@ $(document).ready(function() {
       altLabelContent: 'name'
     }).render();
 
-    $('body').append(pulldown.el);
-
     $(pulldown.el).find('input').click();
     $(pulldown._menu.el).find('li a').eq(1).click();
 
@@ -89,11 +87,11 @@ $(document).ready(function() {
       emptyItem: true
     }).render();
 
-    $('body').append(pulldown.el);
-
+    //select emptyItem
     $(pulldown.el).find('input').click();
     $(pulldown._menu.el).find('li a').eq(0).click();
 
+    //check if selection is empty
     equal(coffee.get('region'),null);
 
   });
