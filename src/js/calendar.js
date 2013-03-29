@@ -43,6 +43,9 @@
     render : function() {
       if(_(this.model).exists() && _(this.options.content).exists()) {
         this.date = this.resolveContent();
+        if(!_(this.date).isDate()) {
+          this.date = new Date();
+        }
         var key = 'change:' + this.options.content;
         this.model.unbind(key, this.render);
         this.model.bind(key, this.render);
@@ -63,7 +66,7 @@
 
         // we only want to set the bound property's date portion
         var boundDate = this.resolveContent();
-        var updatedDate = new Date(boundDate.getTime());
+        var updatedDate = _(boundDate).isDate() ? new Date(boundDate.getTime()) : new Date();
         updatedDate.setMonth(date.getMonth());
         updatedDate.setDate(date.getDate());
         updatedDate.setFullYear(date.getFullYear());

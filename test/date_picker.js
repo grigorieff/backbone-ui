@@ -48,6 +48,39 @@ $(document).ready(function() {
 
   });
 
+  test("withDataBinding content empty", function() {
+    var coffee = new Backbone.Model({
+      roaster: 'Counter Culture',
+      name: 'Baroida',
+      roastedOn: null,
+      acidic: true
+    });
+
+    var datepicker = new Backbone.UI.DatePicker({
+      model: coffee,
+      content: 'roastedOn'
+    }).render();
+
+    //check if date is set to model date
+    var date = $(datepicker.el).find('input').val();
+    equal(date,"");
+
+    //update model and check time picker
+    coffee.set({ roastedOn : new Date(2012,3,1)});
+    date = $(datepicker.el).find('input').val();
+    equal(date,'04/01/2012');
+
+    //pick date and check model
+    $(datepicker.el).find('input').click();
+    datepicker._calendar.$('.row.last td a').eq(0).click();
+    date = $(datepicker.el).find('input').val();
+    equal(date,'04/29/2012');
+    equal(coffee.get('roastedOn').getMonth(),'3');
+    equal(coffee.get('roastedOn').getDate(),'29');
+    equal(coffee.get('roastedOn').getFullYear(),'2012');
+
+  });
+
   test("format", function() {
     var datepicker = new Backbone.UI.DatePicker({
       date : new Date(2013, 2, 22),
