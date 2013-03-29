@@ -88,7 +88,7 @@
 
     _collectTimes : function() {
       var collection = [];
-      var d = moment().sod();
+      var d = moment().startOf('day');
       var day = d.date();
 
       while(d.date() === day) {
