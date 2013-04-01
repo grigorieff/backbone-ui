@@ -111,7 +111,8 @@
       this._menu.scrollToSelectedItem();
     },
 
-    _hideMenu : function() {
+    _hideMenu : function(e) {
+      if(e && e.keyCode === Backbone.UI.KEYS.KEY_RETURN) this._timeEdited();
       $(this._menu.el).hide();
     },
 
