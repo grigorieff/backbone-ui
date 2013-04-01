@@ -84,7 +84,7 @@
 						// there's a flash of selection when we restore the focus, but I don't know how to avoid that.
 						$.data(target, 'simulate-keySequence.selection').select();
 					}else{
-						$.data(target, 'simulate-keySequence.selection').bounds('selection');
+						if($.data(target, 'simulate-keySequence.selection')) $.data(target, 'simulate-keySequence.selection').bounds('selection');
 					}	
 				});
 			}
