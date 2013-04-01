@@ -84,20 +84,11 @@ $(document).ready(function() {
 
   test("placeholder", function(){
 
-    var coffee = new Backbone.Model({
-      roaster: 'Counter Culture',
-      name: 'Baroida',
-      roastedOn: new Date(2012, 2, 28, 6, 30),
-      acidic: true,
-      region: regions.at(0)
-    });
-
     var pulldown = new Backbone.UI.Pulldown({
-      model : coffee,
-      content: 'region',
+      content: 'test',
       alternatives: regions,
       altLabelContent: 'name',
-      placeholder: "Select a region..."
+      placeholder: 'Select a region...'
     }).render();
 
     //check the label on pulldown

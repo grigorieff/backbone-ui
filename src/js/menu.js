@@ -98,19 +98,24 @@
       $.el.span(this._labelForItem(item) || '\u00a0').appendTo(anchor);
       
       var clickFunction = _.bind(function(e, silent) {
-        if(!!this._selectedAnchor) $(this._selectedAnchor).removeClass('selected');
 
-        this._setSelectedItem(_(item).isEqual(this.options.emptyItem) ? null : item, silent);
+        if(!!this._selectedAnchor) $(this._selectedAnchor).removeClass('selected');
         this._selectedAnchor = anchor;
         $(anchor).addClass('selected');
 
-        if(_(this.options.onChange).isFunction()) this.options.onChange(item);
+         //check if item selected actually changed
+        var changed = this._determineSelectedItem() !== item;
+
+        if(_(this.options.onChange).isFunction() && changed) this.options.onChange(item);
+
+        this._setSelectedItem(_(item).isEqual(this.options.emptyItem) ? null : item, silent);
+
         return false;
       }, this);
 
       $(anchor).click(clickFunction);
 
-      if(this.select) clickFunction(null, true);
+      if(select) clickFunction(null, true);
 
       menu.appendChild(liElement);
     },
