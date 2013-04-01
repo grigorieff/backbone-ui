@@ -41,7 +41,8 @@
       }).render();
 
       $(this._textField.input).click(_(this._showCalendar).bind(this));
-      $(this._textField.input).keyup(_(this._dateEdited).bind(this));
+      $(this._textField.input).blur(_(this._dateEdited).bind(this));
+      $(this._textField.input).keyup(_(this._hideCalendar).bind(this));
 
       this.el.appendChild(this._textField.el);
 
@@ -78,7 +79,8 @@
       $(this._calendar.el).alignTo(this._textField.el, 'bottom -left', 0, 2);
     },
 
-    _hideCalendar : function() {
+    _hideCalendar : function(e) {
+      if(e && e.keyCode === Backbone.UI.KEYS.KEY_RETURN) this._dateEdited();
       $(this._calendar.el).hide();
     },
 
@@ -98,12 +100,17 @@
     },
 
     _dateEdited : function(e) {
+
       var newDate = moment(this._textField.getValue(), this.options.format);
       this._selectedDate = newDate ? newDate.toDate() : null;
 
+      // if the event is a blur, we need to make sure that the menu is not
+      // open, otherwise we'll squash that selection event
+      if(e && e.type === 'blur' && $(this._calendar.el).is(':visible')) return;
+
       // if the enter key was pressed or we've invoked this method manually, 
       // we hide the calendar and re-format our date
-      if(!e || e.keyCode === Backbone.UI.KEYS.KEY_RETURN) {
+      if(!e || e.keyCode === Backbone.UI.KEYS.KEY_RETURN || e.type === 'blur') {
         var newValue = moment(newDate).format(this.options.format);
         this._textField.setValue(newValue);
         this._hideCalendar();
