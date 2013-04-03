@@ -81,6 +81,32 @@ $(document).ready(function() {
 
   });
 
+  test("manually enter date", function() {
+    var coffee = new Backbone.Model({
+      roaster: 'Counter Culture',
+      name: 'Baroida',
+      roastedOn: null,
+      acidic: true
+    });
+
+    var datepicker = new Backbone.UI.DatePicker({
+      model: coffee,
+      content: 'roastedOn'
+    }).render();
+
+    $('body').append(datepicker.el);
+
+    //type in datepicker and check if model updates
+    $(datepicker.el).find('input').simulate("key-sequence", {sequence: "08/24/1981"});
+    $(datepicker.el).find('input').simulate("key-sequence", {sequence: "{enter}"});
+
+    //check model changed
+    equal(coffee.get('roastedOn').getMonth(),'7');
+    equal(coffee.get('roastedOn').getDate(),'24');
+    equal(coffee.get('roastedOn').getFullYear(),'1981');
+
+  });
+
   test("format", function() {
     var datepicker = new Backbone.UI.DatePicker({
       date : new Date(2013, 2, 22),
