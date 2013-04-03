@@ -191,3 +191,21 @@
 .skin_perka .radio_group.error a.choice {
   background-position: 0 -113px;
 }
+
+.skin_perka .table_view .sorted .sort_wrapper .glyph {
+  display:none;
+}
+
+.skin_perka .table_view .sorted .sort_wrapper.desc {
+  background:url(./images/table_sort_arrows.png) 0 0 no-repeat;
+  width: 9px;
+  height: 10px;
+  margin-top:11px;
+}
+
+.skin_perka .table_view .sorted .sort_wrapper.asc {
+  background:url(./images/table_sort_arrows.png) 0 -10px no-repeat;
+  width: 9px;
+  height: 10px;
+  margin-top:10px;
+}

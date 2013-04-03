@@ -31,6 +31,7 @@
 
 .table_view .wrapper {
   padding:5px;
+  float:left;
 }
 
 .table_view .content td {
@@ -43,16 +44,12 @@
   cursor:pointer;
 }
 
-.table_view .glyph {
+.table_view .sort_wrapper {
   float:left;
+}
+
+.table_view .sort_wrapper .glyph {
   margin-top:6px;
   font-size:10px;
 }
 
-.table_view th.first .glyph {
-  padding-left:5px;
-}
-
-.table_view .sorted {
-  padding-left:16px;
-}

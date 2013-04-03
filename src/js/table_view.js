@@ -59,25 +59,24 @@
           return item1.get(column.content) < item2.get(column.content) ? -1 :
             item1.get(column.content) > item2.get(column.content) ? 1 : 0;
         };
+          
         var firstSort = (sortFirstColumn && firstHeading === null);
         var sortHeader = this._sortState.content === column.content || firstSort;
-        var sortLabel = $.el.div({
-          className : 'glyph'
-        }, sortHeader ? (this._sortState.reverse && !firstSort ? '\u25b2 ' : '\u25bc ') : '');
+        var sortClass = sortHeader ? (this._sortState.reverse && !firstSort ? ' asc' : ' desc') : '';
+        var sortLabel = $.el.div({className : 'glyph'}, 
+          sortClass === ' asc' ? '\u25b2 ' : sortClass === ' desc' ? '\u25bc ' : '');
 
         var onclick = this.options.sortable ? (_(this.options.onSort).isFunction() ?
           _(function(e) { this.options.onSort(column); }).bind(this) :
           _(function(e, silent) { this._sort(column, silent); }).bind(this)) : Backbone.UI.noop;
 
         var th = $.el.th({
-            className : _(list).nameForIndex(index), 
+            className : _(list).nameForIndex(index) + (sortHeader ? ' sorted' : ''), 
             style : style, 
             onclick : onclick
           }, 
-          sortLabel, 
-          $.el.div({
-            className : 'wrapper' + (sortHeader ? ' sorted' : '')
-          }, label)).appendTo(headingRow);
+          $.el.div({className : 'wrapper' + (sortHeader ? ' sorted' : '')}, label),
+          sortHeader ? $.el.div({className : 'sort_wrapper' + sortClass}, sortLabel) : null).appendTo(headingRow);  
 
         if (firstHeading === null) firstHeading = th;
       }).bind(this));
