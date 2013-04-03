@@ -94,8 +94,6 @@ $(document).ready(function() {
       content: 'roastedOn'
     }).render();
 
-    $('body').append(datepicker.el);
-
     //type in datepicker and check if model updates
     $(datepicker.el).find('input').simulate("key-sequence", {sequence: "08/24/1981"});
     $(datepicker.el).find('input').simulate("key-sequence", {sequence: "{enter}"});

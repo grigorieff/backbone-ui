@@ -50,8 +50,6 @@ $(document).ready(function() {
       content: 'roastedOn'
     }).render();
 
-    $('body').append(timepicker.el);
-
     //type in datepicker and check if model updates
     $(timepicker.el).find('input').simulate("key-sequence", {sequence: "8:30 pm"});
     $(timepicker.el).find('input').simulate("key-sequence", {sequence: "{enter}"});
