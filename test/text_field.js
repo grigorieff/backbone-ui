@@ -92,6 +92,7 @@ $(document).ready(function() {
 
   test("onKeyPress", function() {
     var countPress=0;
+    var enterPress=0;
 
     var coffee = new Backbone.Model({
       roaster: 'Counter Culture',
@@ -103,17 +104,22 @@ $(document).ready(function() {
     var textfield = new Backbone.UI.TextField({
       model : coffee,
       content : 'roaster',
-      onKeyPress : function() { countPress++; }
+      onKeyPress : function(e) { 
+        countPress++;
+        if(e.keyCode === 13) enterPress++;
+      }
     }).render();
 
-    //enter a in text field
-    $(textfield.el).find('input').simulate("key-sequence", {sequence: "a"});
-    //wait 1 sec and check if keypress got called
+    //press the enter key in text field
+    $(textfield.el).find('input').simulate("key-sequence", {sequence: "{enter}"});
+    //wait 1 sec and check if keypress got called and detect keyCode
     stop();
     setTimeout(function(){
       equal(countPress,1);
+      equal(enterPress,1);
       start();
     },1000);
+
 
   });
 

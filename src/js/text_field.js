@@ -35,7 +35,7 @@
 
       this.input = $.el.input({maxLength : this.options.maxLength});
 
-      $(this.input).input(_(function(e) {
+      $(this.input).keyup(_(function(e) {
         if(_(this.options.onKeyPress).exists() && _(this.options.onKeyPress).isFunction()) {
           this.options.onKeyPress(e, this);
         }

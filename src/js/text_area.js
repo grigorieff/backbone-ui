@@ -51,7 +51,7 @@
 
       this.setEnabled(!this.options.disabled);
 
-      $(this.textArea).input(_.bind(function() {
+      $(this.textArea).keyup(_.bind(function() {
         _.defer(_(this._updateModel).bind(this));
       }, this));
 
