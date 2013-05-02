@@ -209,4 +209,46 @@ $(document).ready(function() {
     equal($(pulldown._menu.el).css('left').substring(0,1),'-');
 
   });
+
+  test("issue 31 - remove pulldown-add pulldown-double fire", function(){
+
+    var changeEvents = 0;
+
+    var coffee = new Backbone.Model({
+      roaster: 'Counter Culture',
+      name: 'Baroida',
+      roastedOn: new Date(2012, 2, 28, 6, 30),
+      acidic: true,
+      region: regions.at(0)
+    });
+
+    var pulldown1 = new Backbone.UI.Pulldown({
+      model : coffee,
+      content: 'region',
+      alternatives: regions,
+      altLabelContent: 'name',
+      emptyItem: true,
+      onChange: function (item) {
+        changeEvents++;
+      }
+    }).render();
+
+    pulldown1.remove();
+
+    var pulldown2 = new Backbone.UI.Pulldown({
+      model : coffee,
+      content: 'region',
+      alternatives: regions,
+      altLabelContent: 'name',
+      onChange: function (item) {
+        changeEvents++;
+      }
+    }).render();
+
+    pulldown2.$('.pulldown_button').click();
+    pulldown2._menu.$('.content a').eq(1).click();
+
+    equal(changeEvents, 1);
+  });
+
 });
