@@ -49,6 +49,11 @@
   background-color:#fff;
 }
 
+.calendar .cell.out_of_range {
+  background-color:#ddd;
+  color: #999;
+}
+
 .calendar .cell.inactive {
   background-color:#eaeaea;
   color:#999;

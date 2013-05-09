@@ -7,7 +7,8 @@
       date : null,
       name : null,
       onChange : null,
-      minDate : null
+      minDate : null,
+      maxDate : null
     },
 
     initialize : function() {
@@ -18,7 +19,8 @@
         model : this.model,
         content : this.options.content,
         onSelect : _(this._selectDate).bind(this),
-        minDate : this.options.minDate
+        minDate : this.options.minDate,
+        maxDate : this.options.maxDate
       });
       $(this._calendar.el).hide();
       document.body.appendChild(this._calendar.el);
