@@ -20,6 +20,20 @@
       date1.getMonth() === date2.getMonth();
   };
 
+  var isBeforeMinDate = function(minDate, date, day) {
+    
+    var compareDate = new Date();
+    compareDate.setFullYear(date.getFullYear());
+    compareDate.setMonth(date.getMonth());
+    compareDate.setDate(day);
+    compareDate.setHours(date.getHours());
+    compareDate.setMinutes(date.getMinutes());
+    compareDate.setSeconds(date.getSeconds());
+    compareDate.setMilliseconds(date.getMilliseconds());
+    
+    return compareDate.getTime() < minDate.getTime();
+  }
+
   window.Backbone.UI.Calendar = Backbone.View.extend({
     options : {
       // the selected calendar date
@@ -30,7 +44,11 @@
 
       // a callback to invoke when a new date selection is made.  The selected date
       // will be passed in as the first argument
-      onSelect : null
+      onSelect : null,
+      
+      // all calendar days that are before the minimum date 
+      // will be disabled 
+      minDate : null
     },
 
     date : null, 
@@ -54,8 +72,22 @@
       else {
         this.date = this.date || this.options.date || new Date();
       }
-
-      this._renderDate(this.date);
+      
+      if(_(this.model).exists() && _(this.options.minDate).exists()) {
+        this.minDate = this.resolveContent(this.model, this.options.minDate);
+        if(!_(this.minDate).isDate()) {
+          this.minDate = new Date();
+          // could possibly this.minDate.setTime(0) here
+        }
+        var minKey = 'change:' + this.options.minDate;
+        this.model.unbind(minKey, this.render);
+        this.model.bind(minKey, this.render);
+      }
+      else {
+        this.minDate = null;
+      }
+      
+      this._renderDate(this.date, this.minDate);
 
       return this;
     },
@@ -80,7 +112,7 @@
       return false;
     },
 
-    _renderDate : function(date, e) {
+    _renderDate : function(date, minDate, e) {
       if(e) e.stopPropagation();
       $(this.el).empty();
 
@@ -119,8 +151,9 @@
         });
 
         for(var colIndex=0; colIndex<7; colIndex++) {
-          var inactive = daysRendered <= inactiveBeforeDays || 
-            daysRendered > inactiveBeforeDays + daysInThisMonth;
+          var inactive = ((daysRendered <= inactiveBeforeDays) || 
+            (daysRendered > (inactiveBeforeDays + daysInThisMonth)) || 
+            (_(minDate).isDate() && isBeforeMinDate(minDate, date, day)));
 
           var callback = _(this._selectDate).bind(
             this, new Date(date.getFullYear(), date.getMonth(), day));

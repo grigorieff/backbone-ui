@@ -6,7 +6,8 @@
       format : 'MM/DD/YYYY',
       date : null,
       name : null,
-      onChange : null
+      onChange : null,
+      minDate : null
     },
 
     initialize : function() {
@@ -16,7 +17,8 @@
         className : 'date_picker_calendar',
         model : this.model,
         content : this.options.content,
-        onSelect : _(this._selectDate).bind(this)
+        onSelect : _(this._selectDate).bind(this),
+        minDate : this.options.minDate
       });
       $(this._calendar.el).hide();
       document.body.appendChild(this._calendar.el);
