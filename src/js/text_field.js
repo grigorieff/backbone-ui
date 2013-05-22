@@ -95,7 +95,7 @@
     _refreshValue : function() {
       var newValue = this.resolveContent();
       if(this.input && this.input.value !== newValue) {
-        this.input.value = _(newValue).exists() ? newValue : null;
+        this.input.value = _(newValue).exists() ? newValue : "";
       }
     }
   });

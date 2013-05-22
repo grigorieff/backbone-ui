@@ -168,5 +168,36 @@ $(document).ready(function() {
     equal($(textfield.el).find('input').attr("maxlength"),5);
 
   });
+  
+  test("setContentToNull", function() {
+    
+    var coffee = new Backbone.Model({
+      roaster: 'Counter Culture',
+      name: 'Baroida',
+      roastedOn: new Date(2012, 2, 28, 6, 30),
+      acidic: true
+    });
+
+    var textfield = new Backbone.UI.TextField({
+      model : coffee,
+      content : 'roaster'
+    }).render();
+    
+    // initial test
+    equal(textfield.input.value, 'Counter Culture');
+    
+    // set to null test
+    coffee.set({roaster : null});
+    equal(textfield.input.value, "");
+    
+    // back to initial test
+    coffee.set({roaster : 'Counter Culture'});
+    equal(textfield.input.value, 'Counter Culture');
+    
+    // unset test
+    coffee.unset('roaster');
+    equal(textfield.input.value, "");
+    
+  });
 
 });
