@@ -26,7 +26,7 @@
     compareDate.setMonth(date.getMonth());
     compareDate.setDate(day);
     return compareDate.getTime() < minDate.getTime();
-  }
+  };
   
   var isAfterMaxDate = function(maxDate, date, day) {
     var compareDate = new Date(date);
@@ -34,7 +34,7 @@
     compareDate.setMonth(date.getMonth());
     compareDate.setDate(day);
     return compareDate.getTime() > maxDate.getTime();
-  }
+  };
 
   window.Backbone.UI.Calendar = Backbone.View.extend({
     options : {
