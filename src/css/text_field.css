@@ -18,6 +18,15 @@
   left:5px;
   right:5px;
   top:5px;
+  line-height:18px;
+}
+
+.text_field .has_glyph .input_wrapper {
+  left:30px;
+}
+
+.text_field .has_glyph_right .input_wrapper {
+  right:30px;
 }
 
 .text_field input {

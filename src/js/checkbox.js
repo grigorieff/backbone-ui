@@ -13,7 +13,7 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
       _(this).bindAll('render');
 
       $(this.el).click(_(this._onClick).bind(this));
@@ -35,13 +35,20 @@
         mark.appendChild($.el.div({className : 'checkmark_fill'}));
       }
 
-      var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
+      var labelText = this.resolveContent(this.model, this.options.labelContent) || 
+        this.options.labelContent;
+
       this._label = $.el.div({className : 'label'}, labelText);
       $('a',this._label).click(function(e){
         e.stopPropagation(); 
       });
-      this.el.appendChild(mark);
-      this.el.appendChild(this._label);
+
+      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+      var contentEl = this.insertGlyphLayout(null, glyphRightCss, this.el);
+
+      contentEl.appendChild(mark);
+      contentEl.appendChild(this._label);
+
       this.el.appendChild($.el.br({style : 'clear:both'}));
 
       return this;

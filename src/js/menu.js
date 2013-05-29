@@ -8,7 +8,11 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
+      this.mixin([
+        Backbone.UI.HasModel, 
+        Backbone.UI.HasGlyph, 
+        Backbone.UI.HasAlternativeProperty
+      ]);
 
       _(this).bindAll('render');
 
@@ -93,9 +97,20 @@
     // to the given menu ul element
     _addItemToMenu : function(menu, item, select) {
       var anchor = $.el.a({href : '#'});
-      
+
+      // get glyph strings
+      var glyphLeft = this.resolveGlyph(item, this.options.altGlyphCss);
+      var glyphRight = this.resolveGlyph(item, this.options.altGlyphRightCss);
+
+      // since we're looking for a glyph value in a collection of alternatives,
+      // we enforce that the glyph css value must be present on each item
+      glyphLeft = glyphLeft === this.options.altGlyphCss ? null : glyphLeft;
+      glyphRight = glyphRight === this.options.altGlyphRightCss ? null : glyphRight;
+
+      // insert glyphs
       var liElement = $.el.li(anchor);
-      $.el.span(this._labelForItem(item) || '\u00a0').appendTo(anchor);
+      var contentEl = this.insertGlyphLayout(glyphLeft, glyphRight, anchor);
+      $.el.span(this._labelForItem(item) || '\u00a0').appendTo(contentEl);
       
       var clickFunction = _.bind(function(e, silent) {
 

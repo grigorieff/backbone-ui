@@ -60,3 +60,9 @@ a.button {
   left:-5px;
   cursor:pointer;
 }
+
+.button .glyph_wrapper,
+.button .glyph_wrapper .content,
+.button .glyph_wrapper .glyph {
+  cursor:pointer;
+}

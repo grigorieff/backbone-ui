@@ -44,7 +44,9 @@
       this._textField = new Backbone.UI.TextField({
         name : this.options.name,
         disabled : this.options.disabled, 
-        placeholder : this.options.placeholder
+        placeholder : this.options.placeholder,
+        glyphCss : this.options.glyphCss,
+        glyphRightCss : this.options.glyphRightCss
       }).render();
       $(this._textField.input).click(_(this._showMenu).bind(this));
       $(this._textField.input).blur(_(this._timeEdited).bind(this));

@@ -2,6 +2,15 @@
   width:80px;
 }
 
+.time_picker .text_field.has_glyph, 
+.time_picker .text_field.has_glyph_right {
+  width:110px;
+}
+
+.time_picker .text_field.has_glyph.has_glyph_right {
+  width:130px;
+}
+
 .time_picker .menu li {
   background-color:#fff;
 }
