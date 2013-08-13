@@ -17,7 +17,6 @@
   text-align:center;
   font-size:16px;
 }
-
 .radio_group .choice:hover .mark {
   background-color:#eee;
   border-color:#222;
@@ -51,9 +50,4 @@
 .radio_group li,
 .radio_group .label {
   display: inline-block;
-}
-
-.radio_group .content, 
-.radio_group .glyph_wrapper {
-  display:inline-block;
 }

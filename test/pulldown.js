@@ -6,12 +6,10 @@ $(document).ready(function() {
 
   var regions = new Backbone.Collection([{
     name: 'Americas',
-    notes: 'Bright',
-    glyphCss : 'url(americaLeft.png) top left'
+    notes: 'Bright'
   }, {
     name: 'Africa',
-    notes: 'Fruity',
-    glyphRightCss : 'url(africaRight.png) top left'
+    notes: 'Fruity'
   }]);
 
   test("withoutDataBinding", function(){
@@ -50,6 +48,7 @@ $(document).ready(function() {
     $(pulldown._menu.el).find('li a').eq(1).click();
 
     equal(coffee.get('region').get('name'),'Africa');
+
   });
 
   test("onMenuShow", function() {
@@ -252,41 +251,4 @@ $(document).ready(function() {
     equal(changeEvents, 1);
   });
 
-  test("glyphs with data binding", function() {
-    var pulldown = new Backbone.UI.Pulldown({
-      content: 'test',
-      alternatives: regions,
-      altLabelContent: 'name',
-      altGlyphCss : 'glyphCss'
-    }).render();
-
-    var leftImage = $(pulldown._menu.el).find('.glyph.left')[0].style.backgroundImage;
-    ok(/americaLeft.png"?\)$/.test(leftImage));
-    ok(!$(pulldown._menu.el).find('.glyph.right')[0]);
-
-    pulldown = new Backbone.UI.Pulldown({
-      content: 'test',
-      alternatives: regions,
-      altLabelContent: 'name',
-      altGlyphRightCss : 'glyphRightCss'
-    }).render();
-
-    var rightImage = $(pulldown._menu.el).find('.glyph.right')[0].style.backgroundImage;
-    ok(/africaRight.png\)$/.test(rightImage));
-    ok(!$(pulldown._menu.el).find('.glyph.left')[0]);
-
-    pulldown = new Backbone.UI.Pulldown({
-      content: 'test',
-      alternatives: regions,
-      altLabelContent: 'name',
-      altGlyphCss : 'glyphCss',
-      altGlyphRightCss : 'glyphRightCss'
-    }).render();
-
-    leftImage = $(pulldown._menu.el).find('.glyph.left')[0].style.backgroundImage;
-    ok(/americaLeft.png\)$/.test(leftImage));
-
-    rightImage = $(pulldown._menu.el).find('.glyph.right')[0].style.backgroundImage;
-    ok(/africaRight.png\)$/.test(rightImage));
-  });
 });

@@ -66,10 +66,7 @@
         className  : item ? 'pulldown_button' : 'pulldown_button placeholder',
         model : {label : this._labelForItem(item)},
         content : 'label',
-        onClick : Backbone.UI.IS_MOBILE ? _(this.tapMenu).bind(this) : _(this.showMenu).bind(this),
-        glyphCss : this.options.glyphCss,
-        glyphRightCss : this.options.glyphRightCss,
-        glyphSize : this.options.glypSize
+        onClick    : Backbone.UI.IS_MOBILE ? _(this.tapMenu).bind(this) : _(this.showMenu).bind(this)
       }).render();
       this.el.appendChild(this.button.el);
       

@@ -10,17 +10,7 @@
       // If a function is given, it will be invoked with the model and will 
       // expect an element to be returned.  If no model is present, this 
       // property may be a string or function describing the content to be rendered
-      content : null,
-
-      // If present, a square glyph area will be added to the left side of this 
-      // component, and the given string will be used as the full CSS background
-      // property of that glyph area. This option is a no-op when applied 
-      // to a Calender component.  When working with Checkbox components, 
-      // only the glyphRightCss property will be honored.
-      glyphCss : null,
-
-      // Same as above, but on the right side.
-      glpyhRightCss : null
+      content : null
     },
 
     _observeModel : function(callback) {

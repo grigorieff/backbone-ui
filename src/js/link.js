@@ -11,7 +11,7 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
+      this.mixin([Backbone.UI.HasModel]);
 
       _(this).bindAll('render');
 
@@ -32,10 +32,8 @@
 
       $(this.el).empty();
       
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
-      var contentEl = this.insertGlyphLayout(glyphCss, glyphRightCss, this.el);
-      contentEl.appendChild($.el.span({className : 'label'}, labelText));
+      // insert label
+      this.el.appendChild($.el.span({className : 'label'}, labelText));
       
       // add appropriate class names
       this.setEnabled(!this.options.disabled);

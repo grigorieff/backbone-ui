@@ -7,8 +7,7 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph, 
-        Backbone.UI.HasAlternativeProperty]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
       _(this).bindAll('render');
       
       $(this.el).addClass('radio_group');
@@ -46,19 +45,14 @@
           $.el.a({className : 'choice' + (selected ? ' selected' : '')},
             $.el.div({className : 'mark' + (selected ? ' selected' : '')}, 
               selected ? '\u25cf' : '\u00a0')));      
-
-        var glyphRight = this.resolveGlyph(item, this.options.altGlyphRightCss);
-        glyphRight = glyphRight === this.options.altGlyphRightCss ? null : glyphRight;
-        var contentEl = this.insertGlyphLayout(null, glyphRight, li);
         
         // insert label into li then add to ul
-        $.el.div({className : 'label'}, label).appendTo(contentEl);
+        $.el.div({className : 'label'}, label).appendTo(li);
         this._ul.appendChild(li);
 
         $(li).bind('click', _.bind(this._onChange, this, item));
         
       }, this);
-
       this.el.appendChild(this._ul);
       this._updateClassNames();
       return this;

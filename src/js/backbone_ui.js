@@ -3,6 +3,7 @@
   if(typeof Backbone === 'undefined') alert('backbone environment not loaded') ;
   if(typeof $ === 'undefined') alert('jquery environment not loaded');
 
+
   // define our Backbone.UI namespace
   Backbone.UI = Backbone.UI || {
     KEYS : {
@@ -42,7 +43,6 @@
   };
 
   _(Backbone.View.prototype).extend({
-
     // resolves the appropriate content from the given choices
     resolveContent : function(model, content) {
       model = _(model).exists() ? model : this.model;
@@ -50,8 +50,7 @@
       var hasModelProperty = _(model).exists() && _(content).exists();
       return _(content).isFunction() ? content(model) : 
         hasModelProperty && _(model[content]).isFunction() ? model[content]() : 
-        hasModelProperty && _(_(model).resolveProperty(content)).isFunction() ? 
-        _(model).resolveProperty(content)(model) : 
+        hasModelProperty && _(_(model).resolveProperty(content)).isFunction() ? _(model).resolveProperty(content)(model) : 
         hasModelProperty ? _(model).resolveProperty(content) : content;
     },
 

@@ -2,15 +2,6 @@
   width:100px;
 }
 
-.date_picker .text_field.has_glyph, 
-.date_picker .text_field.has_glyph_right {
-  width:125px;
-}
-
-.date_picker .text_field.has_glyph.has_glyph_right {
-  width:150px;
-}
-
 .date_picker_calendar {
   position:absolute;
   z-index:1000;
