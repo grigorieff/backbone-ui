@@ -59,10 +59,8 @@
         }
 
         else {
-          var view = new this.options.itemView({
-            model : model,
-            options : this.options.itemViewOptions
-          });
+          var view = new this.options.itemView(_({ model : model }).extend(
+            this.options.itemViewOptions));
           view.render();
           this.itemViews[model.cid] = view;
           content = view.el;

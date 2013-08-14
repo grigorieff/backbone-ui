@@ -1,6 +1,7 @@
 (function(){
   window.Backbone.UI.Label = Backbone.View.extend({
     options : {
+      emptyContent : '',
       tagName : 'span'
     },
 
@@ -18,6 +19,10 @@
 
     render : function() {
       var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
+      // if the label is undefined use the emptyContent option
+      if(labelText === undefined){
+        labelText = this.options.emptyContent;
+      }
       this._observeModel(this.render);
 
       $(this.el).empty();
