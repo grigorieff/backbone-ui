@@ -94,7 +94,7 @@ task :doc  => [:build] do
 
     options = {}
     comments = []
-    options_node.each do |node|
+    (options_node || []).each do |node|
       node.comments.each { |comment| comments << comment.value.gsub(/^\/\//, '') }
       if node.kind_of? RKelly::Nodes::PropertyNode
         if comments.length > 0
