@@ -13,13 +13,15 @@
 
     initialize : function() {
       this.mixin([Backbone.UI.HasModel]);
-      _(this).bindAll('render');
+      _(this).bindAll('_refreshCheck');
       $(this.el).addClass('checkbox');
       if(this.options.name){
         $(this.el).addClass(this.options.name);
       }
+      this.label = $.el.label();
       this.input = $.el.input();
       $(this.input).change(_(this._updateModel).bind(this));
+      $(this.input).click(_(this._updateModel).bind(this));
       this._observeModel(_(this._refreshCheck).bind(this));
     },
 
@@ -43,7 +45,11 @@
       });
       
       var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
-      this.el.appendChild($.el.label(this.input, labelText));
+      
+      this.label.appendChild(this.input);
+      this.label.appendChild(
+        this._labelText = $.el.span(labelText));
+      this.el.appendChild(this.label);
 
       return this;
     },
@@ -53,6 +59,9 @@
       var value = this.resolveContent();
       
       $(this.input).attr({ checked : value });
+      
+      var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
+      $(this._labelText).text(labelText);
       
     },
     

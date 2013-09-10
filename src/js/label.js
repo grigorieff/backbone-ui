@@ -2,7 +2,7 @@
   window.Backbone.UI.Label = Backbone.View.extend({
     options : {
       emptyContent : '',
-      tagName : 'span'
+      tagName : 'label'
     },
 
     initialize : function() {
@@ -10,7 +10,6 @@
 
       _(this).bindAll('render');
 
-      $(this.el).addClass('label');
       if(this.options.name){
         $(this.el).addClass(this.options.name);
       }
