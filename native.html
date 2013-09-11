@@ -71,21 +71,21 @@
     .checkbox input[type=checkbox] + i {
       content:"";
       display:inline-block;
-      width:28px;
-      height:28px;
-      background:url(./images/checkbox.png) transparent 0 2px no-repeat;
+      width:20px;
+      height:20px;
+      border:1px solid #666;
       position:relative;
       top:5px;
     }
 
     .checkbox input[type=checkbox]:checked + i:after {
       content:"";
+      background-color:#222;
       display:inline-block;
-      width:28px;
-      height:28px;
-      background:url(./images/checkbox.png) transparent 0 -112px no-repeat;
+      width:14px;
+      height:14px;
       position:absolute;
-      left:0;
+      left:3px;
       top:3px;
     }
 
@@ -128,7 +128,6 @@
     <h2>Pulldown</h2>
     <label><span>Label Text:</span>
       <select>
-        <option disabled selected>Please Select...</option>
         <option>Option 1</option>
         <option>Option 2</option>
         <option>Option 3</option>
@@ -144,4 +143,3 @@
   </section>
 </body>
 </html>
-
