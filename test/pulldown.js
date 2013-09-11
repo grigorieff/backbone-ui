@@ -20,10 +20,10 @@ $(document).ready(function() {
       altLabelContent: 'name'
     }).render();
 
-    pulldown.$('.pulldown_button').click();
-    $(pulldown._menu.el).find('li a').eq(0).click();
+    pulldown.select.click();
+    $(pulldown.el).find('option').eq(0).click();
 
-    equal($(pulldown.el).find('.label').text(),'Americas');
+    equal(pulldown.select.options[pulldown.select.selectedIndex].text, 'Americas');
 
   });
 
@@ -44,8 +44,8 @@ $(document).ready(function() {
       altLabelContent: 'name'
     }).render();
 
-    pulldown.$('.pulldown_button').click();
-    $(pulldown._menu.el).find('li a').eq(1).click();
+    pulldown.select.click();
+    $(pulldown.el).find('option').eq(1).click();
 
     equal(coffee.get('region').get('name'),'Africa');
 
