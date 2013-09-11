@@ -1,53 +1,48 @@
-a.button {
-  position:relative;
-  height:28px;
-  font-size:14px;
+.button {
+  font-size:16px;
   font-family:Helvetica;
+  font-weight:normal;
   color:#333;
+  background-color:#eee;
   border:1px solid #666;
-  line-height:30px;
+  line-height:1.25;
+  display: inline-block;
+  padding:6px 12px;
+  border-radius:4px;
+  vertical-align:middle;
+  text-decoration:none;
+  cursor:pointer;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -o-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  background-color:#eee;
-  display: inline-block;
-  vertical-align:top;
-  text-decoration:none;
 }
 
-.button.disabled {
-  color:#aaa;
+/* tab focus */
+.button:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
 }
 
-.button.has_border.disabled {
-  border-color:#999;
-}
-
-.button.has_border:hover {
+.button:hover, 
+.button:focus {
   background-color:#ddd;
   border-color:#222;
 }
 
-.button.has_border.disabled:hover {
-  background-color:#fff;
-  border-color:#999;
-  cursor:default;
-}
-
-.button.has_border.active {
+.button:active,
+.button:active {
   background-color:#ccc;
 }
 
-.button input[type=submit] {
-  border:1px solid transparent;
-  background-color:transparent;
-  position:absolute;
-  top:-5px;
-  right:-5px;
-  bottom:-5px;
-  left:-5px;
-  cursor:pointer;
+.button.disabled,
+.button:disabled {
+  cursor:not-allowed;
+  pointer-events:none;
+  background-color:#CBCBCB;
+  border-color:#CBCBCB;
+  color:#fff;
 }
