@@ -47,6 +47,7 @@
       var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
       
       this.label.appendChild(this.input);
+      this.label.appendChild($.el.i());
       this.label.appendChild(
         this._labelText = $.el.span(labelText));
       this.el.appendChild(this.label);
