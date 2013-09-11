@@ -7,11 +7,7 @@
 
       // A callback to invoke with a particular item when that item is
       // selected from the pulldown menu.
-      onChange : Backbone.UI.noop,
-
-      // an additional item to render at the top of the menu to 
-      // denote the lack of a selection
-      emptyItem : null
+      onChange : Backbone.UI.noop
     },
 
     initialize : function() {
@@ -35,32 +31,50 @@
       this._observeCollection(this.render);
 
       this.selectedItem = this._determineSelectedItem() || this.selectedItem;
-      var selectedValue = this._valueForItem(this.selectedItem).cid;
+      var selectedValue = this._valueForItem(this.selectedItem);
       
       this.select = $.el.select();
+      
       // setup events for each input in collection
       $(this.select).change(_(this._updateModel).bind(this));
       
-      this._selectedIndex = null;
+      // append placeholder option if no selectedItem
+      var placeholder = $.el.option(this.options.placeholder);
+      $(placeholder).data('value', null);
+      // placeholder is not selectable if there is no emptyItem set
+      if(!this.options.emptyItem) {
+        $(placeholder).attr({ disabled : 'true' });
+        $(placeholder).click(_(function() {
+          this.select.selectedIndex = 0;
+          this._updateModel();
+        }).bind(this));
+      }
+      this.select.appendChild(placeholder);
+      // default selectedIndex is placeholder
+      this._selectedIndex = 0;
+      
       _(this._collectionArray()).each(function(item, idx) {
-
-        var val = this._valueForItem(item).cid;
+        // account for placeholder (add 1)
+        idx++;
+        var val = this._valueForItem(item);
         if(selectedValue === val) {
           this._selectedIndex = idx;
         }
         
         var option = $.el.option(this._labelForItem(item));
-        $(option).attr({value : val});
+        $(option).data('value', val);
         
-        $(option).click(_(this._updateModel).bind(this, item));
+        $(option).click(_(function(selectedIdx) {
+          this.select.selectedIndex = selectedIdx;
+          this._updateModel();
+        }).bind(this, idx));
         
         this.select.appendChild(option);
         
       }, this);
       
-      if(_(this._selectedIndex).isNumber()) {
-        this.select.selectedIndex = this._selectedIndex;
-      }
+      // set the selectedIndex on the select element
+      this.select.selectedIndex = this._selectedIndex;
       
       this.el.appendChild(this.select);
       
@@ -81,11 +95,8 @@
       this._setSelectedItem(item);
     },
     
-    _updateModel : function(item) {
-      
-      item = !!item ? item : this.options.alternatives.getByCid(
-        this.select.options[this.select.selectedIndex].value);
-      // check if item selected actually changed
+    _updateModel : function() {
+      var item = $(this.select.options[this.select.selectedIndex]).data('value');
       var changed = this.selectedItem !== item;
       this._setSelectedItem(item);
       // if onChange function exists call it
