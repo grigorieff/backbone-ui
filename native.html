@@ -2,31 +2,131 @@
 <html>
 <head>
   <title>Backbone-UI Native</title>
+  <style>
+    /*---------------- button -------------------*/
+    .button {
+      font-size:16px;
+      font-family:Helvetica;
+      font-weight:normal;
+      color:#333;
+      background-color:#eee;
+      border:1px solid #666;
+      line-height:1.25;
+      display: inline-block;
+      padding:6px 12px;
+      border-radius:4px;
+      vertical-align:middle;
+      text-decoration:none;
+      cursor:pointer;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -o-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* tab focus */
+    .button:focus {
+      outline: thin dotted #333;
+      outline: 5px auto -webkit-focus-ring-color;
+      outline-offset: -2px;
+    }
+
+    .button:hover, 
+    .button:focus {
+      background-color:#ddd;
+      border-color:#222;
+    }
+
+    .button:active,
+    .button:active {
+      background-color:#ccc;
+    }
+
+    .button.disabled,
+    .button:disabled {
+      cursor:not-allowed;
+      pointer-events:none;
+      background-color:#CBCBCB;
+      border-color:#CBCBCB;
+      color:#fff;
+    }
+
+    /*---------------- checkbox -------------------*/
+    .checkbox label {
+      font-size:16px;
+      font-family:Helvetica;
+      font-weight:normal;
+      display: inline-block;  
+      cursor: pointer;  
+      position: relative;
+      white-space:nowrap;  
+    }
+
+    .checkbox input[type=checkbox] {
+      display:none;
+    }
+
+    .checkbox input[type=checkbox] + i {
+      content:"";
+      display:inline-block;
+      width:28px;
+      height:28px;
+      background:url(./images/checkbox.png) transparent 0 2px no-repeat;
+      position:relative;
+      top:5px;
+    }
+
+    .checkbox input[type=checkbox]:checked + i:after {
+      content:"";
+      display:inline-block;
+      width:28px;
+      height:28px;
+      background:url(./images/checkbox.png) transparent 0 -112px no-repeat;
+      position:absolute;
+      left:0;
+      top:3px;
+    }
+
+    .checkbox label > span {
+      padding-left:5px;
+    }
+
+
+  </style>
 </head>
 <body>
   <section>
     <h1>Button</h1>
-    <button type="button">Button Label</button>  
+    <button type="button" class="button"><span>Primary action</span></button>  
+    <button type="button" class="button disabled"><span>Disabled Button</span></button> 
   </section>
   <section>
     <h2>Checkbox</h2>
-    <label><input type="checkbox" checked />Label Text</label>  
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" value="true" checked="checked">
+        <i></i>
+        <span>Counter Culture</span>
+      </label>
+    </div> 
   </section>
   <section>
     <h2>Link</h2>
-    <a href="#">Link Text</a>
+    <a href="#"><span>Link Text</span></a>
   </section>
   <section>
     <h2>Text Area</h2>
-    <label>Label Text:<textarea>Link Text</textarea></label>
+    <label><span>Label Text:</span><textarea>Link Text</textarea></label>
   </section>
   <section>
     <h2>Text Field</h2>
-    <label>Label Text:<input type="text" value="Text Goes Here" /></label>
+    <label><span>Label Text:</span><input type="text" value="Text Goes Here" /></label>
   </section>
   <section>
     <h2>Pulldown</h2>
-    <label>Label Text:
+    <label><span>Label Text:</span>
       <select>
         <option>Option 1</option>
         <option>Option 2</option>
@@ -37,9 +137,9 @@
   </section>
   <section>
     <h2>Radio Group</h2>
-    <label>Radio Group Label Text:</label>
-    <label><input type="radio" name="group" value="1" /> Value 1</label>
-    <label><input type="radio" name="group" value="2" /> Value 2</label>
+    <label><span>Radio Group Label Text:</span></label>
+    <label><input type="radio" name="group" value="1" /><span>Value 1</span></label>
+    <label><input type="radio" name="group" value="2" /><span>Value 2</span></label>
   </section>
 </body>
 </html>
