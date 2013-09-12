@@ -26,13 +26,6 @@
       user-select: none;
     }
 
-    /* tab focus */
-    .button:focus {
-      outline: thin dotted #333;
-      outline: 5px auto -webkit-focus-ring-color;
-      outline-offset: -2px;
-    }
-
     .button:hover, 
     .button:focus {
       background-color:#ddd;
@@ -40,12 +33,11 @@
     }
 
     .button:active,
-    .button:active {
+    .button.active {
       background-color:#ccc;
     }
 
-    .button.disabled,
-    .button:disabled {
+    .button.disabled {
       cursor:not-allowed;
       pointer-events:none;
       background-color:#ccc;
@@ -108,7 +100,7 @@
   <section>
     <h1>Button</h1>
     <button type="button" class="button"><span>Primary action</span></button>  
-    <button type="button" class="button disabled"><span>Disabled Button</span></button> 
+    <button type="button" disabled class="button disabled"><span>Disabled Button</span></button> 
   </section>
   <section>
     <h2>Checkbox</h2>
