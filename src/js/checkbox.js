@@ -21,7 +21,7 @@
       this.label = $.el.label();
       this.input = $.el.input();
       $(this.input).change(_(this._updateModel).bind(this));
-      $(this.input).click(_(this._updateModel).bind(this));
+      $(this.label).click(_(this._updateModel).bind(this));
       this._observeModel(_(this._refreshCheck).bind(this));
     },
 
@@ -41,6 +41,7 @@
         tabIndex : this.options.tabIndex,
         value : true,
         checked : value,
+        'class' : 'checked',
         disabled : this.options.disabled
       });
       
@@ -67,7 +68,8 @@
     },
     
     _updateModel : function() {
-      _(this.model).setProperty(this.options.content, this.input.checked);
+      $(this.input).toggleClass('checked');
+      _(this.model).setProperty(this.options.content, $(this.input).hasClass('checked'));
     }
     
   });
