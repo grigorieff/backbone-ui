@@ -95,6 +95,14 @@
       vertical-align:middle;
     }
 
+    /*---------------- link -------------------*/
+    .link {
+      position:relative;
+      display: inline-block;
+      vertical-align:middle;
+    }
+
+
 
   </style>
 </head>
@@ -120,11 +128,21 @@
   </section>
   <section>
     <h2>Text Area</h2>
-    <label><span>Label Text:</span><textarea>Link Text</textarea></label>
+    <div class="text_area">
+      <label for="message"><span>Message</span></label>
+      <textarea name="message" id="message"></textarea>
+    </div>
   </section>
   <section>
     <h2>Text Field</h2>
-    <label><span>Label Text:</span><input type="text" value="Text Goes Here" /></label>
+    <div class="text_area">
+      <label class="placeholder" for="first-name"><span>First Name</span></label>
+      <input type="text" name="first-name" id="first-name"></input>
+    </div>
+    <div class="text_area">
+      <label for="first-name"><span>First Name</span></label>
+      <input type="text" name="first-name" id="first-name"></input>
+    </div>
   </section>
   <section>
     <h2>Pulldown</h2>
