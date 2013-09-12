@@ -107,7 +107,36 @@
       vertical-align:middle;
     }
 
+    /*---------------- text_field -------------------*/
+    .text_field {
+      font-size:16px;
+      font-family:Helvetica;
+      font-weight:normal;
+    }
 
+    .text_field > label > span {
+      display:block;
+    }
+
+    .text_field input {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      -moz-box-sizing:border-box;
+      -webkit-box-sizing:border-box;
+      box-sizing:border-box;
+      border: 1px solid #666;
+      margin-bottom:30px;
+      padding:10px;
+      background:#fff;
+      font-size:16px;
+      width:200px;
+    }
+
+    .text_field input.disabled {
+      filter:alpha(opacity=60);
+      opacity:0.6;
+    }
 
   </style>
 </head>
