@@ -33,7 +33,7 @@
       $(this.el).empty();
       
       // insert label
-      this.el.appendChild($.el.span({className : 'label'}, labelText));
+      this.el.appendChild($.el.span(labelText));
       
       // add appropriate class names
       this.setEnabled(!this.options.disabled);
@@ -49,7 +49,7 @@
         this.el.removeAttribute('href');
       }
       this.options.disabled = !enabled;
-      $(this.el)[enabled ? 'removeClass' : 'addClass']('disabled');
+      $(this.el).toggleClass('disabled', !enabled);
     }
   });
 }());

@@ -7,7 +7,7 @@ $(document).ready(function() {
       content : 'foo',
     }).render();
 
-    var text = $(link.el).find('.label').text();
+    var text = $(link.el).find('span').text();
     equal(text, 'foo');
 
   });
@@ -26,7 +26,7 @@ $(document).ready(function() {
     }).render();
 
     // label should be rendered from the 'descripton' property
-    var text = $(link.el).find('.label').text();
+    var text = $(link.el).find('span').text();
     equal(text, 'Counter Culture');
 
     // update our model
@@ -35,7 +35,7 @@ $(document).ready(function() {
     });
 
     // text should have changed
-    text = $(link.el).find('.label').text();
+    text = $(link.el).find('span').text();
     equal(text, 'La Colombe');
 
   });
