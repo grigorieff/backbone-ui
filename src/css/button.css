@@ -20,29 +20,23 @@
   user-select: none;
 }
 
-/* tab focus */
-.button:focus {
-  outline: thin dotted #333;
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-
 .button:hover, 
-.button:focus {
+.button:focus,
+.button:link,
+.button:visited {
   background-color:#ddd;
   border-color:#222;
 }
 
 .button:active,
-.button:active {
+.button.active {
   background-color:#ccc;
 }
 
-.button.disabled,
-.button:disabled {
+.button.disabled {
   cursor:not-allowed;
   pointer-events:none;
-  background-color:#CBCBCB;
-  border-color:#CBCBCB;
+  background-color:#ccc;
+  border-color:#ccc;
   color:#fff;
 }
