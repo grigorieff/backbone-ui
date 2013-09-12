@@ -3,6 +3,12 @@
 <head>
   <title>Backbone-UI Native</title>
   <style>
+    body {
+      font-size:16px;
+      font-family:Helvetica;
+      font-weight:normal;
+    }
+
     /*---------------- button -------------------*/
     .button {
       font-size:16px;
@@ -102,9 +108,7 @@
 
     /*---------------- link -------------------*/
     .link {
-      position:relative;
       display: inline-block;
-      vertical-align:middle;
     }
 
     /*---------------- text_field -------------------*/
@@ -126,17 +130,35 @@
       -webkit-box-sizing:border-box;
       box-sizing:border-box;
       border: 1px solid #666;
-      margin-bottom:30px;
       padding:10px;
       background:#fff;
       font-size:16px;
-      width:200px;
     }
 
     .text_field input.disabled {
       filter:alpha(opacity=60);
       opacity:0.6;
     }
+
+    /*---------------- text_area -------------------*/
+    .text_area > label > span {
+      display:block;
+    }
+
+    .text_area textarea {
+      border:1px solid #666;
+      background-color:#fff;
+      display: inline-block;
+      padding:10px;
+      font-size:14px;
+      line-height:1.25;
+    }
+
+    .text_area textarea.disabled {
+      filter:alpha(opacity=60);
+      opacity:0.6;
+    }
+
 
   </style>
 </head>
