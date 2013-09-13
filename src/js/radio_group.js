@@ -48,7 +48,7 @@
         $(input).click(_(this._updateModel).bind(this, item));
         
         // create a new label/input pair and insert into the group
-        this.el.appendChild($.el.label(input, label));
+        this.el.appendChild($.el.label(input, $.el.i(), label));
         
       }, this);
 

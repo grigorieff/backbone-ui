@@ -1,53 +1,59 @@
+    .radio_group .group_label {
+      display:block;
+      padding:0;
+    }
 
-.radio_group .choice:hover {
-  cursor:pointer;
-}
+    .radio_group label {
+      font-size:16px;
+      font-family:Helvetica;
+      font-weight:normal;
+      display: inline-block;
+      line-height:20px;  
+      cursor: pointer;  
+      position: relative;
+      white-space:nowrap;  
+      padding-left:30px;
+      margin-left:10px;
+    }
 
-.radio_group .mark {
-  margin:0 5px 0 0;
-  width:20px;
-  height:20px;
-  line-height:17px;
-  border:1px solid #666;
-  -moz-border-radius: 11px;
-  -webkit-border-radius: 11px;
-  border-radius: 11px;
-  color:#222;
-  font-family:Verdana;
-  text-align:center;
-  font-size:16px;
-}
-.radio_group .choice:hover .mark {
-  background-color:#eee;
-  border-color:#222;
-}
+    .radio_group label:hover input + i {
+      background-color:#eee;
+      border-color:#222;
+    }
 
-.radio_group ul {
-  margin:0;
-  padding:0;
-}
+    .radio_group input {
+      display:inline-block;
+      position: absolute;
+      left:0;
+      width:auto;
+      height:16px;
+      cursor:pointer;
+      opacity: 0;
+    }
 
-.radio_group li {
-  margin-left:10px;
-}
+    #checked-failover:checked + i,
+    .radio_group input + i {
+      display: inline-block;
+      position:absolute;
+      left:0;
+      height: 20px;
+      width: 20px;
+      border-radius:50%;
+      border: 1px solid #666;
+    }
 
-.radio_group li a {
-  text-decoration:none;
-}
+    #checked-failover:checked + i:before,
+    .radio_group input:checked + i:before {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius:50%;
+      background: #222;
+      left: 5px;
+      top: 5px;
+    }
 
-.radio_group li a.choice {
-  display: inline-block;
-  vertical-align:top;
-}
-
-.radio_group .label {
-  line-height:22px;
-  color:#222;
-  cursor:pointer;
-}
-
-.radio_group .mark,
-.radio_group li,
-.radio_group .label {
-  display: inline-block;
-}
+    .radio_group > label > span {
+      vertical-align:middle;
+    }
