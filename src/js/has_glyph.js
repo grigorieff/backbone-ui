@@ -2,7 +2,7 @@
 (function(){
 
   var loadGlyph = function(name, size){
-    var div = $.el.div({
+    var div = $.el.i({
       className : 'glyph'
     });
     $(div).css({
@@ -21,42 +21,31 @@
       glyphSize : 26
     },
     
-    insertGlyphLayout : function(glyphCss, glyphRightCss, parent) {
+    insertGlyphLayout : function(glyphCss, glyphRightCss, content, parent) {
 
-      var contentContainer = $.el.div({'className' : 'content'});
-      if(!glyphCss && !glyphRightCss) {
-        contentContainer.appendTo(parent);
-        return contentContainer;
-      }
-
-      var wrapper = $.el.div({className : 'glyph_wrapper'});
-      wrapper.appendTo(parent);
-
-      var padding = this.options.glyphSize + Backbone.UI.HasGlyph.GLYPH_PADDING;
-
-      if(glyphRightCss) {
-        var glyphRight = loadGlyph(glyphRightCss, this.options.glyphSize);
-        $(glyphRight).addClass('right');
-        glyphRight.appendTo(wrapper);
-        $(wrapper).addClass('has_glyph_right');
-        $(contentContainer).css({
-          marginRight : padding + 'px'
-        });
-      }
-
+      // append left glyph
       if(glyphCss) {
         var glyphLeft = loadGlyph(glyphCss, this.options.glyphSize);
-        glyphLeft.appendTo(wrapper);
-        $(glyphLeft).addClass('left');
-        $(wrapper).addClass('has_glyph');
-        $(contentContainer).css({
-          marginLeft : padding + 'px'
+        $(glyphLeft).css({
+          paddingRight : Backbone.UI.HasGlyph.GLYPH_PADDING + 'px'
         });
+        parent.appendChild(glyphLeft);
       }
-
-      contentContainer.appendTo(wrapper);
-
-      return contentContainer;
+      
+      // append content
+      if(content) {
+        parent.appendChild(content);
+      }
+      
+      // append right glyph
+      if(glyphRightCss) {
+        var glyphRight = loadGlyph(glyphRightCss, this.options.glyphSize);
+        $(glyphRight).css({
+          paddingLeft : Backbone.UI.HasGlyph.GLYPH_PADDING + 'px'
+        });
+        parent.appendChild(glyphRight);
+      }
+     
     },
 
     resolveGlyph : function(model, content) {

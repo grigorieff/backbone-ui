@@ -19,7 +19,7 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
 
       _(this).bindAll('render');
 
@@ -47,7 +47,12 @@
         });
       }
 
-      this.el.appendChild($.el.span(labelText));
+      var content = $.el.span(labelText);
+      
+      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
+      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+
+      this.insertGlyphLayout(glyphCss, glyphRightCss, content, this.el);
 
       // add appropriate class names
       this.setEnabled(!this.options.disabled);

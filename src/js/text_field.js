@@ -25,7 +25,7 @@
     input : null,
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
       _(this).bindAll('_refreshValue');
     
       $(this.el).addClass('text_field');
@@ -61,9 +61,16 @@
         pattern : this.options.pattern,
         value : value});
 
-      // insert text_wrapper
-      this.el.appendChild($.el.div({className : 'input_wrapper'}, this.input));
+      var parent = $.el.div({className : 'text_wrapper'});
+      var content = this.input;
+      
+      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
+      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
 
+      this.insertGlyphLayout(glyphCss, glyphRightCss, content, parent);
+      
+      this.el.appendChild(parent);
+      
       this.setEnabled(!this.options.disabled);
 
       return this;

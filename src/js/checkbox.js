@@ -12,7 +12,7 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
       _(this).bindAll('_refreshCheck');
       $(this.el).addClass('checkbox');
       if(this.options.name){
@@ -48,8 +48,15 @@
       
       this.label.appendChild(this.input);
       this.label.appendChild($.el.i());
-      this.label.appendChild(
-        this._labelText = $.el.span(labelText));
+      this._labelText = $.el.span(labelText);
+      
+      var parent = $.el.div({className : 'checkbox_wrapper'});
+      var content = this._labelText;
+      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
+      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+      this.insertGlyphLayout(glyphCss, glyphRightCss, content, parent);
+      
+      this.label.appendChild(parent);
       this.el.appendChild(this.label);
 
       return this;
