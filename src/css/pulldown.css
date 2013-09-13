@@ -25,11 +25,10 @@
   font-weight:normal;
   color:#333;
   background-color:#eee;
-  border:1px solid #666;
+  border:none;
   line-height:1.25;
   display: inline-block;
   padding:6px 32px 6px 12px;
-  border-radius:4px;
   vertical-align:middle;
   text-decoration:none;
   cursor:pointer;
@@ -37,4 +36,12 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+}
+
+.pulldown .pulldown_wrapper {
+  display:inline-block;
+  background-color:#eee;
+  border:1px solid #666;
+  border-radius:4px;
+  padding:0 10px;
 }

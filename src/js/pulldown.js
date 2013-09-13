@@ -11,7 +11,8 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
+      this.mixin([Backbone.UI.HasModel, 
+        Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph]);
       _(this).bindAll('render');
 
       $(this.el).addClass('pulldown');
@@ -20,9 +21,6 @@
       }
       
     },
-
-    // public accessors 
-    //button : null,
 
     render : function() {
       $(this.el).empty();
@@ -75,8 +73,14 @@
       
       // set the selectedIndex on the select element
       this.select.selectedIndex = this._selectedIndex;
-      
-      this.el.appendChild(this.select);
+            
+      var parent = $.el.div({className : 'pulldown_wrapper'});
+      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
+      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+
+      this.insertGlyphLayout(glyphCss, glyphRightCss, this.select, parent);
+
+      this.el.appendChild($.el.label(parent));
       
       return this;
     },

@@ -41,7 +41,9 @@
 
       this._textField = new Backbone.UI.TextField({
         name : this.options.name,
-        placeholder : this.options.placeholder
+        placeholder : this.options.placeholder,
+        glyphCss : this.options.glyphCss,
+        glyphRightCss : this.options.glyphRightCss
       }).render();
 
       $(this._textField.input).click(_(this._showCalendar).bind(this));
