@@ -25,7 +25,7 @@
     input : null,
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph, Backbone.UI.HasFormLabel]);
       _(this).bindAll('_refreshValue');
     
       $(this.el).addClass('text_field');
@@ -69,7 +69,7 @@
 
       this.insertGlyphLayout(glyphCss, glyphRightCss, content, parent);
       
-      this.el.appendChild(parent);
+      this.el.appendChild(this.wrapWithFormLabel(parent));
       
       this.setEnabled(!this.options.disabled);
 
