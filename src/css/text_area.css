@@ -1,14 +1,6 @@
-.text_area > label > span {
-  display:block;
-}
-
 .text_area textarea {
-  border:1px solid #666;
-  background-color:#fff;
   display: inline-block;
   padding:10px;
-  font-size:14px;
-  line-height:1.25;
 }
 
 .text_area textarea.disabled {
