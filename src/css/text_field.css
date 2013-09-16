@@ -1,9 +1,3 @@
-.text_field {
-  font-size:16px;
-  font-family:Helvetica;
-  font-weight:normal;
-}
-
 .text_field > label > span {
   display:block;
 }
@@ -20,11 +14,6 @@
   padding:10px 0;
   background:#fff;
   font-size:16px;
-}
-
-.text_field input.disabled {
-  filter:alpha(opacity=60);
-  opacity:0.6;
 }
 
 .text_field .text_wrapper {
