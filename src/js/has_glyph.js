@@ -2,7 +2,7 @@
 (function(){
 
   var loadGlyph = function(name, size){
-    var div = $.el.i({
+    var div = $.el.span({
       className : 'glyph'
     });
     $(div).css({

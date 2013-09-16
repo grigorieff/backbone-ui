@@ -61,15 +61,24 @@
         pattern : this.options.pattern,
         value : value});
 
-      var parent = $.el.div({className : 'text_wrapper'});
+      // insert glyph if exist
+      this._parent = $.el.div({className : 'text_wrapper'});
       var content = this.input;
-      
       var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
       var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
-
-      this.insertGlyphLayout(glyphCss, glyphRightCss, content, parent);
+      this.insertGlyphLayout(glyphCss, glyphRightCss, content, this._parent);
       
-      this.el.appendChild(this.wrapWithFormLabel(parent));
+      // add focusin 
+      $(this.input).focusin(_(function(e) {
+        $(this._parent).addClass('focused');
+      }).bind(this));
+      
+      // add focusout
+      $(this.input).focusout(_(function(e) {
+        $(this._parent).removeClass('focused');
+      }).bind(this));
+      
+      this.el.appendChild(this.wrapWithFormLabel(this._parent));
       
       this.setEnabled(!this.options.disabled);
 
