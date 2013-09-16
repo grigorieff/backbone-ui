@@ -1,8 +1,25 @@
 /* button - default */
 .skin_perka .button {
-  background-color:#fff;
+  .button {
+  font-size:16px;
+  font-family:freight-sans-pro,sans-serif;
+  font-weight:normal;
   color:#333;
-  border-color:#c1c1c1;;
+  background-color:#fff;
+  border:1px solid #c1c1c1;
+  line-height:1.25;
+  display: inline-block;
+  padding:6px 12px;
+  border-radius:4px;
+  vertical-align:middle;
+  text-decoration:none;
+  cursor:pointer;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   border-top-color:#ebebeb;
   border-bottom-color:#989898; 
 }
@@ -10,7 +27,9 @@
 .skin_perka .button.active,
 .skin_perka .button:active,
 .skin_perka .button:active:hover,
-.skin_perka .button.active:hover  {
+.skin_perka .button.active:hover,
+.skin_perka .button:link,
+.skin_perka .button:visited {
   background-color:#e0e0e0;
   border-bottom-color:#ebebeb;
 }
