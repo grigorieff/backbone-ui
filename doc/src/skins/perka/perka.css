@@ -2,7 +2,7 @@
 .skin_perka .button {
   font-size:16px;
   font-family:freight-sans-pro,sans-serif;
-  font-weight:normal;
+  font-weight:400;
   color:#333;
   background-color:#fff;
   border:1px solid #c1c1c1;
@@ -21,6 +21,7 @@
   user-select: none;
   border-top-color:#ebebeb;
   border-bottom-color:#989898; 
+  margin-right:30px;
 }
 
 .skin_perka .button.active,
@@ -33,23 +34,10 @@
   border-bottom-color:#ebebeb;
 }
 
-/* button - link */
-.skin_perka .button.link {
-  border:0;
-  background:none;
-  color:#666;
-}
-
-.skin_perka .button.link:hover {
-  color:#333;
-  text-decoration:underline;
-}
-
 /* button - sizes */
 .skin_perka .button.large {
   font-size:19px;
   border-radius:5px;
-  margin-right:30px;
 }
 
 .skin_perka .button.large {
@@ -98,15 +86,6 @@
   border-bottom-color:#cf5200; 
 } 
 
-.skin_perka .button.orange.link {
-  color:#cf5200;
-  background:none;
-}
-
-.skin_perka .button.orange.link:hover {
-  color:#b44814;
-}
-
 .skin_perka .button.blue {
   background-color:#369f9f;
   color:#fff;
@@ -126,15 +105,6 @@
   background-color:#148d88;
   border-bottom-color:#369f9f; 
 } 
-
-.skin_perka .button.blue.link {
-  color:#066;
-  background:none;
-}
-
-.skin_perka .button.blue.link:hover {
-  color:#033;
-}
 
 .skin_perka .button.green {
   background-color:#9ac400;
@@ -156,15 +126,6 @@
   border-bottom-color:#9ac400; 
 } 
 
-.skin_perka .button.green.link {
-  color:#4d6200;
-  background:none;
-}
-
-.skin_perka .button.green.link:hover {
-  color:#374401;
-}
-
 .skin_perka .light_blue {
   background-color:#d6f2f3;
   color:#033;
@@ -185,15 +146,6 @@
   border-bottom-color:#d6f2f3; 
 } 
 
-.skin_perka .light_blue.link {
-  color:#066;
-  background:none;
-}
-
-.skin_perka .light_blue.link:hover {
-  color:#033;
-}
-
 .skin_perka .button:hover,
 .skin_perka .button.orage:hover,
 .skin_perka .button.blue:hover,
@@ -213,4 +165,55 @@
 .skin_perka .button.light_blue.active,
 .skin_perka .button.light_blue:active {
   border-top-color:#333;
+}
+
+/* link - default */
+.skin_perka .link {
+  font-size:16px;
+  font-family:freight-sans-pro,sans-serif;
+  font-weight:400;
+  color:#666;
+  line-height:34px;
+  text-decoration:none;
+}
+
+.skin_perka .link:hover {
+  color:#333;
+  text-decoration:underline;
+}
+
+.skin_perka .link.orange {
+  color:#cf5200;
+  background:none;
+}
+
+.skin_perka .link.orange:hover {
+  color:#b44814;
+}
+
+.skin_perka .link.blue {
+  color:#066;
+  background:none;
+}
+
+.skin_perka .link.blue:hover {
+  color:#033;
+}
+
+.skin_perka .link.green {
+  color:#4d6200;
+  background:none;
+}
+
+.skin_perka .link.green:hover {
+  color:#374401;
+}
+
+.skin_perka .link.light_blue {
+  color:#066;
+  background:none;
+}
+
+.skin_perka .link.light_blue:hover {
+  color:#033;
 }
