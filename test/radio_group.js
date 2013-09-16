@@ -74,7 +74,6 @@ $(document).ready(function() {
       altLabelContent: 'name',
       onChange: function() { 
         changeCount++;
-        console.log(coffee.get('region').get('name'));
       }
     }).render();
 
