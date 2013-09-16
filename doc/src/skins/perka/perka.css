@@ -7,6 +7,14 @@
   border-bottom-color:#989898; 
 }
 
+.skin_perka .button.active,
+.skin_perka .button:active,
+.skin_perka .button:active:hover,
+.skin_perka .button.active:hover  {
+  background-color:#e0e0e0;
+  border-bottom:#ebebeb;
+}
+
 /* button - link */
 .skin_perka .button.link {
   border:0;
@@ -60,6 +68,18 @@
   border-bottom-color:#712E07; 
 }
 
+.skin_perka .button.orange:hover {
+  background-color:#d3672b;
+}
+
+.skin_perka .button.orange.active,
+.skin_perka .button.orange:active,
+.skin_perka .button.orange:active:hover,
+.skin_perka .button.orange.active:hover {
+  background-color:#b44814;
+  border-bottom-color:#cf5200; 
+} 
+
 .skin_perka .button.orange.link {
   color:#cf5200;
   background:none;
@@ -76,6 +96,18 @@
   border-top-color:#369f9f;
   border-bottom-color:#007171; 
 }
+
+.skin_perka .button.blue:hover {
+  background-color:#2baca7;
+}
+
+.skin_perka .button.blue.active,
+.skin_perka .button.blue:active,
+.skin_perka .button.blue:active:hover,
+.skin_perka .button.blue.active:hover {
+  background-color:#148d88;
+  border-bottom-color:#369f9f; 
+} 
 
 .skin_perka .button.blue.link {
   color:#066;
@@ -94,6 +126,18 @@
   border-bottom-color:#7f9e2a; 
 }
 
+.skin_perka .button.green:hover {
+  background-color:#a7c934;
+}
+
+.skin_perka .button.green.active,
+.skin_perka .button.green:active,
+.skin_perka .button.green:active:hover,
+.skin_perka .button.green.active:hover {
+  background-color:#88aa20;
+  border-bottom-color:#9ac400; 
+} 
+
 .skin_perka .button.green.link {
   color:#4d6200;
   background:none;
@@ -111,6 +155,18 @@
   border-bottom-color:#007171; 
 }
 
+.skin_perka .light_blue:hover {
+  background-color:#dcf4f4;
+}
+
+.skin_perka .button.light_blue.active,
+.skin_perka .button.light_blue:active,
+.skin_perka .button.light_blue:active:hover,
+.skin_perka .button.light_blue.active:hover {
+  background-color:#bdd5d5;
+  border-bottom-color:#d6f2f3; 
+} 
+
 .skin_perka .light_blue.link {
   color:#066;
   background:none;
@@ -118,4 +174,25 @@
 
 .skin_perka .light_blue.link:hover {
   color:#033;
+}
+
+.skin_perka .button:hover,
+.skin_perka .button.orage:hover,
+.skin_perka .button.blue:hover,
+.skin_perka .button.green:hover,
+.skin_perka .button.light_blue:hover {
+  border-bottom-color:#333;
+}
+
+.skin_perka .button.active,
+.skin_perka .button:active,
+.skin_perka .button.orage.active
+.skin_perka .button.orage:active,
+.skin_perka .button.blue.active
+.skin_perka .button.blue:active,
+.skin_perka .button.green.active,
+.skin_perka .button.green:active,
+.skin_perka .button.light_blue.active,
+.skin_perka .button.light_blue:active {
+  border-top-color:#333;
 }
