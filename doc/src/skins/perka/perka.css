@@ -12,7 +12,7 @@
 .skin_perka .button:active:hover,
 .skin_perka .button.active:hover  {
   background-color:#e0e0e0;
-  border-bottom:#ebebeb;
+  border-bottom-color:#ebebeb;
 }
 
 /* button - link */
