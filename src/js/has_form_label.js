@@ -5,12 +5,12 @@
 
     options : {
       // wraps element in a label 
-      formLabel : null
+      formLabelContent : null
     },
     
     wrapWithFormLabel : function(content) {
       var wrapped = $.el.label();
-      var formLabelText = this.resolveFormLabel(this.model, this.options.formLabel) || this.options.formLabel;
+      var formLabelText = this.resolveFormLabel(this.model, this.options.formLabelContent) || this.options.formLabelContent;
       if(formLabelText) {
         wrapped.appendChild($.el.span(formLabelText));
       }
@@ -21,7 +21,7 @@
     // resolves the appropriate content from the given choices
     resolveFormLabel : function(model, content) {
       model = _(model).exists() ? model : this.model;
-      content = _(content).exists() ? content : this.options.formLabel;
+      content = _(content).exists() ? content : this.options.formLabelContent;
       var hasModelProperty = _(model).exists() && _(content).exists();
       return _(content).isFunction() ? content(model) : 
         hasModelProperty && _(model[content]).isFunction() ? model[content]() : 

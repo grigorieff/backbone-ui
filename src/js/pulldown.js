@@ -74,13 +74,23 @@
       // set the selectedIndex on the select element
       this.select.selectedIndex = this._selectedIndex;
             
-      var parent = $.el.div({className : 'pulldown_wrapper'});
+      this._parent = $.el.div({className : 'pulldown_wrapper'});
       var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
       var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+      this.insertGlyphLayout(glyphCss, glyphRightCss, this.select, this._parent);
 
-      this.insertGlyphLayout(glyphCss, glyphRightCss, this.select, parent);
+      // add focusin 
+      $(this.select).focusin(_(function(e) {
+        $(this._parent).addClass('focused');
+      }).bind(this));
+      
+      // add focusout
+      $(this.select).focusout(_(function(e) {
+        $(this._parent).removeClass('focused');
+      }).bind(this));
 
-      this.el.appendChild($.el.label(parent));
+
+      this.el.appendChild($.el.label(this._parent));
       
       return this;
     },
