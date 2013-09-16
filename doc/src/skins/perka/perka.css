@@ -24,6 +24,13 @@
   margin-right:30px;
 }
 
+.skin_perka .button.disabled,
+.skin_perka .button.disabled:hover {
+  color:#fff;
+  border-color:#cbcbcb;
+  background-color:#cbcbcb;
+}
+
 .skin_perka .button.active,
 .skin_perka .button:active,
 .skin_perka .button:active:hover,
