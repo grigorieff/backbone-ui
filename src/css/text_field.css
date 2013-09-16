@@ -33,7 +33,7 @@
   padding:0 10px;
 }
 
-.text_field .text_wrapper.focus {
+.text_field .text_wrapper.focused {
   /* Default */
   outline: thin dotted #333;
   /* Webkit */
