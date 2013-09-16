@@ -59,7 +59,7 @@
         this.insertGlyphLayout(glyphCss, glyphRightCss, content, parent);
         
         // create a new label/input pair and insert into the group
-        this.el.appendChild($.el.label(input, $.el.i(), parent));
+        this.el.appendChild($.el.label(input, parent));
         
       }, this);
 

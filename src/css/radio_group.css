@@ -1,59 +1,18 @@
-    .radio_group .group_label {
-      display:block;
-      padding:0;
-    }
+.radio_group label {
+  font-size:16px;
+  font-family:Helvetica;
+  font-weight:normal;
+  display: inline-block;
+  line-height:20px;  
+  cursor: pointer;  
+  position: relative;
+  white-space:nowrap;  
+}
 
-    .radio_group label {
-      font-size:16px;
-      font-family:Helvetica;
-      font-weight:normal;
-      display: inline-block;
-      line-height:20px;  
-      cursor: pointer;  
-      position: relative;
-      white-space:nowrap;  
-      padding-left:30px;
-      margin-left:10px;
-    }
+.radio_group > label > span {
+  vertical-align:middle;
+}
 
-    .radio_group label:hover input + i {
-      background-color:#eee;
-      border-color:#222;
-    }
-
-    .radio_group input {
-      display:inline-block;
-      position: absolute;
-      left:0;
-      width:auto;
-      height:16px;
-      cursor:pointer;
-      opacity: 0;
-    }
-
-    #checked-failover:checked + i,
-    .radio_group input + i {
-      display: inline-block;
-      position:absolute;
-      left:0;
-      height: 20px;
-      width: 20px;
-      border-radius:50%;
-      border: 1px solid #666;
-    }
-
-    #checked-failover:checked + i:before,
-    .radio_group input:checked + i:before {
-      content: "";
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      border-radius:50%;
-      background: #222;
-      left: 5px;
-      top: 5px;
-    }
-
-    .radio_group > label > span {
-      vertical-align:middle;
-    }
+.radio_group .radio_group_wrapper {
+  display:inline-block;
+}

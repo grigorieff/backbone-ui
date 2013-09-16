@@ -47,7 +47,6 @@
       var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
       
       this.label.appendChild(this.input);
-      this.label.appendChild($.el.i());
       this._labelText = $.el.span(labelText);
       
       var parent = $.el.div({className : 'checkbox_wrapper'});
