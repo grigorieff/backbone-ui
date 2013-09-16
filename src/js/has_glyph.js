@@ -24,7 +24,7 @@
     insertGlyphLayout : function(glyphCss, glyphRightCss, content, parent) {
 
       // append left glyph
-      if(glyphCss) {
+      if(glyphCss && (glyphCss !== "glyphCss")) {
         var glyphLeft = loadGlyph(glyphCss, this.options.glyphSize);
         $(glyphLeft).css({
           paddingRight : Backbone.UI.HasGlyph.GLYPH_PADDING + 'px'
@@ -38,7 +38,7 @@
       }
       
       // append right glyph
-      if(glyphRightCss) {
+      if(glyphRightCss && (glyphRightCss !== "glyphRightCss")) {
         var glyphRight = loadGlyph(glyphRightCss, this.options.glyphSize);
         $(glyphRight).css({
           paddingLeft : Backbone.UI.HasGlyph.GLYPH_PADDING + 'px'

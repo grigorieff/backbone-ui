@@ -50,12 +50,15 @@
         $(input).change(_(this._updateModel).bind(this, item));
         $(input).click(_(this._updateModel).bind(this, item));
         
+        // resolve left and right glyphs
         var parent = $.el.div({className : 'radio_group_wrapper'});
         var content = $.el.span(label);
-        var glyphCss = this.resolveGlyph(item, this.options.altGlyphCss) || 
-          this.resolveGlyph(this.model, this.options.glyphCss);
-        var glyphRightCss = this.resolveGlyph(item, this.options.altGlyphRightCss) || 
-          this.resolveGlyph(this.model, this.options.glyphRightCss);
+        var glyphCss = this.resolveGlyph(item, this.options.altGlyphCss);
+        glyphCss = (glyphCss && (glyphCss !== "glyphCss")) ? glyphCss : 
+          this.resolveGlyph(null, this.options.glyphCss);
+        var glyphRightCss = this.resolveGlyph(item, this.options.altGlyphRightCss);
+        glyphRightCss = (glyphRightCss && (glyphRightCss !== "glyphRightCss")) ? 
+          glyphRightCss : this.resolveGlyph(null, this.options.glyphRightCss);
         this.insertGlyphLayout(glyphCss, glyphRightCss, content, parent);
         
         // create a new label/input pair and insert into the group
