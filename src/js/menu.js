@@ -100,6 +100,9 @@
             
       this.el.appendChild(this.select);
       
+      // scroll to selected Item
+      this.scrollToSelectedItem();
+      
       return this;
     },
 
@@ -139,15 +142,15 @@
       }, this);
       
       return item;
+    },
+    
+    scrollToSelectedItem : function() {
+      if(this.select.selectedIndex > 0) {
+        // TODO: find height of option dynamically
+        var optionHeight = 12;
+        $(this.select).scrollTop((this.select.selectedIndex * optionHeight));
+      }
     }
-    
-    
-    
-    // scrollToSelectedItem : function() {
-    //       var pos = !this._selectedAnchor ? 0 : 
-    //         $(this._selectedAnchor.parentNode).position().top - 10;
-    //       this.scroller.setScrollPosition(pos);
-    //     }
 
   });
 }());
