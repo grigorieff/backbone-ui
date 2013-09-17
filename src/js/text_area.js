@@ -8,8 +8,6 @@
 
       // disables the text area
       disabled : false,
-      
-      enableScrolling : true,
 
       tabIndex : null,
       
@@ -46,15 +44,7 @@
 
       this._observeModel(_(this._refreshValue).bind(this));
 
-      var content = this.textArea;
-      if(this.options.enableScrolling) {
-        this._scroller = new Backbone.UI.Scroller({
-          content : this.textArea
-        }).render();
-        content = this._scroller.el;
-      }
-
-      this.el.appendChild(content);
+      this.el.appendChild(this.textArea);
 
       this.setEnabled(!this.options.disabled);
       

@@ -24,7 +24,8 @@
         altLabelContent : 'label',
         altValueContent : 'label',
         content : 'value',
-        onChange : _(this._onSelectTimeItem).bind(this)
+        onChange : _(this._onSelectTimeItem).bind(this),
+        size : 10
       });
       $(this._menu.el).hide();
       $(this._menu.el).autohide({
@@ -110,7 +111,7 @@
 
       $(this._menu.el).alignTo(this._textField.el, 'bottom -left', 0, 2);
       $(this._menu.el).show();
-      this._menu.scrollToSelectedItem();
+      //this._menu.scrollToSelectedItem();
     },
 
     _hideMenu : function(e) {

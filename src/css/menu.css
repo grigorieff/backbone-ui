@@ -1,6 +1,7 @@
 .menu {
   max-height:150px;
   margin-right:3px;
+  display:inline-block;
 }
 
 .menu ul {

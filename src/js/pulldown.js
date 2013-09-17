@@ -25,59 +25,21 @@
     render : function() {
       $(this.el).empty();
       
-      this._observeModel(this.render);
-      this._observeCollection(this.render);
-
-      this.selectedItem = this._determineSelectedItem() || this.selectedItem;
-      var selectedValue = this._valueForItem(this.selectedItem);
+      this.select = new Backbone.UI.Menu({
+        model : this.model,
+        content : this.options.content,
+        alternatives : this.options.alternatives,
+        altLabelContent : this.options.altLabelContent,
+        altValueContent : this.options.altValueContent,
+        onChange : this.options.onChange,
+        placeholder : this.options.placeholder,
+        size : 1
+      }).render();
       
-      this.select = $.el.select();
-      
-      // setup events for each input in collection
-      $(this.select).change(_(this._updateModel).bind(this));
-      
-      // append placeholder option if no selectedItem
-      var placeholder = $.el.option(this.options.placeholder);
-      $(placeholder).data('value', null);
-      // placeholder is not selectable if there is no emptyItem set
-      if(!this.options.emptyItem) {
-        $(placeholder).attr({ disabled : 'true' });
-        $(placeholder).click(_(function() {
-          this.select.selectedIndex = 0;
-          this._updateModel();
-        }).bind(this));
-      }
-      this.select.appendChild(placeholder);
-      // default selectedIndex is placeholder
-      this._selectedIndex = 0;
-      
-      _(this._collectionArray()).each(function(item, idx) {
-        // account for placeholder (add 1)
-        idx++;
-        var val = this._valueForItem(item);
-        if(selectedValue === val) {
-          this._selectedIndex = idx;
-        }
-        
-        var option = $.el.option(this._labelForItem(item));
-        $(option).data('value', val);
-        
-        $(option).click(_(function(selectedIdx) {
-          this.select.selectedIndex = selectedIdx;
-          this._updateModel();
-        }).bind(this, idx));
-        
-        this.select.appendChild(option);
-        
-      }, this);
-      
-      // set the selectedIndex on the select element
-      this.select.selectedIndex = this._selectedIndex;
-            
       this._parent = $.el.div({className : 'pulldown_wrapper'});
       var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
       var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
-      this.insertGlyphLayout(glyphCss, glyphRightCss, this.select, this._parent);
+      this.insertGlyphLayout(glyphCss, glyphRightCss, this.select.el, this._parent);
 
       // add focusin 
       $(this.select).focusin(_(function(e) {
@@ -88,8 +50,8 @@
       $(this.select).focusout(_(function(e) {
         $(this._parent).removeClass('focused');
       }).bind(this));
-
-
+      
+      
       this.el.appendChild($.el.label(this._parent));
       
       return this;
