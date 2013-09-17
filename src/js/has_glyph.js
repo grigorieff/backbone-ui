@@ -8,7 +8,8 @@
     $(div).css({
       background : name,
       width : size + 'px',
-      height : size + 'px'
+      height : size + 'px',
+      backgroundSize : size + 'px ' + size + 'px'
     });
     return div;
   };
