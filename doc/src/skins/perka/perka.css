@@ -6,9 +6,9 @@
   color:#333;
   background-color:#fff;
   border:1px solid #c1c1c1;
-  line-height:1.25;
+  line-height:20px;
   display: inline-block;
-  padding:6px 12px;
+  padding:7px 12px;
   border-radius:4px;
   vertical-align:middle;
   text-decoration:none;
@@ -22,6 +22,10 @@
   border-top-color:#ebebeb;
   border-bottom-color:#989898; 
   margin-right:30px;
+}
+
+.skin_perka .button.with_glyph {
+  padding-left:10px;
 }
 
 .skin_perka .button.disabled,
@@ -44,32 +48,20 @@
 /* button - sizes */
 .skin_perka .button.large {
   font-size:19px;
+  line-height:28px;
   border-radius:5px;
-}
-
-.skin_perka .button.large {
-  padding:8px 10px;
-}
-
-.skin_perka .button.medium {
-  font-size:16px;
-  border-radius:4px;
-  padding:6px 12px;
-}
-
-.skin_perka .button.medium.with_glyph {
-  padding:8px 12px 8px 10px;
 }
 
 .skin_perka .button.small {
   font-size:12px;
+  line-height:20px;
   text-transform:uppercase;
   border-radius:4px;
-  padding:4px 10px;
+  padding:5px 10px;
 }
 
 .skin_perka .button.small.with_glyph {
-  padding:6px 10px 6px 6px;
+  padding-left:6px;
 }
 
 /* button - colors */
@@ -223,4 +215,13 @@
 
 .skin_perka .link.light_blue:hover {
   color:#033;
+}
+
+/* text - animation on focus */
+.skin_perka input[type=text], 
+.skin_perka textarea {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
 }
