@@ -22,7 +22,7 @@
     textArea : null,
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel]);
       
       $(this.el).addClass('text_area');
       if(this.options.name){
@@ -44,7 +44,7 @@
 
       this._observeModel(_(this._refreshValue).bind(this));
 
-      this.el.appendChild(this.textArea);
+      this.el.appendChild(this.wrapWithFormLabel(this.textArea));
 
       this.setEnabled(!this.options.disabled);
       

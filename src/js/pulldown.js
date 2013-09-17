@@ -12,7 +12,7 @@
 
     initialize : function() {
       this.mixin([Backbone.UI.HasModel, 
-        Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph]);
+        Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph, Backbone.UI.HasFormLabel]);
       _(this).bindAll('render');
 
       $(this.el).addClass('pulldown');
@@ -53,7 +53,7 @@
       }).bind(this));
       
       
-      this.el.appendChild($.el.label(this._parent));
+      this.el.appendChild(this.wrapWithFormLabel($.el.label(this._parent)));
       
       return this;
     },
