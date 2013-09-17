@@ -4,13 +4,14 @@
   font-family:freight-sans-pro,sans-serif;
   font-weight:400;
   color:#333;
+  vertical-align:middle;
   background-color:#fff;
   border:1px solid #c1c1c1;
-  line-height:1.25;
+  line-height:20px;
   display: inline-block;
-  padding:6px 12px;
+  padding:7px 12px;
   border-radius:4px;
-  vertical-align:middle;
+  margin:0;
   text-decoration:none;
   cursor:pointer;
   -webkit-user-select: none;
@@ -21,7 +22,13 @@
   user-select: none;
   border-top-color:#ebebeb;
   border-bottom-color:#989898; 
-  margin-right:30px;
+}
+
+.skin_perka .button.disabled,
+.skin_perka .button.disabled:hover {
+  color:#fff;
+  border-color:#cbcbcb;
+  background-color:#cbcbcb;
 }
 
 .skin_perka .button.active,
@@ -37,32 +44,20 @@
 /* button - sizes */
 .skin_perka .button.large {
   font-size:19px;
+  line-height:28px;
   border-radius:5px;
-}
-
-.skin_perka .button.large {
-  padding:8px 10px;
-}
-
-.skin_perka .button.medium {
-  font-size:16px;
-  border-radius:4px;
-  padding:6px 12px;
-}
-
-.skin_perka .button.medium.with_glyph {
-  padding:8px 12px 8px 10px;
 }
 
 .skin_perka .button.small {
   font-size:12px;
+  line-height:20px;
   text-transform:uppercase;
   border-radius:4px;
-  padding:4px 10px;
+  padding:5px 10px;
 }
 
 .skin_perka .button.small.with_glyph {
-  padding:6px 10px 6px 6px;
+  padding-left:6px;
 }
 
 /* button - colors */
@@ -174,12 +169,19 @@
   font-weight:400;
   color:#666;
   line-height:34px;
-  text-decoration:none;
+  text-decoration:underline;
+}
+
+.skin_perka .link.large {
+  line-height:44px;
+}
+
+.skin_perka .link.small {
+  line-height:32px;
 }
 
 .skin_perka .link:hover {
   color:#333;
-  text-decoration:underline;
 }
 
 .skin_perka .link.orange {
@@ -217,3 +219,87 @@
 .skin_perka .link.light_blue:hover {
   color:#033;
 }
+
+/* text field - defaults */
+.skin_perka .text_field {
+  font-family:freight-sans-pro,sans-serif;
+  font-size:16px;
+  font-weight:400;
+  color:#333;
+}
+
+.skin_perka .text_field .text_wrapper {
+  border-radius:4px;
+  border:1px solid #666;
+}
+
+.skin_perka .text_field input {
+  font-size:17px;
+}
+
+.skin_perka .text_field input::-webkit-input-placeholder {
+  font-family:freight-text-pro,serif;
+  font-style:italic;
+  color:#999;
+  font-size:18px;
+}
+
+.skin_perka .text_field input:-moz-placeholder{
+  font-family:freight-text-pro,serif;
+  font-style:italic;
+  color:#999;
+  font-size:18px;
+}
+
+.skin_perka .text_field input:-ms-input-placeholder {  
+  font-family:freight-text-pro,serif;
+  font-style:italic;
+  color:#999;
+  font-size:18px;
+}
+
+.text_field .text_wrapper.focused {
+  outline:5px auto #999;
+  outline-offset:-4px;
+  -webkit-transition: outline .3s;
+  -moz-transition: outline .3s;
+  -o-transition: outline .3s;
+  transition:outline .3s;
+}
+
+.skin_perka .text_field > label > span {
+  margin-bottom:10px;
+}
+
+/* text field - size */
+.skin_perka .text_field.large input {
+  font-size:23px;
+}
+
+.skin_perka .text_field.large input::-webkit-input-placeholder {
+  font-size:24px;
+}
+
+.skin_perka .text_field.large input:-moz-placeholder{
+  font-size:24px;
+}
+
+.skin_perka .text_field.large input:-ms-input-placeholder {  
+  font-size:24px;
+}
+
+.skin_perka .text_field.large > label > span {
+  text-transform:uppercase;
+  font-size:15px;
+}
+
+/* glyph */
+.skin_perka .button .glyph {
+  margin-left:-2px;
+}
+
+.skin_perka .button.small .glyph {
+  margin-left:-4px;
+}
+
+
