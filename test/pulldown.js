@@ -20,10 +20,10 @@ $(document).ready(function() {
       altLabelContent: 'name'
     }).render();
 
-    pulldown.select.click();
-    $(pulldown.el).find('option').eq(1).click();
+    pulldown._menu.select.click();
+    $(pulldown._menu.select).find('option').eq(1).click();
 
-    equal(pulldown.select.options[pulldown.select.selectedIndex].text, 'Americas');
+    equal(pulldown._menu.select.options[pulldown._menu.select.selectedIndex].text, 'Americas');
 
   });
 
@@ -44,8 +44,8 @@ $(document).ready(function() {
       altLabelContent: 'name'
     }).render();
 
-    pulldown.select.click();
-    $(pulldown.el).find('option').eq(2).click();
+    pulldown._menu.select.click();
+    $(pulldown._menu.select).find('option').eq(1).click();
 
     equal(coffee.get('region').get('name'),'Africa');
 
@@ -61,7 +61,7 @@ $(document).ready(function() {
     }).render();
 
     //check the label on pulldown
-    equal($(pulldown.el).find('option').eq(0).text(),"Select a region...");
+    equal($(pulldown._menu.select).find('option').eq(0).text(),"Select a region...");
 
   });
 
@@ -89,8 +89,8 @@ $(document).ready(function() {
       }
     }).render();
     
-    pulldown.select.click();
-    $(pulldown.el).find('option').eq(2).click();
+    pulldown._menu.select.click();
+    $(pulldown._menu.select).find('option').eq(1).click();
 
     equal(changeEvents, 1);
     equal(itemClicked, regions.at(1));
@@ -131,8 +131,8 @@ $(document).ready(function() {
       }
     }).render();
 
-    pulldown2.select.click();
-    $(pulldown2.el).find('option').eq(2).click();
+    pulldown2._menu.select.click();
+    $(pulldown2._menu.select).find('option').eq(1).click();
 
     equal(changeEvents, 1);
   });

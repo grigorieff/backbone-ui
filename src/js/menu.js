@@ -35,7 +35,8 @@
       this._observeModel(this.render);
       this._observeCollection(this.render);
 
-      this.selectedItem = this._determineSelectedItem() || this.selectedItem;
+      this.selectedItem = this._determineSelectedItem();
+      // || this.selectedItem;
       var selectedValue = this._valueForItem(this.selectedItem);
       
       this.select = $.el.select({ size : this.options.size });
@@ -43,30 +44,40 @@
       // setup events for each input in collection
       $(this.select).change(_(this._updateModel).bind(this));
       
+      var selectedOffset = 0;
+      
       // append placeholder option if no selectedItem
       this._placeholder = null;
-      if(this.options.size === 1 && !selectedValue) {
+      if(!this.options.emptyItem && (this.options.size === 1) && !selectedValue) {
         this._placeholder = $.el.option(this.options.placeholder);
         $(this._placeholder).data('value', null);
-        // placeholder is not selectable if there is no emptyItem set
-        if(!this.options.emptyItem) {
-          $(this._placeholder).attr({ disabled : 'true' });
-          $(this._placeholder).click(_(function() {
-            this.select.selectedIndex = 0;
-            this._updateModel();
-          }).bind(this));
-        }
+        $(this._placeholder).attr({ disabled : 'true' });
         this.select.appendChild(this._placeholder);
+        // adjust for placeholder option
+        selectedOffset++;
+      }
+      
+      if(this.options.emptyItem) {
+        
+        this._emptyItem = $.el.option(this._labelForItem(this.options.emptyItem));
+        $(this._emptyItem).data('value', null);
+        this.select.appendChild(this._emptyItem);
+        $(this._emptyItem).click(_(function() {
+          this.select.selectedIndex = 0;
+          this._updateModel();
+        }).bind(this));
+        // adjust for emptyItem option
+        selectedOffset++;
       }
       
       // default selectedIndex as placeholder if exists
-      this._selectedIndex = this._placeholder ? 0 : -1;
+      this._selectedIndex = -1 + selectedOffset;
       
       _(this._collectionArray()).each(function(item, idx) {
-        // account for placeholder (add 1)
-        if(this._placeholder) {
-          idx++;
-        }
+        
+        // adjust index for potential placeholder and emptyItem
+        idx = idx + selectedOffset;
+        
         var val = this._valueForItem(item);
         if(_(selectedValue).isEqual(val)) {
           this._selectedIndex = idx;
@@ -118,6 +129,9 @@
     },
     
     _itemForValue : function(val) {
+      if(val === null) {
+        return val;
+      }
       var item = _(this._collectionArray()).find(function(item) {
         var isItem = val === item;
         var itemHasValue = this.resolveContent(item, this.options.altValueContent) === val;
@@ -126,6 +140,8 @@
       
       return item;
     }
+    
+    
     
     // scrollToSelectedItem : function() {
     //       var pos = !this._selectedAnchor ? 0 : 

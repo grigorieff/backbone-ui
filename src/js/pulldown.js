@@ -25,7 +25,7 @@
     render : function() {
       $(this.el).empty();
       
-      this.select = new Backbone.UI.Menu({
+      this._menu = new Backbone.UI.Menu({
         model : this.model,
         content : this.options.content,
         alternatives : this.options.alternatives,
@@ -33,21 +33,22 @@
         altValueContent : this.options.altValueContent,
         onChange : this.options.onChange,
         placeholder : this.options.placeholder,
+        emptyItem : this.options.emptyItem,
         size : 1
       }).render();
       
       this._parent = $.el.div({className : 'pulldown_wrapper'});
       var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
       var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
-      this.insertGlyphLayout(glyphCss, glyphRightCss, this.select.el, this._parent);
+      this.insertGlyphLayout(glyphCss, glyphRightCss, this._menu.el, this._parent);
 
       // add focusin 
-      $(this.select).focusin(_(function(e) {
+      $(this._menu.el).focusin(_(function(e) {
         $(this._parent).addClass('focused');
       }).bind(this));
       
       // add focusout
-      $(this.select).focusout(_(function(e) {
+      $(this._menu.el).focusout(_(function(e) {
         $(this._parent).removeClass('focused');
       }).bind(this));
       
@@ -59,26 +60,6 @@
 
     setEnabled : function(enabled) {
       if(this.button) this.button.setEnabled(enabled);
-    },
-
-    _labelForItem : function(item) {
-      return !_(item).exists() ? this.options.placeholder : 
-        this.resolveContent(item, this.options.altLabelContent);
-    },
-
-    // sets the selected item
-    setSelectedItem : function(item) {
-      this._setSelectedItem(item);
-    },
-    
-    _updateModel : function() {
-      var item = $(this.select.options[this.select.selectedIndex]).data('value');
-      var changed = this.selectedItem !== item;
-      this._setSelectedItem(item);
-      // if onChange function exists call it
-      if(_(this.options.onChange).isFunction() && changed) {
-        this.options.onChange(item);
-      }  
     }
         
   });
