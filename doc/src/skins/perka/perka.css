@@ -44,6 +44,7 @@
 /* button - sizes */
 .skin_perka .button.large {
   font-size:19px;
+  padding:6px 12px;
   line-height:28px;
   border-radius:5px;
 }
