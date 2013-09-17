@@ -237,3 +237,11 @@
   margin-left:-4px;
 }
 
+.skin_perka span.glyph {
+  background-size:20px;
+}
+
+.skin_perka .large span.glyph {
+  background-size:28px;
+}
+
