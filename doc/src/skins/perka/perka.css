@@ -236,6 +236,8 @@
 
 .skin_perka .text_field input {
   font-size:17px;
+  margin:0;
+  padding:8px 0;
 }
 
 .skin_perka .text_field input::-webkit-input-placeholder {
@@ -259,7 +261,7 @@
   font-size:18px;
 }
 
-.text_field .text_wrapper.focused {
+.skin_perka .text_field .text_wrapper.focused {
   outline:5px auto #999;
   outline-offset:-4px;
   -webkit-transition: outline .3s;
@@ -274,7 +276,7 @@
 
 /* text field - size */
 .skin_perka .text_field.large input {
-  font-size:23px;
+  font-size:24px;
 }
 
 .skin_perka .text_field.large input::-webkit-input-placeholder {
@@ -294,6 +296,51 @@
   font-size:15px;
 }
 
+.skin_perka .text_field.small .text_wrapper {
+  padding:0 12px;
+}
+
+.skin_perka .text_field.small input {
+  font-size:17px;
+  padding:6px 0;
+}
+
+.skin_perka .text_field.small input::-webkit-input-placeholder {
+  font-size:17px;
+}
+
+.skin_perka .text_field.small input:-moz-placeholder{
+  font-size:17px;
+}
+
+.skin_perka .text_field.small input:-ms-input-placeholder {  
+  font-size:17px;
+}
+
+.skin_perka .text_field.small > label > span {
+  display:inline-block;
+  margin-bottom:0;
+  margin-right:10px;
+}
+
+/* text field - error */
+.skin_perka .text_field.error .text_wrapper,
+.skin_perka .text_field.error .text_wrapper.focused {
+  outline:5px auto #fd7753;
+  outline-offset:-4px;
+  border-color:#ff4200;
+  -webkit-transition: outline .3s;
+  -moz-transition: outline .3s;
+  -o-transition: outline .3s;
+  transition:outline .3s;
+}
+
+.skin_perka .text_field.error > label > span {
+  font-weight:600;
+  font-style:normal;
+  color:#da4125;
+}
+
 /* glyph */
 .skin_perka .button .glyph {
   margin-left:-2px;
@@ -303,4 +350,10 @@
   margin-left:-4px;
 }
 
+/* error */
+.skin_perka .error_message {
+  font-family:freight-text-pro,serif;
+  font-style:italic;
+  color:#da4125;
+}
 
