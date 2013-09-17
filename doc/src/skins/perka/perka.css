@@ -4,6 +4,7 @@
   font-family:freight-sans-pro,sans-serif;
   font-weight:400;
   color:#333;
+  vertical-align:middle;
   background-color:#fff;
   border:1px solid #c1c1c1;
   line-height:20px;
@@ -21,10 +22,6 @@
   user-select: none;
   border-top-color:#ebebeb;
   border-bottom-color:#989898; 
-}
-
-.skin_perka .button > span {
-  vertical-align:middle;
 }
 
 .skin_perka .button.disabled,
