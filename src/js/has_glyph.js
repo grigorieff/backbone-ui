@@ -14,11 +14,11 @@
   };
 
   Backbone.UI.HasGlyph = {
-    GLYPH_PADDING : 3,
 
     options : {
       // The pixel size of the width and height of a glyph
-      glyphSize : 26
+      glyphSize : 26,
+      glyphPadding : 3
     },
     
     insertGlyphLayout : function(glyphCss, glyphRightCss, content, parent) {
@@ -27,7 +27,7 @@
       if(glyphCss && (glyphCss !== "glyphCss")) {
         var glyphLeft = loadGlyph(glyphCss, this.options.glyphSize);
         $(glyphLeft).css({
-          paddingRight : Backbone.UI.HasGlyph.GLYPH_PADDING + 'px'
+          paddingRight : this.options.glyphPadding + 'px'
         });
         parent.appendChild(glyphLeft);
       }
@@ -41,7 +41,7 @@
       if(glyphRightCss && (glyphRightCss !== "glyphRightCss")) {
         var glyphRight = loadGlyph(glyphRightCss, this.options.glyphSize);
         $(glyphRight).css({
-          paddingLeft : Backbone.UI.HasGlyph.GLYPH_PADDING + 'px'
+          paddingLeft : this.options.glyphPadding + 'px'
         });
         parent.appendChild(glyphRight);
       }

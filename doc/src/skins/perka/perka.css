@@ -21,11 +21,6 @@
   user-select: none;
   border-top-color:#ebebeb;
   border-bottom-color:#989898; 
-  margin-right:30px;
-}
-
-.skin_perka .button.with_glyph {
-  padding-left:10px;
 }
 
 .skin_perka .button.disabled,
@@ -173,12 +168,19 @@
   font-weight:400;
   color:#666;
   line-height:34px;
-  text-decoration:none;
+  text-decoration:underline;
+}
+
+.skin_perka .link.large {
+  line-height:44px;
+}
+
+.skin_perka .link.small {
+  line-height:32px;
 }
 
 .skin_perka .link:hover {
   color:#333;
-  text-decoration:underline;
 }
 
 .skin_perka .link.orange {
@@ -225,3 +227,14 @@
   -ms-transition: all 0.30s ease-in-out;
   -o-transition: all 0.30s ease-in-out;
 }
+
+/* glyph */
+.skin_perka .button.glyph {
+  margin-left:-2px;
+}
+
+.skin_perka .button.small.glyph {
+  margin-left:-4px;
+}
+
+.skin_perka 
