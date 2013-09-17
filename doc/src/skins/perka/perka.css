@@ -229,12 +229,11 @@
 }
 
 /* glyph */
-.skin_perka .button.glyph {
+.skin_perka .button .glyph {
   margin-left:-2px;
 }
 
-.skin_perka .button.small.glyph {
+.skin_perka .button.small .glyph {
   margin-left:-4px;
 }
 
-.skin_perka 
