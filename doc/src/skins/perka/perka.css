@@ -462,12 +462,22 @@
   display:block;
 }
 
+.skin_perka .pulldown .menu {
+  border-radius:4px;
+  background-color: #eee; /* fallback color if gradients are not supported */
+  background-image: -webkit-linear-gradient(top, #fff, #f7f7f7); /* For Chrome and Safari */
+  background-image:    -moz-linear-gradient(top, #fff, #f7f7f7); /* For old Fx (3.6 to 15) */
+  background-image:     -ms-linear-gradient(top, #fff, #f7f7f7); /* For pre-releases of IE 10*/
+  background-image:      -o-linear-gradient(top, #fff, #f7f7f7); /* For old Opera (11.1 to 12.0) */ 
+  background-image:         linear-gradient(to bottom, #fff, #f7f7f7); /* Standard syntax; must be last */
+}
+
 .skin_perka .pulldown .menu label {
   height: 34px;
   display:inline-block;
   overflow: hidden;
-  background:url(./images/pulldown_arrow.png) no-repeat right #eee;
-  border: 1px solid #222;
+  background:url(./images/pulldown_arrow.png) no-repeat right transparent;
+  border: 1px solid rgba(187,187,187,.7);
   border-radius:4px;
 }
 
