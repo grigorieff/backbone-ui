@@ -537,3 +537,13 @@
   color:#da4125;
 }
 
+.skin_perka .error_message.right {
+  display:inline-block;
+  margin:0 10px;
+}
+
+.skin_perka .error_message.right {
+  display:block;
+  margin:10px 0;
+}
+
