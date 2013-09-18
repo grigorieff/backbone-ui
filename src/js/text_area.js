@@ -45,7 +45,20 @@
 
       this._observeModel(_(this._refreshValue).bind(this));
 
-      this.el.appendChild(this.wrapWithFormLabel(this.textArea));
+      this._parent = $.el.div({className : 'textarea_wrapper'}, this.textArea);
+
+      this.el.appendChild(this.wrapWithFormLabel(this._parent));
+        
+      // add focusin 
+      $(this.textArea).focusin(_(function(e) {
+        $(this._parent).addClass('focused');
+      }).bind(this));
+
+      // add focusout
+      $(this.textArea).focusout(_(function(e) {
+        $(this._parent).removeClass('focused');
+      }).bind(this));  
+        
 
       this.setEnabled(!this.options.disabled);
       
