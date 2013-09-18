@@ -465,10 +465,23 @@
 .skin_perka .pulldown .menu label {
   height:36px;
   overflow:hidden;
-  border:1px solid #333;
+  border:1px solid #666;
   border-radius:4px;
   display:inline-block;
-  background:url(./images/pulldown_arrow.png) no-repeat right #eee;
+  background-color:#eee;
+}
+
+.skin_perka .pulldown .menu label:after {
+  content:"";
+  width: 0; 
+  height: 0; 
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #222;
+  position:absolute;
+  top:16px;
+  right:14px;
+  pointer-events:none;
 }
 
 .skin_perka .pulldown select {
@@ -490,13 +503,6 @@
   appearance: none;
 }
 
-.skin_perka .pulldown .pulldown_wrapper {
-  display:inline-block;
-  background-color:#eee;
-  border:1px solid #666;
-  border-radius:4px;
-  padding:0 10px;
-}
 
 /* glyph */
 .skin_perka .button .glyph.left {
