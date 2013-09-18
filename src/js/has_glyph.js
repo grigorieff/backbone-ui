@@ -28,8 +28,9 @@
       // append left glyph
       if(glyphCss && (glyphCss !== "glyphCss")) {
         var glyphLeft = loadGlyph(glyphCss, this.options.glyphSize, this.options.glyphBackgroundSize);
+        $(glyphLeft).addClass('left');
         $(glyphLeft).css({
-          paddingRight : this.options.glyphPadding + 'px'
+          marginRight : this.options.glyphPadding + 'px'
         });
         parent.appendChild(glyphLeft);
       }
@@ -42,8 +43,9 @@
       // append right glyph
       if(glyphRightCss && (glyphRightCss !== "glyphRightCss")) {
         var glyphRight = loadGlyph(glyphRightCss, this.options.glyphSize, this.options.glyphBackgroundSize);
+        $(glyphRight).addClass('right');
         $(glyphRight).css({
-          paddingLeft : this.options.glyphPadding + 'px'
+          marginLeft : this.options.glyphPadding + 'px'
         });
         parent.appendChild(glyphRight);
       }

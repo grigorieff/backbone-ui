@@ -236,8 +236,10 @@
 
 .skin_perka .text_field input {
   font-size:17px;
+  line-height:20px;
   margin:0;
   padding:8px 0;
+  vertical-align:middle;
 }
 
 .skin_perka .text_field input::-webkit-input-placeholder {
@@ -264,10 +266,8 @@
 .skin_perka .text_field .text_wrapper.focused {
   outline:5px auto #999;
   outline-offset:-4px;
-  -webkit-transition: outline .3s;
-  -moz-transition: outline .3s;
-  -o-transition: outline .3s;
-  transition:outline .3s;
+  -webkit-transition: outline ease-in-out .15s;
+  transition:outline ease-in-out .15s;
 }
 
 .skin_perka .text_field > label > span {
@@ -276,7 +276,8 @@
 
 /* text field - size */
 .skin_perka .text_field.large input {
-  font-size:24px;
+  font-size:23px;
+  line-height:28px;
 }
 
 .skin_perka .text_field.large input::-webkit-input-placeholder {
@@ -329,10 +330,8 @@
   outline:5px auto #fd7753;
   outline-offset:-4px;
   border-color:#ff4200;
-  -webkit-transition: outline .3s;
-  -moz-transition: outline .3s;
-  -o-transition: outline .3s;
-  transition:outline .3s;
+  -webkit-transition: outline ease-in-out .15s;
+  transition:outline ease-in-out .15s;
 }
 
 .skin_perka .text_field.error > label > span {
@@ -342,12 +341,28 @@
 }
 
 /* glyph */
-.skin_perka .button .glyph {
+.skin_perka .button .glyph.left {
   margin-left:-2px;
 }
 
-.skin_perka .button.small .glyph {
+.skin_perka .button.small .glyph.left {
   margin-left:-4px;
+}
+
+.skin_perka .button .glyph.right {
+  margin-right:-2px;
+}
+
+.skin_perka .button.small .glyph.right {
+  margin-right:-4px;
+}
+
+.skin_perka .text_field.small .glyph.left {
+  margin-left:-6px;
+}
+
+.skin_perka .text_field.small .glyph.right {
+  margin-right:-6px;
 }
 
 /* error */
