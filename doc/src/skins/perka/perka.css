@@ -340,11 +340,26 @@
   color:#da4125;
 }
 
-/* radio group */
-.skin_perka .radio_group .radio_group_wrapper > label {
+/* radio group and checkbox */
+.skin_perka .radio_group,
+.skin_perka .checkbox {
+  font-family:freight-sans-pro,sans-serif;
+  font-size:16px;
+  font-weight:400;
+  color:#333;
+}
+
+.skin_perka .radio_group .radio_group_wrapper > label,
+.skin_perka .checkbox .checkbox_wrapper > label {
   display:block;
   margin-bottom:10px;
 }
+
+.skin_perka .radio_group input,
+.skin_perka .checkbox input {
+  margin-right:10px;
+}
+
 
 /* glyph */
 .skin_perka .button .glyph.left {
