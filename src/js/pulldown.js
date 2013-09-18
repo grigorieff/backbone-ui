@@ -54,7 +54,7 @@
       }).bind(this));
       
       
-      this.el.appendChild(this.wrapWithFormLabel($.el.label(this._parent)));
+      this.el.appendChild(this.wrapWithFormLabel(this._parent));
       
       return this;
     },
