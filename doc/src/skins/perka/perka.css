@@ -340,6 +340,12 @@
   color:#da4125;
 }
 
+/* radio group */
+.skin_perka .radio_group .radio_group_wrapper > label {
+  display:block;
+  margin-bottom:10px;
+}
+
 /* glyph */
 .skin_perka .button .glyph.left {
   margin-left:-2px;
