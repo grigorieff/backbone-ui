@@ -25,7 +25,8 @@
     input : null,
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph, Backbone.UI.HasFormLabel]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph, 
+        Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       _(this).bindAll('_refreshValue');
     
       $(this.el).addClass('text_field');

@@ -22,7 +22,8 @@
     textArea : null,
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel,
+        Backbone.UI.HasError]);
       
       $(this.el).addClass('text_area');
       if(this.options.name){

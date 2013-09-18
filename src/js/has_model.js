@@ -10,7 +10,22 @@
       // If a function is given, it will be invoked with the model and will 
       // expect an element to be returned.  If no model is present, this 
       // property may be a string or function describing the content to be rendered
-      content : null
+      content : null,
+      
+      // If provided this content will wrap the component with additional label.
+      // The text displayed by the label is determined the same way the content attribute.
+      // This option is a no-op when applied to Button, Calendar, Checkbox, Link components.
+      formLabelContent : null,
+      
+      // If present, a square glyph area will be added to the left side of this 
+      // component, and the given string will be used as the full CSS background
+      // property of that glyph area. This option is a no-op when applied 
+      // to Calender and Menu components. 
+      glyphCss : null,
+
+      // Same as above, but on the right side.
+      glyphRightCss : null
+      
     },
 
     _observeModel : function(callback) {

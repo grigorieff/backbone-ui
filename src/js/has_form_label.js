@@ -2,11 +2,6 @@
 (function(){
 
   Backbone.UI.HasFormLabel = {
-
-    options : {
-      // wraps element in a label 
-      formLabelContent : null
-    },
     
     wrapWithFormLabel : function(content) {
       var wrapped = $.el.label();

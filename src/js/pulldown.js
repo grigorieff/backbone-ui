@@ -12,7 +12,8 @@
 
     initialize : function() {
       this.mixin([Backbone.UI.HasModel, 
-        Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph, Backbone.UI.HasFormLabel]);
+        Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph, 
+        Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       _(this).bindAll('render');
 
       $(this.el).addClass('pulldown');

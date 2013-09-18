@@ -12,7 +12,7 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasFormLabel]);
+      this.mixin([Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       $(this.el).addClass('date_picker');
 
       this._calendar = new Backbone.UI.Calendar({

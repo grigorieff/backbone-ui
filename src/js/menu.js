@@ -20,7 +20,8 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty, Backbone.UI.HasFormLabel]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty, 
+        Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
 
       _(this).bindAll('render');
 

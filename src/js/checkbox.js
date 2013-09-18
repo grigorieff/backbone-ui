@@ -12,7 +12,8 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph,
+        Backbone.UI.HasError]);
       _(this).bindAll('_refreshCheck');
       $(this.el).addClass('checkbox');
       if(this.options.name){
