@@ -10,7 +10,7 @@
 
     initialize : function() {
       this.mixin([Backbone.UI.HasModel, 
-        Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph]);
+        Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph, Backbone.UI.HasFormLabel]);
       _(this).bindAll('render');
       
       $(this.el).addClass('radio_group');
@@ -32,6 +32,9 @@
       this.selectedItem = this._determineSelectedItem() || this.selectedItem;
       
       var selectedValue = this._valueForItem(this.selectedItem);
+      
+      this.group = $.el.div({className : 'radio_group_wrapper'});
+      
       _(this._collectionArray()).each(function(item) {
 
         var val = this._valueForItem(item);
@@ -62,9 +65,11 @@
         this.insertGlyphLayout(glyphCss, glyphRightCss, content, parent);
         
         // create a new label/input pair and insert into the group
-        this.el.appendChild($.el.label(input, parent));
+        this.group.appendChild($.el.label(input, parent));
         
       }, this);
+      
+      this.el.appendChild(this.wrapWithFormLabel(this.group));
 
       return this;
     },

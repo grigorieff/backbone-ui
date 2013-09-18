@@ -20,7 +20,7 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty, Backbone.UI.HasFormLabel]);
 
       _(this).bindAll('render');
 
@@ -98,7 +98,7 @@
       // set the selectedIndex on the select element
       this.select.selectedIndex = this._selectedIndex;
             
-      this.el.appendChild(this.select);
+      this.el.appendChild(this.wrapWithFormLabel(this.select));
       
       // scroll to selected Item
       this.scrollToSelectedItem();
