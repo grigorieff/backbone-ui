@@ -463,40 +463,27 @@
 }
 
 .skin_perka .pulldown .menu label {
-  height:36px;
-  overflow:hidden;
-  border:1px solid #333;
-  border-radius:4px;
+  height: 34px;
   display:inline-block;
+  overflow: hidden;
   background:url(./images/pulldown_arrow.png) no-repeat right #eee;
+  border: 1px solid #222;
+  border-radius:4px;
 }
 
 .skin_perka .pulldown select {
-  font-size:16px;
-  font-family:Helvetica;
-  font-weight:normal;
-  color:#333;
+  display:inline-block;
+  background: transparent;
+  padding:6px;
+  border: 0;
+  border-radius: 0;
+  font-size: 16px;
   line-height:20px;
-  display: inline-block;
-  padding:6px 32px 6px 12px;
-  vertical-align:middle;
-  margin:0;
+  height: 34px;
   outline:0;
-  border:0;
-  height:36px;
-  background:transparent;
   -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
 }
 
-.skin_perka .pulldown .pulldown_wrapper {
-  display:inline-block;
-  background-color:#eee;
-  border:1px solid #666;
-  border-radius:4px;
-  padding:0 10px;
-}
 
 /* glyph */
 .skin_perka .button .glyph.left {
