@@ -53,6 +53,7 @@
   font-size:12px;
   line-height:20px;
   text-transform:uppercase;
+  font-weight:600;
   border-radius:4px;
   padding:5px 10px;
 }
@@ -340,8 +341,7 @@
   color:#da4125;
 }
 
-/* radio group and checkbox */
-.skin_perka .radio_group,
+/* checkbox */
 .skin_perka .checkbox {
   font-family:freight-sans-pro,sans-serif;
   font-size:16px;
@@ -349,17 +349,160 @@
   color:#333;
 }
 
-.skin_perka .radio_group .radio_group_wrapper > label,
-.skin_perka .checkbox .checkbox_wrapper > label {
+.skin_perka .checkbox > label {
+  display:inline-block;
+  position:relative;
+  cursor:pointer;
+}
+
+/* checkbox - restyling */
+.skin_perka .checkbox input {
+  display:inline-block;
+  position: absolute;
+  left:-10px;
+  top:3px;
+  width:auto;
+  height:28px;
+  cursor:pointer;
+  opacity: 0;
+}
+
+.skin_perka #checked-failover:checked + div:before,
+.skin_perka .checkbox input + div:before {
+  content:"";
+  display:inline-block;
+  position:relative;
+  vertical-align:middle;
+  height:28px;
+  width:28px;
+  background:url(./images/checkbox.png) transparent 0 2px no-repeat;
+}
+
+.skin_perka #checked-failover:checked + div:before,
+.skin_perka .checkbox label:hover input + div:before {
+  background-position: 0 -26px;
+}
+
+.skin_perka #checked-failover:checked + div:after,
+.skin_perka .checkbox input:checked + div:after {
+  content: "";
+  position: absolute;
+  background: url(./images/checkbox.png) transparent 0 -112px no-repeat;
+  top:3px;
+  left:0;
+  width:28px;
+  height:28px;
+}
+
+.skin_perka .checkbox .checkbox_wrapper span {
+  vertical-align:middle;
+  margin-left:10px;
+}
+
+/* radio group */
+.skin_perka .radio_group {
+  font-family:freight-sans-pro,sans-serif;
+  font-size:16px;
+  font-weight:400;
+  color:#333;
+}
+
+.skin_perka .radio_group .radio_group_wrapper > label {
   display:block;
   margin-bottom:10px;
+  position:relative;
+  cursor:pointer;
 }
 
-.skin_perka .radio_group input,
-.skin_perka .checkbox input {
-  margin-right:10px;
+/* radio group - restyling */
+.skin_perka .radio_group input {
+  display:inline-block;
+  position: absolute;
+  left:-10px;
+  top:3px;
+  width:auto;
+  height:28px;
+  cursor:pointer;
+  opacity: 0;
 }
 
+.skin_perka #checked-failover:checked + div:before,
+.skin_perka .radio_group input + div:before {
+  content:"";
+  display:inline-block;
+  position:relative;
+  vertical-align:middle;
+  height:28px;
+  width:28px;
+  background:url(./images/radio.png) transparent 0 2px no-repeat;
+}
+
+.skin_perka #checked-failover:checked + div:before,
+.skin_perka .radio_group .radio_group_wrapper label:hover input + div:before {
+  background-position: 0 -26px;
+}
+
+.skin_perka #checked-failover:checked + div:before,
+.skin_perka .radio_group input:checked + div:before,
+.skin_perka .radio_group .radio_group_wrapper label:hover input:checked + div:before {
+  background-position: 0 -82px;
+}
+
+.skin_perka .radio_group .radio_group_wrapper span {
+  vertical-align:middle;
+  margin-left:10px;
+}
+
+/* pulldown */
+.skin_perka .pulldown > label {
+  position:relative;
+}
+
+.skin_perka .pulldown > label > span {
+  display:block;
+}
+
+.skin_perka .pulldown > label:after {
+  content:"";
+  width: 0; 
+  height: 0; 
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #222;
+  position:absolute;
+  top:6px;
+  right:11px;
+  pointer-events:none;
+}
+
+.skin_perka .pulldown select {
+  font-size:16px;
+  font-family:Helvetica;
+  font-weight:normal;
+  color:#333;
+  background-color:#eee;
+  border:none;
+  line-height:1.25;
+  display: inline-block;
+  padding:6px 32px 6px 12px;
+  vertical-align:middle;
+  text-decoration:none;
+  cursor:pointer;
+  margin:0;
+  outline:0;
+  border:0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.skin_perka .pulldown .pulldown_wrapper {
+  display:inline-block;
+  background-color:#eee;
+  border:1px solid #666;
+  border-radius:4px;
+  padding:0 10px;
+}
 
 /* glyph */
 .skin_perka .button .glyph.left {
@@ -390,6 +533,7 @@
 .skin_perka .error_message {
   font-family:freight-text-pro,serif;
   font-style:italic;
+  font-weight:400;
   color:#da4125;
 }
 
