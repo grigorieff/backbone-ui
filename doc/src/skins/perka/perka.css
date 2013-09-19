@@ -1,3 +1,26 @@
+/* form label */
+.skin_perka .form_label {
+  font-size:16px;
+  font-family:freight-sans-pro,sans-serif;
+  font-weight:400;
+  color:#333;
+  display:block;
+  margin-bottom:10px;
+}
+
+.skin_perka .inline .form_label {
+  display:inline-block;
+  margin-right:10px;
+  margin-bottom:0;
+  vertical-align:middle;
+}
+
+.skin_perka .error .form_label {
+  font-weight:600;
+  font-style:normal;
+  color:#da4125;
+}
+
 /* button - default */
 .skin_perka .button {
   font-size:16px;
@@ -222,20 +245,23 @@
   color:#033;
 }
 
-/* text field - defaults */
-.skin_perka .text_field {
+/* text field and text area - defaults */
+.skin_perka .text_field,
+.skin_perka .text_area {
   font-family:freight-sans-pro,sans-serif;
   font-size:16px;
   font-weight:400;
   color:#333;
 }
 
-.skin_perka .text_field .text_wrapper {
+.skin_perka .text_field .text_wrapper,
+.skin_perka .text_area .textarea_wrapper {
   border-radius:4px;
   border:1px solid #666;
 }
 
-.skin_perka .text_field input {
+.skin_perka .text_field input,
+.skin_perka .text_area input {
   font-size:17px;
   line-height:20px;
   margin:0;
@@ -243,36 +269,36 @@
   vertical-align:middle;
 }
 
-.skin_perka .text_field input::-webkit-input-placeholder {
+.skin_perka .text_field input::-webkit-input-placeholder,
+.skin_perka .text_area input::-webkit-input-placeholder {
   font-family:freight-text-pro,serif;
   font-style:italic;
   color:#999;
   font-size:18px;
 }
 
-.skin_perka .text_field input:-moz-placeholder{
+.skin_perka .text_field input:-moz-placeholder,
+.skin_perka .text_area input:-moz-placeholder {
   font-family:freight-text-pro,serif;
   font-style:italic;
   color:#999;
   font-size:18px;
 }
 
-.skin_perka .text_field input:-ms-input-placeholder {  
+.skin_perka .text_field input:-ms-input-placeholder,
+.skin_perka .text_area input:-ms-input-placeholder {  
   font-family:freight-text-pro,serif;
   font-style:italic;
   color:#999;
   font-size:18px;
 }
 
-.skin_perka .text_field .text_wrapper.focused {
+.skin_perka .text_field .text_wrapper.focused,
+.skin_perka .text_area .textarea_wrapper.focused {
   outline:5px auto #999;
   outline-offset:-4px;
   -webkit-transition: outline ease-in-out .15s;
   transition:outline ease-in-out .15s;
-}
-
-.skin_perka .text_field > label > span {
-  margin-bottom:10px;
 }
 
 /* text field - size */
@@ -293,7 +319,7 @@
   font-size:24px;
 }
 
-.skin_perka .text_field.large > label > span {
+.skin_perka .text_field.large .form_label {
   text-transform:uppercase;
   font-size:15px;
 }
@@ -319,26 +345,16 @@
   font-size:17px;
 }
 
-.skin_perka .text_field.small > label > span {
-  display:inline-block;
-  margin-bottom:0;
-  margin-right:10px;
-}
-
-/* text field - error */
+/* text field and text area - error */
 .skin_perka .text_field.error .text_wrapper,
-.skin_perka .text_field.error .text_wrapper.focused {
+.skin_perka .text_field.error .text_wrapper.focused,
+.skin_perka .text_area.error .textarea_wrapper,
+.skin_perka .text_area.error .textarea_wrapper.focused {
   outline:5px auto #fd7753;
   outline-offset:-4px;
   border-color:#ff4200;
   -webkit-transition: outline ease-in-out .15s;
   transition:outline ease-in-out .15s;
-}
-
-.skin_perka .text_field.error > label > span {
-  font-weight:600;
-  font-style:normal;
-  color:#da4125;
 }
 
 /* checkbox */
@@ -394,6 +410,13 @@
   height:28px;
 }
 
+/* checkbox - error */
+.skin_perka #checked-failover:checked + div:before,
+.skin_perka .checkbox.error input + div:before, 
+.skin_perka .checkbox.error label:hover input + div:before {
+  background-position:0 -139px;
+}
+
 .skin_perka .checkbox .checkbox_wrapper span {
   vertical-align:middle;
   margin-left:10px;
@@ -408,10 +431,15 @@
 }
 
 .skin_perka .radio_group .radio_group_wrapper > label {
-  display:block;
-  margin-bottom:10px;
+  margin-right:10px;
   position:relative;
   cursor:pointer;
+}
+
+.skin_perka .radio_group.block .radio_group_wrapper > label {
+  display:block;
+  margin-right:0;
+  margin-bottom:10px;
 }
 
 /* radio group - restyling */
@@ -444,13 +472,22 @@
 
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .radio_group input:checked + div:before,
-.skin_perka .radio_group .radio_group_wrapper label:hover input:checked + div:before {
+.skin_perka .radio_group .radio_group_wrapper label:hover input:checked + div:before, 
+.skin_perka .radio_group.error input:checked + div:before,
+.skin_perka .radio_group.error .radio_group_wrapper label:hover input:checked + div:before {
   background-position: 0 -82px;
 }
 
 .skin_perka .radio_group .radio_group_wrapper span {
   vertical-align:middle;
   margin-left:10px;
+}
+
+/* radio group - error */
+.skin_perka #checked-failover:checked + div:before,
+.skin_perka .radio_group.error input + div:before,
+.skin_perka .radio_group.error .radio_group_wrapper label:hover input + div:before {
+  background-position:0 -112px;
 }
 
 /* pulldown */
