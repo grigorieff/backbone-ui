@@ -39,7 +39,20 @@
           }
         }, this);
       }
+    },
+    
+    _unobserveModel : function(callback) {
+      if(_(this.model).exists() && _(this.model.unbind).isFunction()) {
+        _(['content', 'labelContent']).each(function(prop) {
+          var key = this.options[prop];
+          if(_(key).exists()) {
+            key = 'change:' + key;
+            this.model.unbind(key, callback);
+          }
+        }, this);
+      }
     }
+    
   };
 }());
 
