@@ -15,12 +15,6 @@
   vertical-align:middle;
 }
 
-.skin_perka .error .form_label {
-  font-weight:600;
-  font-style:normal;
-  color:#da4125;
-}
-
 /* button - default */
 .skin_perka .button {
   font-size:16px;
@@ -345,18 +339,6 @@
   font-size:17px;
 }
 
-/* text field and text area - error */
-.skin_perka .text_field.error .text_wrapper,
-.skin_perka .text_field.error .text_wrapper.focused,
-.skin_perka .text_area.error .textarea_wrapper,
-.skin_perka .text_area.error .textarea_wrapper.focused {
-  outline:5px auto #fd7753;
-  outline-offset:-4px;
-  border-color:#ff4200;
-  -webkit-transition: outline ease-in-out .15s;
-  transition:outline ease-in-out .15s;
-}
-
 /* checkbox */
 .skin_perka .checkbox {
   font-family:freight-sans-pro,sans-serif;
@@ -408,13 +390,6 @@
   left:0;
   width:28px;
   height:28px;
-}
-
-/* checkbox - error */
-.skin_perka #checked-failover:checked + div:before,
-.skin_perka .checkbox.error input + div:before, 
-.skin_perka .checkbox.error label:hover input + div:before {
-  background-position:0 -139px;
 }
 
 .skin_perka .checkbox .checkbox_wrapper span {
@@ -483,13 +458,6 @@
   margin-left:10px;
 }
 
-/* radio group - error */
-.skin_perka #checked-failover:checked + div:before,
-.skin_perka .radio_group.error input + div:before,
-.skin_perka .radio_group.error .radio_group_wrapper label:hover input + div:before {
-  background-position:0 -112px;
-}
-
 /* pulldown */
 .skin_perka .pulldown > label {
   position:relative;
@@ -522,7 +490,6 @@
   outline:0;
   -webkit-appearance: none;
 }
-
 
 /* glyph */
 .skin_perka .button .glyph.left {
@@ -567,3 +534,41 @@
   margin:10px 0;
 }
 
+/* error - text field,text area,date picker, time picker,pulldown */
+.skin_perka .text_field.error .text_wrapper,
+.skin_perka .text_field.error .text_wrapper.focused,
+.skin_perka .text_area.error .textarea_wrapper,
+.skin_perka .text_area.error .textarea_wrapper.focused,
+.skin_perka .date_picker.error .text_wrapper,
+.skin_perka .date_picker.error .text_wrapper.focused,
+.skin_perka .time_picker.error .text_wrapper,
+.skin_perka .time_picker.error .text_wrapper.focused,
+.skin_perka .pulldown.error .menu label,
+.skin_perka .menu.error select {
+  outline:5px auto #fd7753;
+  outline-offset:-4px;
+  border-color:#ff4200;
+  -webkit-transition: outline ease-in-out .15s;
+  transition:outline ease-in-out .15s;
+}
+
+/* error - form label */
+.skin_perka .error .form_label {
+  font-weight:600;
+  font-style:normal;
+  color:#da4125;
+}
+
+/* error - checkbox */
+.skin_perka #checked-failover:checked + div:before,
+.skin_perka .checkbox.error input + div:before, 
+.skin_perka .checkbox.error label:hover input + div:before {
+  background-position:0 -139px;
+}
+
+/* error - radio group */
+.skin_perka #checked-failover:checked + div:before,
+.skin_perka .radio_group.error input + div:before,
+.skin_perka .radio_group.error .radio_group_wrapper label:hover input + div:before {
+  background-position:0 -112px;
+}
