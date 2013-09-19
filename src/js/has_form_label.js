@@ -7,7 +7,7 @@
       var wrapped = $.el.label();
       var formLabelText = this.resolveFormLabel(this.model, this.options.formLabelContent) || this.options.formLabelContent;
       if(formLabelText) {
-        wrapped.appendChild($.el.span(formLabelText));
+        wrapped.appendChild($.el.span({className : 'form_label'}, formLabelText));
       }
       wrapped.appendChild(content);
       return wrapped;  
