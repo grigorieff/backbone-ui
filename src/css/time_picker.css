@@ -1,3 +1,7 @@
+.time_picker .text_field {
+  display:inline-block;
+}
+
 .time_picker .menu li {
   background-color:#fff;
 }

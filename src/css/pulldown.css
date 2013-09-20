@@ -1,3 +1,7 @@
 .pulldown {
   display: inline-block;
 }
+
+.pulldown .pulldown_wrapper {
+  display: inline-block;
+}

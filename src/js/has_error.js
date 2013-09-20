@@ -16,7 +16,9 @@
       // remove error class
       $(this.el).removeClass('error');
       // remove error message if it exists
-      $(this.errorMessage).remove();   
+      $(this.errorMessage).remove();
+      // remove disclosure if it exists
+      $(this._disclosure).remove();   
       // remove event attached to the model regarding errors   
       if(_(this._unobserveModel).exists()) {
         this._unobserveModel(_(this.unsetError).bind(this));
@@ -76,17 +78,32 @@
     
     _showDisclosure : function(){
       document.body.appendChild(this._disclosure);
-      var showOnTop = $(window).height() - ($(this.errorMessage).offset().top - document.body.scrollTop) < 150;
-      var position = (this.options.alignment === 'left' ? '-left' : this.options.alignment === 'right' ? '-right' : 'center') + (showOnTop ? 'top' : ' bottom');
+      
+      var position = this.options.errorPosition === 'right' ? 'right' : 'center bottom';
+      
       $(this._disclosure).alignTo(this.errorMessage, position, 0, 0);    
     
       //calculate position of arrow based on tooltip alignment
       var xpos = (($(this._disclosure).width() / 2) - 10);
+      var ypos = (($(this._disclosure).height() / 2) - 10);
         //this.options.alignment === 'left' ? (($(this.errorMessage).width() / 2) - 10) : ($(this._disclosure).width() - (($(this.errorMessage).width() / 2) + 10));
       
-      $(this._disclosureOuter).toggleClass('arrow_down', showOnTop);
-      $(this._disclosureArrow).css('left', xpos + 'px');
-      $(this._disclosureArrow).css((!showOnTop ? 'top' : ' bottom'), '0px');
+      
+      
+      $(this._disclosureOuter).addClass(this.options.errorPosition === 'right' ? 'arrow_left' : 'arrow_up');
+      
+      
+      var pos = this.options.errorPosition === 'right' ? (($(this._disclosure).height() / 2) - 10) : 
+        (($(this._disclosure).width() / 2) - 10);
+      var cssTopOrLeft = this.options.errorPosition === 'right' ? 'top' : 'left';  
+      
+      $(this._disclosureArrow).css(cssTopOrLeft, pos + 'px');
+      
+      
+      // if(this.options.errorPosition === 'right') {
+      //         $(this._disclosureArrow).css('left', xpos + 'px');
+      //         $(this._disclosureArrow).css('bottom', '0px');
+      //$(this._disclosureArrow).css((!showOnTop ? 'top' : ' bottom'), '0px');
           
     }
     
