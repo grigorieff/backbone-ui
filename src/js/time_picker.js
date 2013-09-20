@@ -16,7 +16,7 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       $(this.el).addClass('time_picker');
 
       this._timeModel = {};
@@ -35,9 +35,7 @@
       document.body.appendChild(this._menu.el);
 
       // listen for model changes
-      if(!!this.model && this.options.content) {
-        this.model.bind('change:' + this.options.content, _(this.render).bind(this));
-      }
+      this._observeModel(_(this.render).bind(this));
     },
 
     render : function() {

@@ -1,3 +1,7 @@
+.date_picker {
+  position: relative;
+}
+
 .date_picker .text_field {
   display:inline-block;
 }

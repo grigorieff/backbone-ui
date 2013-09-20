@@ -1,3 +1,7 @@
+.checkbox {
+  position: relative;
+}
+
 .checkbox .checkbox_wrapper {
   display:inline-block;
 }

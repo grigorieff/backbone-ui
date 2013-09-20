@@ -77,34 +77,21 @@
     },
     
     _showDisclosure : function(){
-      document.body.appendChild(this._disclosure);
-      
+      // add the disclosure
+      this.el.appendChild(this._disclosure);
+      // set the position
       var position = this.options.errorPosition === 'right' ? 'right' : 'center bottom';
-      
-      $(this._disclosure).alignTo(this.errorMessage, position, 0, 0);    
-    
-      //calculate position of arrow based on tooltip alignment
+      $(this._disclosure).alignTo(this.errorMessage, position, 0, 0, this.el);    
+      // calculate the position of the disclosure arrow
       var xpos = (($(this._disclosure).width() / 2) - 10);
       var ypos = (($(this._disclosure).height() / 2) - 10);
-        //this.options.alignment === 'left' ? (($(this.errorMessage).width() / 2) - 10) : ($(this._disclosure).width() - (($(this.errorMessage).width() / 2) + 10));
-      
-      
-      
+      // add the appropriate class to disclosure arrow for correct sprite and styles
       $(this._disclosureOuter).addClass(this.options.errorPosition === 'right' ? 'arrow_left' : 'arrow_up');
-      
-      
+      // set the disclosure arrow position
       var pos = this.options.errorPosition === 'right' ? (($(this._disclosure).height() / 2) - 10) : 
         (($(this._disclosure).width() / 2) - 10);
       var cssTopOrLeft = this.options.errorPosition === 'right' ? 'top' : 'left';  
-      
       $(this._disclosureArrow).css(cssTopOrLeft, pos + 'px');
-      
-      
-      // if(this.options.errorPosition === 'right') {
-      //         $(this._disclosureArrow).css('left', xpos + 'px');
-      //         $(this._disclosureArrow).css('bottom', '0px');
-      //$(this._disclosureArrow).css((!showOnTop ? 'top' : ' bottom'), '0px');
-          
     }
     
   };

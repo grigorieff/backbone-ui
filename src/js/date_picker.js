@@ -12,7 +12,7 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       $(this.el).addClass('date_picker');
 
       this._calendar = new Backbone.UI.Calendar({
@@ -32,9 +32,8 @@
       });
 
       // listen for model changes
-      if(!!this.model && this.options.content) {
-        this.model.bind('change:' + this.options.content, _(this.render).bind(this));
-      }
+      this._observeModel(_(this.render).bind(this));
+      
     },
 
     render : function() {
