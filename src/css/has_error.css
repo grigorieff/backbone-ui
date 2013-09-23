@@ -1,0 +1,61 @@
+.error .error_message.with_disclosure {
+  cursor: pointer;
+}
+
+.error .error_message.right {
+  display:inline-block;
+  margin:0 10px;
+}
+
+.error .error_message.below {
+  display:block;
+  margin:10px 0;
+}
+
+.disclosure {
+  position:absolute;
+  z-index:3000;
+}
+
+.disclosure .disclosure_outer {
+  padding:10px 0 0 0;
+}
+
+.disclosure .disclosure_outer.arrow_down {
+  padding:0 0 10px 0;
+}
+
+.disclosure .disclosure_outer.arrow_left {
+  padding:0 0 0 10px;
+}
+
+.disclosure .disclosure_inner {
+  -webkit-box-shadow: 0 0 10px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow:    0 0 10px rgba(50, 50, 50, 0.75);
+  box-shadow:         0 0 10px rgba(50, 50, 50, 0.75);
+}
+
+.disclosure .disclosure_inner {
+  padding:20px;
+  background-color: #eee;
+  width:340px;
+  font-size:15px;
+}
+
+.disclosure .disclosure_outer .disclosure_arrow {
+  position:absolute;
+}
+
+.disclosure .disclosure_outer.arrow_up .disclosure_arrow {
+  width:20px;
+  height:10px;
+  background: url(file:///Users/jack/perka/web-common/images/ui/disclosure_arrows.png) -10px -30px no-repeat;
+  top: 0;
+}
+
+.disclosure .disclosure_outer.arrow_left .disclosure_arrow {
+  width:10px;
+  height:20px;
+  background: url(file:///Users/jack/perka/web-common/images/ui/disclosure_arrows.png) -30px -10px no-repeat;
+  left:0;
+}

@@ -144,6 +144,9 @@ task :doc  => [:build] do
 
   src.gsub!('<!-- COLLECTION_OPTIONS -->', 
     build_options(collect_option_comments('src/js/collection_view.js')))
+    
+  src.gsub!('<!-- ERROR_OPTIONS -->', 
+    build_options(collect_option_comments('src/js/has_error.js')))  
 
   # insert widgets and their associated option comments
   src.gsub!('<!-- MODEL_BOUND -->', build_components('doc/src/widgets/model'))
