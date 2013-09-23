@@ -273,7 +273,7 @@
 
 .skin_perka .text_area textarea {
   font-size:14px;
-  padding:8px 0;
+  margin: 5px 4px 4px 4px;
 }
 
 .skin_perka .text_field input::-webkit-input-placeholder,
