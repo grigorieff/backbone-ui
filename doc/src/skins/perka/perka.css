@@ -261,6 +261,11 @@
 .skin_perka .text_area .textarea_wrapper {
   border-radius:4px;
   border:1px solid #666;
+  padding:0 10px;
+}
+
+.skin_perka .text_area .textarea_wrapper {
+  padding:0;
 }
 
 .skin_perka .text_field input {
