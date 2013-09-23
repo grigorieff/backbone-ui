@@ -150,7 +150,10 @@ $(window).load(function() {
   $.el.pre({className : 'prettyprint'}, code).appendTo($('#task_list_code')[0]);
 
   var result = taskFunc();
-  $('#task_list_result')[0].appendChild(result);  
+  $('#task_list_result')[0].appendChild(result);
+  
+  // theming
+  Backbone.UI.setSkin('perka');  
   
 });
 

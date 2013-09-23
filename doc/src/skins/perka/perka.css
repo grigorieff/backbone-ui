@@ -526,7 +526,7 @@
 .skin_perka .pulldown select {
   display:inline-block;
   background: transparent;
-  padding:6px;
+  padding:6px 26px 6px 6px;
   border: 0;
   border-radius: 0;
   font-size: 16px;
