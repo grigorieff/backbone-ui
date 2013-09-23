@@ -408,12 +408,12 @@
   vertical-align:middle;
   height:28px;
   width:28px;
-  background:url(./images/checkbox.png) transparent 0 2px no-repeat;
+  background:url(./images/checkbox.png) transparent 0 0 no-repeat;
 }
 
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .checkbox label:hover input + div:before {
-  background-position: 0 -26px;
+  background-position: 0 -28px;
 }
 
 .skin_perka #checked-failover:checked + div:after,
@@ -421,7 +421,7 @@
   content: "";
   position: absolute;
   background: url(./images/checkbox.png) transparent 0 -112px no-repeat;
-  top:3px;
+  top:0;
   left:0;
   width:28px;
   height:28px;
@@ -435,7 +435,7 @@
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .checkbox.disabled label input + div:before,
 .skin_perka .checkbox.disabled label:hover input + div:before  {
-  background-position: 0 -54px;
+  background-position: 0 -56px;
 }
 
 .skin_perka #checked-failover:checked + div:after,
@@ -487,12 +487,12 @@
   vertical-align:middle;
   height:28px;
   width:28px;
-  background:url(./images/radio.png) transparent 0 2px no-repeat;
+  background:url(./images/radio.png) transparent 0 0 no-repeat;
 }
 
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .radio_group .radio_group_wrapper label:hover input + div:before {
-  background-position: 0 -26px;
+  background-position: 0 -28px;
 }
 
 .skin_perka #checked-failover:checked + div:before,
@@ -500,7 +500,7 @@
 .skin_perka .radio_group .radio_group_wrapper label:hover input:checked + div:before, 
 .skin_perka .radio_group.error input:checked + div:before,
 .skin_perka .radio_group.error .radio_group_wrapper label:hover input:checked + div:before {
-  background-position: 0 -82px;
+  background-position: 0 -84px;
 }
 
 .skin_perka .radio_group .radio_group_wrapper span {
@@ -510,7 +510,7 @@
 
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .radio_group.disabled .radio_group_wrapper input + div:before {
-  background-position: 0 -54px;
+  background-position: 0 -56px;
 }
 
 .skin_perka .radio_group.disabled .radio_group_wrapper label {
