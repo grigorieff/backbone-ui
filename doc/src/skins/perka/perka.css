@@ -133,15 +133,15 @@
   border-bottom-color:#9ac400; 
 } 
 
-.skin_perka .light_blue {
+.skin_perka .button.light_blue {
   background-color:#d6f2f3;
   color:#033;
-  border-color:#5ea1a1;;
+  border-color:#5ea1a1;
   border-top-color:#d6f2f3;
   border-bottom-color:#007171; 
 }
 
-.skin_perka .light_blue:hover {
+.skin_perka .button.light_blue:hover {
   background-color:#dcf4f4;
 }
 
