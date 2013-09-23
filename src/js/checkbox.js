@@ -59,6 +59,8 @@
       this.label.appendChild(parent);
       this.el.appendChild(this.label);
 
+      this.setEnabled(!this.options.disabled);
+
       return this;
     },
     
@@ -75,6 +77,16 @@
     
     _updateModel : function() {
       _(this.model).setProperty(this.options.content, this.input.checked);
+    },
+
+    // sets the enabled state
+    setEnabled : function(enabled) {
+      if(enabled) { 
+        $(this.el).removeClass('disabled');
+      } else {
+        $(this.el).addClass('disabled');
+      }
+      this.input.disabled = !enabled;
     }
     
   });

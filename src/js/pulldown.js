@@ -5,6 +5,9 @@
       // selection has been made
       placeholder : 'Select...',
 
+      // enables / disables the pulldown
+      disabled : false,
+
       // A callback to invoke with a particular item when that item is
       // selected from the pulldown menu.
       onChange : Backbone.UI.noop
@@ -35,7 +38,8 @@
         onChange : this.options.onChange,
         placeholder : this.options.placeholder,
         emptyItem : this.options.emptyItem,
-        size : 1
+        size : 1,
+        disabled : this.options.disabled
       }).render();
       
       this._parent = $.el.div({className : 'pulldown_wrapper'});
@@ -59,8 +63,10 @@
       return this;
     },
 
+    // sets the enabled state
     setEnabled : function(enabled) {
-      if(this.button) this.button.setEnabled(enabled);
+      this.options.disabled = !enabled;
+      this._menu.setEnabled(enabled);
     }
         
   });

@@ -7,6 +7,9 @@
       // denote the lack of a selection
       emptyItem : null,
 
+      // enables / disables the menu
+      disabled : false,
+
       // A callback to invoke with a particular item when that item is
       // selected from the menu.
       onChange : Backbone.UI.noop,
@@ -40,7 +43,10 @@
       // || this.selectedItem;
       var selectedValue = this._valueForItem(this.selectedItem);
       
-      this.select = $.el.select({ size : this.options.size });
+      this.select = $.el.select({ 
+        size : this.options.size,
+        disabled : this.options.disabled
+       });
       
       // setup events for each input in collection
       $(this.select).change(_(this._updateModel).bind(this));
@@ -103,12 +109,20 @@
       
       // scroll to selected Item
       this.scrollToSelectedItem();
+
+      this.setEnabled(!this.options.disabled);
       
       return this;
     },
 
+   // sets the enabled state
     setEnabled : function(enabled) {
-      if(this.button) this.button.setEnabled(enabled);
+      if(enabled) { 
+        $(this.el).removeClass('disabled');
+      } else {
+        $(this.el).addClass('disabled');
+      }
+      this.select.disabled = !enabled;
     },
 
     _labelForItem : function(item) {

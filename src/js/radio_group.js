@@ -4,6 +4,10 @@
     options : {
       // used to group the radio inputs
       content : 'group',
+
+      // enables / disables the radiogroup
+      disabled : false,
+
       // A callback to invoke with the selected item whenever the selection changes
       onChange : Backbone.UI.noop
     },
@@ -72,6 +76,8 @@
       
       this.el.appendChild(this.wrapWithFormLabel(this.group));
 
+      this.setEnabled(!this.options.disabled);
+
       return this;
     },
     
@@ -83,6 +89,15 @@
       if(_(this.options.onChange).isFunction() && changed) {
         this.options.onChange(item);
       }  
+    },
+
+    // sets the enabled state
+    setEnabled : function(enabled) {
+      if(enabled) { 
+        $(this.el).removeClass('disabled');
+      } else {
+        $(this.el).addClass('disabled');
+      }
     }
     
   });

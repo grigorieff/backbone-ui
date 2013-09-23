@@ -41,15 +41,6 @@
   border-bottom-color:#989898; 
 }
 
-.skin_perka .button.disabled,
-.skin_perka .button.disabled:hover {
-  color:#fff;
-  border-color:#cbcbcb;
-  background-color:#cbcbcb;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
 .skin_perka .button.active,
 .skin_perka .button:active,
 .skin_perka .button:active:hover,
@@ -183,6 +174,15 @@
   border-top-color:#333;
 }
 
+.skin_perka .button.disabled,
+.skin_perka .button.disabled:hover {
+  color:#fff;
+  border-color:#cbcbcb;
+  background-color:#cbcbcb;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 /* link - default */
 .skin_perka .link {
   font-size:16px;
@@ -241,6 +241,13 @@
   color:#033;
 }
 
+.skin_perka .link.disabled,
+.skin_perka .link.disabled:hover {
+  color:#cbcbcb;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 /* text field and text area - defaults */
 .skin_perka .text_field,
 .skin_perka .text_area {
@@ -295,6 +302,14 @@
   outline-offset:-4px;
   -webkit-transition: outline ease-in-out .15s;
   transition:outline ease-in-out .15s;
+}
+
+.skin_perka .text_field.disabled .text_wrapper,
+.skin_perka .text_area.disabled .textarea_wrapper {
+  color:#cbcbcb;
+  border-color:#cbcbcb;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* text field - size */
@@ -399,6 +414,23 @@
   margin-left:10px;
 }
 
+.skin_perka #checked-failover:checked + div:before,
+.skin_perka .checkbox.disabled label input + div:before,
+.skin_perka .checkbox.disabled label:hover input + div:before  {
+  background-position: 0 -54px;
+}
+
+.skin_perka #checked-failover:checked + div:after,
+.skin_perka .checkbox.disabled input:checked + div:after {
+  opacity:.5;
+}
+
+.skin_perka .checkbox.disabled label {
+  color:#cbcbcb;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 /* radio group */
 .skin_perka .radio_group {
   font-family:freight-sans-pro,sans-serif;
@@ -460,6 +492,17 @@
   margin-left:10px;
 }
 
+.skin_perka #checked-failover:checked + div:before,
+.skin_perka .radio_group.disabled .radio_group_wrapper input + div:before {
+  background-position: 0 -54px;
+}
+
+.skin_perka .radio_group.disabled .radio_group_wrapper label {
+  cursor: not-allowed;
+  pointer-events: none;
+  color:#cbcbcb;
+}
+
 /* pulldown */
 .skin_perka .pulldown > label {
   position:relative;
@@ -493,6 +536,17 @@
   -webkit-appearance: none;
 }
 
+.skin_perka .pulldown .menu.disabled select,
+.skin_perka .puldown .menu.disabled select:hover {
+  border-color:#cbcbcb;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.skin_perka .pulldown .menu.disabled label {
+  opacity:.65;
+}
+
 /* glyph */
 .skin_perka .button .glyph.left {
   margin-left:-2px;
@@ -516,6 +570,10 @@
 
 .skin_perka .text_field.small .glyph.right {
   margin-right:-6px;
+}
+
+.skin_perka .disabled .glyph {
+  opacity:.65;
 }
 
 /* error */
