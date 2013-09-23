@@ -261,7 +261,7 @@
 .skin_perka .text_area .textarea_wrapper {
   border-radius:4px;
   border:1px solid #666;
-  padding:0 10px;
+  padding:8px 10px;
 }
 
 .skin_perka .text_area .textarea_wrapper {
@@ -272,7 +272,6 @@
   font-size:17px;
   line-height:20px;
   margin:0;
-  padding:8px 0;
   vertical-align:middle;
 }
 
@@ -396,9 +395,7 @@
   display:inline-block;
   position: absolute;
   left:-10px;
-  top:3px;
   width:auto;
-  height:28px;
   cursor:pointer;
   opacity: 0;
 }
