@@ -263,8 +263,7 @@
   border:1px solid #666;
 }
 
-.skin_perka .text_field input,
-.skin_perka .text_area input {
+.skin_perka .text_field input {
   font-size:17px;
   line-height:20px;
   margin:0;
@@ -272,28 +271,45 @@
   vertical-align:middle;
 }
 
+.skin_perka .text_area textarea {
+  font-size:14px;
+  padding:8px 0;
+}
+
 .skin_perka .text_field input::-webkit-input-placeholder,
-.skin_perka .text_area input::-webkit-input-placeholder {
+.skin_perka .text_area textarea::-webkit-input-placeholder {
   font-family:freight-text-pro,serif;
   font-style:italic;
   color:#999;
   font-size:18px;
+}
+
+.skin_perka .text_area textarea::-webkit-input-placeholder {
+  font-size:15px;
 }
 
 .skin_perka .text_field input:-moz-placeholder,
-.skin_perka .text_area input:-moz-placeholder {
+.skin_perka .text_area textarea:-moz-placeholder {
   font-family:freight-text-pro,serif;
   font-style:italic;
   color:#999;
   font-size:18px;
 }
 
+.skin_perka .text_area textarea:-moz-placeholder {
+  font-size:15px;
+}
+
 .skin_perka .text_field input:-ms-input-placeholder,
-.skin_perka .text_area input:-ms-input-placeholder {  
+.skin_perka .text_area textarea:-ms-input-placeholder {  
   font-family:freight-text-pro,serif;
   font-style:italic;
   color:#999;
   font-size:18px;
+}
+
+.skin_perka .text_area textarea:-ms-input-placeholder {  
+  font-size:15px;
 }
 
 .skin_perka .text_field .text_wrapper.focused,
