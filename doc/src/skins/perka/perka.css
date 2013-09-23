@@ -549,7 +549,15 @@
   line-height:20px;
   height: 34px;
   outline:0;
-  -webkit-appearance: none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  appearance:none;
+  text-indent: 0.01px;
+  text-overflow:'';
+}
+
+.skin_perka .pulldown select::-ms-expand {
+  display: none;
 }
 
 .skin_perka .pulldown .menu.disabled select,
