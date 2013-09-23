@@ -46,6 +46,8 @@
   color:#fff;
   border-color:#cbcbcb;
   background-color:#cbcbcb;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .skin_perka .button.active,
