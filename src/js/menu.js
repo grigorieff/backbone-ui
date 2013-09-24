@@ -92,6 +92,9 @@
         
         var option = $.el.option(this._labelForItem(item));
         $(option).data('value', val);
+        $(option).attr({
+          selected : this._selectedIndex === idx
+        });
         
         $(option).click(_(function(selectedIdx) {
           this.select.selectedIndex = selectedIdx;
@@ -157,8 +160,8 @@
     
     scrollToSelectedItem : function() {
       if(this.select.selectedIndex > 0) {
-        // TODO: find height of option dynamically
-        var optionHeight = 12;
+        var optionIsMeasurable = $(this.select).find('option').eq(0).height();
+        var optionHeight = optionIsMeasurable > 0 ? optionIsMeasurable : 12;
         $(this.select).scrollTop((this.select.selectedIndex * optionHeight));
       }
     }
