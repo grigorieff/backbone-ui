@@ -261,39 +261,59 @@
 .skin_perka .text_area .textarea_wrapper {
   border-radius:4px;
   border:1px solid #666;
+  padding:8px 10px;
 }
 
-.skin_perka .text_field input,
-.skin_perka .text_area input {
+.skin_perka .text_area .textarea_wrapper {
+  padding:0;
+}
+
+.skin_perka .text_field input {
   font-size:17px;
   line-height:20px;
   margin:0;
-  padding:8px 0;
   vertical-align:middle;
 }
 
+.skin_perka .text_area textarea {
+  font-size:14px;
+  margin: 5px 4px 4px 4px;
+}
+
 .skin_perka .text_field input::-webkit-input-placeholder,
-.skin_perka .text_area input::-webkit-input-placeholder {
+.skin_perka .text_area textarea::-webkit-input-placeholder {
   font-family:freight-text-pro,serif;
   font-style:italic;
   color:#999;
   font-size:18px;
+}
+
+.skin_perka .text_area textarea::-webkit-input-placeholder {
+  font-size:15px;
 }
 
 .skin_perka .text_field input:-moz-placeholder,
-.skin_perka .text_area input:-moz-placeholder {
+.skin_perka .text_area textarea:-moz-placeholder {
   font-family:freight-text-pro,serif;
   font-style:italic;
   color:#999;
   font-size:18px;
 }
 
+.skin_perka .text_area textarea:-moz-placeholder {
+  font-size:15px;
+}
+
 .skin_perka .text_field input:-ms-input-placeholder,
-.skin_perka .text_area input:-ms-input-placeholder {  
+.skin_perka .text_area textarea:-ms-input-placeholder {  
   font-family:freight-text-pro,serif;
   font-style:italic;
   color:#999;
   font-size:18px;
+}
+
+.skin_perka .text_area textarea:-ms-input-placeholder {  
+  font-size:15px;
 }
 
 .skin_perka .text_field .text_wrapper.focused,
@@ -375,9 +395,7 @@
   display:inline-block;
   position: absolute;
   left:-10px;
-  top:3px;
   width:auto;
-  height:28px;
   cursor:pointer;
   opacity: 0;
 }
@@ -390,12 +408,12 @@
   vertical-align:middle;
   height:28px;
   width:28px;
-  background:url(./images/checkbox.png) transparent 0 2px no-repeat;
+  background:url(./images/checkbox.png) transparent 0 0 no-repeat;
 }
 
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .checkbox label:hover input + div:before {
-  background-position: 0 -26px;
+  background-position: 0 -28px;
 }
 
 .skin_perka #checked-failover:checked + div:after,
@@ -403,7 +421,7 @@
   content: "";
   position: absolute;
   background: url(./images/checkbox.png) transparent 0 -112px no-repeat;
-  top:3px;
+  top:0;
   left:0;
   width:28px;
   height:28px;
@@ -417,7 +435,7 @@
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .checkbox.disabled label input + div:before,
 .skin_perka .checkbox.disabled label:hover input + div:before  {
-  background-position: 0 -54px;
+  background-position: 0 -56px;
 }
 
 .skin_perka #checked-failover:checked + div:after,
@@ -456,9 +474,7 @@
   display:inline-block;
   position: absolute;
   left:-10px;
-  top:3px;
   width:auto;
-  height:28px;
   cursor:pointer;
   opacity: 0;
 }
@@ -471,12 +487,12 @@
   vertical-align:middle;
   height:28px;
   width:28px;
-  background:url(./images/radio.png) transparent 0 2px no-repeat;
+  background:url(./images/radio.png) transparent 0 0 no-repeat;
 }
 
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .radio_group .radio_group_wrapper label:hover input + div:before {
-  background-position: 0 -26px;
+  background-position: 0 -28px;
 }
 
 .skin_perka #checked-failover:checked + div:before,
@@ -484,7 +500,7 @@
 .skin_perka .radio_group .radio_group_wrapper label:hover input:checked + div:before, 
 .skin_perka .radio_group.error input:checked + div:before,
 .skin_perka .radio_group.error .radio_group_wrapper label:hover input:checked + div:before {
-  background-position: 0 -82px;
+  background-position: 0 -84px;
 }
 
 .skin_perka .radio_group .radio_group_wrapper span {
@@ -494,7 +510,7 @@
 
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .radio_group.disabled .radio_group_wrapper input + div:before {
-  background-position: 0 -54px;
+  background-position: 0 -56px;
 }
 
 .skin_perka .radio_group.disabled .radio_group_wrapper label {
@@ -527,13 +543,22 @@
   display:inline-block;
   background: transparent;
   padding:6px 26px 6px 6px;
+  padding-right:6px\9;
   border: 0;
   border-radius: 0;
   font-size: 16px;
   line-height:20px;
   height: 34px;
   outline:0;
-  -webkit-appearance: none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  appearance:none;
+  text-indent: 0.01px;
+  text-overflow:'';
+}
+
+.skin_perka .pulldown select::-ms-expand {
+  display: none;
 }
 
 .skin_perka .pulldown .menu.disabled select,
@@ -614,7 +639,7 @@
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .checkbox.error input + div:before, 
 .skin_perka .checkbox.error label:hover input + div:before {
-  background-position:0 -139px;
+  background-position:0 -140px;
 }
 
 /* error - radio group */
