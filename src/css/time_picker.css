@@ -6,11 +6,7 @@
   display:inline-block;
 }
 
-.time_picker .menu li {
-  background-color:#fff;
-}
-
-.time_picker .menu {
+.time_picker_menu {
   z-index:2000;
 }
 

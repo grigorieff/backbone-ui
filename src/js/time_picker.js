@@ -21,6 +21,7 @@
 
       this._timeModel = {};
       this._menu = new Backbone.UI.Menu({
+        className : 'time_picker_menu',
         model : this._timeModel,
         altLabelContent : 'label',
         altValueContent : 'label',
