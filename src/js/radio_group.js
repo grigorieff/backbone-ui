@@ -62,10 +62,10 @@
         var parent = $.el.div({className : 'radio_group_wrapper'});
         var content = $.el.span(label);
         var glyphCss = this.resolveGlyph(item, this.options.altGlyphCss);
-        glyphCss = (glyphCss && (glyphCss !== "glyphCss")) ? glyphCss : 
+        glyphCss = (glyphCss && (glyphCss !== this.options.altGlyphCss)) ? glyphCss : 
           this.resolveGlyph(null, this.options.glyphCss);
         var glyphRightCss = this.resolveGlyph(item, this.options.altGlyphRightCss);
-        glyphRightCss = (glyphRightCss && (glyphRightCss !== "glyphRightCss")) ? 
+        glyphRightCss = (glyphRightCss && (glyphRightCss !== this.options.altGlyphRightCss)) ? 
           glyphRightCss : this.resolveGlyph(null, this.options.glyphRightCss);
         this.insertGlyphLayout(glyphCss, glyphRightCss, content, parent);
         
