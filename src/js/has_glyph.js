@@ -28,7 +28,7 @@
     insertGlyphLayout : function(glyphCss, glyphRightCss, content, parent) {
 
       // append left glyph
-      if(glyphCss && (glyphCss !== "glyphCss")) {
+      if(glyphCss) {
         var glyphLeft = loadGlyph(glyphCss, this.options.glyphSize, this.options.glyphBackgroundSize);
         $(glyphLeft).addClass('left');
         $(glyphLeft).css({
@@ -43,7 +43,7 @@
       }
       
       // append right glyph
-      if(glyphRightCss && (glyphRightCss !== "glyphRightCss")) {
+      if(glyphRightCss) {
         var glyphRight = loadGlyph(glyphRightCss, this.options.glyphSize, this.options.glyphBackgroundSize);
         $(glyphRight).addClass('right');
         $(glyphRight).css({
