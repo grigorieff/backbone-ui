@@ -46,7 +46,8 @@
     
     // resolves the appropriate content from the given choices
     resolveContent : function(model, content, defaultOption) {
-      defaultOption = _(defaultOption).exists() ? defaultOption : this.options.content;
+      defaultOption = (defaultOption === null || _(defaultOption).isUndefined()) ? 
+        this.options.content : defaultOption;
       model = _(model).exists() ? model : this.model;
       content = _(content).exists() ? content : defaultOption;
       var hasModelProperty = _(model).exists() && _(content).exists();

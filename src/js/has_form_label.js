@@ -5,8 +5,10 @@
     
     wrapWithFormLabel : function(content) {
       var wrapped = $.el.label();
-      var formLabelText = this.resolveContent(this.model, this.options.formLabelContent, 
-        this.options.formLabelContent) || this.options.formLabelContent;
+      
+      var formLabelText = this.options.formLabelContent ? 
+        this.resolveContent(this.model, this.options.formLabelContent, 
+          this.options.formLabelContent) : this.options.formLabelContent;
       if(formLabelText) {
         wrapped.appendChild($.el.span({className : 'form_label'}, formLabelText));
       }
