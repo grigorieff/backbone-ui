@@ -43,10 +43,12 @@
   };
 
   _(Backbone.View.prototype).extend({
+    
     // resolves the appropriate content from the given choices
-    resolveContent : function(model, content) {
+    resolveContent : function(model, content, defaultOption) {
+      defaultOption = _(defaultOption).exists() ? defaultOption : this.options.content;
       model = _(model).exists() ? model : this.model;
-      content = _(content).exists() ? content : this.options.content;
+      content = _(content).exists() ? content : defaultOption;
       var hasModelProperty = _(model).exists() && _(content).exists();
       return _(content).isFunction() ? content(model) : 
         hasModelProperty && _(model[content]).isFunction() ? model[content]() : 
