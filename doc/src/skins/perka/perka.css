@@ -543,6 +543,7 @@
   display:inline-block;
   background: transparent;
   padding:6px 26px 6px 6px;
+  padding-right:6px\9;
   border: 0;
   border-radius: 0;
   font-size: 16px;
@@ -638,7 +639,7 @@
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .checkbox.error input + div:before, 
 .skin_perka .checkbox.error label:hover input + div:before {
-  background-position:0 -139px;
+  background-position:0 -140px;
 }
 
 /* error - radio group */
