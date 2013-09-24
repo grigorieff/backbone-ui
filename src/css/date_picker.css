@@ -8,5 +8,5 @@
 
 .date_picker_calendar {
   position:absolute;
-  z-index:1000;
+  z-index:2000;
 }

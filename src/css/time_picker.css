@@ -10,7 +10,7 @@
   background-color:#fff;
 }
 
-.menu {
-  z-index:1000;
+.time_picker .menu {
+  z-index:2000;
 }
 

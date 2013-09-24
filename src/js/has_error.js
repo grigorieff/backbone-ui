@@ -40,7 +40,7 @@
       $(this.el).addClass('error');
       
       // add error message if provided
-      if(message !== "") {
+      if(message.length > 0) {
         
         if(this.options.errorType !== "disclosure") {
           this.errorMessage = $.el.span({className : 'error_message ' + 

@@ -117,11 +117,7 @@
 
    // sets the enabled state
     setEnabled : function(enabled) {
-      if(enabled) { 
-        $(this.el).removeClass('disabled');
-      } else {
-        $(this.el).addClass('disabled');
-      }
+      $(this.el).toggleClass('disabled', enabled);
       this.select.disabled = !enabled;
     },
 

@@ -110,7 +110,7 @@
 
       $(this._menu.el).alignTo(this._textField.el, 'bottom -left', 0, 2);
       $(this._menu.el).show();
-      //this._menu.scrollToSelectedItem();
+      this._menu.scrollToSelectedItem();
     },
 
     _hideMenu : function(e) {
