@@ -23,7 +23,7 @@
 
     initialize : function() {
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel,
-        Backbone.UI.HasError]);
+        Backbone.UI.HasError, Backbone.UI.HasFocus]);
       
       $(this.el).addClass('text_area');
       if(this.options.name){
@@ -49,16 +49,8 @@
 
       this.el.appendChild(this.wrapWithFormLabel(this._parent));
         
-      // add focusin 
-      $(this.textArea).focusin(_(function(e) {
-        $(this._parent).addClass('focused');
-      }).bind(this));
-
-      // add focusout
-      $(this.textArea).focusout(_(function(e) {
-        $(this._parent).removeClass('focused');
-      }).bind(this));  
-        
+      // add focusin / focusout
+      this.setupFocus(this.textArea, this._parent);
 
       this.setEnabled(!this.options.disabled);
       

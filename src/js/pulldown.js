@@ -16,7 +16,7 @@
     initialize : function() {
       this.mixin([Backbone.UI.HasModel, 
         Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph, 
-        Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
+        Backbone.UI.HasFormLabel, Backbone.UI.HasError, Backbone.UI.HasFocus]);
       _(this).bindAll('render');
 
       $(this.el).addClass('pulldown');
@@ -47,16 +47,8 @@
       var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
       this.insertGlyphLayout(glyphCss, glyphRightCss, this._menu.el, this._parent);
 
-      // add focusin 
-      $(this._menu.el).focusin(_(function(e) {
-        $(this._parent).addClass('focused');
-      }).bind(this));
-      
-      // add focusout
-      $(this._menu.el).focusout(_(function(e) {
-        $(this._parent).removeClass('focused');
-      }).bind(this));
-      
+      // add focusin / focusout
+      this.setupFocus(this._menu.el, this._parent);      
       
       this.el.appendChild(this.wrapWithFormLabel(this._parent));
       

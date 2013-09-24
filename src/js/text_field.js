@@ -26,7 +26,7 @@
 
     initialize : function() {
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph, 
-        Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
+        Backbone.UI.HasFormLabel, Backbone.UI.HasError, Backbone.UI.HasFocus]);
       _(this).bindAll('_refreshValue');
     
       $(this.el).addClass('text_field');
@@ -69,16 +69,9 @@
       var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
       this.insertGlyphLayout(glyphCss, glyphRightCss, content, this._parent);
       
-      // add focusin 
-      $(this.input).focusin(_(function(e) {
-        $(this._parent).addClass('focused');
-      }).bind(this));
-      
-      // add focusout
-      $(this.input).focusout(_(function(e) {
-        $(this._parent).removeClass('focused');
-      }).bind(this));
-      
+      // add focusin / focusout
+      this.setupFocus(this.input, this._parent);
+            
       this.el.appendChild(this.wrapWithFormLabel(this._parent));
       
       this.setEnabled(!this.options.disabled);
