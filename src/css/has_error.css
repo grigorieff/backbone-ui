@@ -15,47 +15,61 @@
 .disclosure {
   position:absolute;
   z-index:3000;
-}
-
-.disclosure .disclosure_outer {
-  padding:10px 0 0 0;
-}
-
-.disclosure .disclosure_outer.arrow_down {
-  padding:0 0 10px 0;
-}
-
-.disclosure .disclosure_outer.arrow_left {
-  padding:0 0 0 10px;
-}
-
-.disclosure .disclosure_inner {
-  -webkit-box-shadow: 0 0 10px rgba(50, 50, 50, 0.75);
-  -moz-box-shadow:    0 0 10px rgba(50, 50, 50, 0.75);
-  box-shadow:         0 0 10px rgba(50, 50, 50, 0.75);
+  text-align: left;
+  white-space: normal;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  background-clip: padding-box;
 }
 
 .disclosure .disclosure_inner {
   padding:20px;
-  background-color: #eee;
-  width:340px;
+  width:276px;
   font-size:15px;
 }
 
-.disclosure .disclosure_outer .disclosure_arrow {
-  position:absolute;
+.disclosure .disclosure_outer .disclosure_arrow,
+.disclosure .disclosure_outer .disclosure_arrow:after {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width:10px;
 }
 
 .disclosure .disclosure_outer.arrow_up .disclosure_arrow {
-  width:20px;
-  height:10px;
-  background: url(file:///Users/jack/perka/web-common/images/ui/disclosure_arrows.png) -10px -30px no-repeat;
-  top: 0;
+  top: -10px;
+  border-bottom-color: #999999;
+  border-bottom-color: rgba(0, 0, 0, 0.25);
+  border-top-width: 0;
+}
+
+.disclosure .disclosure_outer.arrow_up .disclosure_arrow:after {
+  top: 1px;
+  margin-left: -10px;
+  border-bottom-color: #ffffff;
+  border-top-width: 0;
+  content: " ";
 }
 
 .disclosure .disclosure_outer.arrow_left .disclosure_arrow {
-  width:10px;
-  height:20px;
-  background: url(file:///Users/jack/perka/web-common/images/ui/disclosure_arrows.png) -30px -10px no-repeat;
-  left:0;
+  left: -10px;
+  border-right-color: #999999;
+  border-right-color: rgba(0, 0, 0, 0.25);
+  border-left-width: 0;
+}
+
+.disclosure .disclosure_outer.arrow_left .disclosure_arrow:after {
+  bottom: -10px;
+  left: 1px;
+  border-width:10px;
+  border-right-color: #ffffff;
+  border-left-width: 0;
+  content: " ";
 }
