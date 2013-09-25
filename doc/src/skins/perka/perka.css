@@ -326,10 +326,14 @@
 
 .skin_perka .text_field.disabled .text_wrapper,
 .skin_perka .text_area.disabled .textarea_wrapper {
-  color:#cbcbcb;
   border-color:#cbcbcb;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+.skin_perka .text_field input:disabled,
+.skin_perka .text_area textarea:disabled {
+  color:#999;
 }
 
 /* text field - size */
