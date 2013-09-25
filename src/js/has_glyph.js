@@ -18,9 +18,9 @@
 
     options : {
       // The pixel size of the width and height of a glyph
-      glyphSize : 26,
+      glyphSize : 20,
       // The padding between the glyph and the rest of the content
-      glyphPadding : 3,
+      glyphPadding : 8,
       // The background-size of the glyph
       glyphBackgroundSize : 'auto'
     },
