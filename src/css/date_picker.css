@@ -1,5 +1,6 @@
 .date_picker {
   position: relative;
+  line-height:20px;
 }
 
 .date_picker .text_field {

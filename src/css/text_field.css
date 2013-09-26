@@ -1,5 +1,6 @@
 .text_field {
   position:relative;
+  line-height:20px;
 }
 .text_field > label > span {
   display:block;
