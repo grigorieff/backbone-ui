@@ -3,9 +3,6 @@
 }
 
 .text_area textarea {
-  -moz-box-sizing:border-box;
-  -webkit-box-sizing:border-box;
-  box-sizing:border-box;
   border: none;
   outline:none;
 }
@@ -13,6 +10,9 @@
 .text_area .textarea_wrapper {
   border: 1px solid #666;
   display:inline-block;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 .text_area .textarea_wrapper.focused {

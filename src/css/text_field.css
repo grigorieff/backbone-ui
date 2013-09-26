@@ -9,9 +9,6 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  -moz-box-sizing:border-box;
-  -webkit-box-sizing:border-box;
-  box-sizing:border-box;
   border: none;
   outline:none;
 }
@@ -20,6 +17,9 @@
   background-color: #fff;
   border: 1px solid #666;
   display:inline-block;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 .text_field .text_wrapper.focused {

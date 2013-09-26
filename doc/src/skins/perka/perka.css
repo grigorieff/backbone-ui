@@ -25,8 +25,9 @@
   background-color:#fff;
   border:1px solid #c1c1c1;
   line-height:20px;
+  height:36px;
   display: inline-block;
-  padding:7px 12px;
+  padding:5px 12px 7px;
   border-radius:4px;
   margin:0;
   text-decoration:none;
@@ -54,18 +55,20 @@
 /* button - sizes */
 .skin_perka .button.large {
   font-size:19px;
-  padding:6px 12px;
+  padding:4px 12px 7px;
   line-height:28px;
+  height:44px;
   border-radius:5px;
 }
 
 .skin_perka .button.small {
   font-size:12px;
   line-height:20px;
+  height:32px;
   text-transform:uppercase;
   font-weight:600;
   border-radius:4px;
-  padding:5px 10px;
+  padding:4px 10px 5px;
 }
 
 .skin_perka .button.small.with_glyph {
@@ -189,7 +192,7 @@
   font-family:freight-sans-pro,sans-serif;
   font-weight:400;
   color:#666;
-  line-height:34px;
+  line-height:36px;
   text-decoration:underline;
 }
 
@@ -261,17 +264,20 @@
 .skin_perka .text_area .textarea_wrapper {
   border-radius:4px;
   border:1px solid #666;
-  padding:8px 10px;
+  padding:5px 10px;
+  height:36px;
 }
 
 .skin_perka .text_area .textarea_wrapper {
   padding:0;
+  height:auto;
 }
 
 .skin_perka .text_field input {
   font-size:17px;
   line-height:20px;
   margin:0;
+  padding:0;
   vertical-align:middle;
 }
 
@@ -336,10 +342,15 @@
   color:#999;
 }
 
-/* text field - size */
+/* input - sizes */
 .skin_perka .large input {
   font-size:23px;
   line-height:28px;
+}
+
+.skin_perka .large .text_wrapper {
+  height:44px;
+  padding:7px 10px;
 }
 
 .skin_perka .large input::-webkit-input-placeholder {
@@ -360,12 +371,12 @@
 }
 
 .skin_perka .small .text_wrapper {
-  padding:0 12px;
+  padding:3px 12px;
+  height:32px;
 }
 
 .skin_perka .small input {
   font-size:17px;
-  padding:6px 0;
 }
 
 .skin_perka .small input::-webkit-input-placeholder {
