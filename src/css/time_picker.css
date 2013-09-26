@@ -1,5 +1,6 @@
 .time_picker {
   position:relative;
+  line-height:20px;
 }
 
 .time_picker .text_field {

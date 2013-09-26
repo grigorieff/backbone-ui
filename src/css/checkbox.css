@@ -1,5 +1,6 @@
 .checkbox {
   position: relative;
+  line-height:20px;
 }
 
 .checkbox .checkbox_wrapper {

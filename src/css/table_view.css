@@ -1,5 +1,6 @@
 .table_view {
   border:1px solid #222;
+  line-height:20px;
 }
 
 .table_view table {

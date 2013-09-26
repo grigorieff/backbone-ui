@@ -1,5 +1,6 @@
 .text_area {
   position: relative;
+  line-height:20px;
 }
 
 .text_area textarea {

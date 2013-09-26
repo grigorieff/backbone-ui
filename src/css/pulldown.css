@@ -1,6 +1,7 @@
 .pulldown {
   position: relative;
   display: inline-block;
+  line-height:20px;
 }
 
 .pulldown .pulldown_wrapper {
