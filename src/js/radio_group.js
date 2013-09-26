@@ -40,7 +40,7 @@
       
       this.group = $.el.div({className : 'radio_group_wrapper'});
       
-      _(this._collectionArray()).each(function(item) {
+      _(this._collectionArray()).each(function(item, idx) {
 
         var val = this._valueForItem(item);
         var selected = selectedValue === val;
@@ -70,7 +70,9 @@
         this.insertGlyphLayout(glyphCss, glyphRightCss, content, parent);
         
         // create a new label/input pair and insert into the group
-        this.group.appendChild($.el.label(input, parent));
+        this.group.appendChild(
+          $.el.label({className : _(this._collectionArray()).nameForIndex(idx++)},
+            input, parent));
         
       }, this);
       
