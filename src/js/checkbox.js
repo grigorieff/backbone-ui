@@ -20,7 +20,7 @@
         $(this.el).addClass(this.options.name);
       }
       this.label = $.el.label();
-      this.input = $.el.input();
+      this.input = $.el.input({type : 'checkbox'});
       $(this.input).change(_(this._updateModel).bind(this));
       $(this.input).click(_(this._updateModel).bind(this));
       this._observeModel(_(this._refreshCheck).bind(this));
@@ -29,18 +29,18 @@
     render : function() {
 
       $(this.el).empty();
+      $(this.label).empty();
       
-      var value = (this.input && this.input.value.length) > 0 ? 
-        this.input.value : this.resolveContent();
-
-      $(this.el).empty();
+      $(this.input).off('change');
+      $(this.input).off('click');
+      
+      var value = this.resolveContent() !== null ? 
+        this.resolveContent() : this.input.checked;
 
       $(this.input).attr({
-        type : 'checkbox',
         name : this.options.name,
         id : this.options.name,
         tabIndex : this.options.tabIndex,
-        value : true,
         checked : value,
         disabled : this.options.disabled
       });
@@ -60,6 +60,9 @@
       this.el.appendChild(this.label);
 
       this.setEnabled(!this.options.disabled);
+      
+      $(this.input).on('change', _(this._updateModel).bind(this));
+      $(this.input).on('click', _(this._updateModel).bind(this));
 
       return this;
     },
