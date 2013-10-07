@@ -71,8 +71,8 @@
         
         // create a new label/input pair and insert into the group
         this.group.appendChild(
-          $.el.label({className : _(this._collectionArray()).nameForIndex(idx++)},
-            input, parent));
+          $.el.label({className : _(this._collectionArray()).nameForIndex(idx++) + 
+            ' ' + (idx % 2 === 0 ? 'even' : 'odd')}, input, parent));
         
       }, this);
       
