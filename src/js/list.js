@@ -31,19 +31,7 @@
         }, this);
       }
 
-      // wrap the list in a scroller
-      if(_(this.options.maxHeight).exists()) {
-        var style = 'max-height:' + this.options.maxHeight + 'px';
-        var scroller = new Backbone.UI.Scroller({
-          content : $.el.div({style : style}, this.collectionEl) 
-        }).render();
-
-        this.el.appendChild(scroller.el);
-      }
-      else {
-        this.el.appendChild(this.collectionEl);
-      }
-
+      this.el.appendChild(this.collectionEl);
       this._updateClassNames();
 
       return this;
