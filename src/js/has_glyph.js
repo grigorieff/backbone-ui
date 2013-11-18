@@ -1,38 +1,14 @@
 // A mixin for dealing with glyphs in widgets 
 (function(){
 
-  var loadGlyph = function(name, size, bgSize){
-    var div = $.el.span({
-      className : 'glyph'
-    });
-    $(div).css({
-      background : name,
-      width : size + 'px',
-      height : size + 'px',
-      backgroundSize : bgSize
-    });
-    return div;
-  };
-
   Backbone.UI.HasGlyph = {
-
-    options : {
-      // The pixel size of the width and height of a glyph
-      glyphSize : 20,
-      // The padding between the glyph and the rest of the content
-      glyphPadding : 8,
-      // The background-size of the glyph
-      glyphBackgroundSize : 'auto'
-    },
     
-    insertGlyphLayout : function(glyphCss, glyphRightCss, content, parent) {
+    insertGlyphLayout : function(glyphLeftClassName, glyphRightClassName, content, parent) {
 
       // append left glyph
-      if(glyphCss) {
-        var glyphLeft = loadGlyph(glyphCss, this.options.glyphSize, this.options.glyphBackgroundSize);
-        $(glyphLeft).addClass('left');
-        $(glyphLeft).css({
-          marginRight : this.options.glyphPadding + 'px'
+      if(glyphLeftClassName) {
+        var glyphLeft = $.el.span({
+          className : 'glyph left ' + glyphLeftClassName
         });
         parent.appendChild(glyphLeft);
       }
@@ -43,11 +19,9 @@
       }
       
       // append right glyph
-      if(glyphRightCss) {
-        var glyphRight = loadGlyph(glyphRightCss, this.options.glyphSize, this.options.glyphBackgroundSize);
-        $(glyphRight).addClass('right');
-        $(glyphRight).css({
-          marginLeft : this.options.glyphPadding + 'px'
+      if(glyphRightClassName) {
+        var glyphRight = $.el.span({
+          className : 'glyph right ' + glyphRightClassName
         });
         parent.appendChild(glyphRight);
       }

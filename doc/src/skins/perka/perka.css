@@ -158,6 +158,15 @@
   border-bottom-color:#d6f2f3; 
 } 
 
+.skin_perka .button.operation {
+  background-image: -ms-linear-gradient(top, #FFFFFF 0%, #F7F7F7 100%);
+  background-image: -moz-linear-gradient(top, #FFFFFF 0%, #F7F7F7 100%);
+  background-image: -o-linear-gradient(top, #FFFFFF 0%, #F7F7F7 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #F7F7F7));
+  background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #F7F7F7 100%);
+  background-image: linear-gradient(to bottom, #FFFFFF 0%, #F7F7F7 100%); 
+}
+
 .skin_perka .button:hover,
 .skin_perka .button.orage:hover,
 .skin_perka .button.blue:hover,
@@ -545,7 +554,15 @@
   border:1px solid #c1c1c1;
   border-radius:4px;
   border-top-color:#ebebeb;
-  border-bottom-color:#989898; 
+  border-bottom-color:#989898;
+}
+
+.skin_perka .pulldown .menu label:hover {
+  border-bottom-color:#333;
+}
+
+.skin_perka .pulldown select:hover {
+  cursor:pointer;
 }
 
 .skin_perka .pulldown select {
@@ -589,7 +606,7 @@
 /* link */
 .skin_perka .link {
   font-family:freight-sans-pro,sans-serif;
-  text-decoration:underline;
+  line-height:30px;
   color:#333;
 }
 
