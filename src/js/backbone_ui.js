@@ -39,11 +39,36 @@
      
     setMobile : function(mobile) {
       Backbone.UI.IS_MOBILE = mobile;
-    }  
+    },
+    
+    BaseView : Backbone.View.extend({
+
+      initialize : function(data) {
+        
+        this.listenTo(this.model, 'invalid', function(exceptions) {
+          // find an exception thrown for the model.attribute
+          // that this Backbone.UI element observes
+          var errors = _(exceptions).find(function(val, key) {
+            return this.options.content === key;
+          }, this);
+          
+          if(errors) {
+            var errorMessage = _(errors).reduce(function(message, error){
+              return message + ' ' + error;
+            });            
+            this.setError(errorMessage);
+          }
+          
+        });
+        
+      }
+      
+    })
+    
   };
 
   _(Backbone.View.prototype).extend({
-    
+     
     // resolves the appropriate content from the given choices
     resolveContent : function(model, content, defaultOption) {
       defaultOption = (defaultOption === null || _(defaultOption).isUndefined()) ? 
