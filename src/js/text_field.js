@@ -1,5 +1,5 @@
 (function(){
-  window.Backbone.UI.TextField = Backbone.UI.BaseView.extend({
+  window.Backbone.UI.TextField = Backbone.View.extend({
     options : {
       // disables the input text
       disabled : false,
@@ -26,8 +26,6 @@
 
     initialize : function(data) {
       
-      Backbone.UI.BaseView.prototype.initialize.call(this, data);
-      
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph, 
         Backbone.UI.HasFormLabel, Backbone.UI.HasError, Backbone.UI.HasFocus]);
       _(this).bindAll('_refreshValue');
@@ -48,6 +46,7 @@
       $(this.input).input(_(this._updateModel).bind(this));
 
       this._observeModel(this._refreshValue);
+      this._observeErrors();
     },
 
     render : function() {

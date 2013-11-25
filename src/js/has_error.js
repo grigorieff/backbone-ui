@@ -12,6 +12,26 @@
       errorPosition : 'below'
     },
     
+    _observeErrors : function() {
+      
+      if(this.model) {
+        this.listenTo(this.model, 'invalid', function(exceptions) {
+          // find an exception thrown for the model.attribute
+          // that this Backbone.UI element observes
+          var errors = _(exceptions).find(function(val, key) {
+            return this.options.content === key;
+          }, this);
+        
+          if(errors) {
+            var errorMessage = _(errors).reduce(function(message, error){
+              return message + ' ' + error;
+            });            
+            this.setError(errorMessage);
+          } 
+        });
+      }  
+    },
+    
     unsetError : function() {
       // remove error class
       $(this.el).removeClass('error');
