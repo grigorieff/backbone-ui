@@ -22,6 +22,10 @@
       if(this.options.name){
         $(this.el).addClass(this.options.name);
       }
+      if(!this.options.ignoreErrors) {
+        this._observeErrors();
+      }
+      
     },
 
     // public accessors

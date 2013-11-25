@@ -46,7 +46,9 @@
       $(this.input).input(_(this._updateModel).bind(this));
 
       this._observeModel(this._refreshValue);
-      this._observeErrors();
+      if(!this.options.ignoreErrors) {
+        this._observeErrors();
+      }
     },
 
     render : function() {

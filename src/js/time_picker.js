@@ -19,7 +19,7 @@
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       $(this.el).addClass('time_picker');
 
-      this._timeModel = {};
+      this._timeModel = new Backbone.Model();
       this._menu = new Backbone.UI.Menu({
         className : 'time_picker_menu',
         model : this._timeModel,
@@ -27,7 +27,8 @@
         altValueContent : 'label',
         content : 'value',
         onChange : _(this._onSelectTimeItem).bind(this),
-        size : 10
+        size : 10,
+        ignoreErrors : true
       });
       $(this._menu.el).hide();
       $(this._menu.el).autohide({
@@ -37,6 +38,9 @@
 
       // listen for model changes
       this._observeModel(_(this.render).bind(this));
+      if(!this.options.ignoreErrors) {
+        this._observeErrors();
+      }
     },
 
     render : function() {

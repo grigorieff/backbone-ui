@@ -33,6 +33,9 @@
 
       // listen for model changes
       this._observeModel(_(this.render).bind(this));
+      if(!this.options.ignoreErrors) {
+        this._observeErrors();
+      }
       
     },
 
@@ -43,7 +46,8 @@
         name : this.options.name,
         placeholder : this.options.placeholder,
         glyphCss : this.options.glyphCss,
-        glyphRightCss : this.options.glyphRightCss
+        glyphRightCss : this.options.glyphRightCss,
+        ignoreErrors : true
       }).render();
 
       $(this._textField.input).click(_(this._showCalendar).bind(this));

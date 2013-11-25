@@ -9,7 +9,10 @@
       errorType : 'inform',
       // Where the error message will be displayed.
       // Possible positions: 'right', 'below'
-      errorPosition : 'below'
+      errorPosition : 'below',
+      // ignore validation - used by pulldown, datepicker, and timepicker
+      // so that embedded Backbone.UI elements don't double errors notifications
+      ignoreErrors : false
     },
     
     _observeErrors : function() {

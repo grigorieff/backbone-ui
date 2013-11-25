@@ -29,6 +29,10 @@
       _(this).bindAll('render');
 
       $(this.el).addClass('menu');
+      
+      if(!this.options.ignoreErrors) {
+        this._observeErrors();
+      }
 
     },
 
