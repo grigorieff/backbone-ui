@@ -20,10 +20,10 @@ $(document).ready(function() {
       altLabelContent: 'name'
     }).render();
 
-    pulldown.$('.pulldown_button').click();
-    $(pulldown._menu.el).find('li a').eq(0).click();
+    $(pulldown._menu.select).click();
+    $(pulldown._menu.select).find('option').eq(1).click();
 
-    equal($(pulldown.el).find('.label').text(),'Americas');
+    equal(pulldown._menu.select.options[pulldown._menu.select.selectedIndex].text, 'Americas');
 
   });
 
@@ -44,42 +44,11 @@ $(document).ready(function() {
       altLabelContent: 'name'
     }).render();
 
-    pulldown.$('.pulldown_button').click();
-    $(pulldown._menu.el).find('li a').eq(1).click();
+    $(pulldown._menu.select).click();
+    $(pulldown._menu.select).find('option').eq(1).click();
 
     equal(coffee.get('region').get('name'),'Africa');
 
-  });
-
-  test("onMenuShow", function() {
-
-    var coffee = new Backbone.Model({
-      roaster: 'Counter Culture',
-      name: 'Baroida',
-      roastedOn: new Date(2012, 2, 28, 6, 30),
-      acidic: true,
-      region: regions.at(0)
-    });
-
-    var changeEvents = 0;
-
-    var pulldown = new Backbone.UI.Pulldown({
-      model: coffee,
-      content: 'region',
-      alternatives: regions,
-      altLabelContent: 'name',
-      onMenuShow: function () {
-        changeEvents++;
-      }
-    }).render();
-
-    //click pulldown
-    pulldown.$('.pulldown_button').click();
-
-    //check if menu show was called
-    equal(changeEvents, 1);
-
-    pulldown._menu.$('.content a').eq(1).click();
   });
 
   test("placeholder", function(){
@@ -92,42 +61,11 @@ $(document).ready(function() {
     }).render();
 
     //check the label on pulldown
-    equal($(pulldown.el).find('.label').text(),"Select a region...");
+    equal($(pulldown._menu.select).find('option').eq(0).text(),"Select a region...");
 
   });
 
-  test("onMenuHide", function() {
-
-    var coffee = new Backbone.Model({
-      roaster: 'Counter Culture',
-      name: 'Baroida',
-      roastedOn: new Date(2012, 2, 28, 6, 30),
-      acidic: true,
-      region: regions.at(0)
-    });
-
-    var changeEvents = 0;
-
-    var pulldown = new Backbone.UI.Pulldown({
-      model: coffee,
-      content: 'region',
-      alternatives: regions,
-      altLabelContent: 'name',
-      onMenuHide: function () {
-        changeEvents++;
-      }
-    }).render();
-
-    //click pulldown
-    pulldown.$('.pulldown_button').click();
-    //make selection to hide menu
-    pulldown._menu.$('.content a').eq(1).click();
-
-    //check if menu hide was called
-    equal(changeEvents, 1);
-
-  });
-
+  
   test("onChange", function() {
 
     var coffee = new Backbone.Model({
@@ -150,64 +88,12 @@ $(document).ready(function() {
         changeEvents++;
       }
     }).render();
-
-    pulldown.$('.pulldown_button').click();
-    pulldown._menu.$('.content a').eq(1).click();
+    
+    $(pulldown._menu.select).click();
+    $(pulldown._menu.select).find('option').eq(1).click();
 
     equal(changeEvents, 1);
     equal(itemClicked, regions.at(1));
-  });
-
-  test("emptyItem", function(){
-
-    var coffee = new Backbone.Model({
-      roaster: 'Counter Culture',
-      name: 'Baroida',
-      roastedOn: new Date(2012, 2, 28, 6, 30),
-      acidic: true,
-      region: regions.at(0)
-    });
-
-    var pulldown = new Backbone.UI.Pulldown({
-      model : coffee,
-      content: 'region',
-      alternatives: regions,
-      altLabelContent: 'name',
-      emptyItem: true
-    }).render();
-
-    //select emptyItem
-    pulldown.$('.pulldown_button').click();
-    $(pulldown._menu.el).find('li a').eq(0).click();
-
-    //check if selection is empty
-    equal(coffee.get('region'),null);
-
-  });
-
-  test("alignRight", function(){
-
-    var coffee = new Backbone.Model({
-      roaster: 'Counter Culture',
-      name: 'Baroida',
-      roastedOn: new Date(2012, 2, 28, 6, 30),
-      acidic: true,
-      region: regions.at(0)
-    });
-
-    var pulldown = new Backbone.UI.Pulldown({
-      model : coffee,
-      content: 'region',
-      alternatives: regions,
-      altLabelContent: 'name',
-      alignRight : true
-    }).render();
-
-    //click to display menu
-    pulldown.$('.pulldown_button').click();    
-    //check the label on pulldown
-    equal($(pulldown._menu.el).css('left').substring(0,1),'-');
-
   });
 
   test("issue 31 - remove pulldown-add pulldown-double fire", function(){
@@ -245,8 +131,8 @@ $(document).ready(function() {
       }
     }).render();
 
-    pulldown2.$('.pulldown_button').click();
-    pulldown2._menu.$('.content a').eq(1).click();
+    $(pulldown2._menu.select).click();
+    $(pulldown2._menu.select).find('option').eq(1).click();
 
     equal(changeEvents, 1);
   });

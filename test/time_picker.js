@@ -30,7 +30,7 @@ $(document).ready(function() {
 
     //select 10:00 am from the time picker
     $(timepicker.el).find('input').click();
-    $(timepicker._menu.el).find('li a').eq(20).click();
+    $(timepicker._menu.select).find('option').eq(20).click();
 
     //check that the model updated
     equal(coffee.get('roastedOn').getHours(),10);
@@ -77,7 +77,7 @@ $(document).ready(function() {
     }).render();
 
     //check if second time listed is 12:15 am
-    equal($(timepicker._menu.el).find('li a').eq(1).text(),'12:15 am');
+    equal($(timepicker._menu.select).find('option').eq(1).text(),'12:15 am');
 
   });
 

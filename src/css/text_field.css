@@ -1,32 +1,29 @@
 .text_field {
   position:relative;
-  border:1px solid #666;
-  width:200px;
-  height:28px;
-  background-color:#fff;
-  display: inline-block;
-  vertical-align:top;
+  line-height:20px;
 }
-
-.text_field.disabled {
-  filter:alpha(opacity=60);
-  opacity:0.6;
-}
-
-.text_field .input_wrapper {
-  position:absolute;
-  left:5px;
-  right:5px;
-  top:5px;
+.text_field > label > span {
+  display:block;
 }
 
 .text_field input {
-  width:100%;
-  border:0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
   outline:none;
-  font-size:13px;
-  margin:0;
+}
+
+.text_field .text_wrapper {
+  background-color: #fff;
+  border: 1px solid #666;
+  display:inline-block;
   -moz-box-sizing:border-box;
   -webkit-box-sizing:border-box;
   box-sizing:border-box;
+}
+
+.text_field .text_wrapper.focused {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
 }

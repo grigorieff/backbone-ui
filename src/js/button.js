@@ -1,7 +1,7 @@
 (function(){
   window.Backbone.UI.Button = Backbone.View.extend({
     options : {
-      tagName : 'a',
+      tagName : 'button',
 
       // true will disable the button
       // (muted non-clickable) 
@@ -11,8 +11,6 @@
       // (depressed and non-clickable)
       active : false,
 
-      hasBorder : true,
-
       // A callback to invoke when the button is clicked
       onClick : null,
 
@@ -21,7 +19,7 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
 
       _(this).bindAll('render');
 
@@ -41,16 +39,20 @@
       this._observeModel(this.render);
 
       $(this.el).empty();
-      $(this.el).toggleClass('has_border', this.options.hasBorder);
 
       if(this.options.isSubmit) {
-        $.el.input({
-          type : 'submit',
+        $(this.el).attr({
+          type : 'submit', 
           value : ''
-        }).appendTo(this.el);
+        });
       }
 
-      this.el.appendChild($.el.span({className : 'label'}, labelText));
+      var content = $.el.span(labelText);
+      
+      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
+      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+
+      this.insertGlyphLayout(glyphCss, glyphRightCss, content, this.el);
 
       // add appropriate class names
       this.setEnabled(!this.options.disabled);
@@ -61,19 +63,15 @@
 
     // sets the enabled state of the button
     setEnabled : function(enabled) {
-      if(enabled) {
-        this.el.href = '#';
-      } else { 
-        this.el.removeAttribute('href');
-      }
       this.options.disabled = !enabled;
-      $(this.el)[enabled ? 'removeClass' : 'addClass']('disabled');
+      $(this.el).toggleClass('disabled', !enabled);
+      $(this.el).attr({'disabled' : !enabled});
     },
 
     // sets the active state of the button
     setActive : function(active) {
       this.options.active = active;
-      $(this.el)[active ? 'addClass' : 'removeClass']('active');
+      $(this.el).toggleClass('active', active);
     }
   });
 }());

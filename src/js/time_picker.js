@@ -16,15 +16,18 @@
     },
 
     initialize : function() {
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       $(this.el).addClass('time_picker');
 
       this._timeModel = {};
       this._menu = new Backbone.UI.Menu({
+        className : 'time_picker_menu',
         model : this._timeModel,
         altLabelContent : 'label',
         altValueContent : 'label',
         content : 'value',
-        onChange : _(this._onSelectTimeItem).bind(this)
+        onChange : _(this._onSelectTimeItem).bind(this),
+        size : 10
       });
       $(this._menu.el).hide();
       $(this._menu.el).autohide({
@@ -33,9 +36,7 @@
       document.body.appendChild(this._menu.el);
 
       // listen for model changes
-      if(!!this.model && this.options.content) {
-        this.model.bind('change:' + this.options.content, _(this.render).bind(this));
-      }
+      this._observeModel(_(this.render).bind(this));
     },
 
     render : function() {
@@ -44,12 +45,14 @@
       this._textField = new Backbone.UI.TextField({
         name : this.options.name,
         disabled : this.options.disabled, 
-        placeholder : this.options.placeholder
+        placeholder : this.options.placeholder,
+        glyphCss : this.options.glyphCss,
+        glyphRightCss : this.options.glyphRightCss
       }).render();
       $(this._textField.input).click(_(this._showMenu).bind(this));
       $(this._textField.input).blur(_(this._timeEdited).bind(this));
       $(this._textField.input).keyup(_(this._hideMenu).bind(this));
-      this.el.appendChild(this._textField.el);
+      this.el.appendChild(this.wrapWithFormLabel(this._textField.el));
 
       var date = this.resolveContent();
       

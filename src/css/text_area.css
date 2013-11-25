@@ -1,20 +1,23 @@
 .text_area {
-  position:relative;
-  border:1px solid #666;
-  background-color:#fff;
-  display: inline-block;
-  vertical-align:top;
-}
-
-.text_area.disabled {
-  filter:alpha(opacity=60);
-  opacity:0.6;
+  position: relative;
+  line-height:20px;
 }
 
 .text_area textarea {
-  border:none;
+  border: none;
   outline:none;
-  margin:5px 4px 4px 4px;
-  font-size:14px;
+}
+
+.text_area .textarea_wrapper {
+  border: 1px solid #666;
+  display:inline-block;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  box-sizing:border-box;
   background-color:#fff;
+}
+
+.text_area .textarea_wrapper.focused {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
 }

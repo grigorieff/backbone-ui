@@ -8,8 +8,6 @@
 
       // disables the text area
       disabled : false,
-      
-      enableScrolling : true,
 
       tabIndex : null,
       
@@ -24,7 +22,8 @@
     textArea : null,
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel,
+        Backbone.UI.HasError, Backbone.UI.HasFocus]);
       
       $(this.el).addClass('text_area');
       if(this.options.name){
@@ -46,15 +45,12 @@
 
       this._observeModel(_(this._refreshValue).bind(this));
 
-      var content = this.textArea;
-      if(this.options.enableScrolling) {
-        this._scroller = new Backbone.UI.Scroller({
-          content : this.textArea
-        }).render();
-        content = this._scroller.el;
-      }
+      this._parent = $.el.div({className : 'textarea_wrapper'}, this.textArea);
 
-      this.el.appendChild(content);
+      this.el.appendChild(this.wrapWithFormLabel(this._parent));
+        
+      // add focusin / focusout
+      this.setupFocus(this.textArea, this._parent);
 
       this.setEnabled(!this.options.disabled);
       

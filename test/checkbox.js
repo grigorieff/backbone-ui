@@ -8,34 +8,33 @@ $(document).ready(function() {
       checked : true
     }).render();
 
-    var text = $(checkbox.el).find('.label').text();
+    var text = $(checkbox.el).find('label').text();
     equal(text, 'foo');
-
-    var mark = $(checkbox.el).find('.checkmark_fill');
-    equal(mark.length,1);
+    
+    //check
+    equal(checkbox.input.checked, true);
 
     checkbox = new Backbone.UI.Checkbox({
       label : 'foo',
       checked : false
     }).render();
-
-    mark = $(checkbox.el).find('.checkmark_fill');
-    equal(mark.length,0);
+    
+    //uncheck
+    equal(checkbox.input.checked, false);
 
     //check
-    $(checkbox.el).click();
-    mark = $(checkbox.el).find('.checkmark_fill');
-    equal(mark.length,1);
+    $(checkbox.input).click();
+    equal(checkbox.input.checked, true);
 
     //uncheck
-    $(checkbox.el).click();
-    mark = $(checkbox.el).find('.checkmark_fill');
-    equal(mark.length,0);
+    $(checkbox.input).click();
+    equal(checkbox.input.checked, false);
 
 
   });
 
   test("withDataBinding and labelContent", function() {
+    
     var model = new Backbone.Model({
       description : 'property name',
       active : true
@@ -48,12 +47,11 @@ $(document).ready(function() {
     }).render();
 
     // label should be rendered from the 'descripton' property
-    var text = $(checkbox.el).find('.label').text();
+    var text = $(checkbox.el).find('label').text();
     equal(text, 'property name');
 
     // checkmark should be active based on the 'active' property
-    var mark = $(checkbox.el).find('.checkmark_fill');
-    equal(mark.length,1);
+    equal(checkbox.input.checked, true);
 
     // update our model
     model.set({
@@ -62,24 +60,21 @@ $(document).ready(function() {
     });
 
     // text should have changed
-    text = $(checkbox.el).find('.label').text();
+    text = $(checkbox.el).find('label').text();
     equal(text, 'baz');
 
     // and we should not have a checkmark fill
-    mark = $(checkbox.el).find('.checkmark_fill');
-    equal(mark.length,0);
+    equal(checkbox.input.checked, false);
 
     //check
-    $(checkbox.el).click();
-    mark = $(checkbox.el).find('.checkmark_fill');
-    equal(mark.length,1);
-    equal(model.get('active'),true);
-
+    checkbox.input.click();
+    equal(checkbox.input.checked, true);
+    equal(model.get('active'), true);
+    
     //uncheck
-    $(checkbox.el).click();
-    mark = $(checkbox.el).find('.checkmark_fill');
-    equal(mark.length,0);
-    equal(model.get('active'),false);
+    checkbox.input.click();
+    equal(checkbox.input.checked, false);
+    equal(model.get('active'), false);
 
   });
 
@@ -97,9 +92,8 @@ $(document).ready(function() {
     }).render();
 
     //try to uncheck
-    $(checkbox.el).click();
-    mark = $(checkbox.el).find('.checkmark_fill');
-    equal(mark.length,1);
+    checkbox.input.click();
+    equal(checkbox.input.checked, true);
     equal(model.get('active'),true);
 
   });

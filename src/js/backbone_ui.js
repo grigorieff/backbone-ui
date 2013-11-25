@@ -43,10 +43,13 @@
   };
 
   _(Backbone.View.prototype).extend({
+    
     // resolves the appropriate content from the given choices
-    resolveContent : function(model, content) {
+    resolveContent : function(model, content, defaultOption) {
+      defaultOption = (defaultOption === null || _(defaultOption).isUndefined()) ? 
+        this.options.content : defaultOption;
       model = _(model).exists() ? model : this.model;
-      content = _(content).exists() ? content : this.options.content;
+      content = _(content).exists() ? content : defaultOption;
       var hasModelProperty = _(model).exists() && _(content).exists();
       return _(content).isFunction() ? content(model) : 
         hasModelProperty && _(model[content]).isFunction() ? model[content]() : 
@@ -248,6 +251,15 @@
         }
 
         var o = _alignCoords(el, anchor, pos, xFudge, yFudge);
+        
+        // if a container is passed in adjust position
+        // for the offset of the containing element
+        if(_(container).isElement()) {
+          var c = $(container).offset();
+          o.x = o.x - c.left;
+          o.y = o.y - c.top;
+        }
+        
         $(el).css({
           position:'absolute',
           left: Math.round(o.x) + 'px',

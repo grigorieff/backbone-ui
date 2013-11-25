@@ -1,17 +1,9 @@
 .pulldown {
-  position:relative;
-  height:30px;
+  position: relative;
   display: inline-block;
+  line-height:20px;
 }
 
-.pulldown.placeholder {
-  font-style:italic;
-}
-
-.pulldown .button:link,
-.pulldown .button:active,
-.pulldown .button:hover,
-.pulldown .button:visited {
-  color:#333;
-  text-decoration:none;
+.pulldown .pulldown_wrapper {
+  display: inline-block;
 }

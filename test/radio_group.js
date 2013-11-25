@@ -20,9 +20,10 @@ $(document).ready(function() {
       altLabelContent: 'name'
     }).render();
 
-    $(radio.el).find('li a').eq(1).click();
+    var input = $(radio.el).find('input:radio')[1];
+    input.click();
 
-    ok($(radio.el).find('li a').eq(1).hasClass('selected'));
+    ok(input.checked);
 
   });
 
@@ -44,14 +45,14 @@ $(document).ready(function() {
     }).render();
 
     //click to select and check model
-    $(radio.el).find('li a').eq(1).click();
+    $(radio.el).find('input:radio')[1].click();
     equal(coffee.get('region').get('name'),'Africa');
 
     //update model and check if radio button changed
     coffee.set({
       region: regions.at(0)
     });
-    ok($(radio.el).find('li a').eq(0).hasClass('selected'));
+    ok($(radio.el).find('input:radio')[0].checked);
 
   });
 
@@ -71,13 +72,15 @@ $(document).ready(function() {
       content: 'region',
       alternatives: regions,
       altLabelContent: 'name',
-      onChange: function() { changeCount++; }
+      onChange: function() { 
+        changeCount++;
+      }
     }).render();
 
-    //make 2 selections of the same
-    $(radio.el).find('li a').eq(1).click();
-    $(radio.el).find('li a').eq(1).click();
-    $(radio.el).find('li a').eq(1).click();
+    //make 3 selections of the same
+    $(radio.el).find('input:radio')[1].click();
+    $(radio.el).find('input:radio')[1].click();
+    $(radio.el).find('input:radio')[1].click();
 
     //change count should be 1
     equal(changeCount,1);
@@ -85,9 +88,9 @@ $(document).ready(function() {
     changeCount=0;
 
     //make 3 different selections
-    $(radio.el).find('li a').eq(0).click();
-    $(radio.el).find('li a').eq(1).click();
-    $(radio.el).find('li a').eq(0).click();
+    $(radio.el).find('input:radio')[0].click();
+    $(radio.el).find('input:radio')[1].click();
+    $(radio.el).find('input:radio')[0].click();
 
     //change count should be 3
     equal(changeCount,3);

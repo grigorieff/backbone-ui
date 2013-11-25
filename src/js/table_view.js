@@ -124,11 +124,8 @@
 
       // wrap the list in a scroller
       if(_(this.options.maxHeight).exists()) {
-        var style = 'max-height:' + this.options.maxHeight + 'px';
-        var scroller = new Backbone.UI.Scroller({
-          content : $.el.div({style : style}, container)
-        }).render();
-
+        var style = 'overflow:auto; max-height:' + this.options.maxHeight + 'px';
+        var scroller = $.el.div({style : style}, container);
         this.el.appendChild(scroller.el);
       }
       else {

@@ -7,7 +7,7 @@ $(document).ready(function() {
       content : 'foo'
     }).render();
 
-    var text = $(button.el).find('.label').text();
+    var text = $(button.el).find('span').text();
     equal(text, 'foo');
   });
 
@@ -22,14 +22,14 @@ $(document).ready(function() {
     }).render();
 
     // text should be based on 'foo' property
-    var text = $(button.el).find('.label').text();
+    var text = $(button.el).find('span').text();
     equal(text, 'bar');
 
     // update the foo property
     model.set({foo : 'baz'});
 
     // text should have changed
-    text = $(button.el).find('.label').text();
+    text = $(button.el).find('span').text();
     equal(text, 'baz');
   });
 
@@ -52,6 +52,29 @@ $(document).ready(function() {
 
     equal(clickCount, 0);
   });
+  
+  test("setDisabled", function() {
+    
+    var clickCount=0;
+
+    var model = new Backbone.Model({
+      foo : 'bar'
+    });
+
+    var button = new Backbone.UI.Button({
+      model : model,
+      content : 'foo',
+      onClick : function() { clickCount++; }
+    }).render();
+    
+    button.setEnabled(false);
+
+    ok($(button.el).hasClass('disabled'));
+    $(button.el).click();
+
+    equal(clickCount, 0);
+    
+  });
 
   test("active", function() {
     var clickCount=0;
@@ -66,6 +89,27 @@ $(document).ready(function() {
       active : true,
       onClick : function() { clickCount++; }
     }).render();
+
+    ok($(button.el).hasClass('active'));
+    $(button.el).click();
+
+    equal(clickCount, 0);
+  });
+  
+  test("setActive", function() {
+    var clickCount=0;
+
+    var model = new Backbone.Model({
+      foo : 'bar'
+    });
+
+    var button = new Backbone.UI.Button({
+      model : model,
+      content : 'foo',
+      onClick : function() { clickCount++; }
+    }).render();
+    
+    button.setActive(true);
 
     ok($(button.el).hasClass('active'));
     $(button.el).click();
@@ -96,8 +140,7 @@ $(document).ready(function() {
       isSubmit : true
     }).render();
 
-    var inputs = $(button.el).find('input[type=submit]');
-    equal(inputs.length, 1);
+    equal($(button.el).attr('type'), 'submit');
   });
 
 });
