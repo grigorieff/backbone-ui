@@ -68,7 +68,8 @@
 
     activateTab : function(index) {
       
-      $(this.el).removeClass('no_selection');
+      var noSelection = index < 0;
+      $(this.el).toggleClass('no_selection', noSelection);
       
       // hide all content panels
       _(this._contents).each(function(content) {
@@ -83,22 +84,24 @@
       if(_(this._selectedIndex).exists()) {
         $(this.el).removeClass('index_' + this._selectedIndex);
       }
-      $(this.el).addClass('index_' + index);
-      this._selectedIndex = index;
-
-      // select the appropriate tab
-      $(this._tabs[index]).addClass('selected');
-
-      // show the proper contents
-      $(this._contents[index]).show();
-
-      this._callbacks[index]();
+      
+      if(!noSelection){
+        $(this.el).addClass('index_' + index);
+        this._selectedIndex = index;
+        // select the appropriate tab
+        $(this._tabs[index]).addClass('selected');
+        // show the proper contents
+        $(this._contents[index]).show();
+        this._callbacks[index]();
+      }else{
+        this._selectedIndex = null;
+      }
     },
     
     // returns the index of the selectedTab
     // or -1 if no tab is selected
     getActiveTab : function(){
-      return _(this._tabs).indexOf(_(this._tabs).find(function(tab){ return $(tab).hasClass('selected') }));
+      return _(this._tabs).indexOf(_(this._tabs).find(function(tab){ return $(tab).hasClass('selected'); }));
     }
   });
 }());

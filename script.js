@@ -151,8 +151,9 @@ $(window).load(function() {
 
   var result = taskFunc();
   $('#task_list_result')[0].appendChild(result);
-
+  
   // theming
-  Backbone.UI.setSkin('perka');
+  Backbone.UI.setSkin('perka');  
+  
 });
 

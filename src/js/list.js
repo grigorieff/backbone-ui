@@ -1,12 +1,6 @@
 (function(){
   window.Backbone.UI.List = Backbone.UI.CollectionView.extend({
-    options : {
-      // A Backbone.View implementation describing how to render a particular 
-      // item in the collection.  For simple use cases, you can pass a String 
-      // instead which will be interpreted as the property of the model to display.
-      itemView : null
-    },
-
+  
     initialize : function() {
       Backbone.UI.CollectionView.prototype.initialize.call(this, arguments);
       $(this.el).addClass('list');
@@ -19,7 +13,7 @@
       this.collectionEl = $.el.ul();
 
       // if the collection is empty, we render the empty content
-      if(!_(this.model).exists()  || this.model.length === 0) {
+      if((!_(this.model).exists()  || this.model.length === 0) && this.options.emptyContent) {
         this._emptyContent = _(this.options.emptyContent).isFunction() ? 
           this.options.emptyContent() : this.options.emptyContent;
         this._emptyContent = $.el.li(this._emptyContent);
@@ -37,19 +31,7 @@
         }, this);
       }
 
-      // wrap the list in a scroller
-      if(_(this.options.maxHeight).exists()) {
-        var style = 'max-height:' + this.options.maxHeight + 'px';
-        var scroller = new Backbone.UI.Scroller({
-          content : $.el.div({style : style}, this.collectionEl) 
-        }).render();
-
-        this.el.appendChild(scroller.el);
-      }
-      else {
-        this.el.appendChild(this.collectionEl);
-      }
-
+      this.el.appendChild(this.collectionEl);
       this._updateClassNames();
 
       return this;
@@ -65,9 +47,8 @@
         }
 
         else {
-          var view = new this.options.itemView({
-            model : model
-          });
+          var view = new this.options.itemView(_({ model : model }).extend(
+            this.options.itemViewOptions));
           view.render();
           this.itemViews[model.cid] = view;
           content = view.el;

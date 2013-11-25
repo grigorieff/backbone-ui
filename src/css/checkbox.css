@@ -1,54 +1,12 @@
 .checkbox {
-  text-decoration:none;
-  height:30px;
-  white-space:nowrap;
+  position: relative;
+  line-height:20px;
 }
 
-.checkbox:hover {
-  cursor:pointer;
+.checkbox .checkbox_wrapper {
+  display:inline-block;
 }
 
-.checkbox .checkmark {
-  position:relative;
-  width:20px;
-  height:20px;
-  margin-top:5px;
-  text-align:center;
-  border:1px solid #666;
-  color:#222;
-  font-size:18px;
-  background-color:#fff;
-}
-
-.checkbox:hover .checkmark {
-  background-color:#eee;
-  border-color:#222;
-}
-
-.checkbox .checkmark_fill {
-  height:14px;
-  width:14px;
-  line-height:16px;
-  position:absolute;
-  background-color:#222;
-  top:3px;
-  left:3px;
-}
-
-.checkbox .label {
-  line-height:32px;
-  padding:0 0 0 10px;
-  text-decoration:none;
-  color:#222;
-  overflow:hidden;
-}
-
-.checkbox,
-.checkbox .checkmark,
-.checkbox .label {
-  /* inline-block with IE7 hack */
-  display: inline-block;
-  zoom: 1;
-  *display: inline;
-  vertical-align:top;
+.checkbox .checkbox_wrapper > span {
+  display:inline-block;
 }

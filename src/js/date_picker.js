@@ -6,17 +6,22 @@
       format : 'MM/DD/YYYY',
       date : null,
       name : null,
-      onChange : null
+      onChange : null,
+      minDate : null,
+      maxDate : null
     },
 
     initialize : function() {
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       $(this.el).addClass('date_picker');
 
       this._calendar = new Backbone.UI.Calendar({
         className : 'date_picker_calendar',
         model : this.model,
-        property : this.options.content,
-        onSelect : _(this._selectDate).bind(this)
+        content : this.options.content,
+        onSelect : _(this._selectDate).bind(this),
+        minDate : this.options.minDate,
+        maxDate : this.options.maxDate
       });
       $(this._calendar.el).hide();
       document.body.appendChild(this._calendar.el);
@@ -27,28 +32,31 @@
       });
 
       // listen for model changes
-      if(!!this.model && this.options.content) {
-        this.model.bind('change:' + this.options.content, _(this.render).bind(this));
-      }
+      this._observeModel(_(this.render).bind(this));
+      
     },
 
     render : function() {
       $(this.el).empty();
 
       this._textField = new Backbone.UI.TextField({
-        name : this.options.name
+        name : this.options.name,
+        placeholder : this.options.placeholder,
+        glyphCss : this.options.glyphCss,
+        glyphRightCss : this.options.glyphRightCss
       }).render();
 
       $(this._textField.input).click(_(this._showCalendar).bind(this));
-      $(this._textField.input).keyup(_(this._dateEdited).bind(this));
+      $(this._textField.input).blur(_(this._dateEdited).bind(this));
+      $(this._textField.input).keyup(_(this._hideCalendar).bind(this));
 
-      this.el.appendChild(this._textField.el);
+      this.el.appendChild(this.wrapWithFormLabel(this._textField.el));
 
       this._selectedDate = (!!this.model && !!this.options.content) ? 
         this.resolveContent() : this.options.date;
       
       if(!!this._selectedDate) {
-        this._calendar.options.selectedDate = this._selectedDate;
+        this._calendar.options.date = this._selectedDate;
         var dateString = moment(this._selectedDate).format(this.options.format);
         this._textField.setValue(dateString);
       }
@@ -77,7 +85,8 @@
       $(this._calendar.el).alignTo(this._textField.el, 'bottom -left', 0, 2);
     },
 
-    _hideCalendar : function() {
+    _hideCalendar : function(e) {
+      if(e && e.keyCode === Backbone.UI.KEYS.KEY_RETURN) this._dateEdited();
       $(this._calendar.el).hide();
     },
 
@@ -97,12 +106,17 @@
     },
 
     _dateEdited : function(e) {
+
       var newDate = moment(this._textField.getValue(), this.options.format);
-      this._selectedDate = newDate.toDate();
+      this._selectedDate = newDate ? newDate.toDate() : null;
+
+      // if the event is a blur, we need to make sure that the menu is not
+      // open, otherwise we'll squash that selection event
+      if(e && e.type === 'blur' && $(this._calendar.el).is(':visible')) return;
 
       // if the enter key was pressed or we've invoked this method manually, 
       // we hide the calendar and re-format our date
-      if(!e || e.keyCode === Backbone.UI.KEYS.KEY_RETURN) {
+      if(!e || e.keyCode === Backbone.UI.KEYS.KEY_RETURN || e.type === 'blur') {
         var newValue = moment(newDate).format(this.options.format);
         this._textField.setValue(newValue);
         this._hideCalendar();
@@ -115,6 +129,10 @@
           updatedDate.setDate(newDate.date());
           updatedDate.setFullYear(newDate.year());
           _(this.model).setProperty(this.options.content, updatedDate);
+        }
+        else {
+          this._calendar.date = this._selectedDate;
+          this._calendar.render();
         }
 
         if(_(this.options.onChange).isFunction()) {

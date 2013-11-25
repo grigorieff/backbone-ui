@@ -1,69 +1,66 @@
 // A mixin for dealing with glyphs in widgets 
 (function(){
+
+  var loadGlyph = function(name, size, bgSize){
+    var div = $.el.span({
+      className : 'glyph'
+    });
+    $(div).css({
+      background : name,
+      width : size + 'px',
+      height : size + 'px',
+      backgroundSize : bgSize
+    });
+    return div;
+  };
+
   Backbone.UI.HasGlyph = {
-    GLYPH_SIZE : 22,
 
     options : {
-
-      // a glyph to show to the left
-      glyph : null,
-
-      // a glyph to show to the right
-      glyphRight : null
-    },
-
-    insertGlyph : function(el, name) {
-      return this._insertGlyph(el, name, false);
-    },
-
-    insertGlyphRight : function(el, name) {
-      return this._insertGlyph(el, name, true);
+      // The pixel size of the width and height of a glyph
+      glyphSize : 20,
+      // The padding between the glyph and the rest of the content
+      glyphPadding : 8,
+      // The background-size of the glyph
+      glyphBackgroundSize : 'auto'
     },
     
-    _insertGlyph : function(el, name, isRight) {
-      var hasGlyphClassName = isRight ? 'has_glyph_right' : 'has_glyph';
-      if(!name || !el) {
-        $(el).removeClass(hasGlyphClassName);
-        return null;
+    insertGlyphLayout : function(glyphCss, glyphRightCss, content, parent) {
+
+      // append left glyph
+      if(glyphCss) {
+        var glyphLeft = loadGlyph(glyphCss, this.options.glyphSize, this.options.glyphBackgroundSize);
+        $(glyphLeft).addClass('left');
+        $(glyphLeft).css({
+          marginRight : this.options.glyphPadding + 'px'
+        });
+        parent.appendChild(glyphLeft);
       }
-      $(el).addClass(hasGlyphClassName);
-
-      var className = 'glyph ' + name + (isRight ? ' right' : '');
-      var image;
-      if(name.length === 1) {
-        var span = $.el.span({
-          className : className,
-          style : 'margin: 0 8px 0 0'
-        }, name);
-        el.insertBefore(span, isRight ? null : el.firstChild);
+      
+      // append content
+      if(content) {
+        parent.appendChild(content);
       }
-
-      else {
-        image = new Image();
-        $(image).hide();
-        image.onload = function() {
-          // center the image inside a 28px square
-          var topOffset = Math.max(1, ((28 - image.height) / 2));
-          var leftOffset = Math.max(3, ((28 - image.width) / 2));
-
-          $(image).css({
-            top : topOffset + 'px', 
-            left : isRight ? 'auto' : leftOffset + 'px',
-            right : isRight ? leftOffset + 'px' : 'auto',
-            border : 'none'
-          });
-          $(image).show();
-        };
-
-        image.src = name.match(/(http:\/\/)|(https:\/\/)/) ? name : 
-          Backbone.UI.GLYPH_DIR + '/' + name + (name.indexOf('.') > 0 ? '' : '.png');
-
-        image.className = className;
-
-        el.insertBefore(image, isRight ? null : el.firstChild);
+      
+      // append right glyph
+      if(glyphRightCss) {
+        var glyphRight = loadGlyph(glyphRightCss, this.options.glyphSize, this.options.glyphBackgroundSize);
+        $(glyphRight).addClass('right');
+        $(glyphRight).css({
+          marginLeft : this.options.glyphPadding + 'px'
+        });
+        parent.appendChild(glyphRight);
       }
+     
+    },
 
-      return image;
+    resolveGlyph : function(model, content) {
+      if(content === null) return null;
+      var glyph = null;
+      if(_(model).exists() && _((model.attributes || model)[content]).exists()) {
+        glyph = this.resolveContent(model, content);
+      }
+      return _(glyph).exists() ? glyph : content;
     }
   };
 }());

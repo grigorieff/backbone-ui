@@ -1,6 +1,8 @@
 .menu {
+  position:relative;
   max-height:150px;
-  margin-right:3px;
+  display:inline-block;
+  line-height:20px;
 }
 
 .menu ul {
@@ -40,7 +42,6 @@
   display:block;
   background-color:#fff;
   height:28px;
-  vertical-align:middle;
 }
 
 .menu li a span {
@@ -59,4 +60,8 @@
 .menu li a.selected {
   background-color:#e9d4c7;
   text-decoration:none;
+}
+
+.menu select.mobile {
+  opacity:0;
 }

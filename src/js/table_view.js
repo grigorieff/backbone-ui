@@ -22,7 +22,7 @@
       // The table is sorted by the first column by default.
       sortable : false,
 
-      // A callback to invoke when the table is to be sorted. The callback will
+      // A callback to invoke when the table is to be sorted and sortable is enabled. The callback will
       // be passed the <code>column</code> on which to sort.
       onSort : null
     },
@@ -37,8 +37,9 @@
       $(this.el).empty();
       this.itemViews = {};
 
+      var table;
       var container = $.el.div({className : 'content'},
-        this.collectionEl = $.el.table({
+        table = $.el.table({
           cellPadding : '0',
           cellSpacing : '0'
         }));
@@ -58,25 +59,24 @@
           return item1.get(column.content) < item2.get(column.content) ? -1 :
             item1.get(column.content) > item2.get(column.content) ? 1 : 0;
         };
+          
         var firstSort = (sortFirstColumn && firstHeading === null);
         var sortHeader = this._sortState.content === column.content || firstSort;
-        var sortLabel = $.el.div({
-          className : 'glyph'
-        }, sortHeader ? (this._sortState.reverse && !firstSort ? '\u25b2 ' : '\u25bc ') : '');
+        var sortClass = sortHeader ? (this._sortState.reverse && !firstSort ? ' asc' : ' desc') : '';
+        var sortLabel = $.el.div({className : 'glyph'}, 
+          sortClass === ' asc' ? '\u25b2 ' : sortClass === ' desc' ? '\u25bc ' : '');
 
         var onclick = this.options.sortable ? (_(this.options.onSort).isFunction() ?
           _(function(e) { this.options.onSort(column); }).bind(this) :
           _(function(e, silent) { this._sort(column, silent); }).bind(this)) : Backbone.UI.noop;
 
         var th = $.el.th({
-            className : _(list).nameForIndex(index), 
+            className : _(list).nameForIndex(index) + (sortHeader ? ' sorted' : ''), 
             style : style, 
             onclick : onclick
           }, 
-          sortLabel, 
-          $.el.div({
-            className : 'wrapper' + (sortHeader ? ' sorted' : '')
-          }, label)).appendTo(headingRow);
+          $.el.div({className : 'wrapper' + (sortHeader ? ' sorted' : '')}, label),
+          sortHeader ? $.el.div({className : 'sort_wrapper' + sortClass}, sortLabel) : null).appendTo(headingRow);  
 
         if (firstHeading === null) firstHeading = th;
       }).bind(this));
@@ -94,8 +94,8 @@
 
       // now we'll generate the body of the content table, with a row
       // for each model in the bound collection
-      var tableBody = $.el.tbody();
-      this.collectionEl.appendChild(tableBody);
+      this.collectionEl = $.el.tbody();
+      table.appendChild(this.collectionEl);
 
       // if the collection is empty, we render the empty content
       if(!_(this.model).exists()  || this.model.length === 0) {
@@ -104,25 +104,28 @@
         this._emptyContent = $.el.tr($.el.td(this._emptyContent));
 
         if(!!this._emptyContent) {
-          tableBody.appendChild(this._emptyContent);
+          this.collectionEl.appendChild(this._emptyContent);
         }
       }
 
       // otherwise, we render each row
       else {
-        _(this.model.models).each(function(model, index) {
+        _(this.model.models).each(function(model, index, collection) {
           var item = this._renderItem(model, index);
-          tableBody.appendChild(item);
+
+          // add some useful class names
+          $(item).addClass(index % 2 === 0 ? 'even' : 'odd');
+          if(index === 0) $(item).addClass('first');
+          if(index === collection.length - 1) $(item).addClass('last');
+
+          this.collectionEl.appendChild(item);
         }, this);
       }
 
       // wrap the list in a scroller
       if(_(this.options.maxHeight).exists()) {
-        var style = 'max-height:' + this.options.maxHeight + 'px';
-        var scroller = new Backbone.UI.Scroller({
-          content : $.el.div({style : style}, container)
-        }).render();
-
+        var style = 'overflow:auto; max-height:' + this.options.maxHeight + 'px';
+        var scroller = $.el.div({style : style}, container);
         this.el.appendChild(scroller.el);
       }
       else {

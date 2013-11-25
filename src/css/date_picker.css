@@ -1,8 +1,17 @@
+.date_picker {
+  position: relative;
+  line-height:20px;
+}
+
 .date_picker .text_field {
-  width:100px;
+  display:inline-block;
+}
+
+.date_picker .text_field input {
+  width: 80px;
 }
 
 .date_picker_calendar {
   position:absolute;
-  z-index:1000;
+  z-index:2000;
 }

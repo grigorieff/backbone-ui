@@ -1,9 +1,4 @@
 .link {
-  position:relative;
-  /* inline-block with IE7 hack */
   display: inline-block;
-  zoom: 1;
-  *display: inline;
-  vertical-align:middle;
-  line-height:30px;
+  line-height:20px;
 }

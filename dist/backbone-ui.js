@@ -35,14 +35,21 @@
 
     IS_MOBILE : 
       document.ontouchstart !== undefined || 
-      document.ontouchstart === null
+      document.ontouchstart === null,
+     
+    setMobile : function(mobile) {
+      Backbone.UI.IS_MOBILE = mobile;
+    }  
   };
 
   _(Backbone.View.prototype).extend({
+    
     // resolves the appropriate content from the given choices
-    resolveContent : function(model, content) {
+    resolveContent : function(model, content, defaultOption) {
+      defaultOption = (defaultOption === null || _(defaultOption).isUndefined()) ? 
+        this.options.content : defaultOption;
       model = _(model).exists() ? model : this.model;
-      content = _(content).exists() ? content : this.options.content;
+      content = _(content).exists() ? content : defaultOption;
       var hasModelProperty = _(model).exists() && _(content).exists();
       return _(content).isFunction() ? content(model) : 
         hasModelProperty && _(model[content]).isFunction() ? model[content]() : 
@@ -183,6 +190,56 @@
   // Add some utility methods to JQuery
   _($.fn).extend({
     // aligns each element releative to the given anchor
+    /**
+    * <p>
+    * Align an element relative to another element (which can be absolute or
+    * inline).  This forces the target element to be absolutely positioned
+    * (which it probably should be anyway, to insure it's width/height don't
+    * change when converting to absolute positioning.)</p>
+    *
+    * @function alignTo
+    * @param {Element} anchor element to position relative to
+    * @param pos A string consists of one or two words that describe where the
+    * target element is positioned relative to the anchor element.
+    * <dl>
+    *   <dt>center</dt>
+    *     <dd>The default alignment, centers the element along either the
+    *     vertical or horizontal axis.</dd>
+    *   <dt>top</dt>    
+    *     <dd>places target element above the anchor</dd>
+    *   <dt>bottom</dt> 
+    *     <dd>places target element below the anchor</dd>
+    *   <dt>left</dt>   
+    *     <dd>places target element to the left of the anchor</dd>
+    *   <dt>right</dt>  
+    *     <dd>places target element to the right of the anchor</dd>
+    *   <dt>-top</dt>   
+    *     <dd>aligns top edge of target with top of anchor</dd>
+    *   <dt>-bottom</dt>
+    *     <dd>aligns bottom edge of target with bottom of anchor</dd>
+    *   <dt>-left</dt>  
+    *     <dd>aligns left edge of target with left of anchor</dd>
+    *   <dt>-right</dt> 
+    *     <dd>aligns right edge of target with right of anchor</dd>
+    *   <dt>no-constraint</dt> 
+    *     <dd>
+    *      By default, the target is constrained to the viewport.
+    *      This allows you to let it overflow the page.
+    *     </dd>
+    *   </dl>
+    *
+    * For example...
+    * <ul>
+    *   <li>"top" - element is above anchor, centered horizontally</li>
+    *   <li>"bottom left" - element is placed below and to left of anchor</li>
+    *   <li>"-left bottom" - element will be below anchor, aligned along left
+    *   edge.</li>
+    *   <li>(This is the recommended position for drop-down selection
+    *   lists)</li>
+    * </ul>
+    * @param {int} xFudge Optional x offset to add (may be negative)
+    * @param {int} yFudge Optional y offset to add (may be negative)
+    */
     alignTo : function(anchor, pos, xFudge, yFudge, container) {
       _.each(this, function(el) {
         var rehide = false;
@@ -194,6 +251,15 @@
         }
 
         var o = _alignCoords(el, anchor, pos, xFudge, yFudge);
+        
+        // if a container is passed in adjust position
+        // for the offset of the containing element
+        if(_(container).isElement()) {
+          var c = $(container).offset();
+          o.x = o.x - c.left;
+          o.y = o.y - c.top;
+        }
+        
         $(el).css({
           position:'absolute',
           left: Math.round(o.x) + 'px',
@@ -210,6 +276,7 @@
     autohide : function(options) {
       _.each(this, function(el) {
         options = _.extend({
+          onEvent : 'click', //click or mouseover
           leaveOpen : false,
           hideCallback : false,
           ignoreInputs: false,
@@ -247,22 +314,22 @@
             if (!proceed) return;
 
             $(el).hide();
-            $(document).bind('click', el._autohider);
+            $(document).bind(options.onEvent, el._autohider);
             $(document).bind('keypress', el._autohider);
             el._autohider = null;
           }, this);
 
-          $(document).bind('click', el._autohider);
+          $(document).bind(options.onEvent, el._autohider);
           $(document).bind('keypress', el._autohider);
         }
       });
     }
-  });
+  });  
 }(this));
 (function(){
   window.Backbone.UI.Button = Backbone.View.extend({
     options : {
-      tagName : 'a',
+      tagName : 'button',
 
       // true will disable the button
       // (muted non-clickable) 
@@ -272,8 +339,6 @@
       // (depressed and non-clickable)
       active : false,
 
-      hasBorder : true,
-
       // A callback to invoke when the button is clicked
       onClick : null,
 
@@ -282,43 +347,18 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
 
       _(this).bindAll('render');
 
       $(this.el).addClass('button');
 
-      // if we're running in a mobile environment, the 'click' event 
-      // isn't quite translated correctly
-      if(Backbone.UI.IS_MOBILE) {
-        $(this.el).bind('touchstart', _(function(e) {
-          $(this.el).addClass('active');
-
-            Backbone.UI._activeButton = this;
-            var bodyUpListener = $(document.body).bind('touchend', function(e) {
-              if(Backbone.UI._activeButton) {
-                if(e.target === Backbone.UI._activeButton.el || $(e.target).closest('.button.active').length > 0) {
-                  if(Backbone.UI._activeButton.options.onClick) Backbone.UI._activeButton.options.onClick(e); 
-                }
-                $(Backbone.UI._activeButton.el).removeClass('active');
-              }
-
-              Backbone.UI._activeButton = null;
-              $(document.body).unbind('touchend', bodyUpListener);
-            });
-
-          return false;
-        }).bind(this));
-      }
-
-      else {
-        $(this.el).bind('click', _(function(e) {
-          if(!this.options.disabled && !this.options.active && this.options.onClick) {
-            this.options.onClick(e); 
-          }
-          return false;
-        }).bind(this));
-      }
+      $(this.el).bind('click', _(function(e) {
+        if(!this.options.disabled && !this.options.active && this.options.onClick) {
+          this.options.onClick(e); 
+        }
+        return false;
+      }).bind(this));
     },
 
     render : function() {
@@ -327,16 +367,20 @@
       this._observeModel(this.render);
 
       $(this.el).empty();
-      $(this.el).toggleClass('has_border', this.options.hasBorder);
 
       if(this.options.isSubmit) {
-        $.el.input({
-          type : 'submit',
+        $(this.el).attr({
+          type : 'submit', 
           value : ''
-        }).appendTo(this.el);
+        });
       }
 
-      this.el.appendChild($.el.span({className : 'label'}, labelText));
+      var content = $.el.span(labelText);
+      
+      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
+      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+
+      this.insertGlyphLayout(glyphCss, glyphRightCss, content, this.el);
 
       // add appropriate class names
       this.setEnabled(!this.options.disabled);
@@ -347,19 +391,15 @@
 
     // sets the enabled state of the button
     setEnabled : function(enabled) {
-      if(enabled) {
-        this.el.href = '#';
-      } else { 
-        this.el.removeAttribute('href');
-      }
       this.options.disabled = !enabled;
-      $(this.el)[enabled ? 'removeClass' : 'addClass']('disabled');
+      $(this.el).toggleClass('disabled', !enabled);
+      $(this.el).attr({'disabled' : !enabled});
     },
 
     // sets the active state of the button
     setActive : function(active) {
       this.options.active = active;
-      $(this.el)[active ? 'addClass' : 'removeClass']('active');
+      $(this.el).toggleClass('active', active);
     }
   });
 }());
@@ -386,6 +426,22 @@
       date1.getMonth() === date2.getMonth();
   };
 
+  var isBeforeMinDate = function(minDate, date, day) {
+    var compareDate = new Date(date);
+    compareDate.setFullYear(date.getFullYear());
+    compareDate.setMonth(date.getMonth());
+    compareDate.setDate(day);
+    return compareDate.getTime() < minDate.getTime();
+  };
+  
+  var isAfterMaxDate = function(maxDate, date, day) {
+    var compareDate = new Date(date);
+    compareDate.setFullYear(date.getFullYear());
+    compareDate.setMonth(date.getMonth());
+    compareDate.setDate(day);
+    return compareDate.getTime() > maxDate.getTime();
+  };
+
   window.Backbone.UI.Calendar = Backbone.View.extend({
     options : {
       // the selected calendar date
@@ -396,7 +452,15 @@
 
       // a callback to invoke when a new date selection is made.  The selected date
       // will be passed in as the first argument
-      onSelect : null
+      onSelect : null,
+      
+      // all calendar days that are before the minimum date 
+      // will be out of range and disabled
+      minDate : null,
+      
+      // all calendar days that are after the maximum date 
+      // will be out of range and disabled
+      maxDate : null
     },
 
     date : null, 
@@ -407,18 +471,47 @@
     },
 
     render : function() {
+      // binding content
       if(_(this.model).exists() && _(this.options.content).exists()) {
         this.date = this.resolveContent();
+        if(!_(this.date).isDate()) {
+          this.date = new Date();
+        }
         var key = 'change:' + this.options.content;
         this.model.unbind(key, this.render);
         this.model.bind(key, this.render);
       }
-
       else {
         this.date = this.date || this.options.date || new Date();
       }
-
-      this._renderDate(this.date);
+      // binding minDate
+      if(_(this.model).exists() && _(this.options.minDate).exists()) {
+        this.minDate = this.resolveContent(this.model, this.options.minDate);
+        if(!_(this.minDate).isDate()) {
+          this.minDate = new Date();
+        }
+        var minKey = 'change:' + this.options.minDate;
+        this.model.unbind(minKey, this.render);
+        this.model.bind(minKey, this.render);
+      }
+      else {
+        this.minDate = null;
+      }
+      // binding maxDate
+      if(_(this.model).exists() && _(this.options.maxDate).exists()) {
+        this.maxDate = this.resolveContent(this.model, this.options.maxDate);
+        if(!_(this.maxDate).isDate()) {
+          this.maxDate = new Date();
+        }
+        var maxKey = 'change:' + this.options.maxDate;
+        this.model.unbind(maxKey, this.render);
+        this.model.bind(maxKey, this.render);
+      }
+      else {
+        this.maxDate = null;
+      }
+      
+      this._renderDate(this.date, this.minDate, this.maxDate);
 
       return this;
     },
@@ -429,7 +522,7 @@
 
         // we only want to set the bound property's date portion
         var boundDate = this.resolveContent();
-        var updatedDate = new Date(boundDate.getTime());
+        var updatedDate = _(boundDate).isDate() ? new Date(boundDate.getTime()) : new Date();
         updatedDate.setMonth(date.getMonth());
         updatedDate.setDate(date.getDate());
         updatedDate.setFullYear(date.getFullYear());
@@ -443,9 +536,15 @@
       return false;
     },
 
-    _renderDate : function(date, e) {
+    _renderDate : function(date, minDate, maxDate, e) {
       if(e) e.stopPropagation();
       $(this.el).empty();
+
+
+      var startOfMinDay = minDate ? moment(minDate).startOf('day').toDate() : null;
+      var endOfMaxDay = maxDate ? moment(maxDate).endOf('day').toDate() : null;
+      var startOfDate = moment(date).startOf('day').toDate();
+      var endOfDate = moment(date).endOf('day').toDate();
 
       var nextMonth = new Date(date.getFullYear(), date.getMonth() + 1);
       var lastMonth = new Date(date.getFullYear(), date.getMonth() - 1);
@@ -466,11 +565,11 @@
       var tbody, table = $.el.table(
         $.el.thead(
           $.el.th(
-            $.el.a({className : 'go_back', onclick : _(this._renderDate).bind(this, lastMonth)}, '\u2039')),
+            $.el.a({className : 'go_back', onclick : _(this._renderDate).bind(this, lastMonth, minDate, maxDate)}, '\u2039')),
           $.el.th({className : 'title', colspan : 5},
             $.el.div(formatDateHeading(date))),
           $.el.th(
-            $.el.a({className : 'go_forward', onclick : _(this._renderDate).bind(this, nextMonth)}, '\u203a'))),
+            $.el.a({className : 'go_forward', onclick : _(this._renderDate).bind(this, nextMonth, minDate, maxDate)}, '\u203a'))),
         tbody = $.el.tbody(daysRow));
 
       var day = inactiveBeforeDays >= 0 ? daysInMonth(lastMonth) - inactiveBeforeDays : 1;
@@ -484,17 +583,21 @@
         for(var colIndex=0; colIndex<7; colIndex++) {
           var inactive = daysRendered <= inactiveBeforeDays || 
             daysRendered > inactiveBeforeDays + daysInThisMonth;
+            
+          var outOfRange = _(minDate).isDate() && isBeforeMinDate(startOfMinDay, startOfDate, day) ||
+            _(maxDate).isDate() && isAfterMaxDate(endOfMaxDay, endOfDate, day);
 
           var callback = _(this._selectDate).bind(
             this, new Date(date.getFullYear(), date.getMonth(), day));
 
           var className = 'cell' + (inactive ? ' inactive' : '') + 
+            (outOfRange ? ' out_of_range' : '') +
             (colIndex === 0 ? ' first' : colIndex === 6 ? ' last' : '') +
             (inCurrentMonth && !inactive && day === today.getDate() ? ' today' : '') +
             (inSelectedMonth && !inactive && day === this.date.getDate() ? ' selected' : '');
 
           $.el.td({ className : className }, 
-            inactive ? 
+            inactive || outOfRange ? 
               $.el.div({ className : 'day' }, day) : 
               $.el.a({ className : 'day', onClick : callback }, day)).appendTo(row);
 
@@ -517,8 +620,7 @@
   window.Backbone.UI.Checkbox = Backbone.View.extend({
 
     options : {
-      tagName : 'a',
-
+    
       // The property of the model describing the label that 
       // should be placed next to the checkbox
       labelContent : null,
@@ -528,57 +630,86 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel]);
-      _(this).bindAll('render');
-
-      $(this.el).click(_(this._onClick).bind(this));
-      $(this.el).attr({href : '#'});
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph,
+        Backbone.UI.HasError]);
+      _(this).bindAll('_refreshCheck');
       $(this.el).addClass('checkbox');
       if(this.options.name){
         $(this.el).addClass(this.options.name);
       }
+      this.label = $.el.label();
+      this.input = $.el.input({type : 'checkbox'});
+      $(this.input).change(_(this._updateModel).bind(this));
+      $(this.input).click(_(this._updateModel).bind(this));
+      this._observeModel(_(this._refreshCheck).bind(this));
     },
 
     render : function() {
 
-      this._observeModel(this.render);
-
       $(this.el).empty();
+      $(this.label).empty();
+      
+      $(this.input).off('change');
+      $(this.input).off('click');
+      
+      var value = this.resolveContent() !== null ? 
+        this.resolveContent() : this.input.checked;
 
-      this.checked = this.checked || this.resolveContent();
-      var mark = $.el.div({className : 'checkmark'});
-      if(this.checked) {
-        mark.appendChild($.el.div({className : 'checkmark_fill'}));
-      }
-
-      var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
-      this._label = $.el.div({className : 'label'}, labelText);
-      $('a',this._label).click(function(e){
-        e.stopPropagation(); 
+      $(this.input).attr({
+        name : this.options.name,
+        id : this.options.name,
+        tabIndex : this.options.tabIndex,
+        checked : value,
+        disabled : this.options.disabled
       });
-      this.el.appendChild(mark);
-      this.el.appendChild(this._label);
-      this.el.appendChild($.el.br({style : 'clear:both'}));
+      
+      var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
+      
+      this.label.appendChild(this.input);
+      this._labelText = $.el.span(labelText);
+      
+      var parent = $.el.div({className : 'checkbox_wrapper'});
+      var content = this._labelText;
+      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
+      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+      this.insertGlyphLayout(glyphCss, glyphRightCss, content, parent);
+      
+      this.label.appendChild(parent);
+      this.el.appendChild(this.label);
+
+      this.setEnabled(!this.options.disabled);
+      
+      $(this.input).on('change', _(this._updateModel).bind(this));
+      $(this.input).on('click', _(this._updateModel).bind(this));
 
       return this;
     },
+    
+    _refreshCheck : function() {
+      
+      var value = this.resolveContent();
+      
+      $(this.input).attr({ checked : value });
+      
+      var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
+      $(this._labelText).text(labelText);
+      
+    },
+    
+    _updateModel : function() {
+      _(this.model).setProperty(this.options.content, this.input.checked);
+    },
 
-    _onClick : function() {
-      if (this.options.disabled) {
-        return false;
+    // sets the enabled state
+    setEnabled : function(enabled) {
+      if(enabled) { 
+        $(this.el).removeClass('disabled');
+      } else {
+        $(this.el).addClass('disabled');
       }
-
-      this.checked = !this.checked;
-      if(_(this.model).exists() && _(this.options.content).exists()) {
-        _(this.model).setProperty(this.options.content, this.checked);
-      }
-
-      else {
-        this.render();
-      }
-
-      return false;
+      this.input.disabled = !enabled;
     }
+    
   });
 }());
 (function(){
@@ -587,8 +718,13 @@
       // The Backbone.Collection instance the view is bound to
       model : null,
 
-      // The Backbone.View class responsible for rendering a single item in the collection
+      // The Backbone.View class responsible for rendering a single item 
+      // in the collection. For simple use cases, you can pass a String instead 
+      // which will be interpreted as the property of the model to display.
       itemView : null,
+      
+      // Options to pass into the Backbone.View responsible for rendering the single item
+      itemViewOptions : null,
 
       // A string, element, or function describing what should be displayed
       // when the list is empty.
@@ -600,7 +736,10 @@
 
       // The maximum height in pixels that this table show grow to.  If the
       // content exceeds this height, it will become scrollable.
-      maxHeight : null
+      maxHeight : null,
+      
+      // Render the the collection view on change in model
+      renderOnChange : true
     },
 
     itemViews : {},
@@ -613,7 +752,9 @@
     initialize : function() {
       if(this.model) {
         this.model.bind('add', _.bind(this._onItemAdded, this));
-        this.model.bind('change', _.bind(this._onItemChanged, this));
+        if(this.options.renderOnChange){
+          this.model.bind('change', _.bind(this._onItemChanged, this));
+        }  
         this.model.bind('remove', _.bind(this._onItemRemoved, this));
         this.model.bind('refresh', _.bind(this.render, this));
         this.model.bind('reset', _.bind(this.render, this));
@@ -621,8 +762,10 @@
     },
 
     _onItemAdded : function(model, list, options) {
-      // first check if we've already rendered an item for this model
-      if(!!this.itemViews[model.cid]) {
+
+      // first ensure that our collection element has been initialized,
+      // and we haven't already rendered an item for this model
+      if(!this.collectionEl || !!this.itemViews[model.cid]) {
         return;
       }
 
@@ -645,11 +788,14 @@
     },
 
     _onItemChanged : function(model) {
+      // ensure our collection element has been initialized
+      if(!this.collectionEl) return;
+
       var view = this.itemViews[model.cid];
       // re-render the individual item view if it's a backbone view
       if(!!view && view.el && view.el.parentNode) {
-        view.render();
         this._ensureProperPosition(view);
+        view.render();
       }
 
       // otherwise, we re-render the entire collection
@@ -659,6 +805,9 @@
     },
 
     _onItemRemoved : function(model) {
+      // ensure our collection element has been initialized
+      if(!this.collectionEl) return;
+
       var view = this.itemViews[model.cid];
       var liOrTrElement = view.el.parentNode;
       if(!!view && !!liOrTrElement && !!liOrTrElement.parentNode) {
@@ -673,9 +822,10 @@
     _updateClassNames : function() {
       var children = this.collectionEl.childNodes;
       if(children.length > 0) {
-        _(children).each(function(child) {
+        _(children).each(function(child, index) {
           $(child).removeClass('first');
           $(child).removeClass('last');
+          $(child).addClass(index % 2 === 0 ? 'even' : 'odd');
         });
         $(children[0]).addClass('first');
         $(children[children.length - 1]).addClass('last');
@@ -711,17 +861,22 @@
       format : 'MM/DD/YYYY',
       date : null,
       name : null,
-      onChange : null
+      onChange : null,
+      minDate : null,
+      maxDate : null
     },
 
     initialize : function() {
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       $(this.el).addClass('date_picker');
 
       this._calendar = new Backbone.UI.Calendar({
         className : 'date_picker_calendar',
         model : this.model,
-        property : this.options.content,
-        onSelect : _(this._selectDate).bind(this)
+        content : this.options.content,
+        onSelect : _(this._selectDate).bind(this),
+        minDate : this.options.minDate,
+        maxDate : this.options.maxDate
       });
       $(this._calendar.el).hide();
       document.body.appendChild(this._calendar.el);
@@ -732,28 +887,31 @@
       });
 
       // listen for model changes
-      if(!!this.model && this.options.content) {
-        this.model.bind('change:' + this.options.content, _(this.render).bind(this));
-      }
+      this._observeModel(_(this.render).bind(this));
+      
     },
 
     render : function() {
       $(this.el).empty();
 
       this._textField = new Backbone.UI.TextField({
-        name : this.options.name
+        name : this.options.name,
+        placeholder : this.options.placeholder,
+        glyphCss : this.options.glyphCss,
+        glyphRightCss : this.options.glyphRightCss
       }).render();
 
       $(this._textField.input).click(_(this._showCalendar).bind(this));
-      $(this._textField.input).keyup(_(this._dateEdited).bind(this));
+      $(this._textField.input).blur(_(this._dateEdited).bind(this));
+      $(this._textField.input).keyup(_(this._hideCalendar).bind(this));
 
-      this.el.appendChild(this._textField.el);
+      this.el.appendChild(this.wrapWithFormLabel(this._textField.el));
 
       this._selectedDate = (!!this.model && !!this.options.content) ? 
         this.resolveContent() : this.options.date;
       
       if(!!this._selectedDate) {
-        this._calendar.options.selectedDate = this._selectedDate;
+        this._calendar.options.date = this._selectedDate;
         var dateString = moment(this._selectedDate).format(this.options.format);
         this._textField.setValue(dateString);
       }
@@ -782,7 +940,8 @@
       $(this._calendar.el).alignTo(this._textField.el, 'bottom -left', 0, 2);
     },
 
-    _hideCalendar : function() {
+    _hideCalendar : function(e) {
+      if(e && e.keyCode === Backbone.UI.KEYS.KEY_RETURN) this._dateEdited();
       $(this._calendar.el).hide();
     },
 
@@ -802,12 +961,17 @@
     },
 
     _dateEdited : function(e) {
+
       var newDate = moment(this._textField.getValue(), this.options.format);
-      this._selectedDate = newDate.toDate();
+      this._selectedDate = newDate ? newDate.toDate() : null;
+
+      // if the event is a blur, we need to make sure that the menu is not
+      // open, otherwise we'll squash that selection event
+      if(e && e.type === 'blur' && $(this._calendar.el).is(':visible')) return;
 
       // if the enter key was pressed or we've invoked this method manually, 
       // we hide the calendar and re-format our date
-      if(!e || e.keyCode === Backbone.UI.KEYS.KEY_RETURN) {
+      if(!e || e.keyCode === Backbone.UI.KEYS.KEY_RETURN || e.type === 'blur') {
         var newValue = moment(newDate).format(this.options.format);
         this._textField.setValue(newValue);
         this._hideCalendar();
@@ -820,6 +984,10 @@
           updatedDate.setDate(newDate.date());
           updatedDate.setFullYear(newDate.year());
           _(this.model).setProperty(this.options.content, updatedDate);
+        }
+        else {
+          this._calendar.date = this._selectedDate;
+          this._calendar.render();
         }
 
         if(_(this.options.onChange).isFunction()) {
@@ -1050,7 +1218,18 @@
       // The property of the individual choice that represents the value to be stored
       // in the bound model's property.  Omit this option if you'd like the choice 
       // object itself to represent the value.
-      altValueContent : null
+      altValueContent : null,
+      
+      // If provided this content will wrap the component with additional label.
+      formLabelContent : null,
+      
+      // The property of the individual choice representing CSS 
+      // background rule for the left glyph 
+      altGlyphCss : null,
+
+      // The property of the individual choice representing CSS 
+      // background rule for the right glyph 
+      altGlyphRightCss : null
     },
 
     _determineSelectedItem : function() {
@@ -1103,6 +1282,211 @@
   };
 }());
 
+// A mixin for dealing with errors in widgets 
+(function(){
+
+  Backbone.UI.HasError = {
+
+    options : {
+      // Can be inserted into the flow of the form as the type 'inform' or as
+      // a flyover disclosing the error message as the type 'disclosure'
+      errorType : 'inform',
+      // Where the error message will be displayed.
+      // Possible positions: 'right', 'below'
+      errorPosition : 'below'
+    },
+    
+    unsetError : function() {
+      // remove error class
+      $(this.el).removeClass('error');
+      // remove error message if it exists
+      $(this.errorMessage).remove();
+      // remove disclosure if it exists
+      $(this._disclosure).remove();   
+      // remove event attached to the model regarding errors   
+      if(_(this._unobserveModel).exists()) {
+        this._unobserveModel(_(this.unsetError).bind(this));
+      }
+    },
+    
+    setError : function(message) {
+      
+      // add event to model to unset error when on change
+      if(_(this._observeModel).exists()) {
+        this._observeModel(_(this.unsetError).bind(this));
+      }
+       
+      // message will default to empty string
+      message = (message === null || _(message).isUndefined()) ? "" : message;
+      // clear existing error
+      this.unsetError();
+      // add error class
+      $(this.el).addClass('error');
+      
+      // add error message if provided
+      if(message.length > 0) {
+        
+        if(this.options.errorType !== "disclosure") {
+          this.errorMessage = $.el.span({className : 'error_message ' + 
+            this.options.errorPosition}, message);
+        }
+        else {
+          this.errorMessage = $.el.span({className : 'error_message right with_disclosure'}, "!");
+          
+          this._disclosure = $.el.div({className : 'disclosure'},
+            this._disclosureOuter = $.el.div({className: 'disclosure_outer'},
+              this._disclosureInner = $.el.div({className: 'disclosure_inner'}, message),
+                this._disclosureArrow = $.el.div({className: 'disclosure_arrow'})));
+          
+          $(this.errorMessage).click(_(function(e) {
+            e.preventDefault();
+            this._showDisclosure();
+            return false;
+          }).bind(this));
+          
+          $(this.el).click(_(function() {
+            $(this._disclosure).remove();
+          }).bind(this));
+          
+        }
+        
+        this.el.childNodes[0].appendChild(this.errorMessage);
+        
+        if(this._disclosure) {
+          this._showDisclosure();
+        }
+        
+      }
+      
+    },
+    
+    _showDisclosure : function(){
+      // add the disclosure
+      this.el.appendChild(this._disclosure);
+      // set the position
+      var position = this.options.errorPosition === 'right' ? 
+        $(this._disclosure).alignTo(this.errorMessage, 'right', 10, 0, this.el) : 
+        $(this._disclosure).alignTo(this.errorMessage, 'center bottom', 0, 10, this.el);
+         
+
+      // add the appropriate class to disclosure arrow for correct sprite and styles
+      $(this._disclosureOuter).addClass(this.options.errorPosition === 'right' ? 'arrow_left' : 'arrow_up');
+      // set the disclosure arrow position
+      var pos = this.options.errorPosition === 'right' ? (($(this._disclosure).height() / 2) - 10) : 
+        (($(this._disclosure).width() / 2) - 10);
+      var cssTopOrLeft = this.options.errorPosition === 'right' ? 'top' : 'left';  
+      $(this._disclosureArrow).css(cssTopOrLeft, pos + 'px');
+    }
+    
+  };
+}());
+// A mixin for dealing with focus in / focus out
+(function(){
+
+  Backbone.UI.HasFocus = {
+    
+    setupFocus : function(el, parent) {
+    
+      // add focusin 
+      $(el).focusin(_(function(e) {
+        $(parent).addClass('focused');
+      }).bind(this));
+
+      // add focusout
+      $(el).focusout(_(function(e) {
+        $(parent).removeClass('focused');
+      }).bind(this));
+      
+    }
+        
+  };
+}());
+// A mixin for dealing with glyphs in widgets 
+(function(){
+
+  Backbone.UI.HasFormLabel = {
+    
+    wrapWithFormLabel : function(content) {
+      var wrapped = $.el.label();
+      
+      var formLabelText = this.options.formLabelContent ? 
+        this.resolveContent(this.model, this.options.formLabelContent, 
+          this.options.formLabelContent) || this.options.formLabelContent : null;
+      if(formLabelText) {
+        wrapped.appendChild($.el.span({className : 'form_label'}, formLabelText));
+      }
+      wrapped.appendChild(content);
+      return wrapped;  
+    }  
+
+  };
+}());
+// A mixin for dealing with glyphs in widgets 
+(function(){
+
+  var loadGlyph = function(name, size, bgSize){
+    var div = $.el.span({
+      className : 'glyph'
+    });
+    $(div).css({
+      background : name,
+      width : size + 'px',
+      height : size + 'px',
+      backgroundSize : bgSize
+    });
+    return div;
+  };
+
+  Backbone.UI.HasGlyph = {
+
+    options : {
+      // The pixel size of the width and height of a glyph
+      glyphSize : 20,
+      // The padding between the glyph and the rest of the content
+      glyphPadding : 8,
+      // The background-size of the glyph
+      glyphBackgroundSize : 'auto'
+    },
+    
+    insertGlyphLayout : function(glyphCss, glyphRightCss, content, parent) {
+
+      // append left glyph
+      if(glyphCss) {
+        var glyphLeft = loadGlyph(glyphCss, this.options.glyphSize, this.options.glyphBackgroundSize);
+        $(glyphLeft).addClass('left');
+        $(glyphLeft).css({
+          marginRight : this.options.glyphPadding + 'px'
+        });
+        parent.appendChild(glyphLeft);
+      }
+      
+      // append content
+      if(content) {
+        parent.appendChild(content);
+      }
+      
+      // append right glyph
+      if(glyphRightCss) {
+        var glyphRight = loadGlyph(glyphRightCss, this.options.glyphSize, this.options.glyphBackgroundSize);
+        $(glyphRight).addClass('right');
+        $(glyphRight).css({
+          marginLeft : this.options.glyphPadding + 'px'
+        });
+        parent.appendChild(glyphRight);
+      }
+     
+    },
+
+    resolveGlyph : function(model, content) {
+      if(content === null) return null;
+      var glyph = null;
+      if(_(model).exists() && _((model.attributes || model)[content]).exists()) {
+        glyph = this.resolveContent(model, content);
+      }
+      return _(glyph).exists() ? glyph : content;
+    }
+  };
+}());
  // A mixin for those views that are model bound
 (function(){
   Backbone.UI.HasModel = {
@@ -1115,7 +1499,22 @@
       // If a function is given, it will be invoked with the model and will 
       // expect an element to be returned.  If no model is present, this 
       // property may be a string or function describing the content to be rendered
-      content : null
+      content : null,
+      
+      // If provided this content will wrap the component with additional label.
+      // The text displayed by the label is determined the same way the content attribute.
+      // This option is a no-op when applied to Button, Calendar, Checkbox, Link components.
+      formLabelContent : null,
+      
+      // If present, a square glyph area will be added to the left side of this 
+      // component, and the given string will be used as the full CSS background
+      // property of that glyph area. This option is a no-op when applied 
+      // to Calender and Menu components. 
+      glyphCss : null,
+
+      // Same as above, but on the right side.
+      glyphRightCss : null
+      
     },
 
     _observeModel : function(callback) {
@@ -1129,7 +1528,20 @@
           }
         }, this);
       }
+    },
+    
+    _unobserveModel : function(callback) {
+      if(_(this.model).exists() && _(this.model.unbind).isFunction()) {
+        _(['content', 'labelContent']).each(function(prop) {
+          var key = this.options[prop];
+          if(_(key).exists()) {
+            key = 'change:' + key;
+            this.model.unbind(key, callback);
+          }
+        }, this);
+      }
     }
+    
   };
 }());
 
@@ -1142,127 +1554,135 @@
     MIT license
     www.opensource.org/licenses/mit-license.php
 */
-(function($, udf) {
-    var ns = ".inputEvent ",
-        // A bunch of data strings that we use regularly
-        dataBnd = "bound.inputEvent",
-        dataVal = "value.inputEvent",
-        dataDlg = "delegated.inputEvent",
-        // Set up our list of events
-        bindTo = [
-            "input", "textInput",
-            "propertychange",
-            "paste", "cut",
-            "keydown", "keyup",
-            "drop",
-        ""].join(ns),
-        // Events required for delegate, mostly for IE support
-        dlgtTo = [ "focusin", "mouseover", "dragstart", "" ].join(ns),
-        // Elements supporting text input, not including contentEditable
-        supported = {TEXTAREA:udf, INPUT:udf},
-        // Events that fire before input value is updated
-        delay = { paste:udf, cut:udf, keydown:udf, drop:udf, textInput:udf };
 
-    // this checks if the tag is supported or has the contentEditable property
-    function isSupported(elem) {
-        return $(elem).prop('contenteditable') == "true" ||
-                 elem.tagName in supported;
-    };
+/*jshint eqeqeq:false */
+/*jshint asi:true */
+/*jshint undef:false */
+/*jshint shadow:true */
+if(window.jQuery) {
+  (function($, udf) {
+      var ns = ".inputEvent ",
+          // A bunch of data strings that we use regularly
+          dataBnd = "bound.inputEvent",
+          dataVal = "value.inputEvent",
+          dataDlg = "delegated.inputEvent",
+          // Set up our list of events
+          bindTo = [
+              "input", "textInput",
+              "propertychange",
+              "paste", "cut",
+              "keydown", "keyup",
+              "drop",
+          ""].join(ns),
+          // Events required for delegate, mostly for IE support
+          dlgtTo = [ "focusin", "mouseover", "dragstart", "" ].join(ns),
+          // Elements supporting text input, not including contentEditable
+          supported = {TEXTAREA:udf, INPUT:udf},
+          // Events that fire before input value is updated
+          delay = { paste:udf, cut:udf, keydown:udf, drop:udf, textInput:udf };
 
-    $.event.special.txtinput = {
-        setup: function(data, namespaces, handler) {
-            var timer,
-                bndCount,
-                // Get references to the element
-                elem  = this,
-                $elem = $(this),
-                triggered = false;
+      // this checks if the tag is supported or has the contentEditable property
+      function isSupported(elem) {
+          return $(elem).prop('contenteditable') == "true" ||
+                   elem.tagName in supported;
+      }
 
-            if (isSupported(elem)) {
-                bndCount = $.data(elem, dataBnd) || 0;
+      $.event.special.txtinput = {
+          setup: function(data, namespaces, handler) {
+              var timer,
+                  bndCount,
+                  // Get references to the element
+                  elem  = this,
+                  $elem = $(this),
+                  triggered = false;
 
-                if (!bndCount)
-                    $elem.bind(bindTo, handler);
+              if (isSupported(elem)) {
+                  bndCount = $.data(elem, dataBnd) || 0;
 
-                $.data(elem, dataBnd, ++bndCount);
-                $.data(elem, dataVal, elem.value);
-            } else {
-                $elem.bind(dlgtTo, function (e) {
-                    var target = e.target;
-                    if (isSupported(target) && !$.data(elem, dataDlg)) {
-                        bndCount = $.data(target, dataBnd) || 0;
+                  if (!bndCount)
+                      $elem.bind(bindTo, handler);
 
-                        if (!bndCount)
-                            $(target).bind(bindTo, handler);
+                  $.data(elem, dataBnd, ++bndCount);
+                  $.data(elem, dataVal, elem.value);
+              } else {
+                  $elem.bind(dlgtTo, function (e) {
+                      var target = e.target;
+                      if (isSupported(target) && !$.data(elem, dataDlg)) {
+                          bndCount = $.data(target, dataBnd) || 0;
 
-                        // make sure we increase the count only once for each bound ancestor
-                        $.data(elem, dataDlg, true);
-                        $.data(target, dataBnd, ++bndCount);
-                        $.data(target, dataVal, target.value);
-                    }
-                });
-            }
-            function handler (e) {
-                var elem = e.target;
+                          if (!bndCount)
+                              $(target).bind(bindTo, handler);
 
-                // Clear previous timers because we only need to know about 1 change
-                window.clearTimeout(timer), timer = null;
+                          // make sure we increase the count only once for each bound ancestor
+                          $.data(elem, dataDlg, true);
+                          $.data(target, dataBnd, ++bndCount);
+                          $.data(target, dataVal, target.value);
+                      }
+                  });
+              }
+              function handler (e) {
+                  var elem = e.target;
 
-                // Return if we've already triggered the event
-                if (triggered)
-                    return;
+                  // Clear previous timers because we only need to know about 1 change
+                  window.clearTimeout(timer), timer = null;
 
-                // paste, cut, keydown and drop all fire before the value is updated
-                if (e.type in delay && !timer) {
-                    // ...so we need to delay them until after the event has fired
-                    timer = window.setTimeout(function () {
-                        if (elem.value !== $.data(elem, dataVal)) {
-                            $(elem).trigger("txtinput");
-                            $.data(elem, dataVal, elem.value);
-                        }
-                    }, 0);
-                }
-                else if (e.type == "propertychange") {
-                    if (e.originalEvent.propertyName == "value") {
-                        $(elem).trigger("txtinput");
-                        $.data(elem, dataVal, elem.value);
-                        triggered = true;
-                        window.setTimeout(function () {
-                            triggered = false;
-                        }, 0);
-                    }
-                }
-                else {
-                    $(elem).trigger("txtinput");
-                    $.data(elem, dataVal, elem.value);
-                    triggered = true;
-                    window.setTimeout(function () {
-                        triggered = false;
-                    }, 0);
-                }
-            }
-        },
-        teardown: function () {
-            var elem = $(this);
-            elem.unbind(dlgtTo);
-            elem.find("input, textarea").andSelf().each(function () {
-                bndCount = $.data(this, dataBnd, ($.data(this, dataBnd) || 1)-1);
+                  // Return if we've already triggered the event
+                  if (triggered)
+                      return;
 
-                if (!bndCount)
-                    elem.unbind(bindTo);
-            });
-        }
-    };
+                  // paste, cut, keydown and drop all fire before the value is updated
+                  if (e.type in delay && !timer) {
+                      // ...so we need to delay them until after the event has fired
+                      timer = window.setTimeout(function () {
+                          if (elem.value !== $.data(elem, dataVal)) {
+                              $(elem).trigger("txtinput");
+                              $.data(elem, dataVal, elem.value);
+                          }
+                      }, 0);
+                  }
+                  else if (e.type == "propertychange") {
+                      if (e.originalEvent.propertyName == "value") {
+                          $(elem).trigger("txtinput");
+                          $.data(elem, dataVal, elem.value);
+                          triggered = true;
+                          window.setTimeout(function () {
+                              triggered = false;
+                          }, 0);
+                      }
+                  }
+                  else {
+                      $(elem).trigger("txtinput");
+                      $.data(elem, dataVal, elem.value);
+                      triggered = true;
+                      window.setTimeout(function () {
+                          triggered = false;
+                      }, 0);
+                  }
+              }
+          },
+          teardown: function () {
+              var elem = $(this);
+              elem.unbind(dlgtTo);
+              elem.find("input, textarea").andSelf().each(function () {
+                  bndCount = $.data(this, dataBnd, ($.data(this, dataBnd) || 1)-1);
 
-    // Setup our jQuery shorthand method
-    $.fn.input = function (handler) {
-        return handler ? $(this).bind("txtinput", handler) : this.trigger("txtinput");
-    }
-})(jQuery);
+                  if (!bndCount)
+                      elem.unbind(bindTo);
+              });
+          }
+      };
+
+      // Setup our jQuery shorthand method
+      $.fn.input = function (handler) {
+          return handler ? $(this).bind("txtinput", handler) : this.trigger("txtinput");
+      }
+  })(window.jQuery);
+}
 (function(){
   window.Backbone.UI.Label = Backbone.View.extend({
     options : {
-      tagName : 'span'
+      emptyContent : '',
+      tagName : 'label'
     },
 
     initialize : function() {
@@ -1270,13 +1690,18 @@
 
       _(this).bindAll('render');
 
-      $(this.el).addClass('label');
+      if(this.options.name){
+        $(this.el).addClass(this.options.name);
+      }
 
     },
 
     render : function() {
-      var labelText = this.resolveContent();
-
+      var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
+      // if the label is undefined use the emptyContent option
+      if(labelText === undefined){
+        labelText = this.options.emptyContent;
+      }
       this._observeModel(this.render);
 
       $(this.el).empty();
@@ -1303,7 +1728,7 @@
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
 
       _(this).bindAll('render');
 
@@ -1324,8 +1749,12 @@
 
       $(this.el).empty();
       
-      // insert label
-      this.el.appendChild($.el.span({className : 'label'}, labelText));
+      var content = $.el.span(labelText);
+      
+      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
+      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+
+      this.insertGlyphLayout(glyphCss, glyphRightCss, content, this.el);
       
       // add appropriate class names
       this.setEnabled(!this.options.disabled);
@@ -1341,20 +1770,14 @@
         this.el.removeAttribute('href');
       }
       this.options.disabled = !enabled;
-      $(this.el)[enabled ? 'removeClass' : 'addClass']('disabled');
+      $(this.el).toggleClass('disabled', !enabled);
     }
   });
 }());
 
 (function(){
   window.Backbone.UI.List = Backbone.UI.CollectionView.extend({
-    options : {
-      // A Backbone.View implementation describing how to render a particular 
-      // item in the collection.  For simple use cases, you can pass a String 
-      // instead which will be interpreted as the property of the model to display.
-      itemView : null
-    },
-
+  
     initialize : function() {
       Backbone.UI.CollectionView.prototype.initialize.call(this, arguments);
       $(this.el).addClass('list');
@@ -1367,7 +1790,7 @@
       this.collectionEl = $.el.ul();
 
       // if the collection is empty, we render the empty content
-      if(!_(this.model).exists()  || this.model.length === 0) {
+      if((!_(this.model).exists()  || this.model.length === 0) && this.options.emptyContent) {
         this._emptyContent = _(this.options.emptyContent).isFunction() ? 
           this.options.emptyContent() : this.options.emptyContent;
         this._emptyContent = $.el.li(this._emptyContent);
@@ -1385,19 +1808,7 @@
         }, this);
       }
 
-      // wrap the list in a scroller
-      if(_(this.options.maxHeight).exists()) {
-        var style = 'max-height:' + this.options.maxHeight + 'px';
-        var scroller = new Backbone.UI.Scroller({
-          content : $.el.div({style : style}, this.collectionEl) 
-        }).render();
-
-        this.el.appendChild(scroller.el);
-      }
-      else {
-        this.el.appendChild(this.collectionEl);
-      }
-
+      this.el.appendChild(this.collectionEl);
       this._updateClassNames();
 
       return this;
@@ -1413,9 +1824,8 @@
         }
 
         else {
-          var view = new this.options.itemView({
-            model : model
-          });
+          var view = new this.options.itemView(_({ model : model }).extend(
+            this.options.itemViewOptions));
           view.render();
           this.itemViews[model.cid] = view;
           content = view.el;
@@ -1438,178 +1848,126 @@
   window.Backbone.UI.Menu = Backbone.View.extend({
 
     options : {
+      
       // an additional item to render at the top of the menu to 
       // denote the lack of a selection
-      emptyItem : null
+      emptyItem : null,
+
+      // enables / disables the menu
+      disabled : false,
+
+      // A callback to invoke with a particular item when that item is
+      // selected from the menu.
+      onChange : Backbone.UI.noop,
+      
+      // text to place in the pulldown button before a
+      // selection has been made
+      placeholder : 'Select...',
+      
+      // number of option items to display in the menu
+      size : 1
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty, 
+        Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
 
       _(this).bindAll('render');
 
       $(this.el).addClass('menu');
 
-      this._textField = new Backbone.UI.TextField().render();
     },
 
-    scroller : null,
 
     render : function() {
       $(this.el).empty();
-
+      
       this._observeModel(this.render);
       this._observeCollection(this.render);
 
-      // create a new list of items
-      var list = $.el.ul();
-
-      // add entry for the empty model if it exists
-      if(!!this.options.emptyItem) {
-        this._addItemToMenu(list, this.options.emptyItem);
+      this.selectedItem = this._determineSelectedItem();
+      // || this.selectedItem;
+      var selectedValue = this._valueForItem(this.selectedItem);
+      
+      this.select = $.el.select({ 
+        size : this.options.size,
+        disabled : this.options.disabled
+       });
+      
+      // setup events for each input in collection
+      $(this.select).change(_(this._updateModel).bind(this));
+      
+      var selectedOffset = 0;
+      
+      // append placeholder option if no selectedItem
+      this._placeholder = null;
+      if(!this.options.emptyItem && (this.options.size === 1) && !selectedValue) {
+        this._placeholder = $.el.option(this.options.placeholder);
+        $(this._placeholder).data('value', null);
+        $(this._placeholder).attr({ disabled : 'true' });
+        this.select.appendChild(this._placeholder);
+        // adjust for placeholder option
+        selectedOffset++;
       }
-
-      var selectedItem = this._determineSelectedItem();
-
-      _(this._collectionArray()).each(function(item) {
-        var selectedValue = this._valueForItem(selectedItem);
-        var itemValue = this._valueForItem(item);
-        this._addItemToMenu(list, item, _(selectedValue).isEqual(itemValue));
+      
+      if(this.options.emptyItem) {
+        
+        this._emptyItem = $.el.option(this._labelForItem(this.options.emptyItem));
+        $(this._emptyItem).data('value', null);
+        this.select.appendChild(this._emptyItem);
+        $(this._emptyItem).click(_(function() {
+          this.select.selectedIndex = 0;
+          this._updateModel();
+        }).bind(this));
+        // adjust for emptyItem option
+        selectedOffset++;
+      }
+      
+      // default selectedIndex as placeholder if exists
+      this._selectedIndex = -1 + selectedOffset;
+      
+      _(this._collectionArray()).each(function(item, idx) {
+        
+        // adjust index for potential placeholder and emptyItem
+        idx = idx + selectedOffset;
+        
+        var val = this._valueForItem(item);
+        if(_(selectedValue).isEqual(val)) {
+          this._selectedIndex = idx;
+        }
+        
+        var option = $.el.option(this._labelForItem(item));
+        $(option).data('value', val);
+        $(option).attr({
+          selected : this._selectedIndex === idx
+        });
+        
+        $(option).click(_(function(selectedIdx) {
+          this.select.selectedIndex = selectedIdx;
+          this._updateModel();
+        }).bind(this, idx));
+        
+        this.select.appendChild(option);
+        
       }, this);
+      
+      // set the selectedIndex on the select element
+      this.select.selectedIndex = this._selectedIndex;
+            
+      this.el.appendChild(this.wrapWithFormLabel(this.select));
+      
+      // scroll to selected Item
+      this.scrollToSelectedItem();
 
-      // wrap them up in a scroller 
-      this.scroller = new Backbone.UI.Scroller({
-        content : list
-      }).render();
-
-      // Prevent scroll events from percolating out to the enclosing doc
-      $(this.scroller.el).bind('mousewheel', function(){return false;});
-      $(this.scroller.el).addClass('menu_scroller');
-
-      this.el.appendChild(this.scroller.el);
+      this.setEnabled(!this.options.disabled);
       
       return this;
     },
 
-    scrollToSelectedItem : function() {
-      var pos = !this._selectedAnchor ? 0 : 
-        $(this._selectedAnchor.parentNode).position().top - 10;
-      this.scroller.setScrollPosition(pos);
-    },
-
-    width : function() {
-      return $(this.scroller.el).innerWidth();
-    },
-
-    // Adds the given item (creating a new li element) 
-    // to the given menu ul element
-    _addItemToMenu : function(menu, item, select) {
-      var anchor = $.el.a({href : '#'});
-      
-      var liElement = $.el.li(anchor);
-      $.el.span(this._labelForItem(item) || '\u00a0').appendTo(anchor);
-      
-      var clickFunction = _.bind(function(e, silent) {
-        if(!!this._selectedAnchor) $(this._selectedAnchor).removeClass('selected');
-
-        this._setSelectedItem(_(item).isEqual(this.options.emptyItem) ? null : item, silent);
-        this._selectedAnchor = anchor;
-        $(anchor).addClass('selected');
-
-        if(_(this.options.onChange).isFunction()) this.options.onChange(item);
-        return false;
-      }, this);
-
-      $(anchor).click(clickFunction);
-
-      if(select) clickFunction(null, true);
-
-      menu.appendChild(liElement);
-    },
-
-    _labelForItem : function(item) {
-      return !_(item).exists() ? this.options.placeholder : 
-        this.resolveContent(item, this.options.altLabelContent);
-    }
-  });
-}());
-(function(){
-  window.Backbone.UI.Pulldown = Backbone.View.extend({
-    options : {
-      // text to place in the pulldown button before a
-      // selection has been made
-      placeholder : 'Select...',
-
-      // If true, the menu will be aligned to the right side
-      alignRight : false,
-
-      // A callback to invoke with a particular item when that item is
-      // selected from the pulldown menu.
-      onChange : Backbone.UI.noop,
-
-      // A callback to invoke when the pulldown menu is shown, passing the 
-      // button click event.
-      onMenuShow : Backbone.UI.noop,
-
-      // A callback to invoke when the pulldown menu is hidden, if the menu was hidden
-      // as a result of a second click on the pulldown button, the button click event 
-      // will be passed.
-      onMenuHide : Backbone.UI.noop,
-
-      // an additional item to render at the top of the menu to 
-      // denote the lack of a selection
-      emptyItem : null
-    },
-
-    initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
-      _(this).bindAll('render');
-
-      $(this.el).addClass('pulldown');
-
-      var onChange = this.options.onChange;
-      delete(this.options.onChange);
-      var menuOptions = _(this.options).extend({
-        onChange : _(function(item){
-          this._onItemSelected(item);
-          if(_(onChange).isFunction()) onChange(item);
-        }).bind(this)
-      });
-
-      this._menu = new Backbone.UI.Menu(menuOptions).render();
-      $(this._menu.el).autohide({
-        ignoreKeys : [Backbone.UI.KEYS.KEY_UP, Backbone.UI.KEYS.KEY_DOWN], 
-        ignoreInputs : false,
-        hideCallback : _.bind(this._onAutoHide, this)
-      });
-      $(this._menu.el).hide();
-      document.body.appendChild(this._menu.el);
-    },
-
-    // public accessors 
-    button : null,
-
-    render : function() {
-      $(this.el).empty();
-
-      this._observeModel(this.render);
-      this._observeCollection(this.render);
-
-      var item = this._menu.selectedItem;
-      var label = this._labelForItem(item);
-      this.button = new Backbone.UI.Button({
-        className  : 'pulldown_button',
-        model : {label : this._labelForItem(item)},
-        content : 'label',
-        onClick    : _.bind(this.showMenu, this)
-      }).render();
-      this.el.appendChild(this.button.el);
-
-      return this;
-    },
-
+   // sets the enabled state
     setEnabled : function(enabled) {
-      if(this.button) this.button.setEnabled(enabled);
+      $(this.el).toggleClass('disabled', !enabled);
+      this.select.disabled = !enabled;
     },
 
     _labelForItem : function(item) {
@@ -1620,58 +1978,125 @@
     // sets the selected item
     setSelectedItem : function(item) {
       this._setSelectedItem(item);
-      this.button.options.label = this._labelForItem(item);
-      this.button.render();
-    },
-
-    // Forces the menu to hide
-    hideMenu : function(event) {
-      $(this._menu.el).hide();
-      if(this.options.onMenuHide) this.options.onMenuHide(event);
+      $(this._placeholder).remove();
     },
     
-    //forces the menu to show
-    showMenu : function(e) {
-      var anchor = this.button.el;
-      var showOnTop = $(window).height() - ($(anchor).offset().top - document.body.scrollTop) < 150;
-      var position = (this.options.alignRight ? '-right' : '-left') + (showOnTop ? 'top' : ' bottom');
-      $(this._menu.el).alignTo(anchor, position, 0, 1);
-      $(this._menu.el).show();
-      
-      this._menuWidth = this._menuWidth || this._menu.width();
-      var buttonWidth = $(this.button.el).innerWidth();
-      $(this._menu.el).css({width : Math.max(this._menuWidth, buttonWidth)});
-      if(this.options.onMenuShow) this.options.onMenuShow(e);
-      this._menu.scrollToSelectedItem();
+    _updateModel : function() {
+      var item = this._itemForValue($(this.select.options[this.select.selectedIndex]).data('value'));
+      var changed = this.selectedItem !== item;
+      this._setSelectedItem(item);
+      // if onChange function exists call it
+      if(_(this.options.onChange).isFunction() && changed) {
+        this.options.onChange(item);
+      }  
     },
-
-    _onItemSelected : function(item) {
-      if(!!this.button) {
-        $(this.el).removeClass('placeholder');
-        this.button.model = {label : this._labelForItem(item)};
-        this.button.render();
-        this.hideMenu();
+    
+    _itemForValue : function(val) {
+      if(val === null) {
+        return val;
       }
+      var item = _(this._collectionArray()).find(function(item) {
+        var isItem = val === item;
+        var itemHasValue = this.resolveContent(item, this.options.altValueContent) === val;
+        return isItem || itemHasValue;
+      }, this);
+      
+      return item;
+    },
+    
+    scrollToSelectedItem : function() {
+      if(this.select.selectedIndex > 0) {
+        var optionIsMeasurable = $(this.select).find('option').eq(0).height();
+        var optionHeight = optionIsMeasurable > 0 ? optionIsMeasurable : 12;
+        $(this.select).scrollTop((this.select.selectedIndex * optionHeight));
+      }
+    }
+
+  });
+}());
+(function(){
+  window.Backbone.UI.Pulldown = Backbone.View.extend({
+    options : {
+      // text to place in the pulldown button before a
+      // selection has been made
+      placeholder : 'Select...',
+
+      // enables / disables the pulldown
+      disabled : false,
+
+      // A callback to invoke with a particular item when that item is
+      // selected from the pulldown menu.
+      onChange : Backbone.UI.noop
     },
 
-    // notify of the menu hiding
-    _onAutoHide : function() {
-      if(this.options.onMenuHide) this.options.onMenuHide();
-      return true;
+    initialize : function() {
+      this.mixin([Backbone.UI.HasModel, 
+        Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph, 
+        Backbone.UI.HasFormLabel, Backbone.UI.HasError, Backbone.UI.HasFocus]);
+      _(this).bindAll('render');
+
+      $(this.el).addClass('pulldown');
+      if(this.options.name){
+        $(this.el).addClass(this.options.name);
+      }
+      
+    },
+
+    render : function() {
+      $(this.el).empty();
+      
+      this._menu = new Backbone.UI.Menu({
+        model : this.model,
+        content : this.options.content,
+        alternatives : this.options.alternatives,
+        altLabelContent : this.options.altLabelContent,
+        altValueContent : this.options.altValueContent,
+        onChange : this.options.onChange,
+        placeholder : this.options.placeholder,
+        emptyItem : this.options.emptyItem,
+        size : 1,
+        disabled : this.options.disabled
+      }).render();
+      
+      this._parent = $.el.div({className : 'pulldown_wrapper'});
+      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
+      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+      this.insertGlyphLayout(glyphCss, glyphRightCss, this._menu.el, this._parent);
+
+      // add focusin / focusout
+      this.setupFocus(this._menu.el, this._parent);      
+      
+      this.el.appendChild(this.wrapWithFormLabel(this._parent));
+      
+      return this;
+    },
+
+    // sets the enabled state
+    setEnabled : function(enabled) {
+      this.options.disabled = !enabled;
+      this._menu.setEnabled(enabled);
     }
-    
+        
   });
 }());
 (function(){
   window.Backbone.UI.RadioGroup = Backbone.View.extend({
 
     options : {
+      // used to group the radio inputs
+      content : 'group',
+
+      // enables / disables the radiogroup
+      disabled : false,
+
       // A callback to invoke with the selected item whenever the selection changes
       onChange : Backbone.UI.noop
     },
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty]);
+      this.mixin([Backbone.UI.HasModel, 
+        Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph, 
+        Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       _(this).bindAll('render');
       
       $(this.el).addClass('radio_group');
@@ -1691,253 +2116,75 @@
       this._observeCollection(this.render);
 
       this.selectedItem = this._determineSelectedItem() || this.selectedItem;
-
-      var ul = $.el.ul();
+      
       var selectedValue = this._valueForItem(this.selectedItem);
-      _(this._collectionArray()).each(function(item) {
+      
+      this.group = $.el.div({className : 'radio_group_wrapper'});
+      
+      _(this._collectionArray()).each(function(item, idx) {
 
-        var selected = selectedValue === this._valueForItem(item);
-
+        var val = this._valueForItem(item);
+        var selected = selectedValue === val;
         var label = this.resolveContent(item, this.options.altLabelContent);
-        if(label.nodeType === 1) {
-          $('a',label).click(function(e){
-            e.stopPropagation(); 
-          });
-        }
         
-        var li = $.el.li(
-          $.el.a({className : 'choice' + (selected ? ' selected' : '')},
-            $.el.div({className : 'mark' + (selected ? ' selected' : '')}, 
-              selected ? '\u25cf' : '\u00a0')));      
+        var input = $.el.input();
+        $(input).attr({ 
+          type : 'radio',
+          name : this.options.content,
+          value : val,
+          checked : selected
+        });
         
-        // insert label into li then add to ul
-        $.el.div({className : 'label'}, label).appendTo(li);
-        ul.appendChild(li);
-
-        $(li).bind('click', _.bind(this._onChange, this, item));
+        // setup events for each input in collection
+        $(input).change(_(this._updateModel).bind(this, item));
+        $(input).click(_(this._updateModel).bind(this, item));
+        
+        // resolve left and right glyphs
+        var parent = $.el.div({className : 'radio_group_wrapper'});
+        var content = $.el.span(label);
+        var glyphCss = this.resolveGlyph(item, this.options.altGlyphCss);
+        glyphCss = (glyphCss && (glyphCss !== this.options.altGlyphCss)) ? glyphCss : 
+          this.resolveGlyph(null, this.options.glyphCss);
+        var glyphRightCss = this.resolveGlyph(item, this.options.altGlyphRightCss);
+        glyphRightCss = (glyphRightCss && (glyphRightCss !== this.options.altGlyphRightCss)) ? 
+          glyphRightCss : this.resolveGlyph(null, this.options.glyphRightCss);
+        this.insertGlyphLayout(glyphCss, glyphRightCss, content, parent);
+        
+        // create a new label/input pair and insert into the group
+        this.group.appendChild(
+          $.el.label({className : _(this._collectionArray()).nameForIndex(idx++) + 
+            ' ' + (idx % 2 === 0 ? 'even' : 'odd')}, input, parent));
         
       }, this);
-      this.el.appendChild(ul);
+      
+      this.el.appendChild(this.wrapWithFormLabel(this.group));
+
+      this.setEnabled(!this.options.disabled);
 
       return this;
     },
-
-    _onChange : function(item) {
+    
+    _updateModel : function(item) {
+      // check if item selected actually changed
+      var changed = this.selectedItem !== item;
       this._setSelectedItem(item);
-      this.render();
-
-      if(_(this.options.onChange).isFunction()) this.options.onChange(item);
-      return false;
-    }
-  });
-}());
-(function(){
-
-  window.Backbone.UI.Scroller = Backbone.View.extend({
-    options : {
-      className : 'scroller',
-
-      // The content to be scrolled.  This element should be 
-      // of a fixed height.
-      content : null,
-
-      // The amount to scroll on each wheel click
-      scrollAmount : 5,
-
-      // A callback to invoke when scrolling occurs
-      onScroll : null
+      // if onChange function exists call it
+      if(_(this.options.onChange).isFunction() && changed) {
+        this.options.onChange(item);
+      }  
     },
 
-    initialize : function() {
-      Backbone.UI.DragSession.enableBasicDragSupport();
-      setInterval(_(this.update).bind(this), 40);
-    },
-
-    render : function () {
-      $(this.el).empty();
-      $(this.el).addClass('scroller');
-
-      this._scrollContent = this.options.content; 
-      $(this._scrollContent).addClass('content');
-
-      this._knob = $.el.div({className : 'knob'},
-        $.el.div({className : 'knob_top'}),
-        $.el.div({className : 'knob_middle'}),
-        $.el.div({className : 'knob_bottom'}));
-
-      this._tray = $.el.div({className : 'tray'});
-      this._tray.appendChild(this._knob);
-
-      // for firefox on windows we need to wrap the scroller content in an overflow
-      // auto div to avoid a rendering bug that causes artifacts on the screen when
-      // the hidden content is scrolled...wsb
-      this._scrollContentWrapper = $.el.div({className : 'content_wrapper'});
-      this._scrollContentWrapper.appendChild(this._scrollContent);
-
-      this.el.appendChild(this._tray);
-      this.el.appendChild(this._scrollContentWrapper);
-
-      // FF workaround: Set tabIndex so the user can click on the div to give
-      // it focus (which allows us to capture the up/down/pageup/pagedown
-      // keys).  (And setting it to -1 keeps it out of the tab-navigation
-      // chain)
-      this.el.tabIndex = -1;
-
-      // observe events
-      $(this._knob).bind('mousedown', _.bind(this._onKnobMouseDown, this));
-      $(this._tray).bind('click', _.bind(this._onTrayClick, this));
-      $(this.el).bind('mousewheel', _.bind(this._onMouseWheel, this));
-
-      // touch events if appropriates
-      if(Backbone.UI.IS_MOBILE) {
-        $(this._scrollContent).css({
-          overflow : 'scroll',
-          '-webkit-overflow-scrolling' : 'touch'
-        });
-      }
-      $(this.el).addClass('disabled');
-
-      return this;
-    },
-    
-    // Returns the scroll position as a ratio of position relative to
-    // overall content size. 0 = at top, 1 = at bottom.
-    scrollRatio: function() {
-      return this.scrollPosition()/(this._totalHeight - this._visibleHeight);
-    },
-
-    setScrollRatio: function(ratio) {
-      var overflow = (this._totalHeight - this._visibleHeight);
-      ratio = Math.max(0, Math.min(overflow > 0 ? 1 : 0, ratio));
-      var contentPos = ratio*overflow;
-
-      this._scrollContent.scrollTop = Math.round(contentPos);
-
-      if(this.options.onScroll) this.options.onScroll();
-
-      // FF workaround: with position relative set on the container (needed to
-      // float the scrollbar properly), scrolling performance suh-hucks!
-      // However updating the knob position in a timeout dramatically improves
-      // matters. Don't ask me why!
-      setTimeout(_.bind(this._updateKnobPosition, this), 10);
-      this._updateKnobPosition();
-    },
-
-    // Scrolls the content by the given amount
-    scrollBy: function(amount) {
-      this.setScrollPosition(this.scrollPosition() + amount);
-    },
-
-    // Returns the actual scroll position
-    scrollPosition: function() {
-      return this._scrollContent.scrollTop;
-    },
-
-    setScrollPosition: function(top) {
-      this.update();
-      var h = this._totalHeight - this._visibleHeight;
-      this.setScrollRatio(h ? top/h : 0);
-      this.update();
-    },
-
-    // Scrolls to the end of the content
-    scrollToEnd : function(){
-      this.setScrollRatio(1);
-    },
-    
-    // updates and resizes the scrollbar if changes to the scroll 
-    update: function() {
-      var visibleHeight = this._scrollContent.offsetHeight;
-      var totalHeight = this._scrollContent.scrollHeight;
-
-      this.maxY = $(this._tray).height() - $(this._knob).height();
-
-      // if either the offset or scroll height has changed
-      if(this._visibleHeight !== visibleHeight || this._totalHeight !== totalHeight) {
-        this._disabled = totalHeight <= visibleHeight + 2;
-        $(this.el).toggleClass('disabled', this._disabled || Backbone.UI.IS_MOBILE);
-        this._visibleHeight = visibleHeight;
-        this._totalHeight = totalHeight;
-
-        // if there's nothing to scroll, we disable the scroll bar
-        if(this._totalHeight >= this._visibleHeight) {
-          this._updateKnobSize();
-          this.minY = 0;
-        }
-      }
-      this._updateKnobPosition();
-      this._updateKnobSize();
-    },
-
-    // Set the position of the knob to reflect the current scroll position
-    _updateKnobPosition: function() {
-      var r = this.scrollRatio();
-      var y = this.minY + (this.maxY-this.minY) * r;
-      if (!isNaN(y)) this._knob.style.top = y + 'px';
-    },
-    
-    _updateKnobSize : function(){
-      var knobSize = $(this._tray).height() * (this._visibleHeight/this._totalHeight);
-      knobSize = knobSize > 20 ? knobSize : 20;
-      $(this._knob).css({height : knobSize + 'px'});
-    },
-
-    _knobRatio: function(top) {
-      top = top || this._knob.offsetTop;
-      top = Math.max(this.minY, Math.min(this.maxY, top));
-      return (top-this.minY) / (this.maxY - this.minY);
-    },
-    
-    _onTrayClick: function(e) {
-      e = e || event;
-      if(e.target === this._tray) {
-        var y = (e.layerY || e.y);
-        if(!y) y = (e.originalEvent.layerY || e.originalEvent.y);
-        y = y - this._knob.offsetHeight/2;
-        this.setScrollRatio(this._knobRatio(y));
-      }
-      e.stopPropagation();
-    },
-
-    _onKnobMouseDown : function(e) {
-      this.el.focus();
-      var ds = new Backbone.UI.DragSession({
-        dragEvent : e, 
-        scope : this.el.ownerDocument,
-
-        onStart : _.bind(function(ds) {
-          // Cache starting position of the knob
-          ds.pos = this._knob.offsetTop;
-          ds.scroller = this;
-          $(this.el).addClass('dragging');
-        }, this),
-
-        onMove : _.bind(function(ds) {
-          var ratio = this._knobRatio(ds.pos + ds.dy);
-          this.setScrollRatio(ratio);
-        }, this),
-
-        onStop : _.bind(function(ds) {
-          $(this.el).removeClass('dragging');
-        }, this)
-      });
-      e.stopPropagation();
-    },
-    
-    _onMouseWheel: function(e, delta, deltaX, deltaY) {
-      if(!this._disabled) {
-        var step = this.options.scrollAmount;
-        this.setScrollPosition(this.scrollPosition() - delta*step);
-        e.preventDefault();
-        return false;
+    // sets the enabled state
+    setEnabled : function(enabled) {
+      if(enabled) { 
+        $(this.el).removeClass('disabled');
+      } else {
+        $(this.el).addClass('disabled');
       }
     }
-
+    
   });
 }());
-
-
-
 (function() {
   Backbone.UI.TabSet = Backbone.View.extend({
     options : {
@@ -2008,7 +2255,8 @@
 
     activateTab : function(index) {
       
-      $(this.el).removeClass('no_selection');
+      var noSelection = index < 0;
+      $(this.el).toggleClass('no_selection', noSelection);
       
       // hide all content panels
       _(this._contents).each(function(content) {
@@ -2023,22 +2271,24 @@
       if(_(this._selectedIndex).exists()) {
         $(this.el).removeClass('index_' + this._selectedIndex);
       }
-      $(this.el).addClass('index_' + index);
-      this._selectedIndex = index;
-
-      // select the appropriate tab
-      $(this._tabs[index]).addClass('selected');
-
-      // show the proper contents
-      $(this._contents[index]).show();
-
-      this._callbacks[index]();
+      
+      if(!noSelection){
+        $(this.el).addClass('index_' + index);
+        this._selectedIndex = index;
+        // select the appropriate tab
+        $(this._tabs[index]).addClass('selected');
+        // show the proper contents
+        $(this._contents[index]).show();
+        this._callbacks[index]();
+      }else{
+        this._selectedIndex = null;
+      }
     },
     
     // returns the index of the selectedTab
     // or -1 if no tab is selected
     getActiveTab : function(){
-      return _(this._tabs).indexOf(_(this._tabs).find(function(tab){ return $(tab).hasClass('selected') }));
+      return _(this._tabs).indexOf(_(this._tabs).find(function(tab){ return $(tab).hasClass('selected'); }));
     }
   });
 }());
@@ -2067,7 +2317,7 @@
       // The table is sorted by the first column by default.
       sortable : false,
 
-      // A callback to invoke when the table is to be sorted. The callback will
+      // A callback to invoke when the table is to be sorted and sortable is enabled. The callback will
       // be passed the <code>column</code> on which to sort.
       onSort : null
     },
@@ -2082,8 +2332,9 @@
       $(this.el).empty();
       this.itemViews = {};
 
+      var table;
       var container = $.el.div({className : 'content'},
-        this.collectionEl = $.el.table({
+        table = $.el.table({
           cellPadding : '0',
           cellSpacing : '0'
         }));
@@ -2103,25 +2354,24 @@
           return item1.get(column.content) < item2.get(column.content) ? -1 :
             item1.get(column.content) > item2.get(column.content) ? 1 : 0;
         };
+          
         var firstSort = (sortFirstColumn && firstHeading === null);
         var sortHeader = this._sortState.content === column.content || firstSort;
-        var sortLabel = $.el.div({
-          className : 'glyph'
-        }, sortHeader ? (this._sortState.reverse && !firstSort ? '\u25b2 ' : '\u25bc ') : '');
+        var sortClass = sortHeader ? (this._sortState.reverse && !firstSort ? ' asc' : ' desc') : '';
+        var sortLabel = $.el.div({className : 'glyph'}, 
+          sortClass === ' asc' ? '\u25b2 ' : sortClass === ' desc' ? '\u25bc ' : '');
 
         var onclick = this.options.sortable ? (_(this.options.onSort).isFunction() ?
           _(function(e) { this.options.onSort(column); }).bind(this) :
           _(function(e, silent) { this._sort(column, silent); }).bind(this)) : Backbone.UI.noop;
 
         var th = $.el.th({
-            className : _(list).nameForIndex(index), 
+            className : _(list).nameForIndex(index) + (sortHeader ? ' sorted' : ''), 
             style : style, 
             onclick : onclick
           }, 
-          sortLabel, 
-          $.el.div({
-            className : 'wrapper' + (sortHeader ? ' sorted' : '')
-          }, label)).appendTo(headingRow);
+          $.el.div({className : 'wrapper' + (sortHeader ? ' sorted' : '')}, label),
+          sortHeader ? $.el.div({className : 'sort_wrapper' + sortClass}, sortLabel) : null).appendTo(headingRow);  
 
         if (firstHeading === null) firstHeading = th;
       }).bind(this));
@@ -2139,8 +2389,8 @@
 
       // now we'll generate the body of the content table, with a row
       // for each model in the bound collection
-      var tableBody = $.el.tbody();
-      this.collectionEl.appendChild(tableBody);
+      this.collectionEl = $.el.tbody();
+      table.appendChild(this.collectionEl);
 
       // if the collection is empty, we render the empty content
       if(!_(this.model).exists()  || this.model.length === 0) {
@@ -2149,25 +2399,28 @@
         this._emptyContent = $.el.tr($.el.td(this._emptyContent));
 
         if(!!this._emptyContent) {
-          tableBody.appendChild(this._emptyContent);
+          this.collectionEl.appendChild(this._emptyContent);
         }
       }
 
       // otherwise, we render each row
       else {
-        _(this.model.models).each(function(model, index) {
+        _(this.model.models).each(function(model, index, collection) {
           var item = this._renderItem(model, index);
-          tableBody.appendChild(item);
+
+          // add some useful class names
+          $(item).addClass(index % 2 === 0 ? 'even' : 'odd');
+          if(index === 0) $(item).addClass('first');
+          if(index === collection.length - 1) $(item).addClass('last');
+
+          this.collectionEl.appendChild(item);
         }, this);
       }
 
       // wrap the list in a scroller
       if(_(this.options.maxHeight).exists()) {
-        var style = 'max-height:' + this.options.maxHeight + 'px';
-        var scroller = new Backbone.UI.Scroller({
-          content : $.el.div({style : style}, container)
-        }).render();
-
+        var style = 'overflow:auto; max-height:' + this.options.maxHeight + 'px';
+        var scroller = $.el.div({style : style}, container);
         this.el.appendChild(scroller.el);
       }
       else {
@@ -2227,17 +2480,22 @@
 
       // disables the text area
       disabled : false,
-      
-      enableScrolling : true,
 
-      tabIndex : null 
+      tabIndex : null,
+      
+      // a callback to invoke when a key is pressed within the text field
+      onKeyPress : Backbone.UI.noop,
+
+      // if given, the text field will limit it's character count
+      maxLength : null 
     },
 
     // public accessors
     textArea : null,
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel,
+        Backbone.UI.HasError, Backbone.UI.HasFocus]);
       
       $(this.el).addClass('text_area');
       if(this.options.name){
@@ -2254,25 +2512,26 @@
       this.textArea = $.el.textarea({
         id : this.options.textAreaId,
         tabIndex : this.options.tabIndex, 
-        placeholder : this.options.placeholder}, value);
+        placeholder : this.options.placeholder,
+        maxLength : this.options.maxLength}, value);
 
       this._observeModel(_(this._refreshValue).bind(this));
 
-      var content = this.textArea;
-      if(this.options.enableScrolling) {
-        this._scroller = new Backbone.UI.Scroller({
-          content : this.textArea
-        }).render();
-        content = this._scroller.el;
-      }
+      this._parent = $.el.div({className : 'textarea_wrapper'}, this.textArea);
 
-      this.el.appendChild(content);
+      this.el.appendChild(this.wrapWithFormLabel(this._parent));
+        
+      // add focusin / focusout
+      this.setupFocus(this.textArea, this._parent);
 
       this.setEnabled(!this.options.disabled);
-
-      $(this.textArea).input(_.bind(function() {
+      
+      $(this.textArea).keyup(_(function(e) {
         _.defer(_(this._updateModel).bind(this));
-      }, this));
+        if(_(this.options.onKeyPress).exists() && _(this.options.onKeyPress).isFunction()) {
+          this.options.onKeyPress(e, this);
+        }
+      }).bind(this));
 
       return this;
     },
@@ -2336,7 +2595,8 @@
     input : null,
 
     initialize : function() {
-      this.mixin([Backbone.UI.HasModel]);
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph, 
+        Backbone.UI.HasFormLabel, Backbone.UI.HasError, Backbone.UI.HasFocus]);
       _(this).bindAll('_refreshValue');
     
       $(this.el).addClass('text_field');
@@ -2369,11 +2629,21 @@
         id : this.options.name,
         tabIndex : this.options.tabIndex,
         placeholder : this.options.placeholder,
+        pattern : this.options.pattern,
         value : value});
 
-      // insert text_wrapper
-      this.el.appendChild($.el.div({className : 'input_wrapper'}, this.input));
-
+      // insert glyph if exist
+      this._parent = $.el.div({className : 'text_wrapper'});
+      var content = this.input;
+      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
+      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+      this.insertGlyphLayout(glyphCss, glyphRightCss, content, this._parent);
+      
+      // add focusin / focusout
+      this.setupFocus(this.input, this._parent);
+            
+      this.el.appendChild(this.wrapWithFormLabel(this._parent));
+      
       this.setEnabled(!this.options.disabled);
 
       return this;
@@ -2405,7 +2675,7 @@
     _refreshValue : function() {
       var newValue = this.resolveContent();
       if(this.input && this.input.value !== newValue) {
-        this.input.value = _(newValue).exists() ? newValue : null;
+        this.input.value = _(newValue).exists() ? newValue : "";
       }
     }
   });
@@ -2429,15 +2699,18 @@
     },
 
     initialize : function() {
+      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       $(this.el).addClass('time_picker');
 
       this._timeModel = {};
       this._menu = new Backbone.UI.Menu({
+        className : 'time_picker_menu',
         model : this._timeModel,
         altLabelContent : 'label',
         altValueContent : 'label',
         content : 'value',
-        onChange : _(this._onSelectTimeItem).bind(this)
+        onChange : _(this._onSelectTimeItem).bind(this),
+        size : 10
       });
       $(this._menu.el).hide();
       $(this._menu.el).autohide({
@@ -2446,9 +2719,7 @@
       document.body.appendChild(this._menu.el);
 
       // listen for model changes
-      if(!!this.model && this.options.content) {
-        this.model.bind('change:' + this.options.content, _(this.render).bind(this));
-      }
+      this._observeModel(_(this.render).bind(this));
     },
 
     render : function() {
@@ -2456,11 +2727,15 @@
 
       this._textField = new Backbone.UI.TextField({
         name : this.options.name,
-        disabled : this.options.disabled 
+        disabled : this.options.disabled, 
+        placeholder : this.options.placeholder,
+        glyphCss : this.options.glyphCss,
+        glyphRightCss : this.options.glyphRightCss
       }).render();
       $(this._textField.input).click(_(this._showMenu).bind(this));
-      $(this._textField.input).keyup(_(this._timeEdited).bind(this));
-      this.el.appendChild(this._textField.el);
+      $(this._textField.input).blur(_(this._timeEdited).bind(this));
+      $(this._textField.input).keyup(_(this._hideMenu).bind(this));
+      this.el.appendChild(this.wrapWithFormLabel(this._textField.el));
 
       var date = this.resolveContent();
       
@@ -2499,7 +2774,7 @@
 
     _collectTimes : function() {
       var collection = [];
-      var d = moment().sod();
+      var d = moment().startOf('day');
       var day = d.date();
 
       while(d.date() === day) {
@@ -2515,12 +2790,15 @@
     },
 
     _showMenu : function() {
+      if($(this._menu.el).is(':visible')) return;
+
       $(this._menu.el).alignTo(this._textField.el, 'bottom -left', 0, 2);
       $(this._menu.el).show();
       this._menu.scrollToSelectedItem();
     },
 
-    _hideMenu : function() {
+    _hideMenu : function(e) {
+      if(e && e.keyCode === Backbone.UI.KEYS.KEY_RETURN) this._timeEdited();
       $(this._menu.el).hide();
     },
 
@@ -2532,11 +2810,18 @@
     },
 
     _timeEdited : function(e) {
-      var newDate = moment(this._textField.getValue(), this.options.format);
+      var value = this._textField.getValue();
+      if(!value) return;
+
+      // if the event is a blur, we need to make sure that the menu is not
+      // open, otherwise we'll squash that selection event
+      if(e && e.type === 'blur' && $(this._menu.el).is(':visible')) return;
+
+      var newDate = moment(value, this.options.format);
 
       // if the enter key was pressed or we've invoked this method manually, 
       // we hide the calendar and re-format our date
-      if(!e || e.keyCode === Backbone.UI.KEYS.KEY_RETURN) {
+      if(!e || e.keyCode === Backbone.UI.KEYS.KEY_RETURN || e.type === 'blur') {
         var newValue = moment(newDate).format(this.options.format);
         this._textField.setValue(newValue);
         this._hideMenu();
@@ -2545,6 +2830,8 @@
         if(!!this.model && this.options.content) {
           var boundDate = this.resolveContent();
           var updatedDate = new Date(boundDate);
+          // Ensure we are updating a valid Date object
+          updatedDate = isNaN(updatedDate.getTime()) ? new Date() : updatedDate;
           updatedDate.setHours(newDate.hours());
           updatedDate.setMinutes(newDate.minutes());
           _(this.model).setProperty(this.options.content, updatedDate);
@@ -2555,5 +2842,6 @@
         }
       }
     }
+    
   });
 }());
