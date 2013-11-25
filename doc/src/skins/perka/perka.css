@@ -436,7 +436,7 @@
   vertical-align:middle;
   height:28px;
   width:28px;
-  background:url(/common/images/ui/checkbox.png) transparent 0 0 no-repeat;
+  background:url(./common/images/ui/checkbox.png) transparent 0 0 no-repeat;
 }
 
 .skin_perka #checked-failover:checked + div:before,
@@ -448,7 +448,7 @@
 .skin_perka .checkbox input:checked + div:after {
   content: "";
   position: absolute;
-  background: url(/common/images/ui/checkbox.png) transparent 0 -112px no-repeat;
+  background: url(./common/images/ui/checkbox.png) transparent 0 -112px no-repeat;
   top:0;
   left:0;
   width:28px;
@@ -515,7 +515,7 @@
   vertical-align:middle;
   height:28px;
   width:28px;
-  background:url(/common/images/ui/radio.png) transparent 0 0 no-repeat;
+  background:url(./common/images/ui/radio.png) transparent 0 0 no-repeat;
 }
 
 .skin_perka #checked-failover:checked + div:before,
@@ -560,7 +560,7 @@
   height: 34px;
   display:inline-block;
   overflow: hidden;
-  background:url(/common/images/ui/pulldown_arrow.png) no-repeat right #fff;
+  background:url(./common/images/ui/pulldown_arrow.png) no-repeat right #fff;
   border:1px solid #c1c1c1;
   border-radius:4px;
   border-top-color:#ebebeb;
