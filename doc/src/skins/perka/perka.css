@@ -193,55 +193,64 @@
   pointer-events: none;
 }
 
-/* button - action_link - default */
-.skin_perka .button.action_link {
+/* button - secondary - default */
+.skin_perka .button.secondary {
   color:#666;
   border:0;
   text-decoration:underline;
+  background:none;
 }
 
-.skin_perka .button.action_link:hover {
+.skin_perka .button.secondary:hover,
+.skin_perka .button.secondary:active {
+  background:none;
   color:#333;
 }
 
-.skin_perka .button.action_link.orange {
+.skin_perka .button.secondary.orange {
   color:#cf5200;
-  background:none;
 }
 
-.skin_perka .button.action_link.orange:hover {
+.skin_perka .button.secondary.orange:hover,
+.skin_perka .button.secondary.orange:active {
+  background:none;
   color:#b44814;
 }
 
-.skin_perka .button.action_link.blue {
+.skin_perka .button.secondary.blue {
   color:#066;
-  background:none;
 }
 
-.skin_perka .button.action_link.blue:hover {
+.skin_perka .button.secondary.blue:hover,
+.skin_perka .button.secondary.blue:active {
+  background:none;
   color:#033;
 }
 
-.skin_perka .button.action_link.green {
+.skin_perka .button.secondary.green {
   color:#4d6200;
-  background:none;
 }
 
-.skin_perka .button.action_link.green:hover {
+.skin_perka .button.secondary.green:hover,
+.skin_perka .button.secondary.green:active {
+  background:none;
   color:#374401;
 }
 
-.skin_perka .button.action_link.light_blue {
+.skin_perka .button.secondary.light_blue {
   color:#066;
-  background:none;
 }
 
-.skin_perka .button.action_link.light_blue:hover {
+.skin_perka .button.secondary.light_blue:hover,
+.skin_perka .button.secondary.light_blue:active {
+  background:none;
   color:#033;
 }
 
-.skin_perka .button.action_link.disabled,
-.skin_perka .button.action_link.disabled:hover {
+.skin_perka .button.secondary.disabled,
+.skin_perka .button.secondary.disabled:hover,
+.skin_perka .button.secondary.disabled:active {
+  background:none;
   color:#cbcbcb;
   cursor: not-allowed;
   pointer-events: none;
@@ -277,6 +286,7 @@
   background:none;
   margin:0;
   padding:0;
+  box-shadow:none;
   vertical-align:middle;
 }
 
