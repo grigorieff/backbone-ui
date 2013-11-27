@@ -65,9 +65,9 @@
       // insert glyph if exist
       this._parent = $.el.div({className : 'text_wrapper'});
       var content = this.input;
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
-      this.insertGlyphLayout(glyphCss, glyphRightCss, content, this._parent);
+      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
+      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, this._parent);
       
       // add focusin / focusout
       this.setupFocus(this.input, this._parent);

@@ -46,8 +46,8 @@
         name : this.options.name,
         disabled : this.options.disabled, 
         placeholder : this.options.placeholder,
-        glyphCss : this.options.glyphCss,
-        glyphRightCss : this.options.glyphRightCss
+        glyphLeftClassName : this.options.glyphLeftClassName,
+        glyphRightClassName : this.options.glyphRightClassName
       }).render();
       $(this._textField.input).click(_(this._showMenu).bind(this));
       $(this._textField.input).blur(_(this._timeEdited).bind(this));

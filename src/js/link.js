@@ -34,10 +34,10 @@
       
       var content = $.el.span(labelText);
       
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
 
-      this.insertGlyphLayout(glyphCss, glyphRightCss, content, this.el);
+      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, this.el);
       
       // add appropriate class names
       this.setEnabled(!this.options.disabled);

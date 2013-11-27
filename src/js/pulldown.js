@@ -43,9 +43,9 @@
       }).render();
       
       this._parent = $.el.div({className : 'pulldown_wrapper'});
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
-      this.insertGlyphLayout(glyphCss, glyphRightCss, this._menu.el, this._parent);
+      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
+      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, this._menu.el, this._parent);
 
       // add focusin / focusout
       this.setupFocus(this._menu.el, this._parent);      

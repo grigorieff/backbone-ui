@@ -73,10 +73,6 @@
   padding:4px 10px 5px;
 }
 
-.skin_perka .button.small.with_glyph {
-  padding-left:6px;
-}
-
 /* button - colors */
 .skin_perka .button.orange {
   background-color:#cf5200;
@@ -624,44 +620,41 @@
 .skin_perka .glyph {
   width:20px;
   height:20px;
-}
-
-.skin_perka .glyph {
+  font-size:20px;
   margin-top:-2px;
 }
 
 .skin_perka .large .glyph {
-  margin-top:-4px;
   width:28px;
   height:28px;
+  font-size:28px;
+  margin-top:-4px;
 }
 
-.skin_perka .button .glyph.left {
+.skin_perka .glyph.left {
   margin-left:-2px;
+  margin-right:8px;
 }
 
-.skin_perka .button.small .glyph.left {
+.skin_perka .glyph.right {
+  margin-right:-2px;
+  margin-left:8px;
+}
+
+.skin_perka .small .glyph.left {
   margin-left:-4px;
 }
 
-.skin_perka .button .glyph.right {
-  margin-right:-2px;
-}
-
-.skin_perka .button.small .glyph.right {
+.skin_perka .small .glyph.right {
   margin-right:-4px;
 }
 
-.skin_perka .text_field.small .glyph {
+.skin_perka .text_field .glyph {
   margin-top:3px;
 }
 
-.skin_perka .text_field.small .glyph.left {
-  margin-left:-6px;
-}
-
-.skin_perka .text_field.small .glyph.right {
-  margin-right:-6px;
+.skin_perka .text_field.large .glyph {
+  margin-top:2px;
 }
 
 .skin_perka .disabled .glyph {
