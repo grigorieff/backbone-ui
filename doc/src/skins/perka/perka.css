@@ -857,7 +857,7 @@
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .radio_group.error input + div:before,
 .skin_perka .radio_group.error .radio_group_wrapper label:hover input + div:before {
-  box-shadow: 0px 0px 2px 1px #fd7356;
+  box-shadow: 0 0 2px 1px #fd7356;
   border-color: #fd7356;
   background:#fff;
 }
