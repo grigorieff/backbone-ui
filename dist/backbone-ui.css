@@ -209,6 +209,7 @@
   max-height:150px;
   display:inline-block;
   line-height:20px;
+  vertical-align:middle;
 }
 
 .menu ul {

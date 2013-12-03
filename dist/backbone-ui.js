@@ -377,10 +377,10 @@
 
       var content = $.el.span(labelText);
       
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
 
-      this.insertGlyphLayout(glyphCss, glyphRightCss, content, this.el);
+      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, this.el);
 
       // add appropriate class names
       this.setEnabled(!this.options.disabled);
@@ -670,9 +670,9 @@
       
       var parent = $.el.div({className : 'checkbox_wrapper'});
       var content = this._labelText;
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
-      this.insertGlyphLayout(glyphCss, glyphRightCss, content, parent);
+      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
+      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, parent);
       
       this.label.appendChild(parent);
       this.el.appendChild(this.label);
@@ -897,8 +897,8 @@
       this._textField = new Backbone.UI.TextField({
         name : this.options.name,
         placeholder : this.options.placeholder,
-        glyphCss : this.options.glyphCss,
-        glyphRightCss : this.options.glyphRightCss
+        glyphLeftClassName : this.options.glyphLeftClassName,
+        glyphRightClassName : this.options.glyphRightClassName
       }).render();
 
       $(this._textField.input).click(_(this._showCalendar).bind(this));
@@ -1225,11 +1225,11 @@
       
       // The property of the individual choice representing CSS 
       // background rule for the left glyph 
-      altGlyphCss : null,
+      altGlyphLeftClassName : null,
 
       // The property of the individual choice representing CSS 
       // background rule for the right glyph 
-      altGlyphRightCss : null
+      altGlyphRightClassName : null
     },
 
     _determineSelectedItem : function() {
@@ -1424,38 +1424,14 @@
 // A mixin for dealing with glyphs in widgets 
 (function(){
 
-  var loadGlyph = function(name, size, bgSize){
-    var div = $.el.span({
-      className : 'glyph'
-    });
-    $(div).css({
-      background : name,
-      width : size + 'px',
-      height : size + 'px',
-      backgroundSize : bgSize
-    });
-    return div;
-  };
-
   Backbone.UI.HasGlyph = {
-
-    options : {
-      // The pixel size of the width and height of a glyph
-      glyphSize : 20,
-      // The padding between the glyph and the rest of the content
-      glyphPadding : 8,
-      // The background-size of the glyph
-      glyphBackgroundSize : 'auto'
-    },
     
-    insertGlyphLayout : function(glyphCss, glyphRightCss, content, parent) {
+    insertGlyphLayout : function(glyphLeftClassName, glyphRightClassName, content, parent) {
 
       // append left glyph
-      if(glyphCss) {
-        var glyphLeft = loadGlyph(glyphCss, this.options.glyphSize, this.options.glyphBackgroundSize);
-        $(glyphLeft).addClass('left');
-        $(glyphLeft).css({
-          marginRight : this.options.glyphPadding + 'px'
+      if(glyphLeftClassName) {
+        var glyphLeft = $.el.span({
+          className : 'glyph left ' + glyphLeftClassName
         });
         parent.appendChild(glyphLeft);
       }
@@ -1466,11 +1442,9 @@
       }
       
       // append right glyph
-      if(glyphRightCss) {
-        var glyphRight = loadGlyph(glyphRightCss, this.options.glyphSize, this.options.glyphBackgroundSize);
-        $(glyphRight).addClass('right');
-        $(glyphRight).css({
-          marginLeft : this.options.glyphPadding + 'px'
+      if(glyphRightClassName) {
+        var glyphRight = $.el.span({
+          className : 'glyph right ' + glyphRightClassName
         });
         parent.appendChild(glyphRight);
       }
@@ -1507,13 +1481,13 @@
       formLabelContent : null,
       
       // If present, a square glyph area will be added to the left side of this 
-      // component, and the given string will be used as the full CSS background
+      // component, and the given string will be used as the class name
       // property of that glyph area. This option is a no-op when applied 
       // to Calender and Menu components. 
-      glyphCss : null,
+      glyphLeftClassName : null,
 
       // Same as above, but on the right side.
-      glyphRightCss : null
+      glyphRightClassName : null
       
     },
 
@@ -1751,10 +1725,10 @@ if(window.jQuery) {
       
       var content = $.el.span(labelText);
       
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
 
-      this.insertGlyphLayout(glyphCss, glyphRightCss, content, this.el);
+      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, this.el);
       
       // add appropriate class names
       this.setEnabled(!this.options.disabled);
@@ -2059,9 +2033,9 @@ if(window.jQuery) {
       }).render();
       
       this._parent = $.el.div({className : 'pulldown_wrapper'});
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
-      this.insertGlyphLayout(glyphCss, glyphRightCss, this._menu.el, this._parent);
+      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
+      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, this._menu.el, this._parent);
 
       // add focusin / focusout
       this.setupFocus(this._menu.el, this._parent);      
@@ -2142,13 +2116,13 @@ if(window.jQuery) {
         // resolve left and right glyphs
         var parent = $.el.div({className : 'radio_group_wrapper'});
         var content = $.el.span(label);
-        var glyphCss = this.resolveGlyph(item, this.options.altGlyphCss);
-        glyphCss = (glyphCss && (glyphCss !== this.options.altGlyphCss)) ? glyphCss : 
-          this.resolveGlyph(null, this.options.glyphCss);
-        var glyphRightCss = this.resolveGlyph(item, this.options.altGlyphRightCss);
-        glyphRightCss = (glyphRightCss && (glyphRightCss !== this.options.altGlyphRightCss)) ? 
-          glyphRightCss : this.resolveGlyph(null, this.options.glyphRightCss);
-        this.insertGlyphLayout(glyphCss, glyphRightCss, content, parent);
+        var glyphLeftClassName = this.resolveGlyph(item, this.options.altGlyphLeftClassName);
+        glyphLeftClassName = (glyphLeftClassName && (glyphLeftClassName !== this.options.altGlyphLeftClassName)) ? glyphLeftClassName : 
+          this.resolveGlyph(null, this.options.glyphLeftClassName);
+        var glyphRightClassName = this.resolveGlyph(item, this.options.altGlyphRightClassName);
+        glyphRightClassName = (glyphRightClassName && (glyphRightClassName !== this.options.altGlyphRightClassName)) ? 
+          glyphRightClassName : this.resolveGlyph(null, this.options.glyphRightClassName);
+        this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, parent);
         
         // create a new label/input pair and insert into the group
         this.group.appendChild(
@@ -2635,9 +2609,9 @@ if(window.jQuery) {
       // insert glyph if exist
       this._parent = $.el.div({className : 'text_wrapper'});
       var content = this.input;
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
-      this.insertGlyphLayout(glyphCss, glyphRightCss, content, this._parent);
+      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
+      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, this._parent);
       
       // add focusin / focusout
       this.setupFocus(this.input, this._parent);
@@ -2729,8 +2703,8 @@ if(window.jQuery) {
         name : this.options.name,
         disabled : this.options.disabled, 
         placeholder : this.options.placeholder,
-        glyphCss : this.options.glyphCss,
-        glyphRightCss : this.options.glyphRightCss
+        glyphLeftClassName : this.options.glyphLeftClassName,
+        glyphRightClassName : this.options.glyphRightClassName
       }).render();
       $(this._textField.input).click(_(this._showMenu).bind(this));
       $(this._textField.input).blur(_(this._timeEdited).bind(this));

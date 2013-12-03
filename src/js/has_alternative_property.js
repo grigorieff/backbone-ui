@@ -18,11 +18,11 @@
       
       // The property of the individual choice representing CSS 
       // background rule for the left glyph 
-      altGlyphCss : null,
+      altGlyphLeftClassName : null,
 
       // The property of the individual choice representing CSS 
       // background rule for the right glyph 
-      altGlyphRightCss : null
+      altGlyphRightClassName : null
     },
 
     _determineSelectedItem : function() {
