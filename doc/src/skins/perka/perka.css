@@ -440,6 +440,10 @@
   color:#333;
 }
 
+.skin_perka .checkbox .checkbox_wrapper {
+  position:relative;
+}
+
 .skin_perka .checkbox > label {
   display:inline-block;
   position:relative;
@@ -451,36 +455,66 @@
   display:inline-block;
   position: absolute;
   left:-10px;
+  top:8px;
   width:auto;
   cursor:pointer;
   opacity: 0;
 }
 
+/* failover used to display native checkbox in ie */
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .checkbox input + div:before {
   content:"";
   display:inline-block;
   position:relative;
   vertical-align:middle;
-  height:28px;
-  width:28px;
-  background:url(/common/images/ui/checkbox.png) transparent 0 0 no-repeat;
+  height:24px;
+  width:24px;
+  border:1px solid #999;
+  border-radius:4px;
+  background-color: #fff; /* fallback color if gradients are not supported */
+  background-image: -webkit-linear-gradient(top, #fff, #f0f0f0); /* For Chrome and Safari */
+  background-image:    -moz-linear-gradient(top, #fff, #f0f0f0); /* For old Fx (3.6 to 15) */
+  background-image:     -ms-linear-gradient(top, #fff, #f0f0f0); /* For pre-releases of IE 10*/
+  background-image:      -o-linear-gradient(top, #fff, #f0f0f0); /* For old Opera (11.1 to 12.0) */ 
+  background-image:         linear-gradient(to bottom, #fff, #f0f0f0); /* Standard syntax; must be last */
 }
 
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .checkbox label:hover input + div:before {
-  background-position: 0 -28px;
+  border-color:#848484;
+  background-color: #fafafa; /* fallback color if gradients are not supported */
+  background-image: -webkit-linear-gradient(top, #fafafa, #e6e6e6); /* For Chrome and Safari */
+  background-image:    -moz-linear-gradient(top, #fafafa, #e6e6e6); /* For old Fx (3.6 to 15) */
+  background-image:     -ms-linear-gradient(top, #fafafa, #e6e6e6); /* For pre-releases of IE 10*/
+  background-image:      -o-linear-gradient(top, #fafafa, #e6e6e6); /* For old Opera (11.1 to 12.0) */ 
+  background-image:         linear-gradient(to bottom, #fafafa, #e6e6e6); /* Standard syntax; must be last */
+}
+
+.skin_perka #checked-failover:checked + div:before,
+.skin_perka .checkbox label:active input + div:before,
+.skin_perka .checkbox label.active input + div:before {
+  border-color:#666;
+  background-color: #e0e0e0; /* fallback color if gradients are not supported */
+  background-image: -webkit-linear-gradient(top, #e0e0e0, #acacac); /* For Chrome and Safari */
+  background-image:    -moz-linear-gradient(top, #e0e0e0, #acacac); /* For old Fx (3.6 to 15) */
+  background-image:     -ms-linear-gradient(top, #e0e0e0, #acacac); /* For pre-releases of IE 10*/
+  background-image:      -o-linear-gradient(top, #e0e0e0, #acacac); /* For old Opera (11.1 to 12.0) */ 
+  background-image:         linear-gradient(to bottom, #e0e0e0, #acacac); /* Standard syntax; must be last */
 }
 
 .skin_perka #checked-failover:checked + div:after,
 .skin_perka .checkbox input:checked + div:after {
-  content: "";
+  content: "\2713";
+  color:#333;
   position: absolute;
-  background: url(/common/images/ui/checkbox.png) transparent 0 -112px no-repeat;
   top:0;
   left:0;
-  width:28px;
-  height:28px;
+  width:26px;
+  height:26px;
+  line-height:26px;
+  text-align:center;
+  font-size:22px;
 }
 
 .skin_perka .checkbox .checkbox_wrapper > span {
@@ -491,7 +525,7 @@
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .checkbox.disabled label input + div:before,
 .skin_perka .checkbox.disabled label:hover input + div:before  {
-  background-position: 0 -56px;
+  opacity:.5;
 }
 
 .skin_perka #checked-failover:checked + div:after,
@@ -513,6 +547,10 @@
   color:#333;
 }
 
+.skin_perka .radio_group .radio_group_wrapper {
+  position:relative;
+}
+
 .skin_perka .radio_group .radio_group_wrapper > label {
   margin-right:10px;
   position:relative;
@@ -530,6 +568,7 @@
   display:inline-block;
   position: absolute;
   left:-10px;
+  top:8px;
   width:auto;
   cursor:pointer;
   opacity: 0;
@@ -541,22 +580,51 @@
   display:inline-block;
   position:relative;
   vertical-align:middle;
-  height:28px;
-  width:28px;
-  background:url(/common/images/ui/radio.png) transparent 0 0 no-repeat;
+  height:24px;
+  width:24px;
+  border:1px solid #999;
+  border-radius:50%;
+  background-color: #fff; /* fallback color if gradients are not supported */
+  background-image: -webkit-linear-gradient(top, #fff, #f0f0f0); /* For Chrome and Safari */
+  background-image:    -moz-linear-gradient(top, #fff, #f0f0f0); /* For old Fx (3.6 to 15) */
+  background-image:     -ms-linear-gradient(top, #fff, #f0f0f0); /* For pre-releases of IE 10*/
+  background-image:      -o-linear-gradient(top, #fff, #f0f0f0); /* For old Opera (11.1 to 12.0) */ 
+  background-image:         linear-gradient(to bottom, #fff, #f0f0f0); /* Standard syntax; must be last */
 }
 
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .radio_group .radio_group_wrapper label:hover input + div:before {
-  background-position: 0 -28px;
+  border-color:#848484;
+  background-color: #fafafa; /* fallback color if gradients are not supported */
+  background-image: -webkit-linear-gradient(top, #fafafa, #e6e6e6); /* For Chrome and Safari */
+  background-image:    -moz-linear-gradient(top, #fafafa, #e6e6e6); /* For old Fx (3.6 to 15) */
+  background-image:     -ms-linear-gradient(top, #fafafa, #e6e6e6); /* For pre-releases of IE 10*/
+  background-image:      -o-linear-gradient(top, #fafafa, #e6e6e6); /* For old Opera (11.1 to 12.0) */ 
+  background-image:         linear-gradient(to bottom, #fafafa, #e6e6e6); /* Standard syntax; must be last */
 }
 
 .skin_perka #checked-failover:checked + div:before,
-.skin_perka .radio_group input:checked + div:before,
-.skin_perka .radio_group .radio_group_wrapper label:hover input:checked + div:before, 
-.skin_perka .radio_group.error input:checked + div:before,
-.skin_perka .radio_group.error .radio_group_wrapper label:hover input:checked + div:before {
-  background-position: 0 -84px;
+.skin_perka .radio_group .radio_group_wrapper label:active input + div:before,
+.skin_perka .radio_group .radio_group_wrapper label.active input + div:before  {
+  border-color:#666;
+  background-color: #e0e0e0; /* fallback color if gradients are not supported */
+  background-image: -webkit-linear-gradient(top, #e0e0e0, #acacac); /* For Chrome and Safari */
+  background-image:    -moz-linear-gradient(top, #e0e0e0, #acacac); /* For old Fx (3.6 to 15) */
+  background-image:     -ms-linear-gradient(top, #e0e0e0, #acacac); /* For pre-releases of IE 10*/
+  background-image:      -o-linear-gradient(top, #e0e0e0, #acacac); /* For old Opera (11.1 to 12.0) */ 
+  background-image:         linear-gradient(to bottom, #e0e0e0, #acacac); /* Standard syntax; must be last */
+}
+
+.skin_perka #checked-failover:checked + div:after,
+.skin_perka .radio_group input:checked + div:after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #333;
 }
 
 .skin_perka .radio_group .radio_group_wrapper span {
@@ -566,7 +634,12 @@
 
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .radio_group.disabled .radio_group_wrapper input + div:before {
-  background-position: 0 -56px;
+  opacity:.5;
+}
+
+.skin_perka #checked-failover:checked + div:after,
+.skin_perka .radio_group.disabled .radio_group_wrapper input:checked + div:after {
+  opacity:.5;
 }
 
 .skin_perka .radio_group.disabled .radio_group_wrapper label {
@@ -777,16 +850,14 @@
   color:#da4125;
 }
 
-/* error - checkbox */
+/* error - radio group and checkbox */
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .checkbox.error input + div:before, 
-.skin_perka .checkbox.error label:hover input + div:before {
-  background-position:0 -140px;
-}
-
-/* error - radio group */
+.skin_perka .checkbox.error label:hover input + div:before,
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .radio_group.error input + div:before,
 .skin_perka .radio_group.error .radio_group_wrapper label:hover input + div:before {
-  background-position:0 -112px;
+  box-shadow: 0px 0px 2px 1px #fd7356;
+  border-color: #fd7356;
+  background:#fff;
 }
