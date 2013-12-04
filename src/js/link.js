@@ -1,5 +1,5 @@
 (function(){
-  window.Backbone.UI.Link = Backbone.View.extend({
+  window.Backbone.UI.Link = Backbone.UI.BaseView.extend({
     options : {
       tagName : 'a',
 
@@ -11,8 +11,7 @@
     },
 
     initialize : function(options) {
-      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
-      this.options = options;
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
 
       _(this).bindAll('render');

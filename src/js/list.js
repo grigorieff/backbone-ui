@@ -2,9 +2,7 @@
   window.Backbone.UI.List = Backbone.UI.CollectionView.extend({
   
     initialize : function(options) {
-      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
-      this.options = options;
-      Backbone.UI.CollectionView.prototype.initialize.call(this, arguments);
+      Backbone.UI.CollectionView.prototype.initialize.call(this, options);
       $(this.el).addClass('list');
     },
 

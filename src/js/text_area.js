@@ -1,5 +1,5 @@
 (function(){
-  window.Backbone.UI.TextArea = Backbone.View.extend({
+  window.Backbone.UI.TextArea = Backbone.UI.BaseView.extend({
     options : {
       className : 'text_area',
 
@@ -22,8 +22,7 @@
     textArea : null,
 
     initialize : function(options) {
-      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
-      this.options = options;
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel,
         Backbone.UI.HasError, Backbone.UI.HasFocus]);
       

@@ -1,5 +1,5 @@
 (function() {
-  Backbone.UI.TabSet = Backbone.View.extend({
+  Backbone.UI.TabSet = Backbone.UI.BaseView.extend({
     options : {
       // Tabs to initially add to this tab set.  Each entry may contain
       // a <code>label</code>, <code>content</code>, and <code>onActivate</code>
@@ -11,8 +11,7 @@
     },
 
     initialize : function(options) {
-      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
-      this.options = options;
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       $(this.el).addClass('tab_set');
     }, 
 

@@ -1,5 +1,5 @@
 (function(){
-  window.Backbone.UI.RadioGroup = Backbone.View.extend({
+  window.Backbone.UI.RadioGroup = Backbone.UI.BaseView.extend({
 
     options : {
       // used to group the radio inputs
@@ -13,8 +13,7 @@
     },
 
     initialize : function(options) {
-      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
-      this.options = options;
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, 
         Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph, 
         Backbone.UI.HasFormLabel, Backbone.UI.HasError]);

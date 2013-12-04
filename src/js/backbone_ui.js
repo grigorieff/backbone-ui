@@ -45,7 +45,9 @@
     // as did Backbone.s pre version 1.0.1
     BaseView : Backbone.View.extend({
       initialize : function(options) {
-        if (this.options) options = _.extend({}, _.result(this, 'options'), options);
+        if (this.options) {
+          options = _({}).extend(_(this).result('options'), options);
+        }
         this.options = options;
       }
     })  

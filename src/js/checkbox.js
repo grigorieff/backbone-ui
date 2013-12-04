@@ -1,5 +1,5 @@
 (function(){
-  window.Backbone.UI.Checkbox = Backbone.View.extend({
+  window.Backbone.UI.Checkbox = Backbone.UI.BaseView.extend({
 
     options : {
     
@@ -12,8 +12,7 @@
     },
 
     initialize : function(options) {
-      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
-      this.options = options;
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph,
         Backbone.UI.HasError]);
       _(this).bindAll('_refreshCheck');

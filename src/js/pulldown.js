@@ -1,5 +1,5 @@
 (function(){
-  window.Backbone.UI.Pulldown = Backbone.View.extend({
+  window.Backbone.UI.Pulldown = Backbone.UI.BaseView.extend({
     options : {
       // text to place in the pulldown button before a
       // selection has been made
@@ -14,8 +14,7 @@
     },
 
     initialize : function(options) {
-      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
-      this.options = options;
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, 
         Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph, 
         Backbone.UI.HasFormLabel, Backbone.UI.HasError, Backbone.UI.HasFocus]);

@@ -1,5 +1,5 @@
 (function(){
-  window.Backbone.UI.CollectionView = Backbone.View.extend({
+  window.Backbone.UI.CollectionView = Backbone.UI.BaseView.extend({
     options : {
       // The Backbone.Collection instance the view is bound to
       model : null,
@@ -36,8 +36,7 @@
     _renderItem : Backbone.UI.noop,
 
     initialize : function(options) {
-      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
-      this.options = options;
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       if(this.model) {
         this.model.bind('add', _.bind(this._onItemAdded, this));
         if(this.options.renderOnChange){

@@ -1,5 +1,5 @@
 (function(){
-  window.Backbone.UI.TimePicker = Backbone.View.extend({
+  window.Backbone.UI.TimePicker = Backbone.UI.BaseView.extend({
 
     options : {
       // a moment.js format : http://momentjs.com/docs/#/display/format
@@ -16,8 +16,7 @@
     },
 
     initialize : function(options) {
-      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
-      this.options = options;
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       $(this.el).addClass('time_picker');
 

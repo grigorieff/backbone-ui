@@ -1,13 +1,12 @@
 (function(){
-  window.Backbone.UI.Label = Backbone.View.extend({
+  window.Backbone.UI.Label = Backbone.UI.BaseView.extend({
     options : {
       emptyContent : '',
       tagName : 'label'
     },
 
     initialize : function(options) {
-      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
-      this.options = options;
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel]);
 
       _(this).bindAll('render');
