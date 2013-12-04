@@ -4,15 +4,15 @@ $(document).ready(function() {
 
   Backbone.UI.setMobile(false);
 
-  var regions = new Backbone.Collection([{
-    name: 'Americas',
-    notes: 'Bright'
-  }, {
-    name: 'Africa',
-    notes: 'Fruity'
-  }]);
-
   test("withDataBinding", function(){
+
+    var regions = new Backbone.Collection([{
+      name: 'Americas',
+      notes: 'Bright'
+    }, {
+      name: 'Africa',
+      notes: 'Fruity'
+    }]);
 
     var table = new Backbone.UI.TableView({
       model: regions,
@@ -31,13 +31,21 @@ $(document).ready(function() {
 
     //add item to regions
     var newItem = { name: 'Hawaii', notes: 'Nutty'};
-    regions.add(newItem);
+    regions.push(newItem);
     equal($(table.el).find('.content tr').length,3);
     equal($(table.el).find('.content tr.last td.first').text(),'Hawaii');
 
   });
 
   test("onItemClick", function(){
+    var regions = new Backbone.Collection([{
+      name: 'Americas',
+      notes: 'Bright'
+    }, {
+      name: 'Africa',
+      notes: 'Fruity'
+    }]);
+
     var clickCount = 0;
 
     var table = new Backbone.UI.TableView({
@@ -64,6 +72,14 @@ $(document).ready(function() {
 
   test("sortable", function(){
 
+    var regions = new Backbone.Collection([{
+      name: 'Americas',
+      notes: 'Bright'
+    }, {
+      name: 'Africa',
+      notes: 'Fruity'
+    }]);
+
     var table = new Backbone.UI.TableView({
       sortable: true,
       model: regions,
@@ -76,6 +92,12 @@ $(document).ready(function() {
         content: 'notes'
       }]
     }).render();
+
+    $('body').append(table.el);
+
+    //add item to regions
+    var newItem = { name: 'Hawaii', notes: 'Nutty'};
+    regions.push(newItem);
 
     //click name header column to sort ascending
     $(table.el).find('.heading th.first').click();
@@ -96,6 +118,15 @@ $(document).ready(function() {
   }); 
 
   test("onSort", function(){
+
+    var regions = new Backbone.Collection([{
+      name: 'Americas',
+      notes: 'Bright'
+    }, {
+      name: 'Africa',
+      notes: 'Fruity'
+    }]);
+
     var sortCount = 0;
 
     var table = new Backbone.UI.TableView({

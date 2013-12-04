@@ -44,6 +44,8 @@
         this.model.bind('remove', _.bind(this._onItemRemoved, this));
         this.model.bind('refresh', _.bind(this.render, this));
         this.model.bind('reset', _.bind(this.render, this));
+        this.model.bind('sort', _.bind(this.render, this));
+
       }
     },
 
