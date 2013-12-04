@@ -1,5 +1,5 @@
 (function(){
-  window.Backbone.UI.Button = Backbone.View.extend({
+  window.Backbone.UI.Button = Backbone.UI.BaseView.extend({
     options : {
       tagName : 'button',
 
@@ -18,9 +18,10 @@
       isSubmit : false
     },
 
-    initialize : function(options) {
-      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
-      this.options = options;
+    initialize : function(data) {
+      
+      Backbone.UI.BaseView.prototype.initialize.call(this, data);
+      
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
 
       _(this).bindAll('render');

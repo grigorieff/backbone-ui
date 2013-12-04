@@ -39,7 +39,15 @@
      
     setMobile : function(mobile) {
       Backbone.UI.IS_MOBILE = mobile;
-    }  
+    },
+
+    // added a BaseView that implements options
+    // as did Backbone.s pre version 1.0.1
+    BaseView : Backbone.View.extend({
+      initialize : function(data) {
+        this.options = _(this.options ? this.options : {}).extend(data);
+      }
+    })  
   };
 
   _(Backbone.View.prototype).extend({
