@@ -35,7 +35,9 @@
     // must be over-ridden to describe how an item is rendered
     _renderItem : Backbone.UI.noop,
 
-    initialize : function() {
+    initialize : function(options) {
+      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
+      this.options = options;
       if(this.model) {
         this.model.bind('add', _.bind(this._onItemAdded, this));
         if(this.options.renderOnChange){

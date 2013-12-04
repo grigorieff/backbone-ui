@@ -93,8 +93,6 @@ $(document).ready(function() {
       }]
     }).render();
 
-    $('body').append(table.el);
-
     //add item to regions
     var newItem = { name: 'Hawaii', notes: 'Nutty'};
     regions.push(newItem);

@@ -27,7 +27,9 @@
       onSort : null
     },
 
-    initialize : function() {
+    initialize : function(options) {
+      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
+      this.options = options;
       Backbone.UI.CollectionView.prototype.initialize.call(this, arguments);
       $(this.el).addClass('table_view');
       this._sortState = {reverse : true};

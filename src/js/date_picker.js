@@ -11,7 +11,9 @@
       maxDate : null
     },
 
-    initialize : function() {
+    initialize : function(options) {
+      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
+      this.options = options;
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       $(this.el).addClass('date_picker');
 

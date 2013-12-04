@@ -10,7 +10,9 @@
       selectedTab : 0
     },
 
-    initialize : function() {
+    initialize : function(options) {
+      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
+      this.options = options;
       $(this.el).addClass('tab_set');
     }, 
 

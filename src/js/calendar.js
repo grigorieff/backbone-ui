@@ -59,7 +59,9 @@
 
     date : null, 
 
-    initialize : function() {
+    initialize : function(options) {
+      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
+      this.options = options;
       $(this.el).addClass('calendar');
       _(this).bindAll('render');
     },

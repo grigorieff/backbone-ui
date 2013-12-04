@@ -5,7 +5,9 @@
       tagName : 'label'
     },
 
-    initialize : function() {
+    initialize : function(options) {
+      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
+      this.options = options;
       this.mixin([Backbone.UI.HasModel]);
 
       _(this).bindAll('render');
