@@ -44,8 +44,9 @@
     // added a BaseView that implements options
     // as did Backbone.s pre version 1.0.1
     BaseView : Backbone.View.extend({
-      initialize : function(data) {
-        this.options = _(this.options ? this.options : {}).extend(data);
+      initialize : function(options) {
+        if (this.options) options = _.extend({}, _.result(this, 'options'), options);
+        this.options = options;
       }
     })  
   };

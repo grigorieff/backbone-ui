@@ -18,9 +18,9 @@
       isSubmit : false
     },
 
-    initialize : function(data) {
+    initialize : function(options) {
       
-      Backbone.UI.BaseView.prototype.initialize.call(this, data);
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
 
