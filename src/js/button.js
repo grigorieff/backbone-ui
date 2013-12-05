@@ -1,8 +1,6 @@
 (function(){
   window.Backbone.UI.Button = Backbone.UI.BaseView.extend({
     options : {
-      tagName : 'button',
-
       // true will disable the button
       // (muted non-clickable) 
       disabled : false,
@@ -17,6 +15,8 @@
       // renders this button as an input type=submit element as opposed to an anchor.
       isSubmit : false
     },
+    
+    tagName : 'button',
 
     initialize : function(options) {
       

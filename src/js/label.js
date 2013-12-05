@@ -1,9 +1,11 @@
 (function(){
   window.Backbone.UI.Label = Backbone.UI.BaseView.extend({
+    
     options : {
-      emptyContent : '',
-      tagName : 'label'
+      emptyContent : ''
     },
+    
+    tagName : 'label',
 
     initialize : function(options) {
       Backbone.UI.BaseView.prototype.initialize.call(this, options);

@@ -1,14 +1,14 @@
 (function(){
   window.Backbone.UI.Link = Backbone.UI.BaseView.extend({
     options : {
-      tagName : 'a',
-
       // disables the link (non-clickable) 
       disabled : false,
 
       // A callback to invoke when the link is clicked
       onClick : null
     },
+    
+    tagName : 'a',
 
     initialize : function(options) {
       Backbone.UI.BaseView.prototype.initialize.call(this, options);
