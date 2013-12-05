@@ -36,7 +36,7 @@
     return compareDate.getTime() > maxDate.getTime();
   };
 
-  window.Backbone.UI.Calendar = Backbone.View.extend({
+  window.Backbone.UI.Calendar = Backbone.UI.BaseView.extend({
     options : {
       // the selected calendar date
       date : null, 
@@ -59,7 +59,8 @@
 
     date : null, 
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       $(this.el).addClass('calendar');
       _(this).bindAll('render');
     },

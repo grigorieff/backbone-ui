@@ -1,5 +1,5 @@
 (function(){
-  window.Backbone.UI.TextField = Backbone.View.extend({
+  window.Backbone.UI.TextField = Backbone.UI.BaseView.extend({
     options : {
       // disables the input text
       disabled : false,
@@ -24,7 +24,8 @@
     // public accessors
     input : null,
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph, 
         Backbone.UI.HasFormLabel, Backbone.UI.HasError, Backbone.UI.HasFocus]);
       _(this).bindAll('_refreshValue');
@@ -65,9 +66,9 @@
       // insert glyph if exist
       this._parent = $.el.div({className : 'text_wrapper'});
       var content = this.input;
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
-      this.insertGlyphLayout(glyphCss, glyphRightCss, content, this._parent);
+      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
+      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, this._parent);
       
       // add focusin / focusout
       this.setupFocus(this.input, this._parent);

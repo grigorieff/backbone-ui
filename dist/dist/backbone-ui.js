@@ -39,7 +39,15 @@
      
     setMobile : function(mobile) {
       Backbone.UI.IS_MOBILE = mobile;
-    }  
+    },
+
+    // added a BaseView that implements options
+    // as did Backbone.s pre version 1.0.1
+    BaseView : Backbone.View.extend({
+      initialize : function(options) {
+        this.options = this.options ? _({}).extend(this.options, options) : options;
+      }
+    })  
   };
 
   _(Backbone.View.prototype).extend({
@@ -327,10 +335,8 @@
   });  
 }(this));
 (function(){
-  window.Backbone.UI.Button = Backbone.View.extend({
+  window.Backbone.UI.Button = Backbone.UI.BaseView.extend({
     options : {
-      tagName : 'button',
-
       // true will disable the button
       // (muted non-clickable) 
       disabled : false,
@@ -345,8 +351,13 @@
       // renders this button as an input type=submit element as opposed to an anchor.
       isSubmit : false
     },
+    
+    tagName : 'button',
 
-    initialize : function() {
+    initialize : function(options) {
+      
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
+      
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
 
       _(this).bindAll('render');
@@ -377,10 +388,10 @@
 
       var content = $.el.span(labelText);
       
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
 
-      this.insertGlyphLayout(glyphCss, glyphRightCss, content, this.el);
+      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, this.el);
 
       // add appropriate class names
       this.setEnabled(!this.options.disabled);
@@ -442,7 +453,7 @@
     return compareDate.getTime() > maxDate.getTime();
   };
 
-  window.Backbone.UI.Calendar = Backbone.View.extend({
+  window.Backbone.UI.Calendar = Backbone.UI.BaseView.extend({
     options : {
       // the selected calendar date
       date : null, 
@@ -465,7 +476,8 @@
 
     date : null, 
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       $(this.el).addClass('calendar');
       _(this).bindAll('render');
     },
@@ -617,7 +629,7 @@
   });
 }());
 (function(){
-  window.Backbone.UI.Checkbox = Backbone.View.extend({
+  window.Backbone.UI.Checkbox = Backbone.UI.BaseView.extend({
 
     options : {
     
@@ -629,7 +641,8 @@
       disabled : false
     },
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph,
         Backbone.UI.HasError]);
       _(this).bindAll('_refreshCheck');
@@ -670,9 +683,9 @@
       
       var parent = $.el.div({className : 'checkbox_wrapper'});
       var content = this._labelText;
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
-      this.insertGlyphLayout(glyphCss, glyphRightCss, content, parent);
+      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
+      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, parent);
       
       this.label.appendChild(parent);
       this.el.appendChild(this.label);
@@ -713,7 +726,7 @@
   });
 }());
 (function(){
-  window.Backbone.UI.CollectionView = Backbone.View.extend({
+  window.Backbone.UI.CollectionView = Backbone.UI.BaseView.extend({
     options : {
       // The Backbone.Collection instance the view is bound to
       model : null,
@@ -749,7 +762,8 @@
     // must be over-ridden to describe how an item is rendered
     _renderItem : Backbone.UI.noop,
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       if(this.model) {
         this.model.bind('add', _.bind(this._onItemAdded, this));
         if(this.options.renderOnChange){
@@ -758,6 +772,8 @@
         this.model.bind('remove', _.bind(this._onItemRemoved, this));
         this.model.bind('refresh', _.bind(this.render, this));
         this.model.bind('reset', _.bind(this.render, this));
+        this.model.bind('sort', _.bind(this.render, this));
+
       }
     },
 
@@ -854,7 +870,7 @@
 }());
 
 (function(){
-  window.Backbone.UI.DatePicker = Backbone.View.extend({
+  window.Backbone.UI.DatePicker = Backbone.UI.BaseView.extend({
 
     options : {
       // a moment.js format : http://momentjs.com/docs/#/display/format
@@ -866,7 +882,8 @@
       maxDate : null
     },
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       $(this.el).addClass('date_picker');
 
@@ -897,8 +914,8 @@
       this._textField = new Backbone.UI.TextField({
         name : this.options.name,
         placeholder : this.options.placeholder,
-        glyphCss : this.options.glyphCss,
-        glyphRightCss : this.options.glyphRightCss
+        glyphLeftClassName : this.options.glyphLeftClassName,
+        glyphRightClassName : this.options.glyphRightClassName
       }).render();
 
       $(this._textField.input).click(_(this._showCalendar).bind(this));
@@ -1225,11 +1242,11 @@
       
       // The property of the individual choice representing CSS 
       // background rule for the left glyph 
-      altGlyphCss : null,
+      altGlyphLeftClassName : null,
 
       // The property of the individual choice representing CSS 
       // background rule for the right glyph 
-      altGlyphRightCss : null
+      altGlyphRightClassName : null
     },
 
     _determineSelectedItem : function() {
@@ -1424,38 +1441,14 @@
 // A mixin for dealing with glyphs in widgets 
 (function(){
 
-  var loadGlyph = function(name, size, bgSize){
-    var div = $.el.span({
-      className : 'glyph'
-    });
-    $(div).css({
-      background : name,
-      width : size + 'px',
-      height : size + 'px',
-      backgroundSize : bgSize
-    });
-    return div;
-  };
-
   Backbone.UI.HasGlyph = {
-
-    options : {
-      // The pixel size of the width and height of a glyph
-      glyphSize : 20,
-      // The padding between the glyph and the rest of the content
-      glyphPadding : 8,
-      // The background-size of the glyph
-      glyphBackgroundSize : 'auto'
-    },
     
-    insertGlyphLayout : function(glyphCss, glyphRightCss, content, parent) {
+    insertGlyphLayout : function(glyphLeftClassName, glyphRightClassName, content, parent) {
 
       // append left glyph
-      if(glyphCss) {
-        var glyphLeft = loadGlyph(glyphCss, this.options.glyphSize, this.options.glyphBackgroundSize);
-        $(glyphLeft).addClass('left');
-        $(glyphLeft).css({
-          marginRight : this.options.glyphPadding + 'px'
+      if(glyphLeftClassName) {
+        var glyphLeft = $.el.span({
+          className : 'glyph left ' + glyphLeftClassName
         });
         parent.appendChild(glyphLeft);
       }
@@ -1466,11 +1459,9 @@
       }
       
       // append right glyph
-      if(glyphRightCss) {
-        var glyphRight = loadGlyph(glyphRightCss, this.options.glyphSize, this.options.glyphBackgroundSize);
-        $(glyphRight).addClass('right');
-        $(glyphRight).css({
-          marginLeft : this.options.glyphPadding + 'px'
+      if(glyphRightClassName) {
+        var glyphRight = $.el.span({
+          className : 'glyph right ' + glyphRightClassName
         });
         parent.appendChild(glyphRight);
       }
@@ -1507,13 +1498,13 @@
       formLabelContent : null,
       
       // If present, a square glyph area will be added to the left side of this 
-      // component, and the given string will be used as the full CSS background
+      // component, and the given string will be used as the class name
       // property of that glyph area. This option is a no-op when applied 
       // to Calender and Menu components. 
-      glyphCss : null,
+      glyphLeftClassName : null,
 
       // Same as above, but on the right side.
-      glyphRightCss : null
+      glyphRightClassName : null
       
     },
 
@@ -1679,13 +1670,16 @@ if(window.jQuery) {
   })(window.jQuery);
 }
 (function(){
-  window.Backbone.UI.Label = Backbone.View.extend({
+  window.Backbone.UI.Label = Backbone.UI.BaseView.extend({
+    
     options : {
-      emptyContent : '',
-      tagName : 'label'
+      emptyContent : ''
     },
+    
+    tagName : 'label',
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel]);
 
       _(this).bindAll('render');
@@ -1716,18 +1710,19 @@ if(window.jQuery) {
 }());
 
 (function(){
-  window.Backbone.UI.Link = Backbone.View.extend({
+  window.Backbone.UI.Link = Backbone.UI.BaseView.extend({
     options : {
-      tagName : 'a',
-
       // disables the link (non-clickable) 
       disabled : false,
 
       // A callback to invoke when the link is clicked
       onClick : null
     },
+    
+    tagName : 'a',
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
 
       _(this).bindAll('render');
@@ -1751,10 +1746,10 @@ if(window.jQuery) {
       
       var content = $.el.span(labelText);
       
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
 
-      this.insertGlyphLayout(glyphCss, glyphRightCss, content, this.el);
+      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, this.el);
       
       // add appropriate class names
       this.setEnabled(!this.options.disabled);
@@ -1778,8 +1773,8 @@ if(window.jQuery) {
 (function(){
   window.Backbone.UI.List = Backbone.UI.CollectionView.extend({
   
-    initialize : function() {
-      Backbone.UI.CollectionView.prototype.initialize.call(this, arguments);
+    initialize : function(options) {
+      Backbone.UI.CollectionView.prototype.initialize.call(this, options);
       $(this.el).addClass('list');
     },
 
@@ -1845,7 +1840,7 @@ if(window.jQuery) {
 }());
 
 (function(){
-  window.Backbone.UI.Menu = Backbone.View.extend({
+  window.Backbone.UI.Menu = Backbone.UI.BaseView.extend({
 
     options : {
       
@@ -1868,7 +1863,8 @@ if(window.jQuery) {
       size : 1
     },
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty, 
         Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
 
@@ -2015,7 +2011,7 @@ if(window.jQuery) {
   });
 }());
 (function(){
-  window.Backbone.UI.Pulldown = Backbone.View.extend({
+  window.Backbone.UI.Pulldown = Backbone.UI.BaseView.extend({
     options : {
       // text to place in the pulldown button before a
       // selection has been made
@@ -2029,7 +2025,8 @@ if(window.jQuery) {
       onChange : Backbone.UI.noop
     },
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, 
         Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph, 
         Backbone.UI.HasFormLabel, Backbone.UI.HasError, Backbone.UI.HasFocus]);
@@ -2059,9 +2056,9 @@ if(window.jQuery) {
       }).render();
       
       this._parent = $.el.div({className : 'pulldown_wrapper'});
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
-      this.insertGlyphLayout(glyphCss, glyphRightCss, this._menu.el, this._parent);
+      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
+      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, this._menu.el, this._parent);
 
       // add focusin / focusout
       this.setupFocus(this._menu.el, this._parent);      
@@ -2080,7 +2077,7 @@ if(window.jQuery) {
   });
 }());
 (function(){
-  window.Backbone.UI.RadioGroup = Backbone.View.extend({
+  window.Backbone.UI.RadioGroup = Backbone.UI.BaseView.extend({
 
     options : {
       // used to group the radio inputs
@@ -2093,7 +2090,8 @@ if(window.jQuery) {
       onChange : Backbone.UI.noop
     },
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, 
         Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph, 
         Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
@@ -2142,13 +2140,13 @@ if(window.jQuery) {
         // resolve left and right glyphs
         var parent = $.el.div({className : 'radio_group_wrapper'});
         var content = $.el.span(label);
-        var glyphCss = this.resolveGlyph(item, this.options.altGlyphCss);
-        glyphCss = (glyphCss && (glyphCss !== this.options.altGlyphCss)) ? glyphCss : 
-          this.resolveGlyph(null, this.options.glyphCss);
-        var glyphRightCss = this.resolveGlyph(item, this.options.altGlyphRightCss);
-        glyphRightCss = (glyphRightCss && (glyphRightCss !== this.options.altGlyphRightCss)) ? 
-          glyphRightCss : this.resolveGlyph(null, this.options.glyphRightCss);
-        this.insertGlyphLayout(glyphCss, glyphRightCss, content, parent);
+        var glyphLeftClassName = this.resolveGlyph(item, this.options.altGlyphLeftClassName);
+        glyphLeftClassName = (glyphLeftClassName && (glyphLeftClassName !== this.options.altGlyphLeftClassName)) ? glyphLeftClassName : 
+          this.resolveGlyph(null, this.options.glyphLeftClassName);
+        var glyphRightClassName = this.resolveGlyph(item, this.options.altGlyphRightClassName);
+        glyphRightClassName = (glyphRightClassName && (glyphRightClassName !== this.options.altGlyphRightClassName)) ? 
+          glyphRightClassName : this.resolveGlyph(null, this.options.glyphRightClassName);
+        this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, parent);
         
         // create a new label/input pair and insert into the group
         this.group.appendChild(
@@ -2186,7 +2184,7 @@ if(window.jQuery) {
   });
 }());
 (function() {
-  Backbone.UI.TabSet = Backbone.View.extend({
+  Backbone.UI.TabSet = Backbone.UI.BaseView.extend({
     options : {
       // Tabs to initially add to this tab set.  Each entry may contain
       // a <code>label</code>, <code>content</code>, and <code>onActivate</code>
@@ -2197,7 +2195,8 @@ if(window.jQuery) {
       selectedTab : 0
     },
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       $(this.el).addClass('tab_set');
     }, 
 
@@ -2322,8 +2321,8 @@ if(window.jQuery) {
       onSort : null
     },
 
-    initialize : function() {
-      Backbone.UI.CollectionView.prototype.initialize.call(this, arguments);
+    initialize : function(options) {
+      Backbone.UI.CollectionView.prototype.initialize.call(this, options);
       $(this.el).addClass('table_view');
       this._sortState = {reverse : true};
     },
@@ -2471,7 +2470,7 @@ if(window.jQuery) {
 }());
 
 (function(){
-  window.Backbone.UI.TextArea = Backbone.View.extend({
+  window.Backbone.UI.TextArea = Backbone.UI.BaseView.extend({
     options : {
       className : 'text_area',
 
@@ -2493,7 +2492,8 @@ if(window.jQuery) {
     // public accessors
     textArea : null,
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel,
         Backbone.UI.HasError, Backbone.UI.HasFocus]);
       
@@ -2569,7 +2569,7 @@ if(window.jQuery) {
   });
 }());
 (function(){
-  window.Backbone.UI.TextField = Backbone.View.extend({
+  window.Backbone.UI.TextField = Backbone.UI.BaseView.extend({
     options : {
       // disables the input text
       disabled : false,
@@ -2594,7 +2594,8 @@ if(window.jQuery) {
     // public accessors
     input : null,
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph, 
         Backbone.UI.HasFormLabel, Backbone.UI.HasError, Backbone.UI.HasFocus]);
       _(this).bindAll('_refreshValue');
@@ -2635,9 +2636,9 @@ if(window.jQuery) {
       // insert glyph if exist
       this._parent = $.el.div({className : 'text_wrapper'});
       var content = this.input;
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
-      this.insertGlyphLayout(glyphCss, glyphRightCss, content, this._parent);
+      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
+      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, this._parent);
       
       // add focusin / focusout
       this.setupFocus(this.input, this._parent);
@@ -2682,7 +2683,7 @@ if(window.jQuery) {
 }());
 
 (function(){
-  window.Backbone.UI.TimePicker = Backbone.View.extend({
+  window.Backbone.UI.TimePicker = Backbone.UI.BaseView.extend({
 
     options : {
       // a moment.js format : http://momentjs.com/docs/#/display/format
@@ -2698,7 +2699,8 @@ if(window.jQuery) {
       disabled : false
     },
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       $(this.el).addClass('time_picker');
 
@@ -2729,8 +2731,8 @@ if(window.jQuery) {
         name : this.options.name,
         disabled : this.options.disabled, 
         placeholder : this.options.placeholder,
-        glyphCss : this.options.glyphCss,
-        glyphRightCss : this.options.glyphRightCss
+        glyphLeftClassName : this.options.glyphLeftClassName,
+        glyphRightClassName : this.options.glyphRightClassName
       }).render();
       $(this._textField.input).click(_(this._showMenu).bind(this));
       $(this._textField.input).blur(_(this._timeEdited).bind(this));
