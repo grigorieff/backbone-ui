@@ -1,5 +1,5 @@
 (function(){
-  window.Backbone.UI.CollectionView = Backbone.View.extend({
+  window.Backbone.UI.CollectionView = Backbone.UI.BaseView.extend({
     options : {
       // The Backbone.Collection instance the view is bound to
       model : null,
@@ -35,7 +35,8 @@
     // must be over-ridden to describe how an item is rendered
     _renderItem : Backbone.UI.noop,
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       if(this.model) {
         this.model.bind('add', _.bind(this._onItemAdded, this));
         if(this.options.renderOnChange){
@@ -44,6 +45,8 @@
         this.model.bind('remove', _.bind(this._onItemRemoved, this));
         this.model.bind('refresh', _.bind(this.render, this));
         this.model.bind('reset', _.bind(this.render, this));
+        this.model.bind('sort', _.bind(this.render, this));
+
       }
     },
 

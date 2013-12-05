@@ -1,8 +1,6 @@
 (function(){
-  window.Backbone.UI.Button = Backbone.View.extend({
+  window.Backbone.UI.Button = Backbone.UI.BaseView.extend({
     options : {
-      tagName : 'button',
-
       // true will disable the button
       // (muted non-clickable) 
       disabled : false,
@@ -17,8 +15,13 @@
       // renders this button as an input type=submit element as opposed to an anchor.
       isSubmit : false
     },
+    
+    tagName : 'button',
 
-    initialize : function() {
+    initialize : function(options) {
+      
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
+      
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
 
       _(this).bindAll('render');

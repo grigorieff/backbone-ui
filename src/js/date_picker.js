@@ -1,5 +1,5 @@
 (function(){
-  window.Backbone.UI.DatePicker = Backbone.View.extend({
+  window.Backbone.UI.DatePicker = Backbone.UI.BaseView.extend({
 
     options : {
       // a moment.js format : http://momentjs.com/docs/#/display/format
@@ -11,7 +11,8 @@
       maxDate : null
     },
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       $(this.el).addClass('date_picker');
 
