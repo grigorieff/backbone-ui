@@ -169,4 +169,44 @@ $(document).ready(function() {
 
   });
 
+  test("setCollectionWithComparator", function() {
+    
+    var users = new Backbone.Collection();
+    
+    users.comparator = function(user) {
+      return user.get('first');
+    }
+    
+    var renderCount = 0;
+    var renderItemCount = 0;
+    
+    var table = new Backbone.UI.TableView({
+      model: users,
+      onRender : function() {
+        renderCount++;
+      },
+      onRenderItem : function() {
+        renderItemCount++;
+      },
+      columns: [{
+        title: 'Firstname',
+        content: 'first'
+      }, {
+        title: 'Lastname',
+        content: 'last'
+      }]
+    }).render();
+    
+    users.set({first : 'jack', last : 'carrig'}, {remove : false});
+    users.set({first : 'joe', last : 'stelmach'}, {remove : false});
+    users.set({first : 'jim', last : 'strate'}, {remove : false});
+    users.set({first : 'bob', last : 'vawter'}, {remove : false});
+    
+    equal(renderCount, 1);
+    equal(renderItemCount, 4);
+    
+  });
+
+
+
 });

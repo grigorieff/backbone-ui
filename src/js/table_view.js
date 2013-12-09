@@ -24,7 +24,10 @@
 
       // A callback to invoke when the table is to be sorted and sortable is enabled. The callback will
       // be passed the <code>column</code> on which to sort.
-      onSort : null
+      onSort : null,
+      
+      onRender : Backbone.UI.noop,
+      onRenderItem : Backbone.UI.noop
     },
 
     initialize : function(options) {
@@ -133,7 +136,10 @@
       }
 
       this._updateClassNames();
-
+      
+      if(_(this.options.onRender).isFunction()) {
+        this.options.onRender();
+      }
       return this;
     },
 
@@ -157,6 +163,9 @@
       }
 
       this.itemViews[model.cid] = row;
+      if(_(this.options.onRenderItem).isFunction()) {
+        this.options.onRenderItem();
+      }
       return row;
     },
 
