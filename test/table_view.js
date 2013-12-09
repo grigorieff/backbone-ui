@@ -169,7 +169,9 @@ $(document).ready(function() {
 
   });
 
-  test("setCollectionWithComparator", function() {
+  // we want to ensure that render for the list and each item
+  // in the list is not called wastefully
+  test("properRenderCounts", function() {
     
     var users = new Backbone.Collection();
     
@@ -177,17 +179,12 @@ $(document).ready(function() {
       return user.get('first');
     }
     
+    // count number of times a render function is called
     var renderCount = 0;
     var renderItemCount = 0;
     
     var table = new Backbone.UI.TableView({
       model: users,
-      onRender : function() {
-        renderCount++;
-      },
-      onRenderItem : function() {
-        renderItemCount++;
-      },
       columns: [{
         title: 'Firstname',
         content: 'first'
@@ -195,8 +192,27 @@ $(document).ready(function() {
         title: 'Lastname',
         content: 'last'
       }]
-    }).render();
+    });
     
+    // modify Table's render to increment our counter
+    var tableRender = _(table.render).bind(table);
+    table.render = function() {
+      var toReturn = tableRender();
+      renderCount++;
+      return toReturn;
+    }
+    
+    // modify Table's renderItem to increment our counter
+    var tableRenderItem = _(table._renderItem).bind(table);
+    table._renderItem = function(model, index) {
+      var toReturn = tableRenderItem(model, index);
+      renderItemCount++;
+      return toReturn;
+    }
+    
+    table.render();
+    
+    // use set to add models to the collection
     users.set({first : 'jack', last : 'carrig'}, {remove : false});
     users.set({first : 'joe', last : 'stelmach'}, {remove : false});
     users.set({first : 'jim', last : 'strate'}, {remove : false});
@@ -204,6 +220,15 @@ $(document).ready(function() {
     
     equal(renderCount, 1);
     equal(renderItemCount, 4);
+    
+    // use add to add models to the collection
+    users.add({first : 'alan', last : 'chung'});
+    
+    equal(renderCount, 1);
+    equal(renderItemCount, 5);
+    
+    // ensure proper order
+    equal($(table.el).find('.content tr.first td.first').text(),'alan');
     
   });
 
