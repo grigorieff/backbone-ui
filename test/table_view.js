@@ -2,18 +2,6 @@ $(document).ready(function() {
 
   module("Backbone.TableView");
 
-<<<<<<< HEAD
-  var regions = new Backbone.Collection([{
-    name: 'Americas',
-    notes: 'Bright'
-  }, {
-    name: 'Africa',
-    notes: 'Fruity'
-  }]);
-=======
-  Backbone.UI.setMobile(false);
->>>>>>> master
-
   test("withDataBinding", function(){
 
     var regions = new Backbone.Collection([{
