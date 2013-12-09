@@ -27,8 +27,8 @@
       onSort : null
     },
 
-    initialize : function() {
-      Backbone.UI.CollectionView.prototype.initialize.call(this, arguments);
+    initialize : function(options) {
+      Backbone.UI.CollectionView.prototype.initialize.call(this, options);
       $(this.el).addClass('table_view');
       this._sortState = {reverse : true};
     },
@@ -133,7 +133,7 @@
       }
 
       this._updateClassNames();
-
+    
       return this;
     },
 
@@ -157,6 +157,7 @@
       }
 
       this.itemViews[model.cid] = row;
+      
       return row;
     },
 
@@ -170,7 +171,7 @@
         };
       }
       this.model.comparator = comp;
-      this.model.sort({silent : !!silent});
+      this.model.reset(this.model.models, {silent : !!silent});
     }
   });
 }());

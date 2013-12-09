@@ -1,5 +1,5 @@
 (function(){
-  window.Backbone.UI.Menu = Backbone.View.extend({
+  window.Backbone.UI.Menu = Backbone.UI.BaseView.extend({
 
     options : {
       
@@ -22,7 +22,8 @@
       size : 1
     },
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasAlternativeProperty, 
         Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
 

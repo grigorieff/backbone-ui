@@ -1,5 +1,5 @@
 (function(){
-  window.Backbone.UI.Pulldown = Backbone.View.extend({
+  window.Backbone.UI.Pulldown = Backbone.UI.BaseView.extend({
     options : {
       // text to place in the pulldown button before a
       // selection has been made
@@ -13,7 +13,8 @@
       onChange : Backbone.UI.noop
     },
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, 
         Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph, 
         Backbone.UI.HasFormLabel, Backbone.UI.HasError, Backbone.UI.HasFocus]);
@@ -47,9 +48,9 @@
       }).render();
       
       this._parent = $.el.div({className : 'pulldown_wrapper'});
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
-      this.insertGlyphLayout(glyphCss, glyphRightCss, this._menu.el, this._parent);
+      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
+      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, this._menu.el, this._parent);
 
       // add focusin / focusout
       this.setupFocus(this._menu.el, this._parent);      

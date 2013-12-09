@@ -1,16 +1,17 @@
 (function(){
-  window.Backbone.UI.Link = Backbone.View.extend({
+  window.Backbone.UI.Link = Backbone.UI.BaseView.extend({
     options : {
-      tagName : 'a',
-
       // disables the link (non-clickable) 
       disabled : false,
 
       // A callback to invoke when the link is clicked
       onClick : null
     },
+    
+    tagName : 'a',
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
 
       _(this).bindAll('render');
@@ -34,10 +35,10 @@
       
       var content = $.el.span(labelText);
       
-      var glyphCss = this.resolveGlyph(this.model, this.options.glyphCss);
-      var glyphRightCss = this.resolveGlyph(this.model, this.options.glyphRightCss);
+      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
 
-      this.insertGlyphLayout(glyphCss, glyphRightCss, content, this.el);
+      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, this.el);
       
       // add appropriate class names
       this.setEnabled(!this.options.disabled);

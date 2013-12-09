@@ -31,8 +31,15 @@
       Backbone.UI.currentSkin = skin;
     },
 
-    noop : function(){}
-    
+    noop : function(){},
+
+    // added a BaseView that implements options
+    // as did Backbone.s pre version 1.0.1
+    BaseView : Backbone.View.extend({
+      initialize : function(options) {
+        this.options = this.options ? _({}).extend(this.options, options) : options;
+      }
+    })  
   };
 
   _(Backbone.View.prototype).extend({

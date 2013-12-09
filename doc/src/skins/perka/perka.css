@@ -73,10 +73,6 @@
   padding:4px 10px 5px;
 }
 
-.skin_perka .button.small.with_glyph {
-  padding-left:6px;
-}
-
 /* button - colors */
 .skin_perka .button.orange {
   background-color:#cf5200;
@@ -159,12 +155,44 @@
 } 
 
 .skin_perka .button.operation {
-  background-image: -ms-linear-gradient(top, #FFFFFF 0%, #F7F7F7 100%);
-  background-image: -moz-linear-gradient(top, #FFFFFF 0%, #F7F7F7 100%);
-  background-image: -o-linear-gradient(top, #FFFFFF 0%, #F7F7F7 100%);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #F7F7F7));
-  background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #F7F7F7 100%);
-  background-image: linear-gradient(to bottom, #FFFFFF 0%, #F7F7F7 100%); 
+  background-color:#fff;
+  background-image: -ms-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+  background-image: -moz-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+  background-image: -o-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(1, #f0f0f0));
+  background-image: -webkit-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+  background-image: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
+  border-color:#999;
+}
+
+.skin_perka .button.operation:hover {
+  background-color:#fafafa;
+  background-image: -ms-linear-gradient(top, #fafafa 0%, #e6e6e6 100%);
+  background-image: -moz-linear-gradient(top, #fafafa 0%, #e6e6e6 100%);
+  background-image: -o-linear-gradient(top, #fafafa 0%, #e6e6e6 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fafafa), color-stop(1, #e6e6e6));
+  background-image: -webkit-linear-gradient(top, #fafafa 0%, #e6e6e6 100%);
+  background-image: linear-gradient(to bottom, #fafafa 0%, #e6e6e6 100%);
+  border-color:#848484;
+}
+
+.skin_perka .button.operation.active,
+.skin_perka .button.operation:active,
+.skin_perka .button.operation:active:hover,
+.skin_perka .button.operation.active:hover {
+  background-color:#e0e0e0;
+  background-image: -ms-linear-gradient(top, #e0e0e0 0%, #acacac 100%);
+  background-image: -moz-linear-gradient(top, #e0e0e0 0%, #acacac 100%);
+  background-image: -o-linear-gradient(top, #e0e0e0 0%, #acacac 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e0e0e0), color-stop(1, #acacac));
+  background-image: -webkit-linear-gradient(top, #e0e0e0 0%, #acacac 100%);
+  background-image: linear-gradient(to bottom, #e0e0e0 0%, #acacac 100%);
+  border-color:#666;
+}
+
+.skin_perka .button.operation.disabled, 
+.skin_perka .button.operation.disabled:hover {
+  color:#aaa;
 }
 
 .skin_perka .button:hover,
@@ -412,6 +440,10 @@
   color:#333;
 }
 
+.skin_perka .checkbox .checkbox_wrapper {
+  position:relative;
+}
+
 .skin_perka .checkbox > label {
   display:inline-block;
   position:relative;
@@ -423,36 +455,66 @@
   display:inline-block;
   position: absolute;
   left:-10px;
+  top:8px;
   width:auto;
   cursor:pointer;
   opacity: 0;
 }
 
+/* failover used to display native checkbox in ie */
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .checkbox input + div:before {
   content:"";
   display:inline-block;
   position:relative;
   vertical-align:middle;
-  height:28px;
-  width:28px;
-  background:url(/common/images/ui/checkbox.png) transparent 0 0 no-repeat;
+  height:24px;
+  width:24px;
+  border:1px solid #999;
+  border-radius:4px;
+  background-color: #fff; /* fallback color if gradients are not supported */
+  background-image: -webkit-linear-gradient(top, #fff, #f0f0f0); /* For Chrome and Safari */
+  background-image:    -moz-linear-gradient(top, #fff, #f0f0f0); /* For old Fx (3.6 to 15) */
+  background-image:     -ms-linear-gradient(top, #fff, #f0f0f0); /* For pre-releases of IE 10*/
+  background-image:      -o-linear-gradient(top, #fff, #f0f0f0); /* For old Opera (11.1 to 12.0) */ 
+  background-image:         linear-gradient(to bottom, #fff, #f0f0f0); /* Standard syntax; must be last */
 }
 
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .checkbox label:hover input + div:before {
-  background-position: 0 -28px;
+  border-color:#848484;
+  background-color: #fafafa; /* fallback color if gradients are not supported */
+  background-image: -webkit-linear-gradient(top, #fafafa, #e6e6e6); /* For Chrome and Safari */
+  background-image:    -moz-linear-gradient(top, #fafafa, #e6e6e6); /* For old Fx (3.6 to 15) */
+  background-image:     -ms-linear-gradient(top, #fafafa, #e6e6e6); /* For pre-releases of IE 10*/
+  background-image:      -o-linear-gradient(top, #fafafa, #e6e6e6); /* For old Opera (11.1 to 12.0) */ 
+  background-image:         linear-gradient(to bottom, #fafafa, #e6e6e6); /* Standard syntax; must be last */
+}
+
+.skin_perka #checked-failover:checked + div:before,
+.skin_perka .checkbox label:active input + div:before,
+.skin_perka .checkbox label.active input + div:before {
+  border-color:#666;
+  background-color: #e0e0e0; /* fallback color if gradients are not supported */
+  background-image: -webkit-linear-gradient(top, #e0e0e0, #acacac); /* For Chrome and Safari */
+  background-image:    -moz-linear-gradient(top, #e0e0e0, #acacac); /* For old Fx (3.6 to 15) */
+  background-image:     -ms-linear-gradient(top, #e0e0e0, #acacac); /* For pre-releases of IE 10*/
+  background-image:      -o-linear-gradient(top, #e0e0e0, #acacac); /* For old Opera (11.1 to 12.0) */ 
+  background-image:         linear-gradient(to bottom, #e0e0e0, #acacac); /* Standard syntax; must be last */
 }
 
 .skin_perka #checked-failover:checked + div:after,
 .skin_perka .checkbox input:checked + div:after {
-  content: "";
+  content: "\2713";
+  color:#333;
   position: absolute;
-  background: url(/common/images/ui/checkbox.png) transparent 0 -112px no-repeat;
   top:0;
   left:0;
-  width:28px;
-  height:28px;
+  width:26px;
+  height:26px;
+  line-height:26px;
+  text-align:center;
+  font-size:22px;
 }
 
 .skin_perka .checkbox .checkbox_wrapper > span {
@@ -463,7 +525,7 @@
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .checkbox.disabled label input + div:before,
 .skin_perka .checkbox.disabled label:hover input + div:before  {
-  background-position: 0 -56px;
+  opacity:.5;
 }
 
 .skin_perka #checked-failover:checked + div:after,
@@ -485,6 +547,10 @@
   color:#333;
 }
 
+.skin_perka .radio_group .radio_group_wrapper {
+  position:relative;
+}
+
 .skin_perka .radio_group .radio_group_wrapper > label {
   margin-right:10px;
   position:relative;
@@ -502,6 +568,7 @@
   display:inline-block;
   position: absolute;
   left:-10px;
+  top:8px;
   width:auto;
   cursor:pointer;
   opacity: 0;
@@ -513,22 +580,51 @@
   display:inline-block;
   position:relative;
   vertical-align:middle;
-  height:28px;
-  width:28px;
-  background:url(/common/images/ui/radio.png) transparent 0 0 no-repeat;
+  height:24px;
+  width:24px;
+  border:1px solid #999;
+  border-radius:50%;
+  background-color: #fff; /* fallback color if gradients are not supported */
+  background-image: -webkit-linear-gradient(top, #fff, #f0f0f0); /* For Chrome and Safari */
+  background-image:    -moz-linear-gradient(top, #fff, #f0f0f0); /* For old Fx (3.6 to 15) */
+  background-image:     -ms-linear-gradient(top, #fff, #f0f0f0); /* For pre-releases of IE 10*/
+  background-image:      -o-linear-gradient(top, #fff, #f0f0f0); /* For old Opera (11.1 to 12.0) */ 
+  background-image:         linear-gradient(to bottom, #fff, #f0f0f0); /* Standard syntax; must be last */
 }
 
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .radio_group .radio_group_wrapper label:hover input + div:before {
-  background-position: 0 -28px;
+  border-color:#848484;
+  background-color: #fafafa; /* fallback color if gradients are not supported */
+  background-image: -webkit-linear-gradient(top, #fafafa, #e6e6e6); /* For Chrome and Safari */
+  background-image:    -moz-linear-gradient(top, #fafafa, #e6e6e6); /* For old Fx (3.6 to 15) */
+  background-image:     -ms-linear-gradient(top, #fafafa, #e6e6e6); /* For pre-releases of IE 10*/
+  background-image:      -o-linear-gradient(top, #fafafa, #e6e6e6); /* For old Opera (11.1 to 12.0) */ 
+  background-image:         linear-gradient(to bottom, #fafafa, #e6e6e6); /* Standard syntax; must be last */
 }
 
 .skin_perka #checked-failover:checked + div:before,
-.skin_perka .radio_group input:checked + div:before,
-.skin_perka .radio_group .radio_group_wrapper label:hover input:checked + div:before, 
-.skin_perka .radio_group.error input:checked + div:before,
-.skin_perka .radio_group.error .radio_group_wrapper label:hover input:checked + div:before {
-  background-position: 0 -84px;
+.skin_perka .radio_group .radio_group_wrapper label:active input + div:before,
+.skin_perka .radio_group .radio_group_wrapper label.active input + div:before  {
+  border-color:#666;
+  background-color: #e0e0e0; /* fallback color if gradients are not supported */
+  background-image: -webkit-linear-gradient(top, #e0e0e0, #acacac); /* For Chrome and Safari */
+  background-image:    -moz-linear-gradient(top, #e0e0e0, #acacac); /* For old Fx (3.6 to 15) */
+  background-image:     -ms-linear-gradient(top, #e0e0e0, #acacac); /* For pre-releases of IE 10*/
+  background-image:      -o-linear-gradient(top, #e0e0e0, #acacac); /* For old Opera (11.1 to 12.0) */ 
+  background-image:         linear-gradient(to bottom, #e0e0e0, #acacac); /* Standard syntax; must be last */
+}
+
+.skin_perka #checked-failover:checked + div:after,
+.skin_perka .radio_group input:checked + div:after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #333;
 }
 
 .skin_perka .radio_group .radio_group_wrapper span {
@@ -538,7 +634,12 @@
 
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .radio_group.disabled .radio_group_wrapper input + div:before {
-  background-position: 0 -56px;
+  opacity:.5;
+}
+
+.skin_perka #checked-failover:checked + div:after,
+.skin_perka .radio_group.disabled .radio_group_wrapper input:checked + div:after {
+  opacity:.5;
 }
 
 .skin_perka .radio_group.disabled .radio_group_wrapper label {
@@ -556,19 +657,57 @@
   display:block;
 }
 
+.skin_perka .pulldown .menu:after {
+  content:"";
+  position:absolute;
+  width: 0; 
+  height: 0; 
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #333;
+  top:15px;
+  right:10px;
+}
+
 .skin_perka .pulldown .menu label {
   height: 34px;
   display:inline-block;
   overflow: hidden;
-  background:url(/common/images/ui/pulldown_arrow.png) no-repeat right #fff;
-  border:1px solid #c1c1c1;
+  background-color:#fff;
+  background-image: -ms-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+  background-image: -moz-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+  background-image: -o-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(1, #f0f0f0));
+  background-image: -webkit-linear-gradient(top, #fff 0%, #f0f0f0 100%);
+  background-image: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
+  border:1px solid #999;
   border-radius:4px;
-  border-top-color:#ebebeb;
-  border-bottom-color:#989898;
+  position:relative;
 }
 
 .skin_perka .pulldown .menu label:hover {
-  border-bottom-color:#333;
+  background-color:#fafafa;
+  background-image: -ms-linear-gradient(top, #fafafa 0%, #e6e6e6 100%);
+  background-image: -moz-linear-gradient(top, #fafafa 0%, #e6e6e6 100%);
+  background-image: -o-linear-gradient(top, #fafafa 0%, #e6e6e6 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fafafa), color-stop(1, #e6e6e6));
+  background-image: -webkit-linear-gradient(top, #fafafa 0%, #e6e6e6 100%);
+  background-image: linear-gradient(to bottom, #fafafa 0%, #e6e6e6 100%);
+  border-color:#848484;
+}
+
+.skin_perka .pulldown .menu label.active,
+.skin_perka .pulldown .menu label:active,
+.skin_perka .pulldown .menu label:active:hover,
+.skin_perka .pulldown .menu label.active:hover {
+  background-color:#e0e0e0;
+  background-image: -ms-linear-gradient(top, #e0e0e0 0%, #acacac 100%);
+  background-image: -moz-linear-gradient(top, #e0e0e0 0%, #acacac 100%);
+  background-image: -o-linear-gradient(top, #e0e0e0 0%, #acacac 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e0e0e0), color-stop(1, #acacac));
+  background-image: -webkit-linear-gradient(top, #e0e0e0 0%, #acacac 100%);
+  background-image: linear-gradient(to bottom, #e0e0e0 0%, #acacac 100%);
+  border-color:#666;
 }
 
 .skin_perka .pulldown select:hover {
@@ -579,19 +718,31 @@
   font-family:freight-sans-pro,sans-serif;
   display:inline-block;
   background: transparent;
-  padding:6px 26px 6px 6px;
-  padding-right:6px\9;
+  padding:6px 30px 6px 6px;
   border: 0;
   border-radius: 0;
   font-size: 16px;
+  font-weight:600;
   line-height:20px;
   height: 34px;
+  margin:0;
   outline:0;
   -webkit-appearance:none;
   -moz-appearance:none;
   appearance:none;
+  -webkit-font-smoothing:antialiased;
   text-indent: 0.01px;
   text-overflow:'';
+  z-index:1;
+  position:relative;
+  /*ie8-9 hide arrow */
+  padding-right:9px\9;
+}
+
+/* hide outline in firefox around select */
+.skin_perka .pulldown select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
 }
 
 .skin_perka .pulldown select > option {
@@ -602,15 +753,18 @@
   display: none;
 }
 
-.skin_perka .pulldown .menu.disabled select,
-.skin_perka .puldown .menu.disabled select:hover {
+.skin_perka .pulldown .menu.disabled,
+.skin_perka .pulldwon .menu.disabled:hover,
+.skin_perka .pulldown .menu.disabled label, 
+.skin_perka .pulldown .menu.disabled select {
+  color:#aaa;
   border-color:#cbcbcb;
   cursor: not-allowed;
   pointer-events: none;
 }
 
-.skin_perka .pulldown .menu.disabled label {
-  opacity:.65;
+.skin_perka .pulldown .menu.disabled label:after {
+  border-top-color:#aaa;
 }
 
 /* link */
@@ -624,44 +778,41 @@
 .skin_perka .glyph {
   width:20px;
   height:20px;
-}
-
-.skin_perka .glyph {
+  font-size:20px;
   margin-top:-2px;
 }
 
 .skin_perka .large .glyph {
-  margin-top:-4px;
   width:28px;
   height:28px;
+  font-size:28px;
+  margin-top:-4px;
 }
 
-.skin_perka .button .glyph.left {
+.skin_perka .glyph.left {
   margin-left:-2px;
+  margin-right:8px;
 }
 
-.skin_perka .button.small .glyph.left {
+.skin_perka .glyph.right {
+  margin-right:-2px;
+  margin-left:8px;
+}
+
+.skin_perka .small .glyph.left {
   margin-left:-4px;
 }
 
-.skin_perka .button .glyph.right {
-  margin-right:-2px;
-}
-
-.skin_perka .button.small .glyph.right {
+.skin_perka .small .glyph.right {
   margin-right:-4px;
 }
 
-.skin_perka .text_field.small .glyph {
+.skin_perka .text_field .glyph {
   margin-top:3px;
 }
 
-.skin_perka .text_field.small .glyph.left {
-  margin-left:-6px;
-}
-
-.skin_perka .text_field.small .glyph.right {
-  margin-right:-6px;
+.skin_perka .text_field.large .glyph {
+  margin-top:2px;
 }
 
 .skin_perka .disabled .glyph {
@@ -675,7 +826,6 @@
   font-weight:400;
   color:#da4125;
 }
-
 
 /* error - text field,text area,date picker, time picker,pulldown */
 .skin_perka .text_field.error .text_wrapper,
@@ -700,16 +850,14 @@
   color:#da4125;
 }
 
-/* error - checkbox */
+/* error - radio group and checkbox */
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .checkbox.error input + div:before, 
-.skin_perka .checkbox.error label:hover input + div:before {
-  background-position:0 -140px;
-}
-
-/* error - radio group */
+.skin_perka .checkbox.error label:hover input + div:before,
 .skin_perka #checked-failover:checked + div:before,
 .skin_perka .radio_group.error input + div:before,
 .skin_perka .radio_group.error .radio_group_wrapper label:hover input + div:before {
-  background-position:0 -112px;
+  box-shadow: 0 0 2px 1px #fd7356;
+  border-color: #fd7356;
+  background:#fff;
 }

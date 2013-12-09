@@ -1,5 +1,5 @@
 (function(){
-  window.Backbone.UI.TimePicker = Backbone.View.extend({
+  window.Backbone.UI.TimePicker = Backbone.UI.BaseView.extend({
 
     options : {
       // a moment.js format : http://momentjs.com/docs/#/display/format
@@ -15,7 +15,8 @@
       disabled : false
     },
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       $(this.el).addClass('time_picker');
 
@@ -50,8 +51,8 @@
         name : this.options.name,
         disabled : this.options.disabled, 
         placeholder : this.options.placeholder,
-        glyphCss : this.options.glyphCss,
-        glyphRightCss : this.options.glyphRightCss
+        glyphLeftClassName : this.options.glyphLeftClassName,
+        glyphRightClassName : this.options.glyphRightClassName
       }).render();
       $(this._textField.input).click(_(this._showMenu).bind(this));
       $(this._textField.input).blur(_(this._timeEdited).bind(this));

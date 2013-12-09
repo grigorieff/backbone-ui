@@ -18,13 +18,13 @@
       formLabelContent : null,
       
       // If present, a square glyph area will be added to the left side of this 
-      // component, and the given string will be used as the full CSS background
+      // component, and the given string will be used as the class name
       // property of that glyph area. This option is a no-op when applied 
       // to Calender and Menu components. 
-      glyphCss : null,
+      glyphLeftClassName : null,
 
       // Same as above, but on the right side.
-      glyphRightCss : null
+      glyphRightClassName : null
       
     },
 

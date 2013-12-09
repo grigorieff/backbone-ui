@@ -1,5 +1,5 @@
 (function(){
-  window.Backbone.UI.RadioGroup = Backbone.View.extend({
+  window.Backbone.UI.RadioGroup = Backbone.UI.BaseView.extend({
 
     options : {
       // used to group the radio inputs
@@ -12,7 +12,8 @@
       onChange : Backbone.UI.noop
     },
 
-    initialize : function() {
+    initialize : function(options) {
+      Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, 
         Backbone.UI.HasAlternativeProperty, Backbone.UI.HasGlyph, 
         Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
@@ -65,13 +66,13 @@
         // resolve left and right glyphs
         var parent = $.el.div({className : 'radio_group_wrapper'});
         var content = $.el.span(label);
-        var glyphCss = this.resolveGlyph(item, this.options.altGlyphCss);
-        glyphCss = (glyphCss && (glyphCss !== this.options.altGlyphCss)) ? glyphCss : 
-          this.resolveGlyph(null, this.options.glyphCss);
-        var glyphRightCss = this.resolveGlyph(item, this.options.altGlyphRightCss);
-        glyphRightCss = (glyphRightCss && (glyphRightCss !== this.options.altGlyphRightCss)) ? 
-          glyphRightCss : this.resolveGlyph(null, this.options.glyphRightCss);
-        this.insertGlyphLayout(glyphCss, glyphRightCss, content, parent);
+        var glyphLeftClassName = this.resolveGlyph(item, this.options.altGlyphLeftClassName);
+        glyphLeftClassName = (glyphLeftClassName && (glyphLeftClassName !== this.options.altGlyphLeftClassName)) ? glyphLeftClassName : 
+          this.resolveGlyph(null, this.options.glyphLeftClassName);
+        var glyphRightClassName = this.resolveGlyph(item, this.options.altGlyphRightClassName);
+        glyphRightClassName = (glyphRightClassName && (glyphRightClassName !== this.options.altGlyphRightClassName)) ? 
+          glyphRightClassName : this.resolveGlyph(null, this.options.glyphRightClassName);
+        this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, parent);
         
         // create a new label/input pair and insert into the group
         this.group.appendChild(
