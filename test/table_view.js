@@ -2,8 +2,6 @@ $(document).ready(function() {
 
   module("Backbone.TableView");
 
-  Backbone.UI.setMobile(false);
-
   test("withDataBinding", function(){
 
     var regions = new Backbone.Collection([{

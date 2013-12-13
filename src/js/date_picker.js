@@ -47,9 +47,11 @@
         glyphRightClassName : this.options.glyphRightClassName
       }).render();
 
-      $(this._textField.input).click(_(this._showCalendar).bind(this));
-      $(this._textField.input).blur(_(this._dateEdited).bind(this));
-      $(this._textField.input).keyup(_(this._hideCalendar).bind(this));
+      bean.on(this._textField.input, {
+        click : _(this._showCalendar).bind(this),
+        blur : _(this._dateEdited).bind(this),
+        keyup : _(this._hideCalendar).bind(this)
+      });
 
       this.el.appendChild(this.wrapWithFormLabel(this._textField.el));
 

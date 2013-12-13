@@ -55,7 +55,7 @@
 
       this.setEnabled(!this.options.disabled);
       
-      $(this.textArea).keyup(_(function(e) {
+      bean.on(this.textArea, 'keyup', _(function(e) {
         _.defer(_(this._updateModel).bind(this));
         if(_(this.options.onKeyPress).exists() && _(this.options.onKeyPress).isFunction()) {
           this.options.onKeyPress(e, this);

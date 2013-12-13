@@ -56,8 +56,7 @@
         });
         
         // setup events for each input in collection
-        $(input).change(_(this._updateModel).bind(this, item));
-        $(input).click(_(this._updateModel).bind(this, item));
+        bean.on(input, 'change click', _(this._updateModel).bind(this, item));
         
         // resolve left and right glyphs
         var parent = $.el.div({className : 'radio_group_wrapper'});

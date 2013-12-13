@@ -50,7 +50,7 @@
        });
       
       // setup events for each input in collection
-      $(this.select).change(_(this._updateModel).bind(this));
+      bean.on(this.select, 'change', _(this._updateModel).bind(this));
       
       var selectedOffset = 0;
       
@@ -70,7 +70,7 @@
         this._emptyItem = $.el.option(this._labelForItem(this.options.emptyItem));
         $(this._emptyItem).data('value', null);
         this.select.appendChild(this._emptyItem);
-        $(this._emptyItem).click(_(function() {
+        bean.on(this._emptyItem, 'click', _(function() {
           this.select.selectedIndex = 0;
           this._updateModel();
         }).bind(this));
@@ -97,7 +97,7 @@
           selected : this._selectedIndex === idx
         });
         
-        $(option).click(_(function(selectedIdx) {
+        bean.on(option, 'click', _(function(selectedIdx) {
           this.select.selectedIndex = selectedIdx;
           this._updateModel();
         }).bind(this, idx));

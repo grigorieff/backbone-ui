@@ -59,7 +59,7 @@
 
       // bind the item click callback if given
       if(this.options.onItemClick) {
-        $(item).click(_(this.options.onItemClick).bind(this, model));
+        bean.on(item, 'click', _(this.options.onItemClick).bind(this, model));
       }
 
       return item;

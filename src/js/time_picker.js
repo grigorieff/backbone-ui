@@ -50,9 +50,13 @@
         glyphLeftClassName : this.options.glyphLeftClassName,
         glyphRightClassName : this.options.glyphRightClassName
       }).render();
-      $(this._textField.input).click(_(this._showMenu).bind(this));
-      $(this._textField.input).blur(_(this._timeEdited).bind(this));
-      $(this._textField.input).keyup(_(this._hideMenu).bind(this));
+      
+      bean.on(this._textField.input, {
+        click : _(this._showMenu).bind(this),
+        blur : _(this._timeEdited).bind(this),
+        keyup : _(this._hideMenu).bind(this)
+      });
+      
       this.el.appendChild(this.wrapWithFormLabel(this._textField.el));
 
       var date = this.resolveContent();

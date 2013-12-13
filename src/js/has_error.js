@@ -54,13 +54,13 @@
               this._disclosureInner = $.el.div({className: 'disclosure_inner'}, message),
                 this._disclosureArrow = $.el.div({className: 'disclosure_arrow'})));
           
-          $(this.errorMessage).click(_(function(e) {
+          bean.on(this.errorMessage, 'click', _(function(e) {
             e.preventDefault();
             this._showDisclosure();
             return false;
           }).bind(this));
           
-          $(this.el).click(_(function() {
+          bean.on(this.el, 'click', _(function() {
             $(this._disclosure).remove();
           }).bind(this));
           

@@ -18,11 +18,11 @@
 
       $(this.el).addClass('link');
 
-      $(this.el).bind('click', _(function(e) {
+      bean.on(this.el, 'click', _(function(e) {
         if(!this.options.disabled && this.options.onClick) {
           this.options.onClick(e); 
         }
-        return false;
+        e.stop();
       }).bind(this));
     },
 

@@ -1,8 +1,6 @@
 (function(context) {
   // ensure backbone and jquery are available
   if(typeof Backbone === 'undefined') alert('backbone environment not loaded') ;
-  if(typeof $ === 'undefined') alert('jquery environment not loaded');
-
 
   // define our Backbone.UI namespace
   Backbone.UI = Backbone.UI || {
@@ -33,16 +31,8 @@
 
     noop : function(){},
 
-    IS_MOBILE : 
-      document.ontouchstart !== undefined || 
-      document.ontouchstart === null,
-     
-    setMobile : function(mobile) {
-      Backbone.UI.IS_MOBILE = mobile;
-    },
-
     // added a BaseView that implements options
-    // as did Backbone.s pre version 1.0.1
+    // as did Backbone.js pre version 1.0.1
     BaseView : Backbone.View.extend({
       initialize : function(options) {
         this.options = this.options ? _({}).extend(this.options, options) : options;
@@ -298,7 +288,7 @@
         }, 0);
 
         if (!el._autohider) {
-          el._autohider = _.bind(function(e) {
+          el._autohider = _(function(e) {
 
             var target = e.target;
             if(!$(el).is(':visible')) return;
@@ -322,13 +312,13 @@
             if (!proceed) return;
 
             $(el).hide();
-            $(document).bind(options.onEvent, el._autohider);
-            $(document).bind('keypress', el._autohider);
+            bean.on(document, options.onEvent, el._autohider);
+            bean.on(document, 'keypress', el._autohider);
             el._autohider = null;
-          }, this);
+          }).bind(this);
 
-          $(document).bind(options.onEvent, el._autohider);
-          $(document).bind('keypress', el._autohider);
+          bean.on(document, options.onEvent, el._autohider);
+          bean.on(document, 'keypress', el._autohider);
         }
       });
     }

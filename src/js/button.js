@@ -28,7 +28,7 @@
 
       $(this.el).addClass('button');
 
-      $(this.el).bind('click', _(function(e) {
+      bean.on(this.el, 'click', _(function(e) {
         if(!this.options.disabled && !this.options.active && this.options.onClick) {
           this.options.onClick(e); 
         }

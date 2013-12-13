@@ -27,7 +27,8 @@
     initialize : function(options) {
       Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph, 
-        Backbone.UI.HasFormLabel, Backbone.UI.HasError, Backbone.UI.HasFocus]);
+        Backbone.UI.HasFormLabel, Backbone.UI.HasError, 
+        Backbone.UI.HasFocus, Backbone.UI.HasTextInput]);
       _(this).bindAll('_refreshValue');
     
       $(this.el).addClass('text_field');
@@ -37,14 +38,13 @@
 
       this.input = $.el.input({maxLength : this.options.maxLength});
 
-      $(this.input).keyup(_(function(e) {
+      bean.on(this.input, 'keyup', _(function(e) {
         if(_(this.options.onKeyPress).exists() && _(this.options.onKeyPress).isFunction()) {
           this.options.onKeyPress(e, this);
         }
       }).bind(this));
-
-      $(this.input).input(_(this._updateModel).bind(this));
-
+      
+      this.setupTextInput(_(this._updateModel).bind(this));
       this._observeModel(this._refreshValue);
     },
 

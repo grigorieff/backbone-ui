@@ -59,10 +59,10 @@
 
       // observe tab clicks
       var index = this._tabs.length - 1;
-      $(tab).bind('click', _.bind(function() {
+      bean.on(tab, 'click', _(function() {
         this.activateTab(index);
         return false;
-      }, this));
+      }).bind(this));
 
       this._callbacks.push(tabOptions.onActivate || Backbone.UI.noop);
     },

@@ -2,8 +2,6 @@ $(document).ready(function() {
 
   module("Backbone.UI.Menu");
 
-  Backbone.UI.setMobile(false);
-
   var regions = new Backbone.Collection([{
     name: 'Americas',
     notes: 'Bright'

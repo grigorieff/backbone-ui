@@ -22,8 +22,7 @@
       }
       this.label = $.el.label();
       this.input = $.el.input({type : 'checkbox'});
-      $(this.input).change(_(this._updateModel).bind(this));
-      $(this.input).click(_(this._updateModel).bind(this));
+      bean.on(this.input, 'change click', _(this._updateModel).bind(this));
       this._observeModel(_(this._refreshCheck).bind(this));
     },
 
@@ -32,8 +31,7 @@
       $(this.el).empty();
       $(this.label).empty();
       
-      $(this.input).off('change');
-      $(this.input).off('click');
+      bean.off(this.input, 'change click');
       
       var value = this.resolveContent() !== null ? 
         this.resolveContent() : this.input.checked;
@@ -62,8 +60,7 @@
 
       this.setEnabled(!this.options.disabled);
       
-      $(this.input).on('change', _(this._updateModel).bind(this));
-      $(this.input).on('click', _(this._updateModel).bind(this));
+      bean.on(this.input, 'change click', _(this._updateModel).bind(this));
 
       return this;
     },

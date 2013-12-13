@@ -29,25 +29,25 @@
     },
 
     _observeModel : function(callback) {
-      if(_(this.model).exists() && _(this.model.unbind).isFunction()) {
+      if(_(this.model).exists() && _(this.model.off).isFunction()) {
         _(['content', 'labelContent']).each(function(prop) {
           var key = this.options[prop];
           if(_(key).exists()) {
             key = 'change:' + key;
-            this.model.unbind(key, callback);
-            this.model.bind(key, callback);
+            this.model.off(key, callback);
+            this.model.on(key, callback);
           }
         }, this);
       }
     },
     
     _unobserveModel : function(callback) {
-      if(_(this.model).exists() && _(this.model.unbind).isFunction()) {
+      if(_(this.model).exists() && _(this.model.off).isFunction()) {
         _(['content', 'labelContent']).each(function(prop) {
           var key = this.options[prop];
           if(_(key).exists()) {
             key = 'change:' + key;
-            this.model.unbind(key, callback);
+            this.model.off(key, callback);
           }
         }, this);
       }

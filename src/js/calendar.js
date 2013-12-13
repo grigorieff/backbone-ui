@@ -73,8 +73,8 @@
           this.date = new Date();
         }
         var key = 'change:' + this.options.content;
-        this.model.unbind(key, this.render);
-        this.model.bind(key, this.render);
+        this.model.off(key, this.render);
+        this.model.on(key, this.render);
       }
       else {
         this.date = this.date || this.options.date || new Date();
@@ -86,8 +86,8 @@
           this.minDate = new Date();
         }
         var minKey = 'change:' + this.options.minDate;
-        this.model.unbind(minKey, this.render);
-        this.model.bind(minKey, this.render);
+        this.model.off(minKey, this.render);
+        this.model.on(minKey, this.render);
       }
       else {
         this.minDate = null;
@@ -99,8 +99,8 @@
           this.maxDate = new Date();
         }
         var maxKey = 'change:' + this.options.maxDate;
-        this.model.unbind(maxKey, this.render);
-        this.model.bind(maxKey, this.render);
+        this.model.off(maxKey, this.render);
+        this.model.on(maxKey, this.render);
       }
       else {
         this.maxDate = null;

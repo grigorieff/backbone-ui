@@ -153,7 +153,7 @@
 
       // bind the item click callback if given
       if(this.options.onItemClick) {
-        $(row).click(_(this.options.onItemClick).bind(this, model));
+        bean.on(row, 'click', _(this.options.onItemClick).bind(this, model));
       }
 
       this.itemViews[model.cid] = row;

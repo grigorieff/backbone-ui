@@ -66,10 +66,10 @@
     },
 
     _observeCollection : function(callback) {
-      if(_(this.options.alternatives).exists() && _(this.options.alternatives.bind).exists()) {
+      if(_(this.options.alternatives).exists() && _(this.options.alternatives.on).exists()) {
         var key = 'change';
-        this.options.alternatives.unbind(key, callback);
-        this.options.alternatives.bind(key, callback);
+        this.options.alternatives.off(key, callback);
+        this.options.alternatives.on(key, callback);
       }
     }
   };

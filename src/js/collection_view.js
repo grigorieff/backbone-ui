@@ -38,13 +38,13 @@
     initialize : function(options) {
       Backbone.UI.BaseView.prototype.initialize.call(this, options);
       if(this.model) {
-        this.model.bind('add', _.bind(this._onItemAdded, this));
+        this.model.on('add', _(this._onItemAdded).bind(this));
         if(this.options.renderOnChange){
-          this.model.bind('change', _.bind(this._onItemChanged, this));
+          this.model.on('change', _(this._onItemChanged).bind(this));
         }  
-        this.model.bind('remove', _.bind(this._onItemRemoved, this));
-        this.model.bind('refresh', _.bind(this.render, this));
-        this.model.bind('reset', _.bind(this.render, this));
+        this.model.on('remove', _(this._onItemRemoved).bind(this));
+        this.model.on('refresh', _(this.render).bind(this));
+        this.model.on('reset', _(this.render).bind(this));
       }
     },
 
