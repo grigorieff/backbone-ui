@@ -1,25 +1,20 @@
 // A mixin for dealing with a special input event
-(function(udf){
+(function(){
   
   var ns = ".inputEvent ",
-      // A bunch of data strings that we use regularly
-      dataBnd = "bound.inputEvent",
-      dataVal = "value.inputEvent",
-      dataDlg = "delegated.inputEvent",
-      // Set up our list of events
-      bindTo = [
-          "input", "textInput",
-          "propertychange",
-          "paste", "cut",
-          "keydown", "keyup",
-          "drop",
-      ""].join(ns),
-      // Events required for delegate, mostly for IE support
-      dlgtTo = [ "focusin", "mouseover", "dragstart", "" ].join(ns),
-      // Elements supporting text input, not including contentEditable
-      supported = {TEXTAREA:udf, INPUT:udf},
-      // Events that fire before input value is updated
-      delay = { paste:udf, cut:udf, keydown:udf, drop:udf, textInput:udf };
+  // A bunch of data strings that we use regularly
+  dataBnd = "bound.inputEvent",
+  dataVal = "value.inputEvent",
+  // Set up our list of events
+  bindTo = [
+      "input", "textInput",
+      "propertychange",
+      "paste", "cut",
+      "keydown", "keyup",
+      "drop",
+  ""].join(ns),
+  // Events that fire before input value is updated
+  delay = { paste:undefined, cut:undefined, keydown:undefined, drop:undefined, textInput:undefined };
   
   Backbone.UI.HasTextInput = {
     
@@ -28,23 +23,21 @@
       var elem = this.input;
       
       this._inputEvent = { 
-        data : null,
+        data : {},
         namespaces : "",
         timer : undefined,
         elem : elem,
-        // Ge references to the element
-        $elem : $(elem),
-        triggered : false,
-        bndCount : $.data(elem, dataBnd) || 0
+        triggered : false
       };
       
-      if(!this._inputEvent.bndCount) {
+      this._inputEvent.data.bndCount = this._inputEvent.data[dataBnd] || 0;
+      
+      if(!this._inputEvent.data.bndCount) {
         bean.on(this._inputEvent.elem, bindTo, _(handler).bind(this));
       }
       
-      $.data(this._inputEvent.elem, dataBnd, ++this._inputEvent.bndCount);
-      $.data(this._inputEvent.elem, dataVal, elem.value);
-      
+      this._inputEvent.data[dataBnd] = ++this._inputEvent.data.bndCount;
+      this._inputEvent.data[dataVal] = elem.value;
       
       function handler(e) {
         var elem = e.target;
@@ -60,30 +53,30 @@
         // paste, cut, keydown and drop all fire before the value is updated
         if(e.type in delay && !this._inputEvent.timer) {
           // ...so we need to delay them until after the event has fired
-          this._inputEvent.timer = window.setTimeout(function() {
-            if(elem.value !== $.data(elem, dataVal)) {
+          this._inputEvent.timer = _(function() {
+            if(elem.value !== this._inputEvent.data[dataVal]) {
               bean.fire(elem, 'txtinput');
-              $.data(elem, dataVal, elem.value);
+              this._inputEvent.data[dataVal] = elem.value;
             }
-          }, 0);
+          }).delay(0);
         }
         else if(e.type == "propertychange") {
           if (e.originalEvent.propertyName == "value") {
             bean.fire(elem, 'txtinput');
-            $.data(elem, dataVal, elem.value);
+            this._inputEvent.data[dataVal] = elem.value;
             this._inputEvent.triggered = true;
-            window.setTimeout(_(function () {
+            _(_(function() {
               this._inputEvent.triggered = false;
-            }).bind(this), 0);
+            }).bind(this)).delay(0);
           }
         }
         else {
           bean.fire(elem, 'txtinput');
-          $.data(elem, dataVal, elem.value);
+          this._inputEvent.data[dataVal] = elem.value;
           this._inputEvent.triggered = true;
-          window.setTimeout(_(function () {
+          _(_(function () {
             this._inputEvent.triggered = false;
-          }).bind(this), 0);
+          }).bind(this)).delay(0);
         }
       }
       
