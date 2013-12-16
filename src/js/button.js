@@ -26,13 +26,13 @@
 
       _(this).bindAll('render');
 
-      $(this.el).addClass('button');
+      _(this.el).addClass('button');
 
       bean.on(this.el, 'click', _(function(e) {
         if(!this.options.disabled && !this.options.active && this.options.onClick) {
           this.options.onClick(e); 
         }
-        return false;
+        e.preventDefault();
       }).bind(this));
     },
 
@@ -67,14 +67,14 @@
     // sets the enabled state of the button
     setEnabled : function(enabled) {
       this.options.disabled = !enabled;
-      $(this.el).toggleClass('disabled', !enabled);
+      _(this.el).toggleClass('disabled', !enabled);
       $(this.el).attr({'disabled' : !enabled});
     },
 
     // sets the active state of the button
     setActive : function(active) {
       this.options.active = active;
-      $(this.el).toggleClass('active', active);
+      _(this.el).toggleClass('active', active);
     }
   });
 }());

@@ -18,7 +18,7 @@
     initialize : function(options) {
       Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
-      $(this.el).addClass('time_picker');
+      _(this.el).addClass('time_picker');
 
       this._timeModel = {};
       this._menu = new Backbone.UI.Menu({
@@ -31,7 +31,7 @@
         size : 10
       });
       $(this._menu.el).hide();
-      $(this._menu.el).autohide({
+      _(this._menu.el).autohide({
         ignoreInputs : true
       });
       document.body.appendChild(this._menu.el);
@@ -114,7 +114,7 @@
     _showMenu : function() {
       if($(this._menu.el).is(':visible')) return;
 
-      $(this._menu.el).alignTo(this._textField.el, 'bottom -left', 0, 2);
+      _(this._menu.el).alignTo(this._textField.el, 'bottom -left', 0, 2);
       $(this._menu.el).show();
       this._menu.scrollToSelectedItem();
     },

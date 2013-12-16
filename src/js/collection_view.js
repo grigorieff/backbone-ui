@@ -110,12 +110,12 @@
       var children = this.collectionEl.childNodes;
       if(children.length > 0) {
         _(children).each(function(child, index) {
-          $(child).removeClass('first');
-          $(child).removeClass('last');
-          $(child).addClass(index % 2 === 0 ? 'even' : 'odd');
+          _(child).removeClass('first');
+          _(child).removeClass('last');
+          _(child).addClass(index % 2 === 0 ? 'even' : 'odd');
         });
-        $(children[0]).addClass('first');
-        $(children[children.length - 1]).addClass('last');
+        _(children[0]).addClass('first');
+        _(children[children.length - 1]).addClass('last');
       }
     },
 

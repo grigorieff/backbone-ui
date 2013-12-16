@@ -8,10 +8,10 @@
       // add focusin and focusout
       bean.on(el, {
         focusin : _(function(e) {
-          $(parent).addClass('focused');
+          _(parent).addClass('focused');
         }).bind(this),
         focusout : _(function(e) {
-          $(parent).removeClass('focused');
+          _(parent).removeClass('focused');
         }).bind(this)
       });
       

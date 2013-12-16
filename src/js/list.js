@@ -3,7 +3,7 @@
   
     initialize : function(options) {
       Backbone.UI.CollectionView.prototype.initialize.call(this, options);
-      $(this.el).addClass('list');
+      _(this.el).addClass('list');
     },
 
     render : function() {

@@ -29,7 +29,7 @@
 
     initialize : function(options) {
       Backbone.UI.CollectionView.prototype.initialize.call(this, options);
-      $(this.el).addClass('table_view');
+      _(this.el).addClass('table_view');
       this._sortState = {reverse : true};
     },
 
@@ -44,7 +44,7 @@
           cellSpacing : '0'
         }));
 
-      $(this.el).toggleClass('clickable', this.options.onItemClick !== Backbone.UI.noop);
+      _(this.el).toggleClass('clickable', this.options.onItemClick !== Backbone.UI.noop);
 
       // generate a table row for our headings
       var headingRow = $.el.tr();
@@ -114,9 +114,9 @@
           var item = this._renderItem(model, index);
 
           // add some useful class names
-          $(item).addClass(index % 2 === 0 ? 'even' : 'odd');
-          if(index === 0) $(item).addClass('first');
-          if(index === collection.length - 1) $(item).addClass('last');
+          _(item).addClass(index % 2 === 0 ? 'even' : 'odd');
+          if(index === 0) _(item).addClass('first');
+          if(index === collection.length - 1) _(item).addClass('last');
 
           this.collectionEl.appendChild(item);
         }, this);

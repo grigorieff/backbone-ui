@@ -23,9 +23,9 @@
 
     setSkin : function(skin) {
       if(!!Backbone.UI.currentSkin) {
-        $(document.body).removeClass('skin_' + Backbone.UI.currentSkin);
+        _(document.body).removeClass('skin_' + Backbone.UI.currentSkin);
       }
-      $(document.body).addClass('skin_' + skin);
+      _(document.body).addClass('skin_' + skin);
       Backbone.UI.currentSkin = skin;
     },
 
@@ -120,7 +120,39 @@
           object[property] = value;
         }
       }
+    },
+    
+    addClass : function(el, klass) {
+      return _(el).toggleClass(klass, true);
+    },
+    
+    removeClass : function(el, klass) {
+      return _(el).toggleClass(klass, false);
+    },
+    
+    toggleClass : function(el, items, keepClass) {
+      // an empty set of class names
+      var klassName = {};
+      // add each existing class name 
+      // on the element to the set
+      _(el.className.split(" ")).each(function(klass) {
+        klassName[klass] = true;
+      });
+      // add each class name passed
+      // in as a parameter to the set
+      _(items.split(" ")).each(function(klass) {
+        if(keepClass) {
+          klassName[klass] = true;
+        }
+        else {
+          delete klassName[klass];
+        }
+      });
+      // set the className property on the element
+      el.className = _(klassName).keys().join(" ");
+      return;
     }
+    
   });
 
   var _alignCoords = function(el, anchor, pos, xFudge, yFudge) {
@@ -169,16 +201,6 @@
     // Add fudge factors
     x += xFudge || 0;
     y += yFudge || 0;
-
-    // Create bounds rect/constrain to viewport
-    //var nb = new zen.util.Rect(x,y,elb.width,elb.height);
-    //if (constraint) nb = nb.constrainTo(zen.util.Dom.getViewport());
-
-    // Convert to offsetParent coordinates
-    //if(el.offsetParent()) {
-      //var ob = $(el.offsetParent).getOffset();
-      //nb.translate(-ob.left, -ob.top);
-    //}
 
     // Return rect, constrained to viewport
     return {x : x, y : y};
@@ -284,7 +306,8 @@
         
         el._autoignore = true;
         setTimeout(function() {
-          el._autoignore = false; $(el).removeAttr('_autoignore'); 
+          el._autoignore = false; 
+          $(el).removeAttr('_autoignore'); 
         }, 0);
 
         if (!el._autohider) {
@@ -300,10 +323,23 @@
             if(e.type && e.type.match(/keypress/) && _.include(options.ignoreKeys, e.keyCode)) return;
             
             // allows you to provide an array of elements that should not trigger autohiding.
-            // This is useful for doing thigns like a flyout menu from a pulldown
+            // This is useful for doing things like a flyout menu from a pulldown
             if(options.leaveOpenTargets) {
               var ancestor = _(options.leaveOpenTargets).find(function(t) {
-                return e.target === t || $(e.target).closest($(t)).length > 0;
+                var toReturn = false;
+                if(e.target === t) {
+                  toReturn = true;
+                }
+                else {
+                  var currElement = e.target;
+                  while(currElement.parentNode && !toReturn) {
+                    currElement = currElement.parentNode;
+                    if(currElement === t) {
+                      toReturn = true;
+                    }
+                  }
+                }
+                return toReturn;
               });
               if(!!ancestor) return;
             }

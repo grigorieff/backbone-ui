@@ -12,7 +12,7 @@
 
     initialize : function(options) {
       Backbone.UI.BaseView.prototype.initialize.call(this, options);
-      $(this.el).addClass('tab_set');
+      _(this.el).addClass('tab_set');
     }, 
 
     render : function() {
@@ -34,7 +34,7 @@
         this.activateTab(this.options.selectedTab);
       }
       else{
-        $(this.el).addClass('no_selection');
+        _(this.el).addClass('no_selection');
       }
 
       return this; 
@@ -42,7 +42,7 @@
 
     addTab : function(tabOptions) {
       var tab = $.el.a({href : '#', className : 'tab'});
-      if(tabOptions.className) $(tab).addClass(tabOptions.className);
+      if(tabOptions.className) _(tab).addClass(tabOptions.className);
       
       var label = this.resolveContent(null, tabOptions.label);
       tab.appendChild(_(label).isString() ? document.createTextNode(label || '') : label);
@@ -59,9 +59,9 @@
 
       // observe tab clicks
       var index = this._tabs.length - 1;
-      bean.on(tab, 'click', _(function() {
+      bean.on(tab, 'click', _(function(e) {
         this.activateTab(index);
-        return false;
+        e.preventDefault();
       }).bind(this));
 
       this._callbacks.push(tabOptions.onActivate || Backbone.UI.noop);
@@ -70,7 +70,7 @@
     activateTab : function(index) {
       
       var noSelection = index < 0;
-      $(this.el).toggleClass('no_selection', noSelection);
+      _(this.el).toggleClass('no_selection', noSelection);
       
       // hide all content panels
       _(this._contents).each(function(content) {
@@ -79,18 +79,18 @@
 
       // de-select all tabs
       _(this._tabs).each(function(tab) {
-        $(tab).removeClass('selected');
+        _(tab).removeClass('selected');
       });
 
       if(_(this._selectedIndex).exists()) {
-        $(this.el).removeClass('index_' + this._selectedIndex);
+        _(this.el).removeClass('index_' + this._selectedIndex);
       }
       
       if(!noSelection){
-        $(this.el).addClass('index_' + index);
+        _(this.el).addClass('index_' + index);
         this._selectedIndex = index;
         // select the appropriate tab
-        $(this._tabs[index]).addClass('selected');
+        _(this._tabs[index]).addClass('selected');
         // show the proper contents
         $(this._contents[index]).show();
         this._callbacks[index]();
@@ -102,7 +102,8 @@
     // returns the index of the selectedTab
     // or -1 if no tab is selected
     getActiveTab : function(){
-      return _(this._tabs).indexOf(_(this._tabs).find(function(tab){ return $(tab).hasClass('selected'); }));
+      return _(this._tabs).indexOf(_(this._tabs).find(function(tab){ 
+        return _(tab.className).indexOf('selected') >= 0; }));
     }
   });
 }());

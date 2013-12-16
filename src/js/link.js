@@ -16,7 +16,7 @@
 
       _(this).bindAll('render');
 
-      $(this.el).addClass('link');
+      _(this.el).addClass('link');
 
       bean.on(this.el, 'click', _(function(e) {
         if(!this.options.disabled && this.options.onClick) {
@@ -54,7 +54,7 @@
         this.el.removeAttribute('href');
       }
       this.options.disabled = !enabled;
-      $(this.el).toggleClass('disabled', !enabled);
+      _(this.el).toggleClass('disabled', !enabled);
     }
   });
 }());

@@ -20,9 +20,9 @@
         Backbone.UI.HasFormLabel, Backbone.UI.HasError, Backbone.UI.HasFocus]);
       _(this).bindAll('render');
 
-      $(this.el).addClass('pulldown');
+      _(this.el).addClass('pulldown');
       if(this.options.name){
-        $(this.el).addClass(this.options.name);
+        _(this.el).addClass(this.options.name);
       }
       
     },

@@ -14,7 +14,7 @@
       _(this).bindAll('render');
 
       if(this.options.name){
-        $(this.el).addClass(this.options.name);
+        _(this.el).addClass(this.options.name);
       }
 
     },

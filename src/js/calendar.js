@@ -61,7 +61,7 @@
 
     initialize : function(options) {
       Backbone.UI.BaseView.prototype.initialize.call(this, options);
-      $(this.el).addClass('calendar');
+      _(this.el).addClass('calendar');
       _(this).bindAll('render');
     },
 

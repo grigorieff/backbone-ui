@@ -29,7 +29,7 @@
 
       _(this).bindAll('render');
 
-      $(this.el).addClass('menu');
+      _(this.el).addClass('menu');
 
     },
 
@@ -121,7 +121,7 @@
 
    // sets the enabled state
     setEnabled : function(enabled) {
-      $(this.el).toggleClass('disabled', !enabled);
+      _(this.el).toggleClass('disabled', !enabled);
       this.select.disabled = !enabled;
     },
 
@@ -161,7 +161,7 @@
     
     scrollToSelectedItem : function() {
       if(this.select.selectedIndex > 0) {
-        var optionIsMeasurable = $(this.select).find('option').eq(0).height();
+        var optionIsMeasurable = this.select.options[0].offsetHeight;
         var optionHeight = optionIsMeasurable > 0 ? optionIsMeasurable : 12;
         $(this.select).scrollTop((this.select.selectedIndex * optionHeight));
       }

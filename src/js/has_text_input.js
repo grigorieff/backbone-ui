@@ -32,14 +32,7 @@
       
       this._inputEvent.data.bndCount = this._inputEvent.data[dataBnd] || 0;
       
-      if(!this._inputEvent.data.bndCount) {
-        bean.on(this._inputEvent.elem, bindTo, _(handler).bind(this));
-      }
-      
-      this._inputEvent.data[dataBnd] = ++this._inputEvent.data.bndCount;
-      this._inputEvent.data[dataVal] = elem.value;
-      
-      function handler(e) {
+      var handler = function(e) {
         var elem = e.target;
 
         // Clear previous timers because we only need to know about 1 change
@@ -53,15 +46,15 @@
         // paste, cut, keydown and drop all fire before the value is updated
         if(e.type in delay && !this._inputEvent.timer) {
           // ...so we need to delay them until after the event has fired
-          this._inputEvent.timer = _(function() {
+          this._inputEvent.timer = _(_(function() {
             if(elem.value !== this._inputEvent.data[dataVal]) {
               bean.fire(elem, 'txtinput');
               this._inputEvent.data[dataVal] = elem.value;
             }
-          }).delay(0);
+          }).bind(this)).delay(0);
         }
-        else if(e.type == "propertychange") {
-          if (e.originalEvent.propertyName == "value") {
+        else if(e.type === "propertychange") {
+          if (e.originalEvent.propertyName === "value") {
             bean.fire(elem, 'txtinput');
             this._inputEvent.data[dataVal] = elem.value;
             this._inputEvent.triggered = true;
@@ -78,7 +71,14 @@
             this._inputEvent.triggered = false;
           }).bind(this)).delay(0);
         }
+      };
+      
+      if(!this._inputEvent.data.bndCount) {
+        bean.on(this._inputEvent.elem, bindTo, _(handler).bind(this));
       }
+      
+      this._inputEvent.data[dataBnd] = ++this._inputEvent.data.bndCount;
+      this._inputEvent.data[dataVal] = elem.value;
       
       bean.on(this._inputEvent.elem, 'txtinput', callback);
       

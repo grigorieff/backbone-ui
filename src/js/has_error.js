@@ -14,7 +14,7 @@
     
     unsetError : function() {
       // remove error class
-      $(this.el).removeClass('error');
+      _(this.el).removeClass('error');
       // remove error message if it exists
       $(this.errorMessage).remove();
       // remove disclosure if it exists
@@ -37,7 +37,7 @@
       // clear existing error
       this.unsetError();
       // add error class
-      $(this.el).addClass('error');
+      _(this.el).addClass('error');
       
       // add error message if provided
       if(message.length > 0) {
@@ -57,7 +57,6 @@
           bean.on(this.errorMessage, 'click', _(function(e) {
             e.preventDefault();
             this._showDisclosure();
-            return false;
           }).bind(this));
           
           bean.on(this.el, 'click', _(function() {
@@ -81,12 +80,12 @@
       this.el.appendChild(this._disclosure);
       // set the position
       var position = this.options.errorPosition === 'right' ? 
-        $(this._disclosure).alignTo(this.errorMessage, 'right', 10, 0, this.el) : 
-        $(this._disclosure).alignTo(this.errorMessage, 'center bottom', 0, 10, this.el);
+        _(this._disclosure).alignTo(this.errorMessage, 'right', 10, 0, this.el) : 
+        _(this._disclosure).alignTo(this.errorMessage, 'center bottom', 0, 10, this.el);
          
 
       // add the appropriate class to disclosure arrow for correct sprite and styles
-      $(this._disclosureOuter).addClass(this.options.errorPosition === 'right' ? 'arrow_left' : 'arrow_up');
+      _(this._disclosureOuter).addClass(this.options.errorPosition === 'right' ? 'arrow_left' : 'arrow_up');
       // set the disclosure arrow position
       var pos = this.options.errorPosition === 'right' ? (($(this._disclosure).height() / 2) - 10) : 
         (($(this._disclosure).width() / 2) - 10);

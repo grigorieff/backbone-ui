@@ -26,9 +26,9 @@
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel,
         Backbone.UI.HasError, Backbone.UI.HasFocus]);
       
-      $(this.el).addClass('text_area');
+      _(this.el).addClass('text_area');
       if(this.options.name){
-        $(this.el).addClass(this.options.name);
+        _(this.el).addClass(this.options.name);
       }
     },
 
@@ -78,9 +78,9 @@
     // sets the enabled state
     setEnabled : function(enabled) {
       if(enabled) {
-        $(this.el).removeClass('disabled');
+        _(this.el).removeClass('disabled');
       } else {
-        $(this.el).addClass('disabled');
+        _(this.el).addClass('disabled');
       }
       this.textArea.disabled = !enabled;
     },
