@@ -30,7 +30,7 @@
         onChange : _(this._onSelectTimeItem).bind(this),
         size : 10
       });
-      $(this._menu.el).hide();
+      this._hideMenu();
       _(this._menu.el).autohide({
         ignoreInputs : true
       });
@@ -112,16 +112,15 @@
     },
 
     _showMenu : function() {
-      if($(this._menu.el).is(':visible')) return;
-
+      if(this._menu.el.style.display === "block") return;
       _(this._menu.el).alignTo(this._textField.el, 'bottom -left', 0, 2);
-      $(this._menu.el).show();
+      this._menu.el.style.display = "block";
       this._menu.scrollToSelectedItem();
     },
 
     _hideMenu : function(e) {
       if(e && e.keyCode === Backbone.UI.KEYS.KEY_RETURN) this._timeEdited();
-      $(this._menu.el).hide();
+      this._menu.el.style.display = "none";
     },
 
     _onSelectTimeItem : function(item) {
@@ -137,7 +136,7 @@
 
       // if the event is a blur, we need to make sure that the menu is not
       // open, otherwise we'll squash that selection event
-      if(e && e.type === 'blur' && $(this._menu.el).is(':visible')) return;
+      if(e && e.type === 'blur' && this._menu.el.style.display === "block") return;
 
       var newDate = moment(value, this.options.format);
 

@@ -1,5 +1,5 @@
 (function(context) {
-  // ensure backbone and jquery are available
+  // ensure backbone
   if(typeof Backbone === 'undefined') alert('backbone environment not loaded') ;
 
   // define our Backbone.UI namespace
@@ -169,7 +169,7 @@
           ignoreKeys : [],
           leaveOpenTargets : []
         }, options || {});
-        
+
         el._autoignore = true;
         setTimeout(function() {
           el._autoignore = false; 
@@ -180,7 +180,7 @@
           el._autohider = _(function(e) {
 
             var target = e.target;
-            if(!$(el).is(':visible')) return;
+            if(el.style.display === "none") return;
 
             if (options.ignoreInputs && (/input|textarea|select|option/i).test(target.nodeName)) return;
             //if (el._autoignore || (options.leaveOpen && Element.partOf(e.target, el)))
@@ -213,7 +213,7 @@
             var proceed = (options.hideCallback) ? options.hideCallback(el) : true;
             if (!proceed) return;
 
-            $(el).hide();
+            el.style.display = "none";
             bean.on(document, options.onEvent, el._autohider);
             bean.on(document, 'keypress', el._autohider);
             el._autohider = null;
@@ -305,7 +305,7 @@
           top: Math.round(o.y) + 'px'
         });
 
-        if(rehide) $(el).hide();
+        if(rehide) el.style.display = "none";
       });
     }
     

@@ -72,7 +72,7 @@
       $(this.input).attr({ checked : value });
       
       var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
-      $(this._labelText).text(labelText);
+      this._labelText.textContent = labelText;
       
     },
     

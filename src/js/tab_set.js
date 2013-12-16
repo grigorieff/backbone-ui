@@ -54,7 +54,7 @@
         tabOptions.content : 
         $.el.div(tabOptions.content);
       this._contents.push(content);
-      $(content).hide();
+      content.style.display = "none";
       this._contentContainer.appendChild(content);
 
       // observe tab clicks
@@ -74,7 +74,7 @@
       
       // hide all content panels
       _(this._contents).each(function(content) {
-        $(content).hide();
+        content.style.display = "none";
       });
 
       // de-select all tabs
@@ -92,7 +92,7 @@
         // select the appropriate tab
         _(this._tabs[index]).addClass('selected');
         // show the proper contents
-        $(this._contents[index]).show();
+        this._contents[index].style.display = "block";
         this._callbacks[index]();
       }else{
         this._selectedIndex = null;

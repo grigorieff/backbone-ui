@@ -24,7 +24,7 @@
         minDate : this.options.minDate,
         maxDate : this.options.maxDate
       });
-      $(this._calendar.el).hide();
+      this._hideCalendar();
       document.body.appendChild(this._calendar.el);
 
       _(this._calendar.el).autohide({
@@ -84,13 +84,14 @@
     },
 
     _showCalendar : function() {
-      $(this._calendar.el).show();
+      if(this._calendar.el.style.display === "block") return;
+      this._calendar.el.style.display = "block";
       _(this._calendar.el).alignTo(this._textField.el, 'bottom -left', 0, 2);
     },
 
     _hideCalendar : function(e) {
       if(e && e.keyCode === Backbone.UI.KEYS.KEY_RETURN) this._dateEdited();
-      $(this._calendar.el).hide();
+      this._calendar.el.style.display = "none";
     },
 
     _selectDate : function(date) {
@@ -115,7 +116,7 @@
 
       // if the event is a blur, we need to make sure that the menu is not
       // open, otherwise we'll squash that selection event
-      if(e && e.type === 'blur' && $(this._calendar.el).is(':visible')) return;
+      if(e && e.type === 'blur' && this._calendar.el.style.display === "block") return;
 
       // if the enter key was pressed or we've invoked this method manually, 
       // we hide the calendar and re-format our date
