@@ -151,150 +151,16 @@
       // set the className property on the element
       el.className = _(klassName).keys().join(" ");
       return;
-    }
-    
-  });
-
-  var _alignCoords = function(el, anchor, pos, xFudge, yFudge) {
-    el = $(el);
-    anchor = $(anchor);
-    pos = pos || '';
-
-    // Get anchor bounds (document relative)
-    var bOffset = anchor.offset();
-    var bDim = {width : anchor.width(), height : anchor.height()};
-
-    // Get element dimensions
-    var elbOffset = el.offset();
-    var elbDim = {width : el.width(), height : el.height()};
-
-    // Determine align coords (document-relative)
-    var x,y;
-    if (pos.indexOf('-left') >= 0) {
-      x = bOffset.left;
-    } else if (pos.indexOf('left') >= 0) {
-      x = bOffset.left - elbDim.width;
-    } else if (pos.indexOf('-right') >= 0) {
-      x = (bOffset.left + bDim.width) - elbDim.width;
-    } else if (pos.indexOf('right') >= 0) {
-      x = bOffset.left + bDim.width;
-    } else { // Default = centered
-      x = bOffset.left + (bDim.width - elbDim.width)/2;
-    }
-
-    if (pos.indexOf('-top') >= 0) {
-      y = bOffset.top;
-    } else if (pos.indexOf('top') >= 0) {
-      y = bOffset.top - elbDim.height;
-    } else if (pos.indexOf('-bottom') >= 0) {
-      y = (bOffset.top + bDim.height) - elbDim.height;
-    } else if (pos.indexOf('bottom') >= 0) {
-      y = bOffset.top + bDim.height;
-    } else { // Default = centered
-      y = bOffset.top + (bDim.height - elbDim.height)/2;
-    }
-    
-    // Check for constrainment (default true)
-    var constraint = true;
-    if (pos.indexOf('no-constraint') >= 0) constraint = false;
-
-    // Add fudge factors
-    x += xFudge || 0;
-    y += yFudge || 0;
-
-    // Return rect, constrained to viewport
-    return {x : x, y : y};
-  };
-
-
-  // Add some utility methods to JQuery
-  _($.fn).extend({
-    // aligns each element releative to the given anchor
-    /**
-    * <p>
-    * Align an element relative to another element (which can be absolute or
-    * inline).  This forces the target element to be absolutely positioned
-    * (which it probably should be anyway, to insure it's width/height don't
-    * change when converting to absolute positioning.)</p>
-    *
-    * @function alignTo
-    * @param {Element} anchor element to position relative to
-    * @param pos A string consists of one or two words that describe where the
-    * target element is positioned relative to the anchor element.
-    * <dl>
-    *   <dt>center</dt>
-    *     <dd>The default alignment, centers the element along either the
-    *     vertical or horizontal axis.</dd>
-    *   <dt>top</dt>    
-    *     <dd>places target element above the anchor</dd>
-    *   <dt>bottom</dt> 
-    *     <dd>places target element below the anchor</dd>
-    *   <dt>left</dt>   
-    *     <dd>places target element to the left of the anchor</dd>
-    *   <dt>right</dt>  
-    *     <dd>places target element to the right of the anchor</dd>
-    *   <dt>-top</dt>   
-    *     <dd>aligns top edge of target with top of anchor</dd>
-    *   <dt>-bottom</dt>
-    *     <dd>aligns bottom edge of target with bottom of anchor</dd>
-    *   <dt>-left</dt>  
-    *     <dd>aligns left edge of target with left of anchor</dd>
-    *   <dt>-right</dt> 
-    *     <dd>aligns right edge of target with right of anchor</dd>
-    *   <dt>no-constraint</dt> 
-    *     <dd>
-    *      By default, the target is constrained to the viewport.
-    *      This allows you to let it overflow the page.
-    *     </dd>
-    *   </dl>
-    *
-    * For example...
-    * <ul>
-    *   <li>"top" - element is above anchor, centered horizontally</li>
-    *   <li>"bottom left" - element is placed below and to left of anchor</li>
-    *   <li>"-left bottom" - element will be below anchor, aligned along left
-    *   edge.</li>
-    *   <li>(This is the recommended position for drop-down selection
-    *   lists)</li>
-    * </ul>
-    * @param {int} xFudge Optional x offset to add (may be negative)
-    * @param {int} yFudge Optional y offset to add (may be negative)
-    */
-    alignTo : function(anchor, pos, xFudge, yFudge, container) {
-      _.each(this, function(el) {
-        var rehide = false;
-        // in order for alignTo to work properly the element needs to be visible
-        // if it's hidden show it off screen so it can be positioned
-        if(el.style.display === 'none') {
-          rehide=true;
-          $(el).css({position:'absolute',top:'-10000px', left:'-10000px', display:'block'});
-        }
-
-        var o = _alignCoords(el, anchor, pos, xFudge, yFudge);
-        
-        // if a container is passed in adjust position
-        // for the offset of the containing element
-        if(_(container).isElement()) {
-          var c = $(container).offset();
-          o.x = o.x - c.left;
-          o.y = o.y - c.top;
-        }
-        
-        $(el).css({
-          position:'absolute',
-          left: Math.round(o.x) + 'px',
-          top: Math.round(o.y) + 'px'
-        });
-
-        if(rehide) $(el).hide();
-      });
     },
-
+    
     // Hides each element the next time the user clicks the mouse or presses a
     // key.  This is a one-shot action - once the element is hidden, all
     // related event handlers are removed.
-    autohide : function(options) {
-      _.each(this, function(el) {
+    autohide : function(context, options) {
+      
+      context = _(context).isArray() ? context : [context];
+      
+      _(context).each(function(el) {
         options = _.extend({
           onEvent : 'click', //click or mouseover
           leaveOpen : false,
@@ -351,12 +217,149 @@
             bean.on(document, options.onEvent, el._autohider);
             bean.on(document, 'keypress', el._autohider);
             el._autohider = null;
-          }).bind(this);
+          }).bind(context);
 
           bean.on(document, options.onEvent, el._autohider);
           bean.on(document, 'keypress', el._autohider);
         }
       });
+    },
+    
+    // aligns each element releative to the given anchor
+    /**
+    * <p>
+    * Align an element relative to another element (which can be absolute or
+    * inline).  This forces the target element to be absolutely positioned
+    * (which it probably should be anyway, to insure it's width/height don't
+    * change when converting to absolute positioning.)</p>
+    *
+    * @function alignTo
+    * @param {Element} anchor element to position relative to
+    * @param pos A string consists of one or two words that describe where the
+    * target element is positioned relative to the anchor element.
+    * <dl>
+    *   <dt>center</dt>
+    *     <dd>The default alignment, centers the element along either the
+    *     vertical or horizontal axis.</dd>
+    *   <dt>top</dt>    
+    *     <dd>places target element above the anchor</dd>
+    *   <dt>bottom</dt> 
+    *     <dd>places target element below the anchor</dd>
+    *   <dt>left</dt>   
+    *     <dd>places target element to the left of the anchor</dd>
+    *   <dt>right</dt>  
+    *     <dd>places target element to the right of the anchor</dd>
+    *   <dt>-top</dt>   
+    *     <dd>aligns top edge of target with top of anchor</dd>
+    *   <dt>-bottom</dt>
+    *     <dd>aligns bottom edge of target with bottom of anchor</dd>
+    *   <dt>-left</dt>  
+    *     <dd>aligns left edge of target with left of anchor</dd>
+    *   <dt>-right</dt> 
+    *     <dd>aligns right edge of target with right of anchor</dd>
+    *   <dt>no-constraint</dt> 
+    *     <dd>
+    *      By default, the target is constrained to the viewport.
+    *      This allows you to let it overflow the page.
+    *     </dd>
+    *   </dl>
+    *
+    * For example...
+    * <ul>
+    *   <li>"top" - element is above anchor, centered horizontally</li>
+    *   <li>"bottom left" - element is placed below and to left of anchor</li>
+    *   <li>"-left bottom" - element will be below anchor, aligned along left
+    *   edge.</li>
+    *   <li>(This is the recommended position for drop-down selection
+    *   lists)</li>
+    * </ul>
+    * @param {int} xFudge Optional x offset to add (may be negative)
+    * @param {int} yFudge Optional y offset to add (may be negative)
+    */
+    alignTo : function(context, anchor, pos, xFudge, yFudge, container) {
+      
+      context = _(context).isArray() ? context : [context];
+      
+      _(context).each(function(el) {
+        var rehide = false;
+        // in order for alignTo to work properly the element needs to be visible
+        // if it's hidden show it off screen so it can be positioned
+        if(el.style.display === 'none') {
+          rehide=true;
+          $(el).css({position:'absolute',top:'-10000px', left:'-10000px', display:'block'});
+        }
+
+        var o = _alignCoords(el, anchor, pos, xFudge, yFudge);
+        
+        // if a container is passed in adjust position
+        // for the offset of the containing element
+        if(_(container).isElement()) {
+          var c = $(container).offset();
+          o.x = o.x - c.left;
+          o.y = o.y - c.top;
+        }
+        
+        $(el).css({
+          position:'absolute',
+          left: Math.round(o.x) + 'px',
+          top: Math.round(o.y) + 'px'
+        });
+
+        if(rehide) $(el).hide();
+      });
     }
-  });  
+    
+  });
+
+  var _alignCoords = function(el, anchor, pos, xFudge, yFudge) {
+    el = $(el);
+    anchor = $(anchor);
+    pos = pos || '';
+
+    // Get anchor bounds (document relative)
+    var bOffset = anchor.offset();
+    var bDim = {width : anchor.width(), height : anchor.height()};
+
+    // Get element dimensions
+    var elbOffset = el.offset();
+    var elbDim = {width : el.width(), height : el.height()};
+
+    // Determine align coords (document-relative)
+    var x,y;
+    if (pos.indexOf('-left') >= 0) {
+      x = bOffset.left;
+    } else if (pos.indexOf('left') >= 0) {
+      x = bOffset.left - elbDim.width;
+    } else if (pos.indexOf('-right') >= 0) {
+      x = (bOffset.left + bDim.width) - elbDim.width;
+    } else if (pos.indexOf('right') >= 0) {
+      x = bOffset.left + bDim.width;
+    } else { // Default = centered
+      x = bOffset.left + (bDim.width - elbDim.width)/2;
+    }
+
+    if (pos.indexOf('-top') >= 0) {
+      y = bOffset.top;
+    } else if (pos.indexOf('top') >= 0) {
+      y = bOffset.top - elbDim.height;
+    } else if (pos.indexOf('-bottom') >= 0) {
+      y = (bOffset.top + bDim.height) - elbDim.height;
+    } else if (pos.indexOf('bottom') >= 0) {
+      y = bOffset.top + bDim.height;
+    } else { // Default = centered
+      y = bOffset.top + (bDim.height - elbDim.height)/2;
+    }
+    
+    // Check for constrainment (default true)
+    var constraint = true;
+    if (pos.indexOf('no-constraint') >= 0) constraint = false;
+
+    // Add fudge factors
+    x += xFudge || 0;
+    y += yFudge || 0;
+
+    // Return rect, constrained to viewport
+    return {x : x, y : y};
+  };
+  
 }(this));
