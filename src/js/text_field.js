@@ -53,7 +53,7 @@
       var value = (this.input && this.input.value.length) > 0 ? 
         this.input.value : this.resolveContent();
 
-      $(this.el).empty();
+      _(this.el).empty();
 
       $(this.input).attr({
         type : this.options.type ? this.options.type : 'text',

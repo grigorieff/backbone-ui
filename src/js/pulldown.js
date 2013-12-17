@@ -28,7 +28,7 @@
     },
 
     render : function() {
-      $(this.el).empty();
+      _(this.el).empty();
       
       this._menu = new Backbone.UI.Menu({
         model : this.model,

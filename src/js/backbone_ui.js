@@ -55,15 +55,35 @@
         hasModelProperty ? _(model).resolveProperty(content) : content;
     },
 
-    mixin : function(objects) {
+    mixin : function(plugins) {
+      // make a copy of options before any
+      // plugins have been mixed in
       var options = _(this.options).clone();
-
-      _(objects).each(function(object) {
-        $.extend(true, this, object);
+      // loop through each plugin to mixin
+      _(plugins).each(function(plugin) {
+        // loop through each plugin key, val pair 
+        _(plugin).each(function(val, key) {
+          if(_(val).isObject() && key === "options") {
+            // extend the options hash
+            _(val).each(function(option, name) {
+              if((_(this.options[name]).exists() && _(option).exists()) || 
+                !_(this.options[name]).exists()) {
+                  // only overwrite a key with a value, but it
+                  // will add a null value if key wasn't present before
+                  this.options[name] = option;
+                }
+            }, this);
+          }
+          else if(_(val).isFunction()) {
+            // add plugin functions to the object
+            this[key] = val;
+          }
+        }, this);
       }, this);
-
-      $.extend(true, this.options, options);
+      // now extend options with original values
+      _(this.options).extend(options);
     }
+    
   });
 
   // Add some utility methods to underscore
@@ -150,6 +170,13 @@
       });
       // set the className property on the element
       el.className = _(klassName).keys().join(" ");
+      return;
+    },
+    
+    empty : function(el) {
+      while(el.lastChild) {
+        el.removeChild(el.lastChild);
+      }
       return;
     },
     
@@ -286,7 +313,10 @@
         // if it's hidden show it off screen so it can be positioned
         if(el.style.display === 'none') {
           rehide=true;
-          $(el).css({position:'absolute',top:'-10000px', left:'-10000px', display:'block'});
+          el.style.position = 'absolute';
+          el.style.top = '-10000px';
+          el.style.left = '-10000px';
+          el.style.display = 'block';
         }
 
         var o = _alignCoords(el, anchor, pos, xFudge, yFudge);
@@ -299,11 +329,9 @@
           o.y = o.y - c.top;
         }
         
-        $(el).css({
-          position:'absolute',
-          left: Math.round(o.x) + 'px',
-          top: Math.round(o.y) + 'px'
-        });
+        el.style.position = 'absolute';
+        el.style.left = Math.round(o.x) + 'px';
+        el.style.top = Math.round(o.y) + 'px';
 
         if(rehide) el.style.display = "none";
       });

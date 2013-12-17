@@ -34,7 +34,7 @@
     },
 
     render : function() {
-      $(this.el).empty();
+      _(this.el).empty();
       this.itemViews = {};
 
       var table;

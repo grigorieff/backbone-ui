@@ -7,7 +7,7 @@
     },
 
     render : function() {
-      $(this.el).empty();
+      _(this.el).empty();
       this.itemViews = {};
 
       this.collectionEl = $.el.ul();

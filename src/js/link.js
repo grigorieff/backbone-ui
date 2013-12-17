@@ -31,7 +31,7 @@
 
       this._observeModel(this.render);
 
-      $(this.el).empty();
+      _(this.el).empty();
       
       var content = $.el.span(labelText);
       

@@ -41,7 +41,7 @@
     },
 
     render : function() {
-      $(this.el).empty();
+      _(this.el).empty();
 
       this._textField = new Backbone.UI.TextField({
         name : this.options.name,

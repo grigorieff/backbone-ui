@@ -133,7 +133,7 @@
 
     _renderDate : function(date, minDate, maxDate, e) {
       if(e) e.stopPropagation();
-      $(this.el).empty();
+      _(this.el).empty();
 
 
       var startOfMinDay = minDate ? moment(minDate).startOf('day').toDate() : null;

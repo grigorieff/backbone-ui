@@ -41,7 +41,7 @@
 
       this._observeModel(this.render);
 
-      $(this.el).empty();
+      _(this.el).empty();
 
       if(this.options.isSubmit) {
         $(this.el).attr({

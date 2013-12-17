@@ -36,7 +36,7 @@
       var value = (this.textArea && this.textArea.value.length) > 0 ? 
         this.textArea.value : this.resolveContent();
 
-      $(this.el).empty();
+      _(this.el).empty();
 
       this.textArea = $.el.textarea({
         id : this.options.textAreaId,
@@ -70,7 +70,7 @@
     },
 
     setValue : function(value) {
-      $(this.textArea).empty();
+      _(this.textArea).empty();
       this.textArea.value = value;
       this._updateModel();
     },

@@ -16,7 +16,7 @@
     }, 
 
     render : function() {
-      $(this.el).empty();
+      _(this.el).empty();
 
       this._tabs = [];
       this._contents = [];

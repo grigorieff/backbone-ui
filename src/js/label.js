@@ -27,7 +27,7 @@
       }
       this._observeModel(this.render);
 
-      $(this.el).empty();
+      _(this.el).empty();
       
       // insert label
       this.el.appendChild(document.createTextNode(labelText));

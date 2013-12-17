@@ -35,7 +35,7 @@
 
 
     render : function() {
-      $(this.el).empty();
+      _(this.el).empty();
       
       this._observeModel(this.render);
       this._observeCollection(this.render);

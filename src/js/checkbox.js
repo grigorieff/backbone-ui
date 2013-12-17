@@ -28,8 +28,8 @@
 
     render : function() {
 
-      $(this.el).empty();
-      $(this.label).empty();
+      _(this.el).empty();
+      _(this.label).empty();
       
       bean.off(this.input, 'change click');
       
