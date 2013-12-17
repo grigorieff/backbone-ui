@@ -51,7 +51,7 @@
       if(enabled) {
         this.el.href = '#';
       } else { 
-        this.el.removeAttribute('href');
+        delete this.el.href;
       }
       this.options.disabled = !enabled;
       _(this.el).toggleClass('disabled', !enabled);

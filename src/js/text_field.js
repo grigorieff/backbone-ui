@@ -54,15 +54,14 @@
         this.input.value : this.resolveContent();
 
       _(this.el).empty();
-
-      $(this.input).attr({
-        type : this.options.type ? this.options.type : 'text',
-        name : this.options.name,
-        id : this.options.name,
-        tabIndex : this.options.tabIndex,
-        placeholder : this.options.placeholder,
-        pattern : this.options.pattern,
-        value : value});
+      
+      this.input.type = this.options.type ? this.options.type : 'text';
+      this.input.name = this.options.name;
+      this.input.id = this.options.name;
+      this.input.tabIndex = this.options.tabIndex;
+      this.input.placeholder = this.options.placeholder;
+      this.input.pattern = this.options.pattern;
+      this.input.value = value;
 
       // insert glyph if exist
       this._parent = $.el.div({className : 'text_wrapper'});

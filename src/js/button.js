@@ -44,10 +44,8 @@
       _(this.el).empty();
 
       if(this.options.isSubmit) {
-        $(this.el).attr({
-          type : 'submit', 
-          value : ''
-        });
+        this.el.type = 'submit';
+        this.el.value = '';
       }
 
       var content = $.el.span(labelText);
@@ -68,7 +66,7 @@
     setEnabled : function(enabled) {
       this.options.disabled = !enabled;
       _(this.el).toggleClass('disabled', !enabled);
-      $(this.el).attr({'disabled' : !enabled});
+      this.el.disabled = !enabled;
     },
 
     // sets the active state of the button

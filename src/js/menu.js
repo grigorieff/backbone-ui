@@ -59,7 +59,7 @@
       if(!this.options.emptyItem && (this.options.size === 1) && !selectedValue) {
         this._placeholder = $.el.option(this.options.placeholder);
         $(this._placeholder).data('value', null);
-        $(this._placeholder).attr({ disabled : 'true' });
+        this._placeholder.disabled = 'true';
         this.select.appendChild(this._placeholder);
         // adjust for placeholder option
         selectedOffset++;
@@ -93,9 +93,7 @@
         
         var option = $.el.option(this._labelForItem(item));
         $(option).data('value', val);
-        $(option).attr({
-          selected : this._selectedIndex === idx
-        });
+        option.selected = this._selectedIndex === idx;
         
         bean.on(option, 'click', _(function(selectedIdx) {
           this.select.selectedIndex = selectedIdx;

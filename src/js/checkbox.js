@@ -36,13 +36,11 @@
       var value = this.resolveContent() !== null ? 
         this.resolveContent() : this.input.checked;
 
-      $(this.input).attr({
-        name : this.options.name,
-        id : this.options.name,
-        tabIndex : this.options.tabIndex,
-        checked : value,
-        disabled : this.options.disabled
-      });
+      this.input.name = this.options.name;
+      this.input.id = this.options.name;
+      this.input.tabIndex = this.options.tabIndex;
+      this.input.checked = value;
+      this.input.disabled = this.options.disabled;
       
       var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
       
@@ -66,14 +64,10 @@
     },
     
     _refreshCheck : function() {
-      
       var value = this.resolveContent();
-      
-      $(this.input).attr({ checked : value });
-      
+      this.input.checked = value;
       var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
       this._labelText.textContent = labelText;
-      
     },
     
     _updateModel : function() {

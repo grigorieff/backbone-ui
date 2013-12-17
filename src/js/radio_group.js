@@ -48,12 +48,10 @@
         var label = this.resolveContent(item, this.options.altLabelContent);
         
         var input = $.el.input();
-        $(input).attr({ 
-          type : 'radio',
-          name : this.options.content,
-          value : val,
-          checked : selected
-        });
+        input.type = 'radio';
+        input.name = this.options.content;
+        input.value = val;
+        input.checked = selected;
         
         // setup events for each input in collection
         bean.on(input, 'change click', _(this._updateModel).bind(this, item));

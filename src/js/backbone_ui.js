@@ -200,7 +200,7 @@
         el._autoignore = true;
         setTimeout(function() {
           el._autoignore = false; 
-          $(el).removeAttr('_autoignore'); 
+          delete el._autoignore;
         }, 0);
 
         if (!el._autohider) {
