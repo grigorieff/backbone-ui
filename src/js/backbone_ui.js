@@ -186,6 +186,18 @@
       }
     },
     
+    offsetEl : function(el) {
+      var currentEl = el;
+      var x = currentEl.offsetLeft;
+      var y = currentEl.offsetTop;
+      while(currentEl.offsetParent) {
+        currentEl = currentEl.offsetParent;
+        x += currentEl.offsetLeft;
+        y += currentEl.offsetTop;
+      }
+      return {x : x, y : y};
+    },
+    
     // Hides each element the next time the user clicks the mouse or presses a
     // key.  This is a one-shot action - once the element is hidden, all
     // related event handlers are removed.
@@ -330,6 +342,7 @@
         // if a container is passed in adjust position
         // for the offset of the containing element
         if(_(container).isElement()) {
+          //var c = _(container).offsetEl();
           var c = $(container).offset();
           o.x = o.x - c.left;
           o.y = o.y - c.top;
@@ -346,42 +359,43 @@
   });
 
   var _alignCoords = function(el, anchor, pos, xFudge, yFudge) {
-    el = $(el);
-    anchor = $(anchor);
+    el = el;
+    anchor = anchor;
     pos = pos || '';
 
     // Get anchor bounds (document relative)
-    var bOffset = anchor.offset();
-    var bDim = {width : anchor.width(), height : anchor.height()};
+    var bOffset = _(anchor).offsetEl();
+    var bDim = {width : anchor.offsetWidth, height : anchor.offsetHeight};
 
     // Get element dimensions
-    var elbOffset = el.offset();
-    var elbDim = {width : el.width(), height : el.height()};
+    //var elbOffsetTop = el.offsetTop;
+    //var elbOffsetLeft = el.offsetLeft;
+    var elbDim = {width : el.offsetWidth, height : el.offsetHeight};
 
     // Determine align coords (document-relative)
     var x,y;
     if (pos.indexOf('-left') >= 0) {
-      x = bOffset.left;
+      x = bOffset.x;
     } else if (pos.indexOf('left') >= 0) {
-      x = bOffset.left - elbDim.width;
+      x = bOffset.x - elbDim.width;
     } else if (pos.indexOf('-right') >= 0) {
-      x = (bOffset.left + bDim.width) - elbDim.width;
+      x = (bOffset.x + bDim.width) - elbDim.width;
     } else if (pos.indexOf('right') >= 0) {
-      x = bOffset.left + bDim.width;
+      x = bOffset.x + bDim.width;
     } else { // Default = centered
-      x = bOffset.left + (bDim.width - elbDim.width)/2;
+      x = bOffset.x + (bDim.width - elbDim.width)/2;
     }
 
     if (pos.indexOf('-top') >= 0) {
-      y = bOffset.top;
+      y = bOffset.y;
     } else if (pos.indexOf('top') >= 0) {
-      y = bOffset.top - elbDim.height;
+      y = bOffset.y - elbDim.height;
     } else if (pos.indexOf('-bottom') >= 0) {
-      y = (bOffset.top + bDim.height) - elbDim.height;
+      y = (bOffset.y + bDim.height) - elbDim.height;
     } else if (pos.indexOf('bottom') >= 0) {
-      y = bOffset.top + bDim.height;
+      y = bOffset.y + bDim.height;
     } else { // Default = centered
-      y = bOffset.top + (bDim.height - elbDim.height)/2;
+      y = bOffset.y + (bDim.height - elbDim.height)/2;
     }
     
     // Check for constrainment (default true)
