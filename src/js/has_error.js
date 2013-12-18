@@ -16,9 +16,9 @@
       // remove error class
       _(this.el).removeClass('error');
       // remove error message if it exists
-      $(this.errorMessage).remove();
+      _(this.errorMessage).removeEl();
       // remove disclosure if it exists
-      $(this._disclosure).remove();   
+      _(this._disclosure).removeEl();
       // remove event attached to the model regarding errors   
       if(_(this._unobserveModel).exists()) {
         this._unobserveModel(_(this.unsetError).bind(this));
@@ -60,7 +60,7 @@
           }).bind(this));
           
           bean.on(this.el, 'click', _(function() {
-            $(this._disclosure).remove();
+            _(this._disclosure).removeEl();
           }).bind(this));
           
         }

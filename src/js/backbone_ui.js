@@ -180,6 +180,12 @@
       return;
     },
     
+    removeEl : function(el) {
+      if(el && el.parentNode) {
+        el.parentNode.removeChild(el);
+      }
+    },
+    
     // Hides each element the next time the user clicks the mouse or presses a
     // key.  This is a one-shot action - once the element is hidden, all
     // related event handlers are removed.

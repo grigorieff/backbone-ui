@@ -49,6 +49,13 @@
         disabled : this.options.disabled
        });
       
+      // dataStore for options value which stores
+      // the option.value to valueForItem
+      this._selectOptionsData = {
+        placeholder : null,
+        emptyItem : null
+      };
+      
       // setup events for each input in collection
       bean.on(this.select, 'change', _(this._updateModel).bind(this));
       
@@ -58,7 +65,7 @@
       this._placeholder = null;
       if(!this.options.emptyItem && (this.options.size === 1) && !selectedValue) {
         this._placeholder = $.el.option(this.options.placeholder);
-        $(this._placeholder).data('value', null);
+        this._placeholder.value = 'placeholder';
         this._placeholder.disabled = 'true';
         this.select.appendChild(this._placeholder);
         // adjust for placeholder option
@@ -66,9 +73,8 @@
       }
       
       if(this.options.emptyItem) {
-        
         this._emptyItem = $.el.option(this._labelForItem(this.options.emptyItem));
-        $(this._emptyItem).data('value', null);
+        this._emptyItem.value = 'emptyItem';
         this.select.appendChild(this._emptyItem);
         bean.on(this._emptyItem, 'click', _(function() {
           this.select.selectedIndex = 0;
@@ -92,7 +98,8 @@
         }
         
         var option = $.el.option(this._labelForItem(item));
-        $(option).data('value', val);
+        option.value = idx;
+        this._selectOptionsData[option.value] = val;
         option.selected = this._selectedIndex === idx;
         
         bean.on(option, 'click', _(function(selectedIdx) {
@@ -117,7 +124,7 @@
       return this;
     },
 
-   // sets the enabled state
+    // sets the enabled state
     setEnabled : function(enabled) {
       _(this.el).toggleClass('disabled', !enabled);
       this.select.disabled = !enabled;
@@ -131,11 +138,11 @@
     // sets the selected item
     setSelectedItem : function(item) {
       this._setSelectedItem(item);
-      $(this._placeholder).remove();
+      _(this._placeholder).removeEl();
     },
     
     _updateModel : function() {
-      var item = this._itemForValue($(this.select.options[this.select.selectedIndex]).data('value'));
+      var item = this._itemForValue(this._selectOptionsData[this.select.options[this.select.selectedIndex].value]);
       var changed = this.selectedItem !== item;
       this._setSelectedItem(item);
       // if onChange function exists call it
