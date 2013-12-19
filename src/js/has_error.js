@@ -55,7 +55,7 @@
                 this._disclosureArrow = $.el.div({className: 'disclosure_arrow'})));
           
           bean.on(this.errorMessage, 'click', _(function(e) {
-            e.preventDefault();
+            e.stop();
             this._showDisclosure();
           }).bind(this));
           
@@ -79,9 +79,12 @@
       // add the disclosure
       this.el.appendChild(this._disclosure);
       // set the position
-      var position = this.options.errorPosition === 'right' ? 
-        _(this._disclosure).alignTo(this.errorMessage, 'right', 10, 0, this.el) : 
+      if(this.options.errorPosition === 'right') {
+        _(this._disclosure).alignTo(this.errorMessage, 'right', 10, 0, this.el);
+      }
+      else {
         _(this._disclosure).alignTo(this.errorMessage, 'center bottom', 0, 10, this.el);
+      }
          
       // add the appropriate class to disclosure arrow for correct sprite and styles
       _(this._disclosureOuter).addClass(this.options.errorPosition === 'right' ? 'arrow_left' : 'arrow_up');

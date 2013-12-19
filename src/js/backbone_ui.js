@@ -365,12 +365,10 @@
 
     // Get anchor bounds (document relative)
     var bOffset = _(anchor).offsetEl();
-    var bDim = {width : anchor.offsetWidth, height : anchor.offsetHeight};
+    var bDim = {width : anchor.clientWidth, height : anchor.clientHeight};
 
     // Get element dimensions
-    //var elbOffsetTop = el.offsetTop;
-    //var elbOffsetLeft = el.offsetLeft;
-    var elbDim = {width : el.offsetWidth, height : el.offsetHeight};
+    var elbDim = {width : el.clientWidth, height : el.clientHeight};
 
     // Determine align coords (document-relative)
     var x,y;
