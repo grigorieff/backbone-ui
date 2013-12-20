@@ -61,7 +61,7 @@
       var index = this._tabs.length - 1;
       bean.on(tab, 'click', _(function(e) {
         this.activateTab(index);
-        e.preventDefault();
+        e.stop();
       }).bind(this));
 
       this._callbacks.push(tabOptions.onActivate || Backbone.UI.noop);

@@ -196,6 +196,10 @@
         y += currentEl.offsetTop;
       }
       return {x : x, y : y};
+      
+      // var rect = el.getBoundingClientRect();
+      //       return {x : rect.left, y : rect.top};
+      
     },
     
     // Hides each element the next time the user clicks the mouse or presses a
@@ -342,10 +346,9 @@
         // if a container is passed in adjust position
         // for the offset of the containing element
         if(_(container).isElement()) {
-          //var c = _(container).offsetEl();
-          var c = $(container).offset();
-          o.x = o.x - c.left;
-          o.y = o.y - c.top;
+          var c = _(container).offsetEl();
+          o.x = o.x - c.x;
+          o.y = o.y - c.y;
         }
         
         el.style.position = 'absolute';

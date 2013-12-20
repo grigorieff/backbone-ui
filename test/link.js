@@ -78,26 +78,11 @@ $(document).ready(function() {
       content : 'roaster',
       onClick : function() { clickCount++; }
     }).render();
-
-    $(link.el).click();
-    //bean.fire(link.el, 'click');
+    
+    bean.fire(link.el, 'click');
     equal(clickCount,1);
+    
 
-  });
-  
-  test("beanClick", function() {
-    
-    var b = { counter : 0 };
-    
-    bean.on(b, 'click', function() {
-      b.counter++;
-    });
-    
-    $(b).click();
-    
-    bean.fire(b, 'click');
-    
-    equal(b.counter, 2);
   });
   
 });

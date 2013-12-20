@@ -29,10 +29,10 @@
       _(this.el).addClass('button');
 
       bean.on(this.el, 'click', _(function(e) {
+        e.stop();
         if(!this.options.disabled && !this.options.active && this.options.onClick) {
           this.options.onClick(e); 
         }
-        e.preventDefault();
       }).bind(this));
     },
 

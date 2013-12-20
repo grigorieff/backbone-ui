@@ -2,24 +2,6 @@ $(document).ready(function() {
 
   module("Backbone.UI.TextField");
 
-  test("classNameTest", function() {
-    var textfield = new Backbone.UI.TextField({
-      className : 'hello world',
-      content : 'foo'
-    }).render();
-
-    ok($(textfield.el).hasClass('text_field'));
-    ok($(textfield.el).hasClass('hello'));
-    ok($(textfield.el).hasClass('world'));
-    
-    $(textfield.el).removeClass('hello');
-    
-    ok(!$(textfield.el).hasClass('hello'));
-    equal(textfield.el.className, 'text_field world');
-
-  });
-
-
   test("withoutDataBinding", function() {
     var textfield = new Backbone.UI.TextField({
       content : 'foo'

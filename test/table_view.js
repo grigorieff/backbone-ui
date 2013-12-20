@@ -62,9 +62,16 @@ $(document).ready(function() {
     }).render();
 
     //click two rows
-    $(table.el).find('.content tr.first').click();
-    $(table.el).find('.content tr.last').click();
-    equal(clickCount,2);
+    var firstRow = $(table.el).find('.content tr.first')[0];
+    var lastRow = $(table.el).find('.content tr.last')[0];
+    bean.fire(firstRow, 'click');
+    bean.fire(lastRow,'click');
+    stop();
+    
+    _(function() {
+      equal(clickCount,2);
+      start();
+    }).delay(1000);
 
   }); 
 

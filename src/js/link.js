@@ -19,11 +19,13 @@
       _(this.el).addClass('link');
 
       bean.on(this.el, 'click', _(function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         if(!this.options.disabled && this.options.onClick) {
           this.options.onClick(e); 
         }
-        e.stop();
       }).bind(this));
+            
     },
 
     render : function() {
