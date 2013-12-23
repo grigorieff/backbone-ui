@@ -165,10 +165,10 @@
     },
     
     scrollToSelectedItem : function() {
-      if(this.select.selectedIndex > 0) {
+      if(this.select.selectedIndex > 0) {        
         var optionIsMeasurable = this.select.options[0].offsetHeight;
         var optionHeight = optionIsMeasurable > 0 ? optionIsMeasurable : 12;
-        $(this.select).scrollTop((this.select.selectedIndex * optionHeight));
+        this.select.scrollTop = (this.select.selectedIndex * optionHeight);
       }
     }
 

@@ -89,8 +89,8 @@
       // add the appropriate class to disclosure arrow for correct sprite and styles
       _(this._disclosureOuter).addClass(this.options.errorPosition === 'right' ? 'arrow_left' : 'arrow_up');
       // set the disclosure arrow position
-      var pos = this.options.errorPosition === 'right' ? (($(this._disclosure).height() / 2) - 10) : 
-        (($(this._disclosure).width() / 2) - 10);
+      var pos = this.options.errorPosition === 'right' ? ((this._disclosure.clientHeight / 2) - 10) : 
+        ((this._disclosure.clientWidth / 2) - 10);
       var cssTopOrLeft = this.options.errorPosition === 'right' ? 'top' : 'left';  
       this._disclosureArrow.style[cssTopOrLeft] = pos + 'px';
     }
