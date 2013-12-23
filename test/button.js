@@ -139,8 +139,8 @@ $(document).ready(function() {
       label : 'foo',
       isSubmit : true
     }).render();
-
-    equal($(button.el).attr('type'), 'submit');
+    
+    equal(button.el.type, 'submit');
   });
 
 });

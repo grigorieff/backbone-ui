@@ -218,13 +218,13 @@
       return { top: top, left: left };
     },
     
-    getStyle : function(elm, style) {
+    getStyle : function(el, style) {
         var computedStyle;
-        if (typeof elm.currentStyle != "undefined") {
-            computedStyle = elm.currentStyle;
+        if (typeof el.currentStyle !== "undefined") {
+            computedStyle = el.currentStyle;
         }
         else {
-            computedStyle = document.defaultView.getComputedStyle(elm, null);
+            computedStyle = document.defaultView.getComputedStyle(el, null);
         }
         return computedStyle[style];
     },

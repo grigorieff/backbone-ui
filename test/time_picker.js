@@ -29,8 +29,8 @@ $(document).ready(function() {
     equal(text, '01:00 pm');
 
     //select 10:00 am from the time picker
-    $(timepicker.el).find('input').click();
-    $(timepicker._menu.select).find('option').eq(20).click();
+    bean.fire($(timepicker.el).find('input')[0], 'click');
+    bean.fire($(timepicker._menu.select).find('option').eq(20)[0], 'click');
 
     //check that the model updated
     equal(coffee.get('roastedOn').getHours(),10);

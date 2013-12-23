@@ -18,7 +18,7 @@ $(document).ready(function() {
       altLabelContent: 'name'
     }).render();
 
-    $(menu.select).find('option').eq(1).click();
+    bean.fire($(menu.select).find('option').eq(1)[0], 'click');
 
     equal(menu.select.options[menu.select.selectedIndex].text,'Americas');
 
@@ -41,7 +41,7 @@ $(document).ready(function() {
       altLabelContent: 'name'
     }).render();
 
-    $(menu.select).find('option').eq(1).click();
+    bean.fire($(menu.select).find('option').eq(1)[0], 'click');
 
     equal(coffee.get('region').get('name'),'Africa');
 
@@ -66,7 +66,7 @@ $(document).ready(function() {
     }).render();
 
     //select emptyItem
-    $(menu.select).find('option').eq(0).click();
+    bean.fire($(menu.select).find('option').eq(0)[0], 'click');
 
     //check if selection is empty
     equal(coffee.get('region'),null);
