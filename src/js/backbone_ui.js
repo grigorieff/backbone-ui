@@ -187,19 +187,46 @@
     },
     
     offsetEl : function(el) {
-      var currentEl = el;
-      var x = currentEl.offsetLeft;
-      var y = currentEl.offsetTop;
-      while(currentEl.offsetParent) {
-        currentEl = currentEl.offsetParent;
-        x += currentEl.offsetLeft;
-        y += currentEl.offsetTop;
+      
+      var box, boxModelSupport = (document.compatMode === "CSS1Compat");
+
+      if(!el || !el.ownerDocument || el === el.ownerDocument.body) {
+        return null;
       }
-      return {x : x, y : y};
-      
-      // var rect = el.getBoundingClientRect();
-      //       return {x : rect.left, y : rect.top};
-      
+
+      try {
+        box = el.getBoundingClientRect();
+      } 
+      catch(e) {}
+
+      var doc = el.ownerDocument,
+      docElem = doc.documentElement;
+
+      // Make sure we're not dealing with a disconnected DOM node
+      if (!box) {
+        return box ? {top: box.top, left: box.left} : {top: 0, left: 0};
+      }
+
+      var body = doc.body,
+      clientTop  = docElem.clientTop  || body.clientTop  || 0,
+      clientLeft = docElem.clientLeft || body.clientLeft || 0,
+      scrollTop  = (window.pageYOffset || boxModelSupport && docElem.scrollTop  || body.scrollTop ),
+      scrollLeft = (window.pageXOffset || boxModelSupport && docElem.scrollLeft || body.scrollLeft),
+      top  = box.top  + scrollTop  - clientTop,
+      left = box.left + scrollLeft - clientLeft;
+
+      return { top: top, left: left };
+    },
+    
+    getStyle : function(elm, style) {
+        var computedStyle;
+        if (typeof elm.currentStyle != "undefined") {
+            computedStyle = elm.currentStyle;
+        }
+        else {
+            computedStyle = document.defaultView.getComputedStyle(elm, null);
+        }
+        return computedStyle[style];
     },
     
     // Hides each element the next time the user clicks the mouse or presses a
@@ -347,8 +374,8 @@
         // for the offset of the containing element
         if(_(container).isElement()) {
           var c = _(container).offsetEl();
-          o.x = o.x - c.x;
-          o.y = o.y - c.y;
+          o.x = o.x - c.left;
+          o.y = o.y - c.top;
         }
         
         el.style.position = 'absolute';
@@ -376,27 +403,27 @@
     // Determine align coords (document-relative)
     var x,y;
     if (pos.indexOf('-left') >= 0) {
-      x = bOffset.x;
+      x = bOffset.left.x;
     } else if (pos.indexOf('left') >= 0) {
-      x = bOffset.x - elbDim.width;
+      x = bOffset.left - elbDim.width;
     } else if (pos.indexOf('-right') >= 0) {
-      x = (bOffset.x + bDim.width) - elbDim.width;
+      x = (bOffset.left + bDim.width) - elbDim.width;
     } else if (pos.indexOf('right') >= 0) {
-      x = bOffset.x + bDim.width;
+      x = bOffset.left + bDim.width;
     } else { // Default = centered
-      x = bOffset.x + (bDim.width - elbDim.width)/2;
+      x = bOffset.left + (bDim.width - elbDim.width)/2;
     }
 
     if (pos.indexOf('-top') >= 0) {
-      y = bOffset.y;
+      y = bOffset.top;
     } else if (pos.indexOf('top') >= 0) {
-      y = bOffset.y - elbDim.height;
+      y = bOffset.top - elbDim.height;
     } else if (pos.indexOf('-bottom') >= 0) {
-      y = (bOffset.y + bDim.height) - elbDim.height;
+      y = (bOffset.top + bDim.height) - elbDim.height;
     } else if (pos.indexOf('bottom') >= 0) {
-      y = bOffset.y + bDim.height;
+      y = bOffset.top + bDim.height;
     } else { // Default = centered
-      y = bOffset.y + (bDim.height - elbDim.height)/2;
+      y = bOffset.top + (bDim.height - elbDim.height)/2;
     }
     
     // Check for constrainment (default true)

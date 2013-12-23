@@ -2,6 +2,13 @@ $(document).ready(function() {
 
   module("Backbone.UI.Util");
 
+  test("browserSupportTest", function() {
+    
+    ok("getBoundingClientRect" in document.documentElement, "browser supports getBoundingClientRect");
+    
+  });
+
+
   test("alignToTest", function() {
 
     this._container = $.el.div(
