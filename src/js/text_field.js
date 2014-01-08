@@ -25,7 +25,9 @@
     input : null,
 
     initialize : function(options) {
+
       Backbone.UI.BaseView.prototype.initialize.call(this, options);
+
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph, 
         Backbone.UI.HasFormLabel, Backbone.UI.HasError, 
         Backbone.UI.HasFocus, Backbone.UI.HasTextInput]);
@@ -47,6 +49,9 @@
       
       this.setupTextInput(_(this._updateModel).bind(this));
       this._observeModel(this._refreshValue);
+      if(!this.options.ignoreErrors) {
+        this._observeErrors();
+      }
     },
 
     render : function() {

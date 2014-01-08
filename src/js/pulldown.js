@@ -24,6 +24,9 @@
       if(this.options.name){
         _(this.el).addClass(this.options.name);
       }
+      if(!this.options.ignoreErrors) {
+        this._observeErrors();
+      }
       
     },
 
@@ -40,7 +43,8 @@
         placeholder : this.options.placeholder,
         emptyItem : this.options.emptyItem,
         size : 1,
-        disabled : this.options.disabled
+        disabled : this.options.disabled,
+        ignoreErrors : true
       }).render();
       
       this._parent = $.el.div({className : 'pulldown_wrapper'});

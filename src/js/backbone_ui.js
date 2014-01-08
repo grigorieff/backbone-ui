@@ -41,7 +41,7 @@
   };
 
   _(Backbone.View.prototype).extend({
-    
+     
     // resolves the appropriate content from the given choices
     resolveContent : function(model, content, defaultOption) {
       defaultOption = (defaultOption === null || _(defaultOption).isUndefined()) ? 

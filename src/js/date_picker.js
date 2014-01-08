@@ -34,6 +34,9 @@
 
       // listen for model changes
       this._observeModel(_(this.render).bind(this));
+      if(!this.options.ignoreErrors) {
+        this._observeErrors();
+      }
       
     },
 
@@ -44,7 +47,8 @@
         name : this.options.name,
         placeholder : this.options.placeholder,
         glyphLeftClassName : this.options.glyphLeftClassName,
-        glyphRightClassName : this.options.glyphRightClassName
+        glyphRightClassName : this.options.glyphRightClassName,
+        ignoreErrors : true
       }).render();
 
       bean.on(this._textField.input, {

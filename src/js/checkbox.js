@@ -23,7 +23,11 @@
       this.label = $.el.label();
       this.input = $.el.input({type : 'checkbox'});
       bean.on(this.input, 'change click', _(this._updateModel).bind(this));
+      // listen for model changes
       this._observeModel(_(this._refreshCheck).bind(this));
+      if(!this.options.ignoreErrors) {
+        this._observeErrors();
+      }
     },
 
     render : function() {

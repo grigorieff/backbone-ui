@@ -23,6 +23,10 @@
       if(this.options.name){
         _(this.el).addClass(this.options.name);
       }
+      if(!this.options.ignoreErrors) {
+        this._observeErrors();
+      }
+      
     },
 
     // public accessors

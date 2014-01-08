@@ -28,8 +28,12 @@
         Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
 
       _(this).bindAll('render');
-
+      
       _(this.el).addClass('menu');
+      
+      if(!this.options.ignoreErrors) {
+        this._observeErrors();
+      }
 
     },
 
