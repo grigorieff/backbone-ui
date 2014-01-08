@@ -61,12 +61,12 @@
       _(this.el).empty();
       
       this.input.type = this.options.type ? this.options.type : 'text';
-      this.input.name = this.options.name;
-      this.input.id = this.options.name;
-      this.input.tabIndex = this.options.tabIndex;
-      this.input.placeholder = this.options.placeholder;
-      this.input.pattern = this.options.pattern;
-      this.input.value = value;
+      this.input.name = this.options.name ? this.options.name : null;
+      this.input.id = this.options.name ? this.options.name : null;
+      this.input.tabIndex = this.options.tabIndex ? this.options.tabIndex : null;
+      this.input.placeholder = this.options.placeholder ? this.options.placeholder : null;
+      this.input.pattern = this.options.pattern ? this.options.pattern : null;
+      this.input.value = value ? value : null;
 
       // insert glyph if exist
       this._parent = $.el.div({className : 'text_wrapper'});
