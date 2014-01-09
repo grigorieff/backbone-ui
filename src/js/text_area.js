@@ -74,7 +74,7 @@
     },
 
     setValue : function(value) {
-      _(this.textArea).empty();
+      Backbone.UI.Util(this.textArea).empty();
       this.textArea.value = value;
       this._updateModel();
     },

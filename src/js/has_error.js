@@ -110,7 +110,7 @@
       }
          
       // add the appropriate class to disclosure arrow for correct sprite and styles
-      _(this._disclosureOuter).addClass(this.options.errorPosition === 'right' ? 'arrow_left' : 'arrow_up');
+      Backbone.UI.Util(this._disclosureOuter).addClass(this.options.errorPosition === 'right' ? 'arrow_left' : 'arrow_up');
       // set the disclosure arrow position
       var pos = this.options.errorPosition === 'right' ? ((this._disclosure.clientHeight / 2) - 10) : 
         ((this._disclosure.clientWidth / 2) - 10);

@@ -42,7 +42,7 @@
 
     addTab : function(tabOptions) {
       var tab = $.el.a({href : '#', className : 'tab'});
-      if(tabOptions.className) _(tab).addClass(tabOptions.className);
+      if(tabOptions.className) Backbone.UI.Util(tab).addClass(tabOptions.className);
       
       var label = this.resolveContent(null, tabOptions.label);
       tab.appendChild(_(label).isString() ? document.createTextNode(label || '') : label);
