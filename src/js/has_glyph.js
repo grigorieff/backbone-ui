@@ -11,6 +11,7 @@
           className : 'glyph left ' + glyphLeftClassName
         });
         parent.appendChild(glyphLeft);
+        Backbone.UI.Util(parent).addClass('hasGlyphLeft');
       }
       
       // append content
@@ -24,6 +25,7 @@
           className : 'glyph right ' + glyphRightClassName
         });
         parent.appendChild(glyphRight);
+        Backbone.UI.Util(parent).addClass('hasGlyphRight');
       }
      
     },
