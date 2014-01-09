@@ -1,16 +1,5 @@
 (function() {
   
-  var tagNames = {
-    "<a>" : function() {
-      return $.el.a();
-    },
-    "<button>" : function() {
-      return $.el.button();
-    },
-    "<div>" : function() {
-      return $.el.div();
-    }
-  };
   
   // micro DOM utility library used as 
   // DOMSelectorLibrary for Backbone.$
@@ -19,7 +8,14 @@
     if (obj instanceof Backbone.UI.Util) return obj;
     if (!(this instanceof Backbone.UI.Util)) return new Backbone.UI.Util(obj);
     // create an element if tagName
-    this[0] = this._el = _(obj).isString() && _(tagNames).has(obj) ? tagNames[obj]() : obj;
+    if(_(obj).isString()) {
+      var stripped = obj.replace(/<|>/g,'');
+      if(_($.el[stripped]).isFunction()) {
+        obj = $.el[stripped]();
+      }
+    }
+    // set obj
+    this[0] = this._el = obj;
   };
   
   Backbone.UI.Util.addClass = function(el, klass) {
@@ -181,7 +177,7 @@
       // if a container is passed in adjust position
       // for the offset of the containing element
       if(_(container).isElement()) {
-        var c = Backbone.UI.Util.offset(container);
+        var c = Backbone.UI.Util(container).offset();
         o.x = o.x - c.left;
         o.y = o.y - c.top;
       }
@@ -298,7 +294,7 @@
     pos = pos || '';
 
     // Get anchor bounds (document relative)
-    var bOffset = Backbone.UI.Util.offset(anchor);
+    var bOffset = Backbone.UI.Util(anchor).offset();
     var bDim = {width : anchor.clientWidth, height : anchor.clientHeight};
 
     // Get element dimensions
@@ -307,7 +303,7 @@
     // Determine align coords (document-relative)
     var x,y;
     if (pos.indexOf('-left') >= 0) {
-      x = bOffset.left.x;
+      x = bOffset.left;
     } else if (pos.indexOf('left') >= 0) {
       x = bOffset.left - elbDim.width;
     } else if (pos.indexOf('-right') >= 0) {

@@ -21,14 +21,12 @@ window.addExample = function(container, func) {
       func().el),
     $.el.br({style : 'clear:both'}));
     
-    var placeholder = document.querySelector(container);
-    
-    var ref = placeholder.querySelector('.options');
+    var ref = $('.options', $(container)[0])[0];
     if(ref) {
-      placeholder.insertBefore(example, ref);
+      $(container)[0].insertBefore(example, ref);
     }
     else {
-      placeholder.appendChild(example);
+      $(container)[0].appendChild(example);
     }
 };
 
@@ -58,14 +56,14 @@ bean.on(window, 'load', function() {
 
   func();
 
-  $.el.pre({className : 'prettyprint'}, beautify(func)).appendTo(document.querySelectorAll('#setup_code')[0]);
+  $.el.pre({className : 'prettyprint'}, beautify(func)).appendTo($('#setup_code')[0]);
 
   // keep example state display data updated
-  var dataEl = document.querySelector('#example_data');
-  dataEl.style.display = 'none';
-  var stateEl = document.querySelector('#example_state');
+  var dataEl = $('#example_data')[0];
+  $(dataEl).hide();
+  var stateEl = $('#example_state')[0];
   var renderState = function() {
-    Backbone.UI.Util(stateEl).empty();
+    $(stateEl).empty();
     var json = (JSON.stringify(coffee.attributes, null, 2));
     json = json.substring(json.indexOf('\n')).substring(0, json.lastIndexOf('\n'));
     json = json.replace(/(\r\n|\n|\r)/gm, '<br/>');
@@ -73,15 +71,15 @@ bean.on(window, 'load', function() {
     div.innerHTML = json;
     stateEl.appendChild(div);
 
-    if(dataEl.style.display === 'none') {
-      dataEl.style.display = 'block';
+    if(!$(dataEl).is(":visible")) {
+      $(dataEl).fadeIn();
     }
   };
 
-  var closeLink = document.querySelector('#close_example');
-  bean.on(closeLink, 'click', function(e) {
-    dataEl.style.display = 'none';
-    e.preventDefault();
+  var closeLink = $('#close_example')[0];
+  $(closeLink).click(function() {
+    $(dataEl).fadeOut();
+    return false;
   });
 
   coffee.bind('change', renderState);
@@ -149,10 +147,10 @@ bean.on(window, 'load', function() {
     indent_size : 2 
   });
 
-  $.el.pre({className : 'prettyprint'}, code).appendTo(document.querySelector('#task_list_code'));
+  $.el.pre({className : 'prettyprint'}, code).appendTo($('#task_list_code')[0]);
 
   var result = taskFunc();
-  document.querySelector('#task_list_result').appendChild(result);
+  $('#task_list_result')[0].appendChild(result);
   
   // theming
   Backbone.UI.setSkin('perka');  
