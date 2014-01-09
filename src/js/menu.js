@@ -142,7 +142,7 @@
     // sets the selected item
     setSelectedItem : function(item) {
       this._setSelectedItem(item);
-      _(this._placeholder).removeEl();
+      Backbone.UI.Util(this._placeholder).remove();
     },
     
     _updateModel : function() {

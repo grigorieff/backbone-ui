@@ -39,9 +39,9 @@
       // remove error class
       this.$el.removeClass('error');
       // remove error message if it exists
-      _(this.errorMessage).removeEl();
+      Backbone.UI.Util(this.errorMessage).remove();
       // remove disclosure if it exists
-      _(this._disclosure).removeEl();
+      Backbone.UI.Util(this._disclosure).remove();
       // remove event attached to the model regarding errors   
       if(_(this._unobserveModel).exists()) {
         this._unobserveModel(_(this.unsetError).bind(this));
@@ -83,7 +83,7 @@
           }).bind(this));
           
           bean.on(this.el, 'click', _(function() {
-            _(this._disclosure).removeEl();
+            Backbone.UI.Util(this._disclosure).remove();
           }).bind(this));
           
         }
