@@ -21,16 +21,18 @@ window.addExample = function(container, func) {
       func().el),
     $.el.br({style : 'clear:both'}));
     
-    var ref = $('.options', $(container)[0])[0];
+    var placeholder = document.querySelector(container);
+    
+    var ref = placeholder.querySelector('.options');
     if(ref) {
-      $(container)[0].insertBefore(example, ref);
+      placeholder.insertBefore(example, ref);
     }
     else {
-      $(container)[0].appendChild(example);
+      placeholder.appendChild(example);
     }
 };
 
-$(window).load(function() {
+bean.on(window, 'load', function() {
   // setup sample data
   setTimeout(prettyPrint, 0);
 
@@ -56,14 +58,14 @@ $(window).load(function() {
 
   func();
 
-  $.el.pre({className : 'prettyprint'}, beautify(func)).appendTo($('#setup_code')[0]);
+  $.el.pre({className : 'prettyprint'}, beautify(func)).appendTo(document.querySelectorAll('#setup_code')[0]);
 
   // keep example state display data updated
-  var dataEl = $('#example_data')[0];
-  $(dataEl).hide();
-  var stateEl = $('#example_state')[0];
+  var dataEl = document.querySelector('#example_data');
+  dataEl.style.display = 'none';
+  var stateEl = document.querySelector('#example_state');
   var renderState = function() {
-    $(stateEl).empty();
+    Backbone.UI.Util(stateEl).empty();
     var json = (JSON.stringify(coffee.attributes, null, 2));
     json = json.substring(json.indexOf('\n')).substring(0, json.lastIndexOf('\n'));
     json = json.replace(/(\r\n|\n|\r)/gm, '<br/>');
@@ -71,15 +73,15 @@ $(window).load(function() {
     div.innerHTML = json;
     stateEl.appendChild(div);
 
-    if(!$(dataEl).is(":visible")) {
-      $(dataEl).fadeIn();
+    if(dataEl.style.display === 'none') {
+      dataEl.style.display = 'block';
     }
   };
 
-  var closeLink = $('#close_example')[0];
-  $(closeLink).click(function() {
-    $(dataEl).fadeOut();
-    return false;
+  var closeLink = document.querySelector('#close_example');
+  bean.on(closeLink, 'click', function(e) {
+    dataEl.style.display = 'none';
+    e.preventDefault();
   });
 
   coffee.bind('change', renderState);
@@ -97,7 +99,7 @@ $(window).load(function() {
     // define how each individual task should render
     var TaskView = Backbone.View.extend({
       render : function() {
-        $(this.el).empty();
+        this.$el.empty();
 
         // add a link to remove this task from the list
         this.el.appendChild(new Backbone.UI.Link({
@@ -147,10 +149,10 @@ $(window).load(function() {
     indent_size : 2 
   });
 
-  $.el.pre({className : 'prettyprint'}, code).appendTo($('#task_list_code')[0]);
+  $.el.pre({className : 'prettyprint'}, code).appendTo(document.querySelector('#task_list_code'));
 
   var result = taskFunc();
-  $('#task_list_result')[0].appendChild(result);
+  document.querySelector('#task_list_result').appendChild(result);
   
   // theming
   Backbone.UI.setSkin('perka');  

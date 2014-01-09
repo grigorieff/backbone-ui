@@ -2,7 +2,7 @@
   <h1>Tab Set</h1>
 
   <script type="text/javascript">
-    $(window).load(function() {
+    bean.on(window, 'load', function() {
       window.addExample('#tab_set', function() {
         var set = new Backbone.UI.TabSet({
           alternatives : [
