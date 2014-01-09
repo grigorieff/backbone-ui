@@ -61,7 +61,7 @@
 
     initialize : function(options) {
       Backbone.UI.BaseView.prototype.initialize.call(this, options);
-      _(this.el).addClass('calendar');
+      this.$el.addClass('calendar');
       _(this).bindAll('render');
     },
 
@@ -133,7 +133,7 @@
 
     _renderDate : function(date, minDate, maxDate, e) {
       if(e) e.stopPropagation();
-      _(this.el).empty();
+      this.$el.empty();
 
 
       var startOfMinDay = minDate ? moment(minDate).startOf('day').toDate() : null;

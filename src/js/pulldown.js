@@ -20,9 +20,9 @@
         Backbone.UI.HasFormLabel, Backbone.UI.HasError, Backbone.UI.HasFocus]);
       _(this).bindAll('render');
 
-      _(this.el).addClass('pulldown');
+      this.$el.addClass('pulldown');
       if(this.options.name){
-        _(this.el).addClass(this.options.name);
+        this.$el.addClass(this.options.name);
       }
       if(!this.options.ignoreErrors) {
         this._observeErrors();
@@ -31,7 +31,7 @@
     },
 
     render : function() {
-      _(this.el).empty();
+      this.$el.empty();
       
       this._menu = new Backbone.UI.Menu({
         model : this.model,

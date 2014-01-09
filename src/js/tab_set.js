@@ -12,11 +12,11 @@
 
     initialize : function(options) {
       Backbone.UI.BaseView.prototype.initialize.call(this, options);
-      _(this.el).addClass('tab_set');
+      this.$el.addClass('tab_set');
     }, 
 
     render : function() {
-      _(this.el).empty();
+      this.$el.empty();
 
       this._tabs = [];
       this._contents = [];
@@ -34,7 +34,7 @@
         this.activateTab(this.options.selectedTab);
       }
       else{
-        _(this.el).addClass('no_selection');
+        this.$el.addClass('no_selection');
       }
 
       return this; 
@@ -70,7 +70,7 @@
     activateTab : function(index) {
       
       var noSelection = index < 0;
-      _(this.el).toggleClass('no_selection', noSelection);
+      this.$el.toggleClass('no_selection', noSelection);
       
       // hide all content panels
       _(this._contents).each(function(content) {
@@ -79,18 +79,18 @@
 
       // de-select all tabs
       _(this._tabs).each(function(tab) {
-        _(tab).removeClass('selected');
+        Backbone.UI.Util(tab).removeClass('selected');
       });
 
       if(_(this._selectedIndex).exists()) {
-        _(this.el).removeClass('index_' + this._selectedIndex);
+        this.$el.removeClass('index_' + this._selectedIndex);
       }
       
       if(!noSelection){
-        _(this.el).addClass('index_' + index);
+        this.$el.addClass('index_' + index);
         this._selectedIndex = index;
         // select the appropriate tab
-        _(this._tabs[index]).addClass('selected');
+        Backbone.UI.Util(this._tabs[index]).addClass('selected');
         // show the proper contents
         this._contents[index].style.display = "block";
         this._callbacks[index]();

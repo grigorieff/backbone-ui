@@ -28,9 +28,9 @@ $(document).ready(function() {
 
     document.body.appendChild(this._container);
 
-    var cOffset = _(this._container).offsetEl();
-    var rOffset = _(this._relativeDiv).offsetEl();
-    var aOffset = _(this._absoluteDiv).offsetEl();
+    var cOffset = Backbone.UI.Util(this._container).offset();
+    var rOffset = Backbone.UI.Util(this._relativeDiv).offset();
+    var aOffset = Backbone.UI.Util(this._absoluteDiv).offset();
 
     equal(cOffset.left, 100);
     equal(cOffset.top, 100);
@@ -65,13 +65,13 @@ $(document).ready(function() {
     ok($(first).is(':visible'));
     ok($(second).is(':visible'));
 
-    _(first).removeEl();
+    Backbone.UI.Util(first).remove();
 
     ok($(container).is(':visible'));
     ok(!$(first).is(':visible'));
     ok($(second).is(':visible'));
 
-    _(container).removeEl();
+    Backbone.UI.Util(container).remove();
 
     ok(!$(container).is(':visible'));
     ok(!$(first).is(':visible'));
@@ -101,7 +101,7 @@ $(document).ready(function() {
     ok($(textfield.el).hasClass('hello'));
     ok($(textfield.el).hasClass('world'));
 
-    _(textfield.el).removeClass('hello');
+    textfield.$el.removeClass('hello');
 
     ok(!$(textfield.el).hasClass('hello'));
     equal(textfield.el.className, 'world text_field');

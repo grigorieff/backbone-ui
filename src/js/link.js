@@ -16,7 +16,7 @@
 
       _(this).bindAll('render');
 
-      _(this.el).addClass('link');
+      this.$el.addClass('link');
 
       bean.on(this.el, 'click', _(function(e) {
         e.preventDefault();
@@ -33,7 +33,7 @@
 
       this._observeModel(this.render);
 
-      _(this.el).empty();
+      this.$el.empty();
       
       var content = $.el.span(labelText);
       
@@ -56,7 +56,7 @@
         delete this.el.href;
       }
       this.options.disabled = !enabled;
-      _(this.el).toggleClass('disabled', !enabled);
+      this.$el.toggleClass('disabled', !enabled);
     }
   });
 }());

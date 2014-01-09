@@ -3,11 +3,11 @@
   
     initialize : function(options) {
       Backbone.UI.CollectionView.prototype.initialize.call(this, options);
-      _(this.el).addClass('list');
+      this.$el.addClass('list');
     },
 
     render : function() {
-      _(this.el).empty();
+      this.$el.empty();
       this.itemViews = {};
 
       this.collectionEl = $.el.ul();

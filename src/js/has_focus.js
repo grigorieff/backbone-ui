@@ -8,10 +8,10 @@
       // add focusin and focusout
       bean.on(el, {
         focusin : _(function(e) {
-          _(parent).addClass('focused');
+          Backbone.UI.Util(parent).addClass('focused');
         }).bind(this),
         focusout : _(function(e) {
-          _(parent).removeClass('focused');
+          Backbone.UI.Util(parent).removeClass('focused');
         }).bind(this)
       });
       

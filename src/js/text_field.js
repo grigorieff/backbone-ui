@@ -33,10 +33,10 @@
         Backbone.UI.HasFocus, Backbone.UI.HasTextInput]);
       _(this).bindAll('_refreshValue');
     
-      _(this.el).addClass('text_field');
+      this.$el.addClass('text_field');
       
       if(this.options.name){
-        _(this.el).addClass(this.options.name);
+        this.$el.addClass(this.options.name);
       }
 
       this.input = $.el.input({maxLength : this.options.maxLength});
@@ -58,7 +58,7 @@
       var value = (this.input && this.input.value.length) > 0 ? 
         this.input.value : this.resolveContent();
 
-      _(this.el).empty();
+      this.$el.empty();
       
       this.input.type = this.options.type ? this.options.type : 'text';
       this.input.name = this.options.name ? this.options.name : null;
@@ -97,9 +97,9 @@
     // sets the enabled state
     setEnabled : function(enabled) {
       if(enabled) { 
-        _(this.el).removeClass('disabled');
+        this.$el.removeClass('disabled');
       } else {
-        _(this.el).addClass('disabled');
+        this.$el.addClass('disabled');
       }
       this.input.disabled = !enabled;
     },

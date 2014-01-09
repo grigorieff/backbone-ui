@@ -19,9 +19,9 @@
         Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
       _(this).bindAll('render');
       
-      _(this.el).addClass('radio_group');
+      this.$el.addClass('radio_group');
       if(this.options.name){
-        _(this.el).addClass(this.options.name);
+        this.$el.addClass(this.options.name);
       }
       if(!this.options.ignoreErrors) {
         this._observeErrors();
@@ -34,7 +34,7 @@
 
     render : function() {
 
-      _(this.el).empty();
+      this.$el.empty();
 
       this._observeModel(this.render);
       this._observeCollection(this.render);
@@ -98,9 +98,9 @@
     // sets the enabled state
     setEnabled : function(enabled) {
       if(enabled) { 
-        _(this.el).removeClass('disabled');
+        this.$el.removeClass('disabled');
       } else {
-        _(this.el).addClass('disabled');
+        this.$el.addClass('disabled');
       }
     }
     

@@ -29,7 +29,7 @@
 
       _(this).bindAll('render');
       
-      _(this.el).addClass('menu');
+      this.$el.addClass('menu');
       
       if(!this.options.ignoreErrors) {
         this._observeErrors();
@@ -39,7 +39,7 @@
 
 
     render : function() {
-      _(this.el).empty();
+      this.$el.empty();
       
       this._observeModel(this.render);
       this._observeCollection(this.render);
@@ -130,7 +130,7 @@
 
     // sets the enabled state
     setEnabled : function(enabled) {
-      _(this.el).toggleClass('disabled', !enabled);
+      this.$el.toggleClass('disabled', !enabled);
       this.select.disabled = !enabled;
     },
 

@@ -14,7 +14,7 @@
     initialize : function(options) {
       Backbone.UI.BaseView.prototype.initialize.call(this, options);
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel, Backbone.UI.HasError]);
-      _(this.el).addClass('date_picker');
+      this.$el.addClass('date_picker');
 
       this._calendar = new Backbone.UI.Calendar({
         className : 'date_picker_calendar',
@@ -27,7 +27,7 @@
       this._hideCalendar();
       document.body.appendChild(this._calendar.el);
 
-      _(this._calendar.el).autohide({
+      this._calendar.$el.autohide({
         ignoreInputs : true,
         leaveOpenTargets : [this._calendar.el]
       });
@@ -41,7 +41,7 @@
     },
 
     render : function() {
-      _(this.el).empty();
+      this.$el.empty();
 
       this._textField = new Backbone.UI.TextField({
         name : this.options.name,
@@ -90,7 +90,7 @@
     _showCalendar : function() {
       if(this._calendar.el.style.display === "block") return;
       this._calendar.el.style.display = "block";
-      _(this._calendar.el).alignTo(this._textField.el, 'bottom -left', 0, 2);
+      this._calendar.$el.alignTo(this._textField.el, 'bottom -left', 0, 2);
     },
 
     _hideCalendar : function(e) {

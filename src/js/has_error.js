@@ -37,7 +37,7 @@
     
     unsetError : function() {
       // remove error class
-      _(this.el).removeClass('error');
+      this.$el.removeClass('error');
       // remove error message if it exists
       _(this.errorMessage).removeEl();
       // remove disclosure if it exists
@@ -60,7 +60,7 @@
       // clear existing error
       this.unsetError();
       // add error class
-      _(this.el).addClass('error');
+      this.$el.addClass('error');
       
       // add error message if provided
       if(message.length > 0) {
@@ -103,10 +103,10 @@
       this.el.appendChild(this._disclosure);
       // set the position
       if(this.options.errorPosition === 'right') {
-        _(this._disclosure).alignTo(this.errorMessage, 'right', 10, 0, this.el);
+        Backbone.UI.Util(this._disclosure).alignTo(this.errorMessage, 'right', 10, 0, this.el);
       }
       else {
-        _(this._disclosure).alignTo(this.errorMessage, 'center bottom', 0, 10, this.el);
+        Backbone.UI.Util(this._disclosure).alignTo(this.errorMessage, 'center bottom', 0, 10, this.el);
       }
          
       // add the appropriate class to disclosure arrow for correct sprite and styles

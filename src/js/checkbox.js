@@ -16,9 +16,9 @@
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph,
         Backbone.UI.HasError]);
       _(this).bindAll('_refreshCheck');
-      _(this.el).addClass('checkbox');
+      this.$el.addClass('checkbox');
       if(this.options.name){
-        _(this.el).addClass(this.options.name);
+        this.$el.addClass(this.options.name);
       }
       this.label = $.el.label();
       this.input = $.el.input({type : 'checkbox'});
@@ -32,8 +32,8 @@
 
     render : function() {
 
-      _(this.el).empty();
-      _(this.label).empty();
+      this.$el.empty();
+      Backbone.UI.Util(this.label).empty();
       
       bean.off(this.input, 'change click');
       
@@ -81,9 +81,9 @@
     // sets the enabled state
     setEnabled : function(enabled) {
       if(enabled) { 
-        _(this.el).removeClass('disabled');
+        this.$el.removeClass('disabled');
       } else {
-        _(this.el).addClass('disabled');
+        this.$el.addClass('disabled');
       }
       this.input.disabled = !enabled;
     }

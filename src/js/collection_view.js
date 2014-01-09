@@ -110,12 +110,12 @@
       var children = this.collectionEl.childNodes;
       if(children.length > 0) {
         _(children).each(function(child, index) {
-          _(child).removeClass('first');
-          _(child).removeClass('last');
-          _(child).addClass(index % 2 === 0 ? 'even' : 'odd');
+          Backbone.UI.Util(child).removeClass('first');
+          Backbone.UI.Util(child).removeClass('last');
+          Backbone.UI.Util(child).addClass(index % 2 === 0 ? 'even' : 'odd');
         });
-        _(children[0]).addClass('first');
-        _(children[children.length - 1]).addClass('last');
+        Backbone.UI.Util(children[0]).addClass('first');
+        Backbone.UI.Util(children[children.length - 1]).addClass('last');
       }
     },
 

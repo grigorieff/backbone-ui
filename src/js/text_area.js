@@ -26,9 +26,9 @@
       this.mixin([Backbone.UI.HasModel, Backbone.UI.HasFormLabel,
         Backbone.UI.HasError, Backbone.UI.HasFocus]);
       
-      _(this.el).addClass('text_area');
+      this.$el.addClass('text_area');
       if(this.options.name){
-        _(this.el).addClass(this.options.name);
+        this.$el.addClass(this.options.name);
       }
       if(!this.options.ignoreErrors) {
         this._observeErrors();
@@ -40,7 +40,7 @@
       var value = (this.textArea && this.textArea.value.length) > 0 ? 
         this.textArea.value : this.resolveContent();
 
-      _(this.el).empty();
+      this.$el.empty();
 
       this.textArea = $.el.textarea({
         id : this.options.textAreaId,
@@ -82,9 +82,9 @@
     // sets the enabled state
     setEnabled : function(enabled) {
       if(enabled) {
-        _(this.el).removeClass('disabled');
+        this.$el.removeClass('disabled');
       } else {
-        _(this.el).addClass('disabled');
+        this.$el.addClass('disabled');
       }
       this.textArea.disabled = !enabled;
     },

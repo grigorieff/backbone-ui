@@ -29,12 +29,12 @@
 
     initialize : function(options) {
       Backbone.UI.CollectionView.prototype.initialize.call(this, options);
-      _(this.el).addClass('table_view');
+      this.$el.addClass('table_view');
       this._sortState = {reverse : true};
     },
 
     render : function() {
-      _(this.el).empty();
+      this.$el.empty();
       this.itemViews = {};
 
       var table;
@@ -44,7 +44,7 @@
           cellSpacing : '0'
         }));
 
-      _(this.el).toggleClass('clickable', this.options.onItemClick !== Backbone.UI.noop);
+      this.$el.toggleClass('clickable', this.options.onItemClick !== Backbone.UI.noop);
 
       // generate a table row for our headings
       var headingRow = $.el.tr();
@@ -114,9 +114,9 @@
           var item = this._renderItem(model, index);
 
           // add some useful class names
-          _(item).addClass(index % 2 === 0 ? 'even' : 'odd');
-          if(index === 0) _(item).addClass('first');
-          if(index === collection.length - 1) _(item).addClass('last');
+          Backbone.UI.Util(item).addClass(index % 2 === 0 ? 'even' : 'odd');
+          if(index === 0) Backbone.UI.Util(item).addClass('first');
+          if(index === collection.length - 1) Backbone.UI.Util(item).addClass('last');
 
           this.collectionEl.appendChild(item);
         }, this);

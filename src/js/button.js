@@ -26,7 +26,7 @@
 
       _(this).bindAll('render');
 
-      _(this.el).addClass('button');
+      this.$el.addClass('button');
 
       bean.on(this.el, 'click', _(function(e) {
         e.stop();
@@ -41,7 +41,7 @@
 
       this._observeModel(this.render);
 
-      _(this.el).empty();
+      this.$el.empty();
 
       if(this.options.isSubmit) {
         this.el.type = 'submit';
@@ -65,14 +65,14 @@
     // sets the enabled state of the button
     setEnabled : function(enabled) {
       this.options.disabled = !enabled;
-      _(this.el).toggleClass('disabled', !enabled);
+      this.$el.toggleClass('disabled', !enabled);
       this.el.disabled = !enabled;
     },
 
     // sets the active state of the button
     setActive : function(active) {
       this.options.active = active;
-      _(this.el).toggleClass('active', active);
+      this.$el.toggleClass('active', active);
     }
   });
 }());

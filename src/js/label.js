@@ -14,7 +14,7 @@
       _(this).bindAll('render');
 
       if(this.options.name){
-        _(this.el).addClass(this.options.name);
+        this.$el.addClass(this.options.name);
       }
 
     },
@@ -27,7 +27,7 @@
       }
       this._observeModel(this.render);
 
-      _(this.el).empty();
+      this.$el.empty();
       
       // insert label
       this.el.appendChild(document.createTextNode(labelText));

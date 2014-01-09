@@ -9,7 +9,7 @@ $(document).ready(function() {
 
     //click on 1st of march and check
     $(datepicker.el).find('input').click();
-    datepicker._calendar.$('.row.first td a').eq(0).click();
+    $(datepicker._calendar.el).find('.row.first td a').eq(0).click();
     var date = $(datepicker.el).find('input').val();
     equal(date,'03/01/2013');
 
@@ -39,7 +39,7 @@ $(document).ready(function() {
 
     //pick date and check model
     $(datepicker.el).find('input').click();
-    datepicker._calendar.$('.row.last td a').eq(0).click();
+    $(datepicker._calendar.el).find('.row.last td a').eq(0).click();
     date = $(datepicker.el).find('input').val();
     equal(date,'04/29/2012');
     equal(coffee.get('roastedOn').getMonth(),'3');
@@ -72,7 +72,7 @@ $(document).ready(function() {
 
     //pick date and check model
     $(datepicker.el).find('input').click();
-    datepicker._calendar.$('.row.last td a').eq(0).click();
+    $(datepicker._calendar.el).find('.row.last td a').eq(0).click();
     date = $(datepicker.el).find('input').val();
     equal(date,'04/29/2012');
     equal(coffee.get('roastedOn').getMonth(),'3');
