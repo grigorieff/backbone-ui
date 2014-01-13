@@ -66,7 +66,9 @@
       this.input.tabIndex = this.options.tabIndex ? this.options.tabIndex : null;
       this.input.placeholder = this.options.placeholder ? this.options.placeholder : null;
       this.input.pattern = this.options.pattern ? this.options.pattern : null;
-      this.input.value = value ? value : null;
+      if(value) {
+        this.input.value = value;
+      }
 
       // insert glyph if exist
       this._parent = $.el.div({className : 'text_wrapper'});
