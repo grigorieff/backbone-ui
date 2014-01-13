@@ -46,7 +46,8 @@
       this.input.checked = value;
       this.input.disabled = this.options.disabled;
       
-      var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
+      var resolvedLabel = this.resolveContent(this.model, this.options.labelContent);
+      var labelText = (resolvedLabel && (resolvedLabel !== true) && (resolvedLabel !== false)) ? resolvedLabel : this.options.labelContent;
       
       this.label.appendChild(this.input);
       this._labelText = $.el.span(labelText);
@@ -70,7 +71,8 @@
     _refreshCheck : function() {
       var value = this.resolveContent();
       this.input.checked = value;
-      var labelText = this.resolveContent(this.model, this.options.labelContent) || this.options.labelContent;
+      var resolvedLabel = this.resolveContent(this.model, this.options.labelContent);
+      var labelText = (resolvedLabel && (resolvedLabel !== true) && (resolvedLabel !== false)) ? resolvedLabel : this.options.labelContent;
       this._labelText.textContent = labelText;
     },
     
