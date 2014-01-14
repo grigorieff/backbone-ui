@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-  module("Backbone.ListView");
+  module("Backbone.UI.ListView");
 
   test("withDataBinding", function(){
 
@@ -14,8 +14,10 @@ $(document).ready(function() {
 
     var Item = Backbone.View.extend({
       render: function() {
-        $(this.el).empty();
-        $.el.div(this.model.get('name')).appendTo(this.el);
+        this.$el.empty();
+        this.el.appendChild(
+          $.el.div(this.model.get('name')));
+        return this;
       }
     });
 
@@ -53,8 +55,9 @@ $(document).ready(function() {
       model: users,
       itemView : Backbone.View.extend({
         render: function() {
-          $(this.el).empty();
-          this.el.appendChild($.el.div(this.model.get('first') + ' ' + this.model.get('last')));
+          this.$el.empty();
+          this.el.appendChild(
+            $.el.div(this.model.get('first') + ' ' + this.model.get('last')));
           // increment renderItem
           renderItemCount++;
           return this;
