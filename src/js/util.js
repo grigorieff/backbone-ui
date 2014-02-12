@@ -26,7 +26,11 @@
     // if options is an object then we set each on el
     if(_(options).isObject()) {
       _(options).each(function(val, key) {
-        el.setAttribute(key, val);
+        if (val === null) {
+          el.removeAttribute(key);
+        } else {
+          el.setAttribute(key, val);
+        }
       });
     }
     return el;
