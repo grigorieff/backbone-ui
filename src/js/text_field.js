@@ -59,16 +59,16 @@
         this.input.value : this.resolveContent();
 
       this.$el.empty();
-      
-      this.input.type = this.options.type ? this.options.type : 'text';
-      this.input.name = this.options.name ? this.options.name : null;
-      this.input.id = this.options.name ? this.options.name : null;
-      this.input.tabIndex = this.options.tabIndex ? this.options.tabIndex : null;
-      this.input.placeholder = this.options.placeholder ? this.options.placeholder : null;
-      this.input.pattern = this.options.pattern ? this.options.pattern : null;
-      if(value) {
-        this.input.value = value;
-      }
+
+      Backbone.$.attr(this.input, {
+        type: this.options.type || 'text',
+        name: this.options.name || null,
+        id: this.options.name || null,
+        tabIndex: this.options.tabIndex || null,
+        placeholder: this.options.placeholder || null,
+        pattern: this.options.pattern || null,
+        value: value || null
+      });
 
       // insert glyph if exist
       this._parent = $.el.div({className : 'text_wrapper'});
