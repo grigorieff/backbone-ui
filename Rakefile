@@ -36,7 +36,7 @@ task :build do
   end
 
   File.open('dist/backbone-ui.js', 'w+') do |dev_file|
-    js_source_files.each do |source_file|
+    js_source_files.sort.each do |source_file|
       source = File.read './src/js/' + source_file
       dev_file.write source
     end
