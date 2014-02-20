@@ -20,7 +20,8 @@
     "laconic": "0.2.2",
     "backbone": "1.1.0"
   },
-  "main": "./dist/backbone-ui.js",
+  "main": "index.js",
+  "style": "index.css",
   "devDependencies": {
     "grunt": "~0.4.0",
     "grunt-contrib-qunit": "~0.1.1",
