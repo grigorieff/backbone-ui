@@ -17,12 +17,14 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "laconic": "0.0.0",
-    "backbone": "0.5.3"
+    "laconic": "0.2.2",
+    "backbone": "1.1.0"
   },
   "main": "./dist/backbone-ui.js",
   "devDependencies": {
     "grunt": "~0.4.0",
-    "grunt-contrib-qunit": "~0.1.1"
+    "grunt-contrib-qunit": "~0.1.1",
+    "npm-css": "~0.2.3",
+    "browserify": "~3.30.1"
   }
 }
