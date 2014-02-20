@@ -31,16 +31,17 @@ exports.setSkin = function(skin) {
 
 exports.noop = function() { };
 
-// BaseView automatically attaches options, as Backbone.View did prior to
-// version 1.1.0
+// BaseView is a Backbone View extended with some methods/functionality
+// common to the components in Backbone-UI.
+//
 exports.BaseView = Backbone.View.extend({
+  // Automatically attach options, as Backbone.View did
+  // prior to version 1.1.0.
   initialize: function(options) {
     this.options = this.options ? _({}).extend(this.options, options) : options;
-  }
-});
+  },
 
-var viewMixins = {
-  // resolves the appropriate content from the given choices
+  // Resolve the appropriate content from the given choices.
   resolveContent: function(model, content, defaultOption) {
     defaultOption = (defaultOption === null || _(defaultOption).isUndefined()) ?
       this.options.content : defaultOption;
@@ -81,9 +82,7 @@ var viewMixins = {
     // now extend options with original values
     _(this.options).extend(options);
   }
-};
-
-_(Backbone.View.prototype).extend(viewMixins);
+});
 
 // Add some utility methods to underscore
 _.mixin({
