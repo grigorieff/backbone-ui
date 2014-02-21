@@ -2,6 +2,9 @@
 // DOMSelectorLibrary for Backbone.$
 // plus some helper functions
 
+var bean = require('bean');
+var _ = require('underscore');
+
 var $ = function(obj) {
   if (obj instanceof $) return obj;
   if (!(this instanceof $)) return new $(obj);
@@ -15,6 +18,8 @@ var $ = function(obj) {
   // set obj
   this[0] = this._el = obj;
 };
+
+$.el = require('laconic');
 
 $.addClass = function(el, klass) {
   return $.toggleClass(el, klass, true);
@@ -339,5 +344,7 @@ var _alignCoords = function(el, anchor, pos, xFudge, yFudge) {
   // Return rect, constrained to viewport
   return {x : x, y : y};
 };
+
+$.noop = function() { };
 
 module.exports = $;
