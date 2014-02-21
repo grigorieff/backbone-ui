@@ -1,79 +1,78 @@
-(function(){
-  window.Backbone.UI.Button = Backbone.UI.BaseView.extend({
-    options : {
-      // true will disable the button
-      // (muted non-clickable) 
-      disabled : false,
+var bean = require('bean');
+var _ = require('underscore');
 
-      // true will activate the button
-      // (depressed and non-clickable)
-      active : false,
+var $ = require('./util');
+var BaseView = require('./base_view');
+var HasModel = require('./has_model');
+var HasGlyph = require('./has_glyph');
 
-      // A callback to invoke when the button is clicked
-      onClick : null,
+module.exports = BaseView.extend({
+  options: {
+    // true will disable the button
+    // (muted non-clickable)
+    disabled: false,
 
-      // renders this button as an input type=submit element as opposed to an anchor.
-      isSubmit : false
-    },
-    
-    tagName : 'button',
+    // true will activate the button
+    // (depressed and non-clickable)
+    active: false,
 
-    initialize : function(options) {
-      
-      Backbone.UI.BaseView.prototype.initialize.call(this, options);
-      
-      this.mixin([Backbone.UI.HasModel, Backbone.UI.HasGlyph]);
+    // A callback to invoke when the button is clicked
+    onClick: null,
 
-      _(this).bindAll('render');
+    // renders this button as an input type=submit element as opposed to an anchor.
+    isSubmit: false
+  },
 
-      this.$el.addClass('button');
+  tagName: 'button',
 
-      bean.on(this.el, 'click', _(function(e) {
-        e.stop();
-        if(!this.options.disabled && !this.options.active && this.options.onClick) {
-          this.options.onClick(e); 
-        }
-      }).bind(this));
-    },
+  initialize: function(options) {
+    BaseView.prototype.initialize.call(this, options);
+    this.mixin([HasModel, HasGlyph]);
+    _(this).bindAll('render');
+    this.$el.addClass('button');
 
-    render : function() {
-      var labelText = this.resolveContent();
-
-      this._observeModel(this.render);
-
-      this.$el.empty();
-
-      if(this.options.isSubmit) {
-        this.el.type = 'submit';
-        this.el.value = '';
+    bean.on(this.el, 'click',_(function(e) {
+      e.stop();
+      if(!this.options.disabled && !this.options.active && this.options.onClick) {
+        this.options.onClick(e);
       }
+    }).bind(this));
+  },
 
-      var content = $.el.span(labelText);
-      
-      var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
-      var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
+  render: function() {
+    var labelText = this.resolveContent();
+    this._observeModel(this.render);
+    this.$el.empty();
 
-      this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, this.el);
-
-      // add appropriate class names
-      this.setEnabled(!this.options.disabled);
-      this.setActive(this.options.active);
-
-      return this;
-    },
-
-    // sets the enabled state of the button
-    setEnabled : function(enabled) {
-      this.options.disabled = !enabled;
-      this.$el.toggleClass('disabled', !enabled);
-      this.el.disabled = !enabled;
-    },
-
-    // sets the active state of the button
-    setActive : function(active) {
-      this.options.active = active;
-      this.$el.toggleClass('active', active);
+    if(this.options.isSubmit) {
+      this.el.type = 'submit';
+      this.el.value = '';
     }
-  });
-}());
 
+    var content = $.el.span(labelText);
+
+    var glyphLeftClassName = this.resolveGlyph(this.model, this.options.glyphLeftClassName);
+    var glyphRightClassName = this.resolveGlyph(this.model, this.options.glyphRightClassName);
+
+    this.insertGlyphLayout(glyphLeftClassName, glyphRightClassName, content, this.el);
+
+    // add appropriate class names
+    this.setEnabled(!this.options.disabled);
+    this.setActive(this.options.active);
+
+    return this;
+  },
+
+  // sets the enabled state of the button
+  setEnabled: function(enabled) {
+    this.options.disabled = !enabled;
+    this.$el.toggleClass('disabled', !enabled);
+    this.el.disabled = !enabled;
+  },
+
+  // sets the active state of the button
+  setActive: function(active) {
+    this.options.active = active;
+    this.$el.toggleClass('active', active);
+  }
+});

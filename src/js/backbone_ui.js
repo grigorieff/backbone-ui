@@ -2,23 +2,6 @@ var Backbone = this.Backbone || require('backbone');
 var _ = require('underscore');
 var $ = require('./util');
 
-exports.KEYS = {
-  KEY_BACKSPACE: 8,
-  KEY_TAB:       9,
-  KEY_RETURN:   13,
-  KEY_ESC:      27,
-  KEY_LEFT:     37,
-  KEY_UP:       38,
-  KEY_RIGHT:    39,
-  KEY_DOWN:     40,
-  KEY_DELETE:   46,
-  KEY_HOME:     36,
-  KEY_END:      35,
-  KEY_PAGEUP:   33,
-  KEY_PAGEDOWN: 34,
-  KEY_INSERT:   45
-};
-
 var currentSkin;
 
 exports.setSkin = function(skin) {
@@ -30,6 +13,32 @@ exports.setSkin = function(skin) {
 };
 
 exports.BaseView = require('./base_view');
+exports.Button = require('./button');
+exports.Calendar = require('./calendar');
+exports.Checkbox = require('./checkbox');
+exports.CollectionView = require('./collection_view');
+exports.DatePicker = require('./date_picker');
+exports.HasAlternativeProperty = require('./has_alternative_property');
+exports.HasError = require('./has_error');
+exports.HasFocus = require('./has_focus');
+exports.HasFormLabel = require('./has_form_label');
+exports.HasGlyph = require('./has_glyph');
+exports.HasModel = require('./has_model');
+exports.HasTextInput = require('./has_text_input');
+exports.Label = require('./label');
+exports.Link = require('./link');
+exports.List = require('./list');
+exports.Menu = require('./menu');
+exports.Pulldown = require('./pulldown');
+exports.RadioGroup = require('./radio_group');
+exports.TableView = require('./table_view');
+exports.TabSet = require('./tab_set');
+exports.TextArea = require('./text_area');
+exports.TextField = require('./text_field');
+exports.TimePicker = require('./time_picker');
+exports.Util = $;
+
+exports.KEYS = require('./keys');
 
 // Add some utility methods to underscore
 _.mixin({
@@ -90,5 +99,5 @@ _.mixin({
 
 // Set up DOM support for Backbone
 if (!_(Backbone.$).exists()) {
-  Backbone.$ = $;
+  Backbone.$ = exports.Util;
 }

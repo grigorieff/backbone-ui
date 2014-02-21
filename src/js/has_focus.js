@@ -1,21 +1,18 @@
-// A mixin for dealing with focus in / focus out
-(function(){
+// A mixin for dealing with focus in / focus out.
 
-  Backbone.UI.HasFocus = {
-    
-    setupFocus : function(el, parent) {
-    
-      // add focusin and focusout
-      bean.on(el, {
-        focusin : _(function(e) {
-          Backbone.UI.Util(parent).addClass('focused');
-        }).bind(this),
-        focusout : _(function(e) {
-          Backbone.UI.Util(parent).removeClass('focused');
-        }).bind(this)
-      });
-      
-    }
-        
-  };
-}());
+var bean = require('bean');
+
+var $ = require('./util');
+
+module.exports = {
+  setupFocus: function(el, parent) {
+    bean.on(el, {
+      focusin: function() {
+        $(parent).addClass('focused');
+      },
+      focusout: function() {
+        $(parent).removeClass('focused');
+      }
+    });
+  }
+};
