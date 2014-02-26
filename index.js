@@ -1,1 +1,1 @@
-module.exports = require('./src/backbone-ui');
+module.exports = require('./src/js/backbone_ui');
