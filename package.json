@@ -28,7 +28,8 @@
   "devDependencies": {
     "grunt": "~0.4.0",
     "grunt-contrib-qunit": "~0.1.1",
-    "npm-css": "~0.2.3",
-    "browserify": "~3.30.1"
+    "browserify": "~3.30.1",
+    "grunt-browserify": "^2.0.0",
+    "grunt-umd": "^1.7.3"
   }
 }
