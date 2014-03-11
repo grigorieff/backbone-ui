@@ -10,7 +10,7 @@ $(document).ready(function() {
 
     var text = $(checkbox.el).find('label').text();
     equal(text, 'foo');
-    
+
     //check
     equal(checkbox.input.checked, true);
 
@@ -18,15 +18,20 @@ $(document).ready(function() {
       label : 'foo',
       checked : false
     }).render();
-    
+
     //uncheck
     equal(checkbox.input.checked, false);
 
     //check
+    // TODO
+    //http://stackoverflow.com/questions/14463971/jquery-click-checkbox-doesnt-check-in-firefox
+    //$(checkbox.input).prop('checked', true);
     $(checkbox.input).click();
+
     equal(checkbox.input.checked, true);
 
     //uncheck
+    //$(checkbox.input).prop('checked', false);
     $(checkbox.input).click();
     equal(checkbox.input.checked, false);
 
@@ -34,7 +39,7 @@ $(document).ready(function() {
   });
 
   test("withDataBinding and labelContent", function() {
-    
+
     var model = new Backbone.Model({
       description : 'property name',
       active : true
@@ -70,7 +75,7 @@ $(document).ready(function() {
     checkbox.input.click();
     equal(checkbox.input.checked, true);
     equal(model.get('active'), true);
-    
+
     //uncheck
     checkbox.input.click();
     equal(checkbox.input.checked, false);
