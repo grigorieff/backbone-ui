@@ -251,6 +251,8 @@ $.offset = function(el) {
   return { top: top, left: left };
 };
 
+$.on = bean.on;
+
 $.remove = function(el) {
   if(el && el.parentNode) {
     el.parentNode.removeChild(el);

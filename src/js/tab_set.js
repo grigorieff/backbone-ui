@@ -108,6 +108,6 @@ module.exports = BaseView.extend({
   // or -1 if no tab is selected
   getActiveTab: function(){
     return _(this._tabs).indexOf(_(this._tabs).find(function(tab){
-      return _(tab.className).indexOf('selected') >= 0; }));
+      return tab.className.indexOf('selected') >= 0; }));
   }
 });
